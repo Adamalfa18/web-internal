@@ -15,7 +15,7 @@ use App\Http\Controllers\ClientInformationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\PerformanceBulananController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-
+use App\Http\Controllers\MarketingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +55,7 @@ Route::post('/sign-in', [LoginController::class, 'store']);
 // Rute untuk clients (hanya untuk role 1, 2, 3, 4, dan 5)
 Route::middleware(['auth', 'checkUserRole:1,2,3,4,5'])->group(function () {
     Route::resource('/clients', ClientController::class);
+    Route::resource('/marketing', MarketingController::class);
     Route::resource('/laporan-bulanan', PerformanceBulananController::class);
     Route::resource('/laporan-harian', PerformaHarianController::class);
     Route::post('/laporan-harian/store-lead', [PerformaHarianController::class, 'store_lead'])->name('laporan-harian.store-lead');

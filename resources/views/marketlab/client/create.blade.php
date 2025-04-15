@@ -31,7 +31,7 @@
                                 </div>
                             @endif
                             <!-- Akhir notifikasi error -->
-                            <form action="{{ route('clients.store') }}" method="POST"
+                            <form class="form-marketing" action="{{ route('clients.store') }}" method="POST"
                                 onsubmit="return validateCheckboxes()" enctype="multipart/form-data">
                                 @csrf
 
@@ -170,7 +170,6 @@
                                     </div>
                                 </div>
                             </form>
-                            <script></script>
                         </div>
                     </div>
                 </div>

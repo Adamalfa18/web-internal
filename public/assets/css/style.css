@@ -30,6 +30,15 @@ html {
 .profile-info {
     flex: 1;
 }
+#addClientModal.show {
+    z-index: 100000;
+}
+.modal-dialog {
+    max-width: 900px;
+}
+.form-marketing {
+    padding: 20px;
+}
 
 .top-info {
     display: flex;

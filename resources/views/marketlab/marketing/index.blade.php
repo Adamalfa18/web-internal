@@ -58,6 +58,18 @@
                                                 </span>
                                                 <span class="btn-inner--text">Add Client</span>
                                             </a>
+                                            <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
+                                                data-toggle="modal" data-target="#addServiceModal">
+                                                <span class="btn-inner--icon">
+                                                    <svg width="16" height="16"
+                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                        fill="currentColor" class="d-block me-2">
+                                                        <path
+                                                            d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z" />
+                                                    </svg>
+                                                </span>
+                                                <span class="btn-inner--text">Add Service</span>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -83,22 +95,6 @@
                                                 @csrf
 
                                                 <div class="row">
-                                                    <div class="col-md-6" style="display: none;">
-                                                        <div class="mb-3">
-                                                            <div>
-                                                                <label class="form-label">Layanan:</label>
-                                                            </div>
-                                                            @foreach ($layanans as $layanan)
-                                                                <div class="form-check form-check-inline mt-2">
-                                                                    <input class="form-check-input" type="checkbox"
-                                                                        name="layanan[]" value="{{ $layanan->id }}"
-                                                                        required checked>
-                                                                    <label
-                                                                        class="form-check-label">{{ $layanan->nama_layanan }}</label>
-                                                                </div>
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
                                                     <div class="col-md-6">
                                                         <div class="col-md-6" style="display: none;">
                                                             <div class="mb-3">
@@ -217,8 +213,7 @@
                                                         @foreach ($layanans as $layanan)
                                                             <label
                                                                 class="flex items-center space-x-2 bg-gray-100 p-2 rounded shadow">
-                                                                <input type="checkbox" name="layanan_ids[]"
-                                                                    value="{{ $layanan->id }}">
+                                                                <input type="checkbox" name="layanan[]" value="{{ $layanan->id }}">
                                                                 <span>{{ $layanan->nama_layanan }}</span>
                                                             </label>
                                                         @endforeach
@@ -286,8 +281,8 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($clients->filter(function ($client) {
-        return $client->status_client == 1;
-    }) as $client)
+                                                    return $client->status_client == 1;
+                                                }) as $client)
                                                     <tr>
                                                         <td class="align-middle text-center">
                                                             {{-- Mengubah cara menghitung nomor urut laporan --}}
@@ -412,6 +407,66 @@
 
                         </div>
                     </div>
+
+                    <!-- Modal Add Service -->
+                    <div class="modal fade" id="addServiceModal" tabindex="-1" role="dialog"
+                        aria-labelledby="addServiceModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addServiceModalLabel">Tambah Service</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form class="form-marketing" action="{{ route('client_layanan.store') }}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label for="client_id" class="form-label">Nama Client</label>
+                                                    <select class="form-select" name="client_id" id="client_id" required>
+                                                        <option value="">Pilih Client</option>
+                                                        @foreach($clients->filter(function($client) { return $client->status_client == 1; }) as $client)
+                                                            <option value="{{ $client->id }}">{{ $client->nama_client }} - {{ $client->nama_brand }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label for="layanan_id" class="form-label">Nama Layanan</label>
+                                                    <select class="form-select" name="layanan_id" id="layanan_id" required>
+                                                        <option value="">Pilih Layanan</option>
+                                                        @foreach($layanans as $layanan)
+                                                            <option value="{{ $layanan->id }}">{{ $layanan->nama_layanan }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label for="created_at" class="form-label">Bulan Assign</label>
+                                                    <input type="month" class="form-control" name="created_at" id="created_at" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal Add Service -->
 
                     <div class="collapse multi-collapse" id="multiCollapseExample2">
                         <div class="card card-body">

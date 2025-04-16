@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Layanan;
+use App\Models\ClientLayanan;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 // use Symfony\Component\HttpFoundation\Request;
@@ -24,17 +25,17 @@ class ClientController extends Controller
 
         $clients = Client::when($search, function ($query) use ($search) {
             return $query->where('nama_client', 'like', '%' . $search . '%')
-                         ->orWhere('nama_brand', 'like', '%' . $search . '%')
-                         ->orWhere('pj', 'like', '%' . $search . '%')
-                         ->orWhereHas('pegawai', function ($query) use ($search) { // Menggunakan relasi untuk pegawai
-                            return $query->where('nama', 'like', '%' . $search . '%');
-                        });
+                ->orWhere('nama_brand', 'like', '%' . $search . '%')
+                ->orWhere('pj', 'like', '%' . $search . '%')
+                ->orWhereHas('pegawai', function ($query) use ($search) { // Menggunakan relasi untuk pegawai
+                    return $query->where('nama', 'like', '%' . $search . '%');
+                });
         })
-        ->when(in_array($status, [1, 2, 3]), function ($query) use ($status) { // Tambahkan filter untuk status 2 dan 3
-            return $query->where('status_client', $status);
-        })
-        ->orderBy('created_at', 'desc')
-        ->paginate($perPage);
+            ->when(in_array($status, [1, 2, 3]), function ($query) use ($status) { // Tambahkan filter untuk status 2 dan 3
+                return $query->where('status_client', $status);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage);
 
         // Mendapatkan halaman saat ini dan total halaman
         $currentPage = $clients->currentPage();
@@ -50,7 +51,7 @@ class ClientController extends Controller
     {
         $layanans = Layanan::all();
         $pegawai = Pegawai::all();
-        return view('marketlab.client.create', compact('layanans','pegawai'));
+        return view('marketlab.client.create', compact('layanans', 'pegawai'));
     }
 
     /**
@@ -72,7 +73,8 @@ class ClientController extends Controller
             'telepon_finance' => 'nullable|string',
             'status_client' => 'required|string',
             'date_in' => 'required|date',
-            'layanan' => 'required|array',
+            'layanan' => 'nullable|array',
+            'layanan.*' => 'exists:layanans,id',
             'gambar_client' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
         ]);
 
@@ -99,6 +101,18 @@ class ClientController extends Controller
         $client->user_id = $user->id;
         $client->save(); // Simpan client setelah user_id diset
 
+        // Simpan layanan yang dipilih ke tabel client_layanan
+        if ($request->has('layanan')) {
+            foreach ($request->layanan as $layananId) {
+                ClientLayanan::create([
+                    'client_id' => $client->id,
+                    'layanan_id' => $layananId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
         // Sinkronisasi layanan
         $client->layanan()->sync($request->layanan);
 
@@ -108,10 +122,7 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
-    {
-        
-    }
+    public function show($id) {}
 
     /**
      * Show the form for editing the specified resource.
@@ -120,7 +131,7 @@ class ClientController extends Controller
     {
         // Ambil semua layanan yang tersedia untuk ditampilkan di form
         $clients = Client::find($id);
-        $layanans = Layanan::all(); 
+        $layanans = Layanan::all();
         $pegawai = Pegawai::all();
 
         // Kembalikan view untuk mengedit client, dengan data client dan layanan yang tersedia
@@ -154,7 +165,7 @@ class ClientController extends Controller
         ]);
 
         // Update data client tanpa memperbarui gambar terlebih dahulu
-        $client->update($request->only('nama_client', 'nama_brand', 'informasi_tambahan', 'alamat', 'email', 'nama_finance', 'telepon_finance', 'status_client', 'date_in','pj','pegawai_id'));
+        $client->update($request->only('nama_client', 'nama_brand', 'informasi_tambahan', 'alamat', 'email', 'nama_finance', 'telepon_finance', 'status_client', 'date_in', 'pj', 'pegawai_id'));
 
         // Cek apakah ada gambar yang diupload
         if ($request->hasFile('gambar_client')) {

@@ -32,21 +32,33 @@ class ClientLayananController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) // Pastikan tipe parameter adalah Request
+    public function store(Request $request)
     {
+        // Validasi input
         $validatedData = $request->validate([
-            'client_id' => 'required|int',
-            'layanan_id' => 'required|int',
+            'client_id' => 'required|int|exists:clients,id',
+            'layanan_id' => 'required|int|exists:layanans,id',
             'created_at' => 'nullable|date'
         ]);
 
+        // Ambil data client dan layanan
+        $client = Client::find($validatedData['client_id']);
+        $layanan = Layanan::find($validatedData['layanan_id']);
+
+        // Cek apakah layanan sudah dimiliki oleh client
+        if ($client->layanans->contains($layanan)) {
+            // Redirect dengan pesan error
+            return redirect()->route('marketing.index')->with('error', 'Layanan yang dipilih sudah dimiliki oleh client.');
+        }
+
+        // Jika belum dimiliki, simpan data client_layanan
         ClientLayanan::create([
             'client_id' => $validatedData['client_id'],
             'layanan_id' => $validatedData['layanan_id'],
             'created_at' => $validatedData['created_at'] ?? now()
         ]);
 
-
+        // Redirect dengan pesan sukses
         return redirect()->route('marketing.index')->with('success', 'Layanan berhasil ditambahkan.');
     }
 

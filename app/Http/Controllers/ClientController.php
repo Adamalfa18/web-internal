@@ -207,4 +207,11 @@ class ClientController extends Controller
     {
         //
     }
+
+    public function layanans()
+    {
+        return $this->belongsToMany(Layanan::class, 'client_layanan')
+            ->withPivot('status', 'created_at')
+            ->withTimestamps();
+    }
 }

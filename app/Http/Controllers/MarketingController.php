@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Layanan;
+use App\Models\ClientLayanan;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,6 +30,11 @@ class MarketingController extends Controller
             })
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
+
+        $client_layanans = ClientLayanan::with(['layanan'])
+            ->latest()
+            ->get(); // atau paginate jika diperlukan
+
         $layanans = Layanan::all(); // Mengambil semua layanan
         $pegawai = Pegawai::all(); // Mengambil semua pegawai
 
@@ -36,6 +42,59 @@ class MarketingController extends Controller
         $currentPage = $clients->currentPage();
         $totalPages = $clients->lastPage();
 
-        return view('marketlab.marketing.index', compact('clients', 'layanans', 'pegawai', 'search', 'perPage', 'status', 'currentPage', 'totalPages'));
+        return view('marketlab.marketing.index', compact(
+            'clients',
+            'layanans',
+            'pegawai',
+            'search',
+            'perPage',
+            'status',
+            'currentPage',
+            'totalPages',
+            'client_layanans'
+        ));
+    }
+
+    public function edit($id)
+    {
+        // Cari data client_layanan berdasarkan ID
+        $client_layanan = ClientLayanan::with(['client', 'layanan'])->findOrFail($id);
+
+        // Ambil data client dari relasi
+        $client = $client_layanan->client;
+
+        // Ambil semua layanan (jika ingin tampilkan pilihan)
+        $availableLayanans = Layanan::all();
+
+        return view('marketlab.marketing.update', compact('client', 'availableLayanans', 'client_layanan'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Cari data client_layanan berdasarkan ID
+        $client_layanan = ClientLayanan::findOrFail($id);
+
+        // Validasi input
+        $validatedData = $request->validate([
+            'status' => 'required|in:0,1',
+        ]);
+
+        // Update status
+        $client_layanan->status = $validatedData['status'];
+        $client_layanan->save();
+
+        return redirect()->route('marketing.index')->with('success', 'Status layanan berhasil diperbarui.');
+    }
+
+
+
+
+    public function getAvailableLayanan($clientId)
+    {
+        $client = \App\Models\Client::findOrFail($clientId);
+        $usedLayananIds = $client->layanans->pluck('id');
+        $availableLayanan = \App\Models\Layanan::whereNotIn('id', $usedLayananIds)->get();
+
+        return response()->json($availableLayanan);
     }
 }

@@ -34,29 +34,14 @@ Route::get('/', function () {
     return redirect('/sign-in');
 });
 
-
-// Rute untuk user dengan role_id 1, 3, 4, 5
-// Route::middleware(['auth', 'checkRole:1,2,3,4,5'])->group(function () {
-//     Log::info('User with role_id 1,2,3,4,5 accessed the route.');   
-// });
-
-// Rute untuk user dengan role_id 6
-
-// Jika ingin menambahkan role_id 6
-
-
-
-
 // Rute untuk login
 Route::get('/sign-in', [LoginController::class, 'create'])->name('login');
 Route::post('/sign-in', [LoginController::class, 'store']);
 
-// Rute untuk dashboard (hanya untuk role 1, 2, 3)
-
-// Rute untuk clients (hanya untuk role 1, 2, 3, 4, dan 5)
-Route::middleware(['auth', 'checkUserRole:1,2,3,4,5'])->group(function () {
+// Rute untuk clients (hanya untuk role 1, 2, 4, dan 5)
+Route::middleware(['auth', 'checkUserRole:1,2,4,5'])->group(function () {
     Route::resource('/clients', ClientController::class);
-    Route::resource('/marketing', MarketingController::class);
+    // Route::resource('/marketing', MarketingController::class);
     Route::post('/client-layanan', [ClientLayananController::class, 'store'])->name('client_layanan.store');
     Route::resource('/laporan-bulanan', PerformanceBulananController::class);
     Route::resource('/laporan-harian', PerformaHarianController::class);
@@ -65,11 +50,18 @@ Route::middleware(['auth', 'checkUserRole:1,2,3,4,5'])->group(function () {
     Route::get('/divisi-sa', [SaController::class, 'index'])->name('divisi-sa.index');
     Route::resource('/acount', UserController::class);
 });
-Route::middleware(['auth', 'checkUserRole:1,2,3'])->group(function () {
+Route::middleware(['auth', 'checkUserRole:1,2'])->group(function () {
     Route::get('/dashboard', [DasboardAdminController::class, 'index'])->name('dashboard');
     Route::post('/acount/reset-password/{id}', [UserController::class, 'resetPassword'])->name('acount.reset-password.reset');
     Route::delete('/laporan-harian/{id}', [PerformaHarianController::class, 'destroy_lead'])->name('laporan-harian.destroy_lead');
 });
+
+Route::middleware(['auth', 'checkUserRole:3'])->group(function () {
+    Route::get('/marketing', [MarketingController::class, 'index'])->name('marketing.index');
+    Route::get('/marketing/layanan/{id}/edit', [MarketingController::class, 'edit'])->name('marketing.edit');
+    Route::get('/get-available-layanan/{clientId}', [MarketingController::class, 'getAvailableLayanan']);
+});
+
 
 Route::middleware(['auth', 'checkUserRole:6', 'encryptDecrypt'])->group(function () {
     Log::info('User with role_id 6 accessed the route.');

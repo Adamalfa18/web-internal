@@ -24,22 +24,22 @@ class DatabaseSeeder extends Seeder
         ]);
 
         UserRole::create([
-            'role' => 'admin_dev'
+            'role' => 'Admin'
         ]);
         UserRole::create([
-            'role' => 'admin'
+            'role' => 'C-Level'
         ]);
         UserRole::create([
-            'role' => 'head_adv'
+            'role' => 'Marketing'
         ]);
         UserRole::create([
-            'role' => 'senior_adv'
+            'role' => 'Head'
         ]);
         UserRole::create([
-            'role' => 'staff_adv'
+            'role' => 'PIC'
         ]);
         UserRole::create([
-            'role' => 'client'
+            'role' => 'Client'
         ]);
 
 

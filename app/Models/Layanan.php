@@ -11,13 +11,9 @@ class Layanan extends Model
 
     protected $fillable = ['nama_layanan'];
 
-    // public function clients()
-    // {
-    //     return $this->belongsToMany(Client::class, 'client_layanan');
-    // }
     public function clients()
     {
         return $this->belongsToMany(Client::class, 'client_layanan', 'layanan_id', 'client_id')
-                    ->withTimestamps(); // jika tabel pivot memiliki timestamps
+            ->withTimestamps(); // jika tabel pivot memiliki timestamps
     }
 }

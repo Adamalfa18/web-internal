@@ -14,6 +14,7 @@ use App\Http\Controllers\PerformaHarianController;
 use App\Http\Controllers\ClientInformationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\PerformanceBulananController;
+use App\Http\Controllers\ClientLayananController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\MarketingController;
 
@@ -28,13 +29,13 @@ use App\Http\Controllers\MarketingController;
 |
 */
 
-   // Untuk user dengan role_id 1
-   Route::get('/', function () {
-       return redirect('/sign-in');
-   });
+// Untuk user dengan role_id 1
+Route::get('/', function () {
+    return redirect('/sign-in');
+});
 
-   
-  // Rute untuk user dengan role_id 1, 3, 4, 5
+
+// Rute untuk user dengan role_id 1, 3, 4, 5
 // Route::middleware(['auth', 'checkRole:1,2,3,4,5'])->group(function () {
 //     Log::info('User with role_id 1,2,3,4,5 accessed the route.');   
 // });
@@ -56,6 +57,7 @@ Route::post('/sign-in', [LoginController::class, 'store']);
 Route::middleware(['auth', 'checkUserRole:1,2,3,4,5'])->group(function () {
     Route::resource('/clients', ClientController::class);
     Route::resource('/marketing', MarketingController::class);
+    Route::post('/client-layanan', [ClientLayananController::class, 'store'])->name('client_layanan.store');
     Route::resource('/laporan-bulanan', PerformanceBulananController::class);
     Route::resource('/laporan-harian', PerformaHarianController::class);
     Route::post('/laporan-harian/store-lead', [PerformaHarianController::class, 'store_lead'])->name('laporan-harian.store-lead');

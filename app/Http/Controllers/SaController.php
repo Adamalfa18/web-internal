@@ -9,7 +9,8 @@ class SaController extends Controller
 {
     public function index()
     {
-        $social_media = SocialMedia::all();
+        // $social_media = SocialMedia::all();
+        $social_media = SocialMedia::orderBy('created_at', 'desc')->get();
 
         return view('marketlab.divisi-sa.index', compact(
             'social_media',

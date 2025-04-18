@@ -30,6 +30,15 @@ html {
 .profile-info {
     flex: 1;
 }
+
+/* .btn-style-sa {
+    background: #6e80aa;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+} */
 #addClientModal.show {
     z-index: 100000;
 }

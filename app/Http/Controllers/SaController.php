@@ -7,6 +7,11 @@ use App\Models\SocialMedia;
 
 class SaController extends Controller
 {
+    public function indexList()
+    {
+        // $social_media = SocialMedia::all();
+        return view('marketlab.divisi-sa.list-client-sa');
+    }
     public function index()
     {
         // $social_media = SocialMedia::all();

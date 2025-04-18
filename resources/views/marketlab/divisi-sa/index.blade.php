@@ -39,10 +39,13 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="content" class="form-label">Upload Gambar</label>
-                                        <input type="file" class="form-control" name="content" id="content"
-                                            accept=".jpg, .jpeg, .png, .gif" required>
+                                        <label for="content" class="form-label">Upload Gambar / Video</label>
+                                        <input type="file" class="form-control d-none" id="content"
+                                            accept=".jpg, .jpeg, .png, .gif, .mp4, .mov, .webm" multiple>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="document.getElementById('content').click()">Add Gambar</button>
                                     </div>
+                                    <div id="preview-container" class="row mt-3"></div>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -103,5 +106,70 @@
             </div>
         </div>
         </div>
+
+        <script>
+            const input = document.getElementById('content');
+            const previewContainer = document.getElementById('preview-container');
+            let selectedFiles = [];
+
+            input.addEventListener('change', (event) => {
+                const newFiles = Array.from(event.target.files);
+
+                // Gabungkan file baru dengan file lama, hindari duplikat berdasarkan nama + ukuran
+                newFiles.forEach(newFile => {
+                    const isDuplicate = selectedFiles.some(existingFile =>
+                        existingFile.name === newFile.name && existingFile.size === newFile.size
+                    );
+                    if (!isDuplicate) {
+                        selectedFiles.push(newFile);
+                    }
+                });
+
+                renderPreview();
+                updateInputFiles();
+                input.value = ''; // Reset input agar bisa pilih file yang sama lagi
+            });
+
+            function renderPreview() {
+                previewContainer.innerHTML = '';
+
+                selectedFiles.forEach((file, index) => {
+                    const col = document.createElement('div');
+                    col.className = 'col-md-3 mb-3 position-relative';
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.textContent = '×';
+                    removeBtn.className = 'btn btn-danger btn-sm position-absolute top-0 end-0';
+                    removeBtn.onclick = () => {
+                        selectedFiles.splice(index, 1);
+                        renderPreview();
+                        updateInputFiles();
+                    };
+
+                    let preview;
+                    if (file.type.startsWith('image/')) {
+                        preview = document.createElement('img');
+                        preview.src = URL.createObjectURL(file);
+                        preview.className = 'img-fluid rounded';
+                    } else if (file.type.startsWith('video/')) {
+                        preview = document.createElement('video');
+                        preview.src = URL.createObjectURL(file);
+                        preview.controls = true;
+                        preview.className = 'img-fluid rounded';
+                    }
+
+                    col.appendChild(removeBtn);
+                    col.appendChild(preview);
+                    previewContainer.appendChild(col);
+                });
+            }
+
+            function updateInputFiles() {
+                const dataTransfer = new DataTransfer();
+                selectedFiles.forEach(file => dataTransfer.items.add(file));
+                input.files = dataTransfer.files;
+            }
+        </script>
+
     </main>
 </x-app-layout>

@@ -4,10 +4,12 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Client;
 use App\Models\Layanan;
 use App\Models\Pegawai;
 use App\Models\User;
 use App\Models\UserRole;
+use App\Models\SocialMedia;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -49,6 +51,27 @@ class DatabaseSeeder extends Seeder
 
         Pegawai::create([
             'nama' => 'dadang'
+        ]);
+
+        Client::create([
+            'nama_client' => 'yuyu',
+            'nama_brand' => 'uyuy',
+            'informasi_tambahan' => 'bla',
+            'alamat' => 'jln',
+            'email' => 'u@u',
+            'nama_finance' => 'p',
+            'telepon_finance' => '090',
+            'status_client' => 1,
+            'pegawai_id' => 1,
+            'pj' => 'Insan',
+            'date_in' => '2025-04-11'
+        ]);
+
+        SocialMedia::create([
+            'content' => 'https://www.logoai.com/uploads/output/2025/03/03/43ec017c8de8a3a36a05c343a452378c.jpg',
+            'caption' => 'bla',
+            'status' => 0,
+            'client_id' => 1
         ]);
     }
 }

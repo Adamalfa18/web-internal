@@ -47,7 +47,7 @@
                                         </div>
                                         <div class="ms-auto d-flex">
                                             <a class="btn btn-sm btn-clien btn-icon d-flex align-items-center me-2"
-                                                href="{{ route('clients.create') }}" role="button">
+                                                data-toggle="modal" data-target="#addClientModal">
                                                 <span class="btn-inner--icon">
                                                     <svg width="16" height="16"
                                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"

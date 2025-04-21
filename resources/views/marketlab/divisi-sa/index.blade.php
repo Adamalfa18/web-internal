@@ -3,7 +3,6 @@
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.marketlab.navbar />
         <div class="container-fluid py-4 px-5">
-
             <!-- Modal Add Post -->
             <div class="modal fade" id="addPostModal" tabindex="-1" role="dialog" aria-labelledby="addPostModalLabel"
                 aria-hidden="true">
@@ -15,7 +14,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form class="form-marketing" action="{{ route('client_layanan.store') }}" method="POST"
+                        <form class="form-marketing" action="{{ route('divisi-sa.store', ['client_id' => $client_id]) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
 
@@ -23,7 +22,7 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="created_at" class="form-label">Caption</label>
-                                        <textarea type="text" class="form-control" name="created_at" id="created_at" required> </textarea>
+                                        <textarea class="form-control" name="caption" id="caption" required></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -40,10 +39,8 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="content" class="form-label">Upload Gambar / Video</label>
-                                        <input type="file" class="form-control d-none" id="content"
-                                            accept=".jpg, .jpeg, .png, .gif, .mp4, .mov, .webm" multiple>
-                                        <button type="button" class="btn btn-primary" id="add-file-btn">Add
-                                            Gambar</button>
+                                        <input type="file" class="form-control d-none" name="content[]" id="content" accept=".jpg, .jpeg, .png, .gif, .mp4, .mov, .webm" multiple>
+                                        <button type="button" class="btn btn-primary" id="add-file-btn">Add Gambar</button>
                                     </div>
                                     <div id="preview-container" class="row mt-3"></div>
                                 </div>
@@ -60,11 +57,10 @@
 
             <div class="profile-container">
                 <div class="profile-header">
-                    {{-- <img src="{{ $user->profile_photo_url }}" class="profile-pic"> --}}
                     <img src="" class="profile-pic">
                     <div class="profile-info">
                         <div class="top-info">
-                            <h2>Adam Alfarizi</h2>
+                            <h2>{{$client->nama_brand}}</h2>
                             <div class="ms-auto d-flex">
                                 <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
                                     data-toggle="modal" data-target="#addPostModal">
@@ -85,9 +81,10 @@
                             <span><strong>testtt</strong> followers</span>
                             <span><strong>testtt</strong> following</span>
                         </div>
-                        <div class="real-name">Adam</div>
+                        <div class="real-name">{{$client->nama_client}}</div>
                     </div>
                 </div>
+
                 <div class="tabs">
                     <a href="#" class="active"><i class="fas fa-th"></i> POSTS</a>
                     <a href="#"><i class="far fa-bookmark"></i> SAVED</a>
@@ -98,14 +95,12 @@
                     @foreach ($social_media as $media)
                         <div class="gallery-item">
                             <a href="{{ $media->content }}" target="_blank">
-                                <img src="{{ $media->content }}" alt="Social Media" class="img-fluid">
+                                <img src="{{ asset('storage/' . $media->content) }}" alt="Social Media" class="img-fluid">
                             </a>
                         </div>
                     @endforeach
                 </div>
             </div>
         </div>
-        </div>
-
     </main>
 </x-app-layout>

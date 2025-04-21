@@ -50,7 +50,8 @@ Route::middleware(['auth', 'checkUserRole:1,2,4,5'])->group(function () {
     Route::post('/laporan-harian/store-lead', [PerformaHarianController::class, 'store_lead'])->name('laporan-harian.store-lead');
     Route::put('/laporan-harian/update-lead/{id}', [PerformaHarianController::class, 'updateLead'])->name('laporan-harian.update_lead');
     Route::get('/list-client-sa', [SaController::class, 'indexList'])->name('list-client-sa.index');
-    Route::get('/divisi-sa', [SaController::class, 'index'])->name('divisi-sa.index');
+    Route::get('/divisi-sa/{client_id}', [SaController::class, 'index'])->name('divisi-sa.index');
+    Route::post('/divisi-sa/{client_id}/store', [SaController::class, 'store'])->name('divisi-sa.store');
     Route::resource('/acount', UserController::class);
 });
 Route::middleware(['auth', 'checkUserRole:1,2'])->group(function () {

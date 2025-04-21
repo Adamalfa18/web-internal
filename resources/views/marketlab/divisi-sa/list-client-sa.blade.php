@@ -12,7 +12,7 @@
                                 <div class="card-header border-bottom pb-0 border-client-bottom">
                                     <div class="d-sm-flex align-items-center">
                                         <div>
-                                            <h6 class="font-weight-semibold text-lg mb-0">Data Client</h6>
+                                            <h6 class="font-weight-semibold text-lg mb-0">Data Client SA</h6>
                                             <p class="text-sm">Berikut Adalah List Client SA</p>
                                         </div>
                                     </div>
@@ -31,8 +31,6 @@
                                                     </th>
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
                                                         Nama Client</th>
-                                                    <th class="text-secondary text-xs font-weight-semibold opacity-7">
-                                                        Penanggung Jawab</th>
                                                     <th
                                                         class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                         Status</th>
@@ -43,6 +41,9 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @foreach ($clients->filter(function ($client) {
+                                                    return $client->status_client == 1;
+                                                }) as $client)
                                                 <tr>
                                                     <td class="align-middle text-center">
                                                         {{-- Mengubah cara menghitung nomor urut laporan --}}
@@ -50,59 +51,48 @@
                                                         </span>
                                                     </td>
                                                     <td class="client-name-style">
-                                                        {{-- <div class="d-flex px-2 py-1">
+                                                        <div class="d-flex px-2 py-1">
                                                     <div class="d-flex align-items-center">
                                                     </div>
                                                     <div class="d-flex flex-column justify-content-center ms-1">
                                                         <h6 class="mb-0 text-sm font-weight-semibold">
                                                             {{ $client->nama_brand }}</h6>
-                                                        <p class="text-sm text-secondary mb-0">
-                                                            {{ $client->email }}
-                                                        </p>
                                                     </div>
-                                                </div> --}}
+                                                </div>
                                                     </td>
                                                     <td class="client-name-style">
                                                         <p class="text-sm text-dark font-weight-semibold mb-0">
-                                                            {{-- {{ $client->nama_client }}</p> --}}
-                                                        <p class="text-sm text-secondary mb-0">
-                                                            {{-- {{ $client->telepon_finance }}</p> --}}
-                                                    </td>
-                                                    <td class="client-name-style">
-                                                        <p class="text-sm text-dark font-weight-semibold mb-0">
-                                                            {{-- {{ $client->pj }}</p> --}}
-                                                        <p class="text-sm text-secondary mb-0">
-                                                            {{-- {{ $client->pegawai->nama }}</p> --}}
+                                                            {{ $client->nama_client }}</p>
                                                     </td>
                                                     <td class="align-middle text-center text-sm">
-                                                        {{-- @switch($client->status_client)
-                                                    @case(1)
-                                                        <span
-                                                            class="badge badge-sm border border-success text-success badge-aktif">Aktif
-                                                        </span>
-                                                    @break
+                                                    @switch($client->status_client)
+                                                        @case(1)
+                                                            <span
+                                                                class="badge badge-sm border border-success text-success badge-aktif">Aktif
+                                                            </span>
+                                                        @break
 
-                                                    @case(2)
-                                                        <span
-                                                            class="badge badge-sm border border-warning text-warning badge-pending">Pending
-                                                        </span>
-                                                    @break
+                                                        @case(2)
+                                                            <span
+                                                                class="badge badge-sm border border-warning text-warning badge-pending">Pending
+                                                            </span>
+                                                        @break
 
-                                                    @case(3)
-                                                        <span
-                                                            class="badge badge-sm border border-danger text-danger badge-paid">Paid
-                                                        </span>
-                                                    @break
-                                                @endswitch --}}
+                                                        @case(3)
+                                                            <span
+                                                                class="badge badge-sm border border-danger text-danger badge-paid">Paid
+                                                            </span>
+                                                        @break
+                                                    @endswitch
                                                     </td>
                                                     <td class="align-middle text-center">
-                                                        {{-- <span class="text-secondary text-sm font-weight-normal">
-                                                    {{ $client->date_in }}
-                                                </span> --}}
+                                                        <span class="text-secondary text-sm font-weight-normal">
+                                                            {{ $client->date_in }}
+                                                        </span>
                                                     </td>
                                                     <td class="align-middle">
                                                         {{-- Tampilkan data bulanan --}}
-                                                        <a href="{{ route('divisi-sa.index') }}" type="button"
+                                                        <a href="{{ route('divisi-sa.index', ['client_id' => $client->id]) }}" type="button"
                                                             class="btn btn-info text-secondary font-weight-bold text-xs active-client"
                                                             data-bs-toggle="tooltip" data-bs-title="Laporan Bulanan">
                                                             <svg width="20" height="20"
@@ -115,6 +105,7 @@
                                                         </a>
                                                     </td>
                                                 </tr>
+                                            @endforeach
                                             </tbody>
                                         </table>
                                     </div>

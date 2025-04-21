@@ -40,8 +40,10 @@ class ClientController extends Controller
         // Mendapatkan halaman saat ini dan total halaman
         $currentPage = $clients->currentPage();
         $totalPages = $clients->lastPage();
+        $layanans = Layanan::all();
+        $pegawai = Pegawai::all();
 
-        return view('marketlab.client.index', compact('clients', 'search', 'perPage', 'status', 'currentPage', 'totalPages'));
+        return view('marketlab.client.index', compact('clients','layanans','pegawai', 'search', 'perPage', 'status', 'currentPage', 'totalPages'));
     }
 
     /**

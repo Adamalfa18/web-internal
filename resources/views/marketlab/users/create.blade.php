@@ -4,31 +4,29 @@
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
 
-        <x-app.navbar />
+        <x-app.marketlab.navbar />
 
         <div class="container-fluid py-4 px-5">
 
             <div class="row">
 
-                @if($errors->any())
+                @if ($errors->any())
 
                     <div class="alert alert-danger">
 
                         <ul>
 
-                            @foreach($errors->all() as $error)
-
+                            @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
-
                             @endforeach
 
                         </ul>
 
                     </div>
                 @endif
-                
+
                 <div class="col-md-12">
-                    <form method="post" action="{{ route('acount.store')}}" class="mb-5" enctype="multipart/form-data">
+                    <form method="post" action="{{ route('acount.store') }}" class="mb-5" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="mb-3 col-md-6">
@@ -57,9 +55,9 @@
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" name="email" class="form-control  @error('email') is-invalid @enderror"
-                                    id="email" placeholder="Email" required
-                                    value="{{ old('email') }}">
+                                <input type="email" name="email"
+                                    class="form-control  @error('email') is-invalid @enderror" id="email"
+                                    placeholder="Email" required value="{{ old('email') }}">
                                 @error('email')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -69,7 +67,7 @@
                             <div class="mb-3 col-md-6">
                                 <label for="user_role_id" class="form-label">Status Akun</label>
                                 <select class="form-select" name="user_role_id">
-                                    @foreach($rool as $rool)
+                                    @foreach ($rool as $rool)
                                         @if (old('user_role_id') == $rool->id)
                                             <option value="{{ $rool->id }}" selected>{{ $rool->role }}</option>
                                         @else
@@ -94,13 +92,14 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="logo" class="form-label">Logo Brand</label>
-                                    <input type="file" class="form-control" name="logo" id="logo" accept="image/*">                                        
+                                    <input type="file" class="form-control" name="logo" id="logo"
+                                        accept="image/*">
                                 </div>
                             </div>
                         </div>
-                            <a href="/dashboard/user_login" class="btn btn-success"> <span
-                                    data-feather="arrow-left"></span>Kembali</a>
-                            <button type="submit" class="btn btn-primary">Tambah Akun</button>
+                        <a href="/dashboard/user_login" class="btn btn-success"> <span
+                                data-feather="arrow-left"></span>Kembali</a>
+                        <button type="submit" class="btn btn-primary">Tambah Akun</button>
                     </form>
                 </div>
             </div>

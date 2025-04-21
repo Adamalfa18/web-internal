@@ -4,7 +4,7 @@
 
     <main class="main-content position-relative max-height-vh-100 h-100 bor
     er-radius-lg ">
-        <x-app.navbar />
+        <x-app.marketlab.navbar />
 
         <div class="container-fluid py-4 px-5">
 

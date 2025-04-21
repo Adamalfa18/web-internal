@@ -1,6 +1,6 @@
 <x-app-layout>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <x-app.navbar />
+        <x-app.marketlab.navbar />
 
         <div class="container-fluid py-4 px-5">
             <div class="row">
@@ -19,51 +19,57 @@
                             <form action="{{ route('marketing.update', $client_layanan->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
-                        
+
                                 <!-- Nama Client -->
                                 <div class="mb-4">
                                     <label class="form-label">Nama Client:</label>
-                                    <input type="text" class="form-control" value="{{ $client->nama_client }}" readonly>
+                                    <input type="text" class="form-control" value="{{ $client->nama_client }}"
+                                        readonly>
                                 </div>
-                        
+
                                 <!-- Nama Brand -->
                                 <div class="mb-4">
                                     <label class="form-label">Nama Brand:</label>
-                                    <input type="text" class="form-control" value="{{ $client->nama_brand }}" readonly>
+                                    <input type="text" class="form-control" value="{{ $client->nama_brand }}"
+                                        readonly>
                                 </div>
-                        
+
                                 <!-- Pilih Layanan -->
                                 <div class="mb-4">
                                     <label class="form-label fw-bold">Layanan:</label>
-                                    <input type="text" class="form-control" 
+                                    <input type="text" class="form-control"
                                         value="{{ $client_layanan->layanan->nama_layanan ?? '-' }}" readonly>
-                                        <input type="hidden" name="layanan_id" value="{{ $client_layanan->layanan->id }}">
+                                    <input type="hidden" name="layanan_id" value="{{ $client_layanan->layanan->id }}">
                                 </div>
-                        
+
                                 <!-- Status -->
                                 <div class="mb-4">
                                     <label class="form-label fw-bold">Status:</label>
                                     <select class="form-select @error('status') is-invalid @enderror" name="status">
-                                        <option value="1" {{ old('status', $client_layanan->status ?? 1) == 1 ? 'selected' : '' }}>Aktif</option>
-                                        <option value="0" {{ old('status', $client_layanan->status ?? 0) == 0 ? 'selected' : '' }}>Tidak Aktif</option>
+                                        <option value="1"
+                                            {{ old('status', $client_layanan->status ?? 1) == 1 ? 'selected' : '' }}>
+                                            Aktif</option>
+                                        <option value="0"
+                                            {{ old('status', $client_layanan->status ?? 0) == 0 ? 'selected' : '' }}>
+                                            Tidak Aktif</option>
                                     </select>
                                     @error('status')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                        
+
                                 <!-- Tanggal Landing -->
                                 <div class="mb-4">
                                     <label class="form-label fw-bold">Tanggal Landing:</label>
-                                    <input type="text" class="form-control" 
-                                        value="{{ $client_layanan->created_at ? $client_layanan->created_at->format('d M Y') : '-' }}" 
+                                    <input type="text" class="form-control"
+                                        value="{{ $client_layanan->created_at ? $client_layanan->created_at->format('d M Y') : '-' }}"
                                         readonly>
                                 </div>
-                        
+
                                 <button type="submit" class="btn btn-primary">Update Data Layanan</button>
                             </form>
                         </div> <!-- end card-body -->
-                        
+
                     </div>
                 </div>
             </div>

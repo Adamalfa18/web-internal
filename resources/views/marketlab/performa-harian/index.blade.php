@@ -2,7 +2,7 @@
 
     <main class="main-content position-relative max-height-vh-100 h-100 bor
     er-radius-lg ">
-        <x-app.navbar />
+        <x-app.marketlab.navbar />
         <div class="container-fluid py-4 px-5">
 
 
@@ -1074,7 +1074,7 @@
         // Ambil tab aktif dari sessionStorage saat halaman dimuat
         document.addEventListener('DOMContentLoaded', function() {
             const activeTab = sessionStorage.getItem('activeTab') ||
-            '{{ $activeTabLead }}'; // Ambil dari sessionStorage atau sesi
+                '{{ $activeTabLead }}'; // Ambil dari sessionStorage atau sesi
             setActiveTab(activeTab); // Atur tab aktif
         });
     </script>

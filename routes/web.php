@@ -7,16 +7,17 @@ use App\Http\Controllers\SaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ClientMBController;
+use App\Http\Controllers\MarketingController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ClientLayananController;
 use App\Http\Controllers\DasboardAdminController;
 use App\Http\Controllers\PerformaHarianController;
 use App\Http\Controllers\ClientInformationController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\PerformanceBulananController;
-use App\Http\Controllers\ClientLayananController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\MarketingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,7 @@ Route::post('/sign-in', [LoginController::class, 'store']);
 
 // Rute untuk clients (hanya untuk role 1, 2, 4, dan 5)
 Route::middleware(['auth', 'checkUserRole:1,2,4,5'])->group(function () {
+    Route::resource('/clients-mb', ClientMBController::class);
     Route::resource('/clients', ClientController::class);
     // Route::resource('/marketing', MarketingController::class);
     Route::post('/client-layanan', [ClientLayananController::class, 'store'])->name('client_layanan.store');
@@ -57,7 +59,7 @@ Route::middleware(['auth', 'checkUserRole:1,2'])->group(function () {
     Route::delete('/laporan-harian/{id}', [PerformaHarianController::class, 'destroy_lead'])->name('laporan-harian.destroy_lead');
 });
 
-Route::middleware(['auth', 'checkUserRole:3'])->group(function () {
+Route::middleware(['auth', 'checkUserRole:1'])->group(function () {
     Route::get('/marketing', [MarketingController::class, 'index'])->name('marketing.index');
     Route::get('/marketing/layanan/{id}/edit', [MarketingController::class, 'edit'])->name('marketing.edit');
     Route::get('/get-available-layanan/{clientId}', [MarketingController::class, 'getAvailableLayanan']);

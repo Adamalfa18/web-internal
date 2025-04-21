@@ -86,7 +86,7 @@
 
         @elseif(in_array(request()->route()->getName(), $topSidenavRTL))
         @else
-            <x-app.sidebar />
+            <x-app.marketlab.sidebar />
         @endif
 
         {{ $slot }}

@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <x-app.navbar />
+        <x-app.marketlab.navbar />
         <div class="container-fluid py-4 px-5">
 
             <!-- Modal Add Post -->
@@ -48,7 +48,6 @@
                                     <div id="preview-container" class="row mt-3"></div>
                                 </div>
                             </div>
-
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Simpan</button>

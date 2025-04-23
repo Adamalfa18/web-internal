@@ -262,9 +262,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($clients->filter(function ($client) {
-        return $client->status_client == 1;
-    }) as $client)
+                                                @foreach ($clients as $client)
                                                     <tr>
                                                         <td class="align-middle text-center">
                                                             {{-- Mengubah cara menghitung nomor urut laporan --}}

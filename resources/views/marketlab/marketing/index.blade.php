@@ -116,7 +116,7 @@
                                                                     </span>
                                                                 @break
 
-                                                                @case(0)
+                                                                @case(3)
                                                                     <span
                                                                         class="badge badge-sm border border-danger text-danger badge-paid">
                                                                         Tidak Aktif
@@ -316,8 +316,8 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($clients->filter(function ($client) {
-        return $client->status_client == 2;
-    }) as $client)
+                                                    return $client->status_client == 2;
+                                                }) as $client)
                                                     <tr>
                                                         <td class="align-middle text-center">
                                                             {{-- Mengubah cara menghitung nomor urut laporan --}}

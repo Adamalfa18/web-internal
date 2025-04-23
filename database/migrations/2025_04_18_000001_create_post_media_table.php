@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('post_media', function (Blueprint $table) {
             $table->id();
-            $table->text('post');
+            $table->string('post');
 
             // Tambahkan foreign key ke tabel clients
             $table->unsignedBigInteger('post_id');

@@ -20,7 +20,6 @@ class MarketingController extends Controller
         $clients = Client::when($search, function ($query) use ($search) {
             return $query->where('nama_client', 'like', '%' . $search . '%')
                 ->orWhere('nama_brand', 'like', '%' . $search . '%')
-                ->orWhere('pj', 'like', '%' . $search . '%')
                 ->orWhereHas('pegawai', function ($query) use ($search) { // Menggunakan relasi untuk pegawai
                     return $query->where('nama', 'like', '%' . $search . '%');
                 });

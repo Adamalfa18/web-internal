@@ -3,13 +3,29 @@
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.marketlab.navbar />
         <div class="container-fluid py-4 px-5">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <!-- Modal Add Post -->
             <div class="modal fade" id="addPostModal" tabindex="-1" role="dialog" aria-labelledby="addPostModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addPostModalLabel">Tambah Service</h5>
+                            <h5 class="modal-title" id="addPostModalLabel">Tambah Post</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -39,7 +55,7 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="content" class="form-label">Upload Gambar / Video</label>
-                                        <input type="file" class="form-control d-none" name="content[]" id="content" accept=".jpg, .jpeg, .png, .gif, .mp4, .mov, .webm" multiple>
+                                        <input type="file" class="form-control" name="content[]" id="content" required multiple accept=".webp, .webm">
                                         <button type="button" class="btn btn-primary" id="add-file-btn">Add Gambar</button>
                                     </div>
                                     <div id="preview-container" class="row mt-3"></div>
@@ -103,4 +119,39 @@
             </div>
         </div>
     </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const input = document.getElementById("content");
+            const previewContainer = document.getElementById("preview-container");
+    
+            input.addEventListener("change", function () {
+                previewContainer.innerHTML = "";
+                Array.from(input.files).forEach((file) => {
+                    const col = document.createElement("div");
+                    col.className = "col-md-3 mb-3";
+    
+                    let preview;
+                    if (file.type.startsWith("image/")) {
+                        preview = document.createElement("img");
+                        preview.src = URL.createObjectURL(file);
+                        preview.className = "img-fluid rounded";
+                    } else if (file.type.startsWith("video/")) {
+                        preview = document.createElement("video");
+                        preview.src = URL.createObjectURL(file);
+                        preview.controls = true;
+                        preview.className = "img-fluid rounded";
+                    }
+    
+                    col.appendChild(preview);
+                    previewContainer.appendChild(col);
+                });
+            });
+    
+            // Optional: klik tombol untuk trigger input
+            const addFileBtn = document.getElementById("add-file-btn");
+            addFileBtn.addEventListener("click", function () {
+                input.click();
+            });
+        });
+    </script>    
 </x-app-layout>

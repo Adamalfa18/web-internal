@@ -31,49 +31,31 @@ class SaController extends Controller
 
     public function store(Request $request, $client_id)
     {
-        try {
-            // Debug: Periksa apakah file dikirimkan
-            \Log::info('Files received: ', ['files' => $request->file('content')]);
+        $postingan = $request->file('content');
+        $paths = [];
+        $tanggal = $validatedData['created_at'] ?? now();
 
-            // Validasi input
-            $validatedData = $request->validate([
-                'caption' => 'required|string',
-                'created_at' => 'nullable|date',
-                'content' => 'required|array',
-                'content.*' => 'file|mimes:jpg,jpeg,png,gif,mp4,mov,webm|max:51200',
+        $validatedData = $request->validate([
+            'caption' => 'required|string',
+            'created_at' => 'nullable|date',
+            'content' => 'required|string',
+            'content.*' => 'file|mimes:webp,webm|max:51200',
+        ]);
+
+        foreach ($postingan as $post) {
+            $fileOriginalName = $post->getClientOriginalExtension();
+            $fileNewName = time() . '.' . $fileOriginalName;
+            $post->storeAs('post', $fileNewName, 'public'); //here images is folder, $fileNewName is files new name, public indicated public folder. that means folder this image in public/storage/images folder
+            SocialMedia::create([
+                'client_id' => $client_id,
+                'caption' => $validatedData['caption'],
+                'content' => $paths, // simpan array ke kolom JSON
+                'created_at' => $tanggal
             ]);
-
-            $tanggal = $validatedData['created_at'] ?? now();
-            $uploadedFiles = $request->file('content');
-            if ($uploadedFiles && is_array($uploadedFiles)) {
-                foreach ($uploadedFiles as $file) {
-                    if ($file) {
-                        $path = $file->store('social_media', 'public');
-
-                        // Simpan ke tabel social_media
-                        $post = SocialMedia::create([
-                            'client_id' => $client_id,
-                            'caption' => $validatedData['caption'],
-                            'content' => $path,
-                            'created_at' => $tanggal,
-                        ]);
-
-                        // Simpan ke tabel post_media
-                        PostMedia::create([
-                            'post_id' => $post->id,
-                            'post' => $path,
-                        ]);
-                    }
-                }
-            }
-
-
-            return redirect()->back()->with('success', 'Post berhasil ditambahkan.');
-        } catch (\Exception $e) {
-            \Log::error("Error saat menyimpan post: " . $e->getMessage());
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan post.');
         }
+        return redirect()->back()->with('message', 'Post Added');
     }
+
 
 
     public function showProfile()

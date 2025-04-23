@@ -43,7 +43,7 @@ class ClientController extends Controller
         $layanans = Layanan::all();
         $pegawai = Pegawai::all();
 
-        return view('marketlab.client.index', compact('clients','layanans','pegawai', 'search', 'perPage', 'status', 'currentPage', 'totalPages'));
+        return view('marketlab.client.index', compact('clients', 'layanans', 'pegawai', 'search', 'perPage', 'status', 'currentPage', 'totalPages'));
     }
 
     /**

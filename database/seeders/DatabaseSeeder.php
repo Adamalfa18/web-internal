@@ -55,8 +55,16 @@ class DatabaseSeeder extends Seeder
             'nama_layanan' => 'Social Media Management'
         ]);
 
+        Layanan::create([
+            'nama_layanan' => 'Web Dev'
+        ]);
+
         Pegawai::create([
             'nama' => 'dadang'
+        ]);
+
+        Pegawai::create([
+            'nama' => 'ika'
         ]);
 
         Client::create([

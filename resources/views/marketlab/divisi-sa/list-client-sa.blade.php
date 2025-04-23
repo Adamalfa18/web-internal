@@ -41,9 +41,10 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($clients->filter(function ($client) {
-                                                    return $client->status_client == 1;
+                                            @foreach ($clients->filter(function ($client) {
+                                                    return $client->layanans->contains('id', 2);
                                                 }) as $client)
+                                                    {{ $client->nama_client }}
                                                 <tr>
                                                     <td class="align-middle text-center">
                                                         {{-- Mengubah cara menghitung nomor urut laporan --}}

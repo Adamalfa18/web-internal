@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\ClientLayanan;
 use App\Models\PostMedia;
 use Illuminate\Http\Request;
 use App\Models\SocialMedia;
@@ -12,6 +13,7 @@ class SaController extends Controller
     public function indexList()
     {
         $clients = Client::all();
+        $client_layanan = ClientLayanan::all();
         // $social_media = SocialMedia::all();
         return view('marketlab.divisi-sa.list-client-sa', compact('clients'));
     }

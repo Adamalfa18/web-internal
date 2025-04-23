@@ -75,8 +75,6 @@ class ClientController extends Controller
             'telepon_finance' => 'nullable|string',
             'status_client' => 'required|string',
             'date_in' => 'required|date',
-            'layanan' => 'nullable|array',
-            'layanan.*' => 'exists:layanans,id',
             'gambar_client' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
         ]);
 
@@ -102,21 +100,6 @@ class ClientController extends Controller
         // Simpan user_id ke client
         $client->user_id = $user->id;
         $client->save(); // Simpan client setelah user_id diset
-
-        // Simpan layanan yang dipilih ke tabel client_layanan
-        if ($request->has('layanan')) {
-            foreach ($request->layanan as $layananId) {
-                ClientLayanan::create([
-                    'client_id' => $client->id,
-                    'layanan_id' => $layananId,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
-        }
-
-        // Sinkronisasi layanan
-        $client->layanan()->sync($request->layanan);
 
         return redirect()->route('clients.index')->with('success', 'Client berhasil ditambahkan.');
     }

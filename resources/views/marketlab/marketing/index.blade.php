@@ -210,8 +210,8 @@
                                                         required>
                                                         <option value="">Pilih Client</option>
                                                         @foreach ($clients->filter(function ($client) {
-        return $client->status_client == 1;
-    }) as $client)
+                                                            return $client->status_client == 1;
+                                                        }) as $client)
                                                             <option value="{{ $client->id }}">
                                                                 {{ $client->nama_client }} - {{ $client->nama_brand }}
                                                             </option>
@@ -229,10 +229,9 @@
                                                         required>
                                                         <option value="">Pilih Layanan</option>
                                                         @foreach ($layanans as $layanan)
-                                                            @if (!$client->layanans->contains('id', $layanan->id))
-                                                                <option value="{{ $layanan->id }}">
-                                                                    {{ $layanan->nama_layanan }}</option>
-                                                            @endif
+                                                            <option value="{{ $layanan->id }}">
+                                                                {{ $layanan->nama_layanan }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                     @error('layanan_id')

@@ -63,7 +63,7 @@
                                                             {{ $client->nama_client }}</p>
                                                     </td>
                                                     <td class="align-middle text-center text-sm">
-                                                    @switch($client->status_client)
+                                                    @switch($client->status_layanan)
                                                         @case(1)
                                                             <span
                                                                 class="badge badge-sm border border-success text-success badge-aktif">Aktif

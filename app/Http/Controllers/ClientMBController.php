@@ -14,30 +14,21 @@ use App\Models\Pegawai;
 
 class ClientMBController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $search = $request->input('search');
-        $perPage = $request->input('perPage', 10);
-        $status = $request->input('status'); // Hapus default, biarkan status bisa 1, 2, atau 3
-
-        $clients = Client::when($search, function ($query) use ($search) {
-            return $query->where('nama_client', 'like', '%' . $search . '%')
-                ->orWhere('nama_brand', 'like', '%' . $search . '%')
-                ->orWhere('pj', 'like', '%' . $search . '%')
-                ->orWhereHas('pegawai', function ($query) use ($search) { // Menggunakan relasi untuk pegawai
-                    return $query->where('nama', 'like', '%' . $search . '%');
-                });
+        $clients = Client::whereHas('client_layanan', function ($query) {
+            $query->where('layanan_id', 1); // Ambil hanya client dengan layanan_id = 2
         })
-            ->when(in_array($status, [1, 2, 3]), function ($query) use ($status) { // Tambahkan filter untuk status 2 dan 3
-                return $query->where('status_client', $status);
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate($perPage);
+            ->with(['client_layanan' => function ($query) {
+                $query->where('layanan_id', 1); // Ambil hanya layanan_id = 2 di relasi
+            }])
+            ->get();
 
-        // Mendapatkan halaman saat ini dan total halaman
-        $currentPage = $clients->currentPage();
-        $totalPages = $clients->lastPage();
+        // Inject status_layanan dari layanan_id = 2
+        $clients->each(function ($client) {
+            $client->status_layanan = optional($client->client_layanan->first())->status;
+        });
 
-        return view('marketlab.client-mb.index', compact('clients', 'search', 'perPage', 'status', 'currentPage', 'totalPages'));
+        return view('marketlab.client-mb.index', compact('clients'));
     }
 }

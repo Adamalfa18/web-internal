@@ -12,11 +12,22 @@ class SaController extends Controller
 {
     public function indexList()
     {
-        $clients = Client::all();
-        $client_layanan = ClientLayanan::all();
+        $clients = Client::whereHas('client_layanan', function ($query) {
+            $query->where('layanan_id', 2); // Ambil hanya client dengan layanan_id = 2
+        })
+            ->with(['client_layanan' => function ($query) {
+                $query->where('layanan_id', 2); // Ambil hanya layanan_id = 2 di relasi
+            }])
+            ->get();
+
+        // Inject status_layanan dari layanan_id = 2
+        $clients->each(function ($client) {
+            $client->status_layanan = optional($client->client_layanan->first())->status;
+        });
 
         return view('marketlab.divisi-sa.list-client-sa', compact('clients'));
     }
+
 
     public function index($client_id)
     {

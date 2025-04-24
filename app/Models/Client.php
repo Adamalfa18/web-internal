@@ -29,6 +29,7 @@ class Client extends Model
         return $this->hasMany(ClientLayanan::class, 'client_id');
     }
 
+
     public function monthlyReports()
     {
         return $this->hasMany(PerformanceBulanan::class);

@@ -23,12 +23,16 @@ class LoginController extends Controller
             $user = Auth::user();
 
             // Redirect berdasarkan user_role_id
-            if (in_array($user->user_role_id, [1, 2])) {
+            if (in_array($user->user_role_id, [1, 2, 3, 9])) {
                 return redirect()->intended('dashboard');
-            } elseif (in_array($user->user_role_id, [3])) {
-                return redirect()->route('marketing.index');
-            } elseif (in_array($user->user_role_id, [4, 5])) {
-                return redirect()->route('clients.index');
+            } elseif (in_array($user->user_role_id, [4])) {
+                return redirect()->route('dashboard.sa');
+            } elseif (in_array($user->user_role_id, [5])) {
+                return redirect()->route('list-client-sa.index');
+            } elseif (in_array($user->user_role_id, [7])) {
+                return redirect()->route('dashboard.mb');
+            } elseif (in_array($user->user_role_id, [8])) {
+                return redirect()->route('clients-mb.index');
             } elseif ($user->user_role_id == 6) {
                 return redirect()->route('data-client.index');
             }

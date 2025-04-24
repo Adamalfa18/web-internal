@@ -30,72 +30,83 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 |
 */
 
-// Untuk user dengan role_id 1
 Route::get('/', function () {
     return redirect('/sign-in');
 });
 
-// Rute untuk login
-Route::get('/sign-in', [LoginController::class, 'create'])->name('login');
-Route::post('/sign-in', [LoginController::class, 'store']);
-
-// Rute untuk clients (hanya untuk role 1, 2, 4, dan 5)
-Route::middleware(['auth', 'checkUserRole:1,2,4,5'])->group(function () {
-    Route::resource('/clients-mb', ClientMBController::class);
-    Route::resource('/clients', ClientController::class);
-    // Route::resource('/marketing', MarketingController::class);
-    Route::post('/client-layanan', [ClientLayananController::class, 'store'])->name('client_layanan.store');
-    Route::resource('/laporan-bulanan', PerformanceBulananController::class);
-    Route::resource('/laporan-harian', PerformaHarianController::class);
-    Route::post('/laporan-harian/store-lead', [PerformaHarianController::class, 'store_lead'])->name('laporan-harian.store-lead');
-    Route::put('/laporan-harian/update-lead/{id}', [PerformaHarianController::class, 'updateLead'])->name('laporan-harian.update_lead');
-    Route::get('/list-client-sa', [SaController::class, 'indexList'])->name('list-client-sa.index');
-    Route::get('/divisi-sa/{client_id}', [SaController::class, 'index'])->name('divisi-sa.index');
-    Route::post('/divisi-sa/{client_id}/store', [SaController::class, 'store'])->name('divisi-sa.store');
-    Route::resource('/acount', UserController::class);
-});
-Route::middleware(['auth', 'checkUserRole:1,2'])->group(function () {
-    Route::get('/dashboard', [DasboardAdminController::class, 'index'])->name('dashboard');
-    Route::post('/acount/reset-password/{id}', [UserController::class, 'resetPassword'])->name('acount.reset-password.reset');
-    Route::delete('/laporan-harian/{id}', [PerformaHarianController::class, 'destroy_lead'])->name('laporan-harian.destroy_lead');
-});
-Route::get('/dashboard-marketing', [DasboardAdminController::class, 'dasboar_marketing'])->name('dashboard.marketing');
-Route::get('/dashboard-mb', [DasboardAdminController::class, 'dasboar_mb'])->name('dashboard.mb');
-Route::get('/dashboard-sa', [DasboardAdminController::class, 'dasboar_sa'])->name('dashboard.sa');
-Route::post('/divisi-sa/store/{client_id}', [SaController::class, 'store'])->name('divisi-sa.store');
-
-
-Route::middleware(['auth', 'checkUserRole:1'])->group(function () {
-    Route::get('/marketing', [MarketingController::class, 'index'])->name('marketing.index');
-    Route::get('/marketing/layanan/{id}/edit', [MarketingController::class, 'edit'])->name('marketing.edit');
-    Route::get('/get-available-layanan/{clientId}', [MarketingController::class, 'getAvailableLayanan']);
+// Rute Login
+Route::middleware('guest')->group(function () {
+    Route::get('/sign-in', [LoginController::class, 'create'])->name('sign-in');
+    Route::post('/sign-in', [LoginController::class, 'store']);
 });
 
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 
-Route::middleware(['auth', 'checkUserRole:6', 'encryptDecrypt'])->group(function () {
-    Log::info('User with role_id 6 accessed the route.');
-    Route::get('/data-client', [ClientInformationController::class, 'index'])->name('data-client.index');
-    Route::get('/data-client/{client_id}/{layanan}/laporan-bulanan', [ClientInformationController::class, 'bulanan'])
-        ->name('data-client.laporan-bulanan');
-    Route::get('/data-client/laporan-bulan', [ClientInformationController::class, 'prosesLayananA'])->name('data-client.laporan-bulan');
-    Route::get('/data-client/laporan-harian', [ClientInformationController::class, 'harian'])->name('data-client.laporan-harian');
-    Route::post('/data-client/laporan-harian/store-lead', [ClientInformationController::class, 'store_lead'])->name('data-client.laporan-harian.store-lead');
-    Route::put('/data-client/laporan-harian/update-lead/{id}', [ClientInformationController::class, 'updateLead'])->name('data-client.laporan-harian.update-lead');
+    // Admin (1): semua route
+    Route::middleware(['checkUserRole:1'])->group(function () {
+        Route::resource('/acount', UserController::class);
+        Route::post('/acount/reset-password/{id}', [UserController::class, 'resetPassword'])->name('acount.reset-password.reset');
+    });
+
+    // Admin, C-Level, Marketing (1,2,3): semua route kecuali akun
+    Route::middleware(['checkUserRole:1,2,3'])->group(function () {
+        Route::get('/dashboard', [DasboardAdminController::class, 'index'])->name('dashboard');
+        Route::resource('/clients', ClientController::class);
+        Route::resource('/laporan-bulanan', PerformanceBulananController::class);
+        Route::resource('/laporan-harian', PerformaHarianController::class);
+        Route::post('/laporan-harian/store-lead', [PerformaHarianController::class, 'store_lead'])->name('laporan-harian.store-lead');
+        Route::put('/laporan-harian/update-lead/{id}', [PerformaHarianController::class, 'updateLead'])->name('laporan-harian.update_lead');
+        Route::delete('/laporan-harian/{id}', [PerformaHarianController::class, 'destroy_lead'])->name('laporan-harian.destroy_lead');
+        Route::get('/dashboard-marketing', [DasboardAdminController::class, 'dasboar_marketing'])->name('dashboard.marketing');
+    });
+
+    Route::middleware(['checkUserRole:1,2,3'])->group(function () {
+        Route::get('/marketing', [MarketingController::class, 'index'])->name('marketing.index');
+        Route::get('/marketing/layanan/{id}/edit', [MarketingController::class, 'edit'])->name('marketing.edit');
+        Route::post('/client-layanan', [ClientLayananController::class, 'store'])->name('client_layanan.store');
+        Route::get('/get-available-layanan/{clientId}', [MarketingController::class, 'getAvailableLayanan']);
+    });
+
+    // Head-SA (4) + PIC-SA (5)
+    Route::middleware(['checkUserRole:1,2,3,4,5'])->group(function () {
+        Route::get('/list-client-sa', [SaController::class, 'indexList'])->name('list-client-sa.index');
+        Route::get('/divisi-sa/{client_id}', [SaController::class, 'index'])->name('divisi-sa.index');
+    });
+    // Head-SA (4)
+    Route::middleware(['checkUserRole:1,2,3,4'])->group(function () {
+        Route::get('/dashboard-sa', [DasboardAdminController::class, 'dasboar_sa'])->name('dashboard.sa');
+    });
+    // PIC-SA (5)
+    Route::middleware(['checkUserRole:1,2,3,5'])->group(function () {
+        Route::get('/divisi-sa/{client_id}', [SaController::class, 'index'])->name('divisi-sa.index');
+        Route::post('/divisi-sa/store/{client_id}', [SaController::class, 'store'])->name('divisi-sa.store');
+    });
+
+    // Head-MB (7)
+    Route::middleware(['checkUserRole:1,2,3,7'])->group(function () {
+        Route::get('/dashboard-mb', [DasboardAdminController::class, 'dasboar_mb'])->name('dashboard.mb');
+    });
+    // PIC-MB (8)
+    Route::middleware(['checkUserRole:1,2,3,7,8'])->group(function () {
+        Route::get('/clients-mb', [ClientMBController::class, 'index'])->name('clients-mb.index');
+        Route::resource('/laporan-bulanan', PerformanceBulananController::class);
+        Route::resource('/laporan-harian', PerformaHarianController::class);
+    });
+
+    //  Client (6)
+    Route::middleware(['checkUserRole:6', 'encryptDecrypt'])->group(function () {
+        Log::info('User with role_id 6 accessed the route.');
+        Route::get('/data-client', [ClientInformationController::class, 'index'])->name('data-client.index');
+        Route::get('/data-client/{client_id}/{layanan}/laporan-bulanan', [ClientInformationController::class, 'bulanan'])->name('data-client.laporan-bulanan');
+        Route::get('/data-client/laporan-bulan', [ClientInformationController::class, 'prosesLayananA'])->name('data-client.laporan-bulan');
+        Route::get('/data-client/laporan-harian', [ClientInformationController::class, 'harian'])->name('data-client.laporan-harian');
+        Route::post('/data-client/laporan-harian/store-lead', [ClientInformationController::class, 'store_lead'])->name('data-client.laporan-harian.store-lead');
+        Route::put('/data-client/laporan-harian/update-lead/{id}', [ClientInformationController::class, 'updateLead'])->name('data-client.laporan-harian.update-lead');
+    });
 });
 
-// Rute untuk unauthorized
+// Unauthorized Page
 Route::get('/unauthorized', function () {
-    return view('unauthorized'); // Pastikan Anda memiliki view 'unauthorized.blade.php'
+    return view('unauthorized');
 })->name('unauthorized');
-
-
-Route::get('/sign-in', [LoginController::class, 'create'])
-    ->middleware('guest')
-    ->name('sign-in');
-Route::post('/sign-in', [LoginController::class, 'store'])
-    ->middleware('guest');
-Route::post('/logout', [LoginController::class, 'destroy'])
-    ->middleware('auth')
-    ->name('logout');
-
-// Route untuk menyimpan data lead

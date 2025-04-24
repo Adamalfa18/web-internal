@@ -116,10 +116,17 @@
                                                                     </span>
                                                                 @break
 
+                                                                @case(2)
+                                                                    <span
+                                                                        class="badge badge-sm border border-success text-success badge-aktif">
+                                                                        Pending
+                                                                    </span>
+                                                                @break
+
                                                                 @case(3)
                                                                     <span
                                                                         class="badge badge-sm border border-danger text-danger badge-paid">
-                                                                        Tidak Aktif
+                                                                        Paid
                                                                     </span>
                                                                 @break
                                                             @endswitch

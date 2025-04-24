@@ -37,13 +37,25 @@ class DatabaseSeeder extends Seeder
             'role' => 'Marketing'
         ]);
         UserRole::create([
-            'role' => 'Head'
+            'role' => 'Head-SA'
         ]);
         UserRole::create([
-            'role' => 'PIC'
+            'role' => 'PIC-SA'
         ]);
         UserRole::create([
             'role' => 'Client'
+        ]);
+        UserRole::create([
+            'role' => 'Head-MB'
+        ]);
+        UserRole::create([
+            'role' => 'PIC-MB'
+        ]);
+        UserRole::create([
+            'role' => 'Head-WEB'
+        ]);
+        UserRole::create([
+            'role' => 'PIC-WEB'
         ]);
 
 

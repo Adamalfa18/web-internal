@@ -48,10 +48,16 @@
                                     <select class="form-select @error('status') is-invalid @enderror" name="status">
                                         <option value="1"
                                             {{ old('status', $client_layanan->status ?? 1) == 1 ? 'selected' : '' }}>
-                                            Aktif</option>
-                                        <option value="0"
-                                            {{ old('status', $client_layanan->status ?? 0) == 0 ? 'selected' : '' }}>
-                                            Tidak Aktif</option>
+                                            Aktif
+                                        </option>
+                                        <option value="2"
+                                            {{ old('status', $client_layanan->status ?? 2) == 2 ? 'selected' : '' }}>
+                                            Pending
+                                        </option>
+                                        <option value="3"
+                                            {{ old('status', $client_layanan->status ?? 3) == 3 ? 'selected' : '' }}>
+                                            Paid
+                                        </option>
                                     </select>
                                     @error('status')
                                         <div class="invalid-feedback">{{ $message }}</div>

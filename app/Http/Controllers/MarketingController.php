@@ -75,7 +75,7 @@ class MarketingController extends Controller
 
         // Validasi input
         $validatedData = $request->validate([
-            'status' => 'required|in:0,1',
+            'status' => 'required|in:1,2,3',
         ]);
 
         // Update status
@@ -84,9 +84,6 @@ class MarketingController extends Controller
 
         return redirect()->route('marketing.index')->with('success', 'Status layanan berhasil diperbarui.');
     }
-
-
-
 
     public function getAvailableLayanan($clientId)
     {

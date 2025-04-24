@@ -46,19 +46,17 @@
                                                 }) as $client)
                                                 <tr>
                                                     <td class="align-middle text-center">
-                                                        {{-- Mengubah cara menghitung nomor urut laporan --}}
-                                                        <span class="day-style text-sm font-weight-normal">
-                                                        </span>
+                                                        {{ $loop->iteration }}
                                                     </td>
+                                                    
                                                     <td class="client-name-style">
                                                         <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex align-items-center">
-                                                    </div>
-                                                    <div class="d-flex flex-column justify-content-center ms-1">
-                                                        <h6 class="mb-0 text-sm font-weight-semibold">
-                                                            {{ $client->nama_brand }}</h6>
-                                                    </div>
-                                                </div>
+                                                            <div class="d-flex flex-column justify-content-center ms-1">
+                                                                <h6 class="mb-0 text-sm font-weight-semibold">
+                                                                    {{ $client->nama_brand }}
+                                                                </h6>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                     <td class="client-name-style">
                                                         <p class="text-sm text-dark font-weight-semibold mb-0">

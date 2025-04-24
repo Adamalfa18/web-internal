@@ -86,7 +86,7 @@
 
             <div class="profile-container">
                 <div class="profile-header">
-                    <img src="" class="profile-pic">
+                    <img src="{{ asset('storage/' . $client->gambar_client) }}" class="profile-pic">
                     <div class="profile-info">
                         <div class="top-info">
                             <h2>{{ $client->nama_brand }}</h2>
@@ -121,15 +121,16 @@
                 </div>
 
                 <div class="gallery">
-                    @foreach ($social_media as $media)
+                    @forelse ($post_medias as $media)
                         <div class="gallery-item">
-                            <a href="{{ $media->content }}" target="_blank">
-                                <img src="{{ asset('storage/' . $media->content) }}" alt="Social Media"
-                                    class="img-fluid">
+                            <a href="{{ asset('storage/media/' . $media->post) }}" target="_blank">
+                                <img src="{{ asset('storage/media/' . $media->post) }}" alt="Social Media" class="img-fluid">
                             </a>
                         </div>
-                    @endforeach
-                </div>
+                    @empty
+                        <p>Belum ada media.</p>
+                    @endforelse
+                </div>                                              
             </div>
         </div>
     </main>

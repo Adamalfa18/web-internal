@@ -22,19 +22,34 @@ class DasboardAdminController extends Controller
                     ->where('status', 1);
             })
             ->count();
-
-
         $mb_pending = Client::where('status_client', 1)
             ->whereHas('client_layanan', function ($query) {
                 $query->where('layanan_id', 1)
                     ->where('status', 2);
             })
             ->count();
-
-
         $mb_nonaktip = Client::where('status_client', 1)
             ->whereHas('client_layanan', function ($query) {
                 $query->where('layanan_id', 1)
+                    ->where('status', 3);
+            })
+            ->count();
+
+        $sa_aktip = Client::where('status_client', 1)
+            ->whereHas('client_layanan', function ($query) {
+                $query->where('layanan_id', 2)
+                    ->where('status', 1);
+            })
+            ->count();
+        $sa_pending = Client::where('status_client', 1)
+            ->whereHas('client_layanan', function ($query) {
+                $query->where('layanan_id', 2)
+                    ->where('status', 2);
+            })
+            ->count();
+        $sa_nonaktip = Client::where('status_client', 1)
+            ->whereHas('client_layanan', function ($query) {
+                $query->where('layanan_id', 2)
                     ->where('status', 3);
             })
             ->count();
@@ -64,27 +79,40 @@ class DasboardAdminController extends Controller
             ->orderBy('year', 'asc') // Mengurutkan berdasarkan tahun secara ascending
             ->orderBy('month', 'asc') // Mengurutkan berdasarkan bulan secara ascending
             ->get();
-
         // Mengubah angka bulan menjadi nama bulan dan menambahkan tahun
         $clientsPerMonth->transform(function ($item) use ($monthNames) {
             $item->month = $monthNames[$item->month - 1] . ' ' . $item->year; // Mengubah angka bulan menjadi nama bulan dan menambahkan tahun
             return $item;
         });
 
-        $mbClientsPerMonth = ClientLayanan::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, 
-        SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as active,
-        SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as pending,
-        SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END) as inactive')
+        $mbClientsPerMonth = ClientLayanan::where('layanan_id', 1) // <-- tambahkan filter layanan MB
+            ->selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, 
+                SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as active,
+                SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as pending,
+                SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END) as inactive')
             ->groupBy('year', 'month')
             ->orderBy('year', 'asc')
             ->orderBy('month', 'asc')
             ->get();
-
-
         $mbClientsPerMonth->transform(function ($item) use ($monthNames) {
             $item->month = $monthNames[$item->month - 1] . ' ' . $item->year;
             return $item;
         });
+
+        $saClientsPerMonth = ClientLayanan::where('layanan_id', 2)
+            ->selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, 
+                SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as active,
+                SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as pending,
+                SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END) as inactive')
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'asc')
+            ->orderBy('month', 'asc')
+            ->get();
+        $saClientsPerMonth->transform(function ($item) use ($monthNames) {
+            $item->month = $monthNames[$item->month - 1] . ' ' . $item->year;
+            return $item;
+        });
+
 
         // Pengondisian untuk memeriksa role user
         if (Auth::user()->user_role_id == 5) { // Memeriksa apakah role_id user adalah 5
@@ -99,7 +127,11 @@ class DasboardAdminController extends Controller
             'mb_pending',
             'mb_nonaktip',
             'clientsPerMonth',
-            'mbClientsPerMonth'
+            'mbClientsPerMonth',
+            'sa_aktip',
+            'sa_pending',
+            'sa_nonaktip',
+            'saClientsPerMonth'
         ));
     }
 }

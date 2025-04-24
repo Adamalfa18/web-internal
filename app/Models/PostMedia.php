@@ -14,4 +14,9 @@ class PostMedia extends Model
     {
         return $this->belongsTo(SocialMedia::class);
     }
+
+    public function post()
+    {
+        return $this->belongsTo(SocialMedia::class, 'post_id');
+    }
 }

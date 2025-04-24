@@ -1,4 +1,94 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const addFileBtn = document.getElementById('add-file-btn');
+    const fileInput = document.getElementById('content_media');
+    const previewContainer = document.getElementById('preview-container');
+
+    // Untuk menyimpan semua file yang akan dikirim
+    let filesToUpload = [];
+
+    // Trigger input file saat tombol diklik
+    addFileBtn.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    // Saat ada file baru dipilih
+    fileInput.addEventListener('change', (e) => {
+        const newFiles = Array.from(e.target.files);
+
+        newFiles.forEach(file => {
+            filesToUpload.push(file);
+            renderPreview(file, filesToUpload.length - 1);
+        });
+
+        // Reset input file supaya bisa pilih file yang sama lagi
+        fileInput.value = '';
+    });
+
+    function renderPreview(file, index) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const col = document.createElement('div');
+            col.className = 'col-md-3 mb-3';
+
+            const card = document.createElement('div');
+            card.className = 'position-relative border p-1 rounded';
+
+            const removeBtn = document.createElement('button');
+            removeBtn.innerHTML = '&times;';
+            removeBtn.className = 'btn btn-danger btn-sm position-absolute top-0 end-0';
+            removeBtn.type = 'button';
+            removeBtn.onclick = () => {
+                filesToUpload.splice(index, 1);
+                previewContainer.removeChild(col);
+            };
+
+            let media;
+            if (file.type.startsWith('video/')) {
+                media = document.createElement('video');
+                media.src = e.target.result;
+                media.controls = true;
+                media.className = 'w-100';
+            } else {
+                media = document.createElement('img');
+                media.src = e.target.result;
+                media.className = 'img-fluid';
+            }
+
+            card.appendChild(removeBtn);
+            card.appendChild(media);
+            col.appendChild(card);
+            previewContainer.appendChild(col);
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    // Saat form disubmit, tambahkan file ke formData manual
+    const form = document.querySelector('.form-marketing');
+    form.addEventListener('submit', function (e) {
+        const formData = new FormData(form);
+
+        filesToUpload.forEach((file) => {
+            formData.append('content_media[]', file);
+        });
+
+        // Kirim form secara manual pakai fetch agar file ikut terkirim
+        e.preventDefault();
+
+        fetch(form.action, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(res => res.redirected ? window.location.href = res.url : res.text())
+            .then(data => console.log(data))
+            .catch(err => console.error('Upload error:', err));
+    });
+});
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
     const targetSpentInput = document.getElementById("target_spent");
     const targetRevenueInput = document.getElementById("target_revenue");
     const targetRoasInput = document.getElementById("target_roas");
@@ -6,9 +96,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function calculateRoas() {
         const targetSpent = parseFloat(targetSpentInput.value) || 0;
         const targetRevenue = parseFloat(targetRevenueInput.value) || 0;
-        targetRoasInput.value = targetSpent
-            ? (targetRevenue / targetSpent).toFixed(2)
-            : 0;
+        targetRoasInput.value = targetSpent ?
+            (targetRevenue / targetSpent).toFixed(2) :
+            0;
     }
 
     targetSpentInput.addEventListener("input", calculateRoas);

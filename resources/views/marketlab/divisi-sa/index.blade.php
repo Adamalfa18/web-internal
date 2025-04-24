@@ -30,7 +30,8 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form class="form-marketing" action="{{ route('divisi-sa.store', ['client_id' => $client_id]) }}" method="POST"
+                        <form class="form-marketing"
+                            action="{{ route('divisi-sa.store', ['client_id' => $client_id]) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
 
@@ -39,6 +40,14 @@
                                     <div class="mb-3">
                                         <label for="created_at" class="form-label">Caption</label>
                                         <textarea class="form-control" name="caption" id="caption" required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="content" class="form-label">Konten (Teks)</label>
+                                        <textarea class="form-control" name="content" id="content" required></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -55,8 +64,11 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="content" class="form-label">Upload Gambar / Video</label>
-                                        <input type="file" class="form-control" name="content[]" id="content" required multiple accept=".webp, .webm">
-                                        <button type="button" class="btn btn-primary" id="add-file-btn">Add Gambar</button>
+                                        <input type="file" class="form-control d-none" id="content_media"
+                                            name="content_media[]" accept=".jpg, .jpeg, .png, .gif, .mp4, .mov, .webm"
+                                            multiple>
+                                        <button type="button" class="btn btn-primary" id="add-file-btn">Add
+                                            Gambar</button>
                                     </div>
                                     <div id="preview-container" class="row mt-3"></div>
                                 </div>
@@ -65,8 +77,9 @@
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
+
+                        </form>
                     </div>
-                    </form>
                 </div>
             </div>
             <!-- End Modal Add Post -->
@@ -76,7 +89,7 @@
                     <img src="" class="profile-pic">
                     <div class="profile-info">
                         <div class="top-info">
-                            <h2>{{$client->nama_brand}}</h2>
+                            <h2>{{ $client->nama_brand }}</h2>
                             <div class="ms-auto d-flex">
                                 <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
                                     data-toggle="modal" data-target="#addPostModal">
@@ -97,7 +110,7 @@
                             <span><strong>testtt</strong> followers</span>
                             <span><strong>testtt</strong> following</span>
                         </div>
-                        <div class="real-name">{{$client->nama_client}}</div>
+                        <div class="real-name">{{ $client->nama_client }}</div>
                     </div>
                 </div>
 
@@ -109,91 +122,15 @@
 
                 <div class="gallery">
                     @foreach ($social_media as $media)
-                        @foreach ($media->content as $file)
-                            <div class="gallery-item">
-                                <a href="{{ asset('storage/post' . $file) }}" target="_blank">
-                                    @if (Str::endsWith($file, ['.webp']))
-                                        <img src="{{ asset('storage/' . $file) }}" alt="Gambar" class="img-fluid">
-                                    @elseif (Str::endsWith($file, ['.webm']))
-                                        <video src="{{ asset('storage/' . $file) }}" controls class="img-fluid"></video>
-                                    @endif
-                                </a>
-                            </div>
-                        @endforeach
+                        <div class="gallery-item">
+                            <a href="{{ $media->content }}" target="_blank">
+                                <img src="{{ asset('storage/' . $media->content) }}" alt="Social Media"
+                                    class="img-fluid">
+                            </a>
+                        </div>
                     @endforeach
                 </div>
             </div>
         </div>
     </main>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const input = document.getElementById('content');
-            const previewContainer = document.getElementById('preview-container');
-            const addFileBtn = document.getElementById('add-file-btn');
-
-            let selectedFiles = [];
-
-            addFileBtn.addEventListener('click', function () {
-                input.click();
-            });
-
-            input.addEventListener('change', function (event) {
-                const newFiles = Array.from(event.target.files);
-
-                // Hindari duplikat berdasarkan nama dan ukuran
-                newFiles.forEach(newFile => {
-                    const isDuplicate = selectedFiles.some(existingFile =>
-                        existingFile.name === newFile.name && existingFile.size === newFile.size
-                    );
-                    if (!isDuplicate) {
-                        selectedFiles.push(newFile);
-                    }
-                });
-
-                renderPreview();
-                updateInputFiles();
-                input.value = ''; // agar bisa upload file yang sama lagi
-            });
-
-            function renderPreview() {
-                previewContainer.innerHTML = '';
-
-                selectedFiles.forEach((file, index) => {
-                    const col = document.createElement('div');
-                    col.className = 'col-md-3 mb-3 position-relative';
-
-                    const removeBtn = document.createElement('button');
-                    removeBtn.textContent = '×';
-                    removeBtn.className = 'btn btn-danger btn-sm position-absolute top-0 end-0';
-                    removeBtn.addEventListener('click', function () {
-                        selectedFiles.splice(index, 1);
-                        renderPreview();
-                        updateInputFiles();
-                    });
-
-                    let preview;
-                    if (file.type.startsWith('image/')) {
-                        preview = document.createElement('img');
-                        preview.src = URL.createObjectURL(file);
-                        preview.className = 'img-fluid rounded';
-                    } else if (file.type.startsWith('video/')) {
-                        preview = document.createElement('video');
-                        preview.src = URL.createObjectURL(file);
-                        preview.controls = true;
-                        preview.className = 'img-fluid rounded';
-                    }
-
-                    col.appendChild(removeBtn);
-                    col.appendChild(preview);
-                    previewContainer.appendChild(col);
-                });
-            }
-
-            function updateInputFiles() {
-                const dataTransfer = new DataTransfer();
-                selectedFiles.forEach(file => dataTransfer.items.add(file));
-                input.files = dataTransfer.files;
-            }
-        });
-    </script>    
 </x-app-layout>

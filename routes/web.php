@@ -59,6 +59,9 @@ Route::middleware(['auth', 'checkUserRole:1,2'])->group(function () {
     Route::post('/acount/reset-password/{id}', [UserController::class, 'resetPassword'])->name('acount.reset-password.reset');
     Route::delete('/laporan-harian/{id}', [PerformaHarianController::class, 'destroy_lead'])->name('laporan-harian.destroy_lead');
 });
+Route::get('/dashboard-marketing', [DasboardAdminController::class, 'dasboar_marketing'])->name('dashboard.marketing');
+Route::get('/dashboard-mb', [DasboardAdminController::class, 'dasboar_mb'])->name('dashboard.mb');
+Route::get('/dashboard-sa', [DasboardAdminController::class, 'dasboar_sa'])->name('dashboard.sa');
 Route::post('/divisi-sa/store/{client_id}', [SaController::class, 'store'])->name('divisi-sa.store');
 
 

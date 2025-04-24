@@ -628,3 +628,41 @@ button.btn.btn-primary.btn-style-client {
 .btn.btn-primary.btn-style-client {
     background: #6e80aa;
 }
+
+ul.dropdown-menu.show {
+    background: none;
+}
+.dropdown-menu[data-bs-popper] {
+    margin-top: 5px;
+}
+/* .dropdown-item.sub:hover {
+    color: black !important;
+    background: white !important;
+    border-radius: 20px 0px 0px 20px !important;
+} */
+
+.dropdown-item.sub {
+    color: white;
+    background: transparent;
+    border-radius: 0;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item.sub:hover {
+    color: black !important;
+    background: white !important;
+    border-radius: 20px 0px 0px 20px !important;
+}
+a.dropdown-item.active {
+    padding-left: 46px;
+    background: white;
+    border-radius: 20px 0px 0px 20px;
+    color: black;
+}
+a.dropdown-item {
+    padding-left: 46px;
+    color: white;
+}
+li.nav-item.drop {
+    padding-bottom: 10px;
+}

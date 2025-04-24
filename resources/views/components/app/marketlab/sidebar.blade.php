@@ -14,56 +14,24 @@
     <div class="collapse navbar-collapse px-style  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                @if (auth()->user()->user_role_id != 5)
-                    <a class="nav-link {{ is_current_route('dashboard') ? 'active' : '' }}"
-                        href="{{ route('dashboard') }}">
-                        <div
-                            class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
-                            <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <title>dashboard</title>
-                                <g id="dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <g id="template" transform="translate(12.000000, 12.000000)" fill="#FFFFFF"
-                                        fill-rule="nonzero">
-                                        <path class="color-foreground"
-                                            d="M0,1.71428571 C0,0.76752 0.76752,0 1.71428571,0 L22.2857143,0 C23.2325143,0 24,0.76752 24,1.71428571 L24,5.14285714 C24,6.08962286 23.2325143,6.85714286 22.2857143,6.85714286 L1.71428571,6.85714286 C0.76752,6.85714286 0,6.08962286 0,5.14285714 L0,1.71428571 Z"
-                                            id="Path"></path>
-                                        <path class="color-background"
-                                            d="M0,12 C0,11.0532171 0.76752,10.2857143 1.71428571,10.2857143 L12,10.2857143 C12.9468,10.2857143 13.7142857,11.0532171 13.7142857,12 L13.7142857,22.2857143 C13.7142857,23.2325143 12.9468,24 12,24 L1.71428571,24 C0.76752,24 0,23.2325143 0,22.2857143 L0,12 Z"
-                                            id="Path"></path>
-                                        <path class="color-background"
-                                            d="M18.8571429,10.2857143 C17.9103429,10.2857143 17.1428571,11.0532171 17.1428571,12 L17.1428571,22.2857143 C17.1428571,23.2325143 17.9103429,24 18.8571429,24 L22.2857143,24 C23.2325143,24 24,23.2325143 24,22.2857143 L24,12 C24,11.0532171 23.2325143,10.2857143 22.2857143,10.2857143 L18.8571429,10.2857143 Z"
-                                            id="Path"></path>
-                                    </g>
-                                </g>
-                            </svg>
-                        </div>
-                        <span class="nav-link-text ms-1">Dashboard</span>
-                    </a>
-                @endif
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ in_array(Route::currentRouteName(), ['marketing.index']) ? 'active' : '' }}"
-                    href="{{ route('marketing.index') }}">
+                <a class="nav-link dropdown-toggle {{ in_array(Route::currentRouteName(), ['marketing.index', 'dashboard.marketing', 'clients.index', 'clients.create', 'clients.edit']) ? 'active' : '' }}"
+                    href="#" id="dropdownLaporan" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <div
                         class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
                         <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <title>clients</title>
-                            <g id="clients" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <g id="view-grid" transform="translate(12.000000, 12.000000)" fill="#FFFFFF"
+                            <title>dashboard</title>
+                            <g id="dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <g id="template" transform="translate(12.000000, 12.000000)" fill="#FFFFFF"
                                     fill-rule="nonzero">
                                     <path class="color-foreground"
-                                        d="M3.42857143,0 C1.53502286,0 0,1.53502286 0,3.42857143 L0,6.85714286 C0,8.75069143 1.53502286,10.2857143 3.42857143,10.2857143 L6.85714286,10.2857143 C8.75069143,10.2857143 10.2857143,8.75069143 10.2857143,6.85714286 L10.2857143,3.42857143 C10.2857143,1.53502286 8.75069143,0 6.85714286,0 L3.42857143,0 Z"
+                                        d="M0,1.71428571 C0,0.76752 0.76752,0 1.71428571,0 L22.2857143,0 C23.2325143,0 24,0.76752 24,1.71428571 L24,5.14285714 C24,6.08962286 23.2325143,6.85714286 22.2857143,6.85714286 L1.71428571,6.85714286 C0.76752,6.85714286 0,6.08962286 0,5.14285714 L0,1.71428571 Z"
                                         id="Path"></path>
                                     <path class="color-background"
-                                        d="M3.42857143,13.7142857 C1.53502286,13.7142857 0,15.2492571 0,17.1428571 L0,20.5714286 C0,22.4650286 1.53502286,24 3.42857143,24 L6.85714286,24 C8.75069143,24 10.2857143,22.4650286 10.2857143,20.5714286 L10.2857143,17.1428571 C10.2857143,15.2492571 8.75069143,13.7142857 6.85714286,13.7142857 L3.42857143,13.7142857 Z"
+                                        d="M0,12 C0,11.0532171 0.76752,10.2857143 1.71428571,10.2857143 L12,10.2857143 C12.9468,10.2857143 13.7142857,11.0532171 13.7142857,12 L13.7142857,22.2857143 C13.7142857,23.2325143 12.9468,24 12,24 L1.71428571,24 C0.76752,24 0,23.2325143 0,22.2857143 L0,12 Z"
                                         id="Path"></path>
                                     <path class="color-background"
-                                        d="M13.7142857,3.42857143 C13.7142857,1.53502286 15.2492571,0 17.1428571,0 L20.5714286,0 C22.4650286,0 24,1.53502286 24,3.42857143 L24,6.85714286 C24,8.75069143 22.4650286,10.2857143 20.5714286,10.2857143 L17.1428571,10.2857143 C15.2492571,10.2857143 13.7142857,8.75069143 13.7142857,6.85714286 L13.7142857,3.42857143 Z"
-                                        id="Path"></path>
-                                    <path class="color-foreground"
-                                        d="M13.7142857,17.1428571 C13.7142857,15.2492571 15.2492571,13.7142857 17.1428571,13.7142857 L20.5714286,13.7142857 C22.4650286,13.7142857 24,15.2492571 24,17.1428571 L24,20.5714286 C24,22.4650286 22.4650286,24 20.5714286,24 L17.1428571,24 C15.2492571,24 13.7142857,22.4650286 13.7142857,20.5714286 L13.7142857,17.1428571 Z"
+                                        d="M18.8571429,10.2857143 C17.9103429,10.2857143 17.1428571,11.0532171 17.1428571,12 L17.1428571,22.2857143 C17.1428571,23.2325143 17.9103429,24 18.8571429,24 L22.2857143,24 C23.2325143,24 24,23.2325143 24,22.2857143 L24,12 C24,11.0532171 23.2325143,10.2857143 22.2857143,10.2857143 L18.8571429,10.2857143 Z"
                                         id="Path"></path>
                                 </g>
                             </g>
@@ -71,9 +39,119 @@
                     </div>
                     <span class="nav-link-text ms-1">Marketing</span>
                 </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownLaporan">
+
+                    <li class="nav-item drop">
+                        <a class="dropdown-item sub {{ is_current_route('dashboard.marketing') ? 'active' : '' }}"
+                            href="{{ route('dashboard.marketing') }}">
+                            Dasboard
+                        </a>
+                    </li>
+                    <li class="nav-item drop">
+                        <a class="dropdown-item sub {{ in_array(Route::currentRouteName(), ['marketing.index']) ? 'active' : '' }}"
+                            href="{{ route('marketing.index') }}">
+                            Layanan
+                        </a>
+                    </li>
+                    <li class="nav-item drop">
+                        <a class="dropdown-item sub {{ in_array(Route::currentRouteName(), ['clients.index', 'clients.create', 'clients.edit']) ? 'active' : '' }}"
+                            href="{{ route('clients.index') }}">
+                            Client
+                        </a>
+                    </li>
+                    <!-- Kamu bisa tambahkan item lain di sini -->
+                </ul>
             </li>
 
             <li class="nav-item">
+                <a class="nav-link dropdown-toggle {{ in_array(Route::currentRouteName(), ['dashboard.mb', 'clients-mb.index', 'laporan-bulanan.index', 'laporan-bulanan.create', 'laporan-bulanan.edit', 'laporan-harian.index', 'laporan-harian.create', 'laporan-harian.edit']) ? 'active' : '' }}"
+                    href="#" id="dropdownLaporan" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div
+                        class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
+                        <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <title>dashboard</title>
+                            <g id="dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <g id="template" transform="translate(12.000000, 12.000000)" fill="#FFFFFF"
+                                    fill-rule="nonzero">
+                                    <path class="color-foreground"
+                                        d="M0,1.71428571 C0,0.76752 0.76752,0 1.71428571,0 L22.2857143,0 C23.2325143,0 24,0.76752 24,1.71428571 L24,5.14285714 C24,6.08962286 23.2325143,6.85714286 22.2857143,6.85714286 L1.71428571,6.85714286 C0.76752,6.85714286 0,6.08962286 0,5.14285714 L0,1.71428571 Z"
+                                        id="Path"></path>
+                                    <path class="color-background"
+                                        d="M0,12 C0,11.0532171 0.76752,10.2857143 1.71428571,10.2857143 L12,10.2857143 C12.9468,10.2857143 13.7142857,11.0532171 13.7142857,12 L13.7142857,22.2857143 C13.7142857,23.2325143 12.9468,24 12,24 L1.71428571,24 C0.76752,24 0,23.2325143 0,22.2857143 L0,12 Z"
+                                        id="Path"></path>
+                                    <path class="color-background"
+                                        d="M18.8571429,10.2857143 C17.9103429,10.2857143 17.1428571,11.0532171 17.1428571,12 L17.1428571,22.2857143 C17.1428571,23.2325143 17.9103429,24 18.8571429,24 L22.2857143,24 C23.2325143,24 24,23.2325143 24,22.2857143 L24,12 C24,11.0532171 23.2325143,10.2857143 22.2857143,10.2857143 L18.8571429,10.2857143 Z"
+                                        id="Path"></path>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                    <span class="nav-link-text ms-1">Clien MB</span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownLaporan">
+
+                    <li class="nav-item drop">
+                        <a class="dropdown-item sub {{ is_current_route('dashboard.mb') ? 'active' : '' }}"
+                            href="{{ route('dashboard.mb') }}">
+                            Dasboard
+                        </a>
+                    </li>
+                    <li class="nav-item drop">
+                        <a class="dropdown-item sub {{ in_array(Route::currentRouteName(), ['clients-mb.index', 'laporan-bulanan.index', 'laporan-bulanan.create', 'laporan-bulanan.edit', 'laporan-harian.index', 'laporan-harian.create', 'laporan-harian.edit']) ? 'active' : '' }}"
+                            href="{{ route('clients-mb.index') }}">
+                            Client MB
+                        </a>
+                    </li>
+                    <!-- Kamu bisa tambahkan item lain di sini -->
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link dropdown-toggle {{ in_array(Route::currentRouteName(), ['dashboard.sa', 'list-client-sa.index', 'divisi-sa.index', 'divisi-sa.store']) ? 'active' : '' }}"
+                    href="#" id="dropdownLaporan" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div
+                        class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
+                        <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <title>dashboard</title>
+                            <g id="dashboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <g id="template" transform="translate(12.000000, 12.000000)" fill="#FFFFFF"
+                                    fill-rule="nonzero">
+                                    <path class="color-foreground"
+                                        d="M0,1.71428571 C0,0.76752 0.76752,0 1.71428571,0 L22.2857143,0 C23.2325143,0 24,0.76752 24,1.71428571 L24,5.14285714 C24,6.08962286 23.2325143,6.85714286 22.2857143,6.85714286 L1.71428571,6.85714286 C0.76752,6.85714286 0,6.08962286 0,5.14285714 L0,1.71428571 Z"
+                                        id="Path"></path>
+                                    <path class="color-background"
+                                        d="M0,12 C0,11.0532171 0.76752,10.2857143 1.71428571,10.2857143 L12,10.2857143 C12.9468,10.2857143 13.7142857,11.0532171 13.7142857,12 L13.7142857,22.2857143 C13.7142857,23.2325143 12.9468,24 12,24 L1.71428571,24 C0.76752,24 0,23.2325143 0,22.2857143 L0,12 Z"
+                                        id="Path"></path>
+                                    <path class="color-background"
+                                        d="M18.8571429,10.2857143 C17.9103429,10.2857143 17.1428571,11.0532171 17.1428571,12 L17.1428571,22.2857143 C17.1428571,23.2325143 17.9103429,24 18.8571429,24 L22.2857143,24 C23.2325143,24 24,23.2325143 24,22.2857143 L24,12 C24,11.0532171 23.2325143,10.2857143 22.2857143,10.2857143 L18.8571429,10.2857143 Z"
+                                        id="Path"></path>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                    <span class="nav-link-text ms-1">Clien SA</span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownLaporan">
+
+                    <li class="nav-item drop">
+                        <a class="dropdown-item sub {{ is_current_route('dashboard.sa') ? 'active' : '' }}"
+                            href="{{ route('dashboard.sa') }}">
+                            Dasboard
+                        </a>
+                    </li>
+                    <li class="nav-item drop">
+                        <a class="dropdown-item sub {{ in_array(Route::currentRouteName(), ['list-client-sa.index', 'divisi-sa.index']) ? 'active' : '' }}"
+                            href="{{ route('list-client-sa.index') }}">
+                            Client SA
+                        </a>
+                    </li>
+                    <!-- Kamu bisa tambahkan item lain di sini -->
+                </ul>
+            </li>
+
+            {{-- <li class="nav-item">
                 <a class="nav-link {{ in_array(Route::currentRouteName(), ['clients.index', 'clients.create', 'clients.edit']) ? 'active' : '' }}"
                     href="{{ route('clients.index') }}">
                     <div
@@ -102,9 +180,8 @@
                     </div>
                     <span class="nav-link-text ms-1">Client</span>
                 </a>
-            </li>
-
-            <li class="nav-item">
+            </li> --}}
+            {{-- <li class="nav-item">
                 <a class="nav-link {{ in_array(Route::currentRouteName(), ['list-client-sa.index']) ? 'active' : '' }}"
                     href="{{ route('list-client-sa.index') }}">
                     <div
@@ -133,9 +210,9 @@
                     </div>
                     <span class="nav-link-text ms-1">Sosial Media</span>
                 </a>
-            </li>
+            </li> --}}
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link {{ in_array(Route::currentRouteName(), ['clients-mb.index', 'laporan-bulanan.index', 'laporan-bulanan.create', 'laporan-bulanan.edit', 'laporan-harian.index', 'laporan-harian.create', 'laporan-harian.edit']) ? 'active' : '' }}"
                     href="{{ route('clients-mb.index') }}">
                     <div
@@ -164,7 +241,7 @@
                     </div>
                     <span class="nav-link-text ms-1">Client MB</span>
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 @if (!in_array(auth()->user()->user_role_id, [3, 4, 5]))
                     <a class="nav-link {{ in_array(Route::currentRouteName(), ['acount.index', 'acount.create', 'acount.edit']) ? 'active' : '' }}"

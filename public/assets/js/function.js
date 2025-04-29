@@ -1,28 +1,167 @@
+// document.addEventListener("DOMContentLoaded", function () {
+//     const addFileBtn = document.getElementById('add-file-btn');
+//     const fileInput = document.getElementById('content_media');
+//     const previewContainer = document.getElementById('preview-container');
+//     const form = document.querySelector('.form-marketing');
+//     const editForm = document.getElementById('edit-form') || form;
+
+//     // Simpan file baru yang dipilih
+//     let filesToUpload = [];
+//     // Simpan elemen preview agar bisa dikelola index-nya
+//     let previewElements = [];
+
+//     // Klik tombol untuk pilih file
+//     addFileBtn.addEventListener('click', () => {
+//         fileInput.click();
+//     });
+
+//     // Saat file dipilih
+//     fileInput.addEventListener('change', (e) => {
+//         const newFiles = Array.from(e.target.files);
+
+//         newFiles.forEach((file) => {
+//             filesToUpload.push(file);
+//             renderPreview(file);
+//         });
+
+//         fileInput.value = '';
+//     });
+
+//     function renderPreview(file, isExisting = false, existingUrl = '') {
+//         const reader = new FileReader();
+//         const col = document.createElement('div');
+//         col.className = 'col-md-3 mb-3 preview-item';
+
+//         const card = document.createElement('div');
+//         card.className = 'position-relative border p-1 rounded';
+
+//         const removeBtn = document.createElement('button');
+//         removeBtn.innerHTML = '&times;';
+//         removeBtn.className = 'btn btn-danger btn-sm position-absolute top-0 end-0';
+//         removeBtn.type = 'button';
+//         removeBtn.onclick = () => {
+//             if (!isExisting) {
+//                 const index = previewElements.indexOf(col);
+//                 if (index > -1) {
+//                     filesToUpload.splice(index, 1);
+//                     previewElements.splice(index, 1);
+//                 }
+//             }
+//             previewContainer.removeChild(col);
+//         };
+
+//         let media;
+
+//         if (isExisting) {
+//             media = file.type === 'video' ?
+//                 document.createElement('video') :
+//                 document.createElement('img');
+
+//             media.src = existingUrl;
+//             if (file.type === 'video') {
+//                 media.controls = true;
+//                 media.className = 'w-100';
+//             } else {
+//                 media.className = 'img-fluid';
+//             }
+
+//             card.appendChild(removeBtn);
+//             card.appendChild(media);
+//             col.appendChild(card);
+//             previewContainer.appendChild(col);
+//         } else {
+//             reader.onload = function (e) {
+//                 if (file.type.startsWith('video/')) {
+//                     media = document.createElement('video');
+//                     media.src = e.target.result;
+//                     media.controls = true;
+//                     media.className = 'w-100';
+//                 } else {
+//                     media = document.createElement('img');
+//                     media.src = e.target.result;
+//                     media.className = 'img-fluid';
+//                 }
+
+//                 card.appendChild(removeBtn);
+//                 card.appendChild(media);
+//                 col.appendChild(card);
+//                 previewContainer.appendChild(col);
+//                 previewElements.push(col);
+//             };
+//             reader.readAsDataURL(file);
+//         }
+//     }
+
+//     // Submit form pakai fetch
+//     editForm.addEventListener('submit', function (e) {
+//         e.preventDefault();
+
+//         const formData = new FormData(editForm);
+//         filesToUpload.forEach((file) => {
+//             formData.append('content_media[]', file);
+//         });
+
+//         fetch(editForm.action, {
+//                 method: 'POST',
+//                 body: formData,
+//             })
+//             .then(res => res.redirected ? window.location.href = res.url : res.text())
+//             .then(data => console.log(data))
+//             .catch(err => console.error('Upload error:', err));
+//     });
+
+//     // ====== FUNGSI UNTUK EDIT ======
+
+//     // Fungsi untuk load data post ke modal
+//     window.showEditModal = function (data) {
+//         // Kosongkan form & preview sebelumnya
+//         editForm.reset();
+//         previewContainer.innerHTML = '';
+//         filesToUpload = [];
+//         previewElements = [];
+
+//         // Isi form dengan data
+//         document.getElementById('post-id').value = data.id;
+//         document.getElementById('caption').value = data.caption;
+//         document.getElementById('content').value = data.content;
+//         document.getElementById('created_at').value = data.created_at;
+
+//         // Render media lama (gambar/video dari server)
+//         if (data.media && data.media.length > 0) {
+//             data.media.forEach(media => {
+//                 renderPreview({
+//                     type: media.type
+//                 }, true, media.url);
+//             });
+//         }
+
+//         // Tampilkan modal edit
+//         $('#editSAModal').modal('show');
+//     };
+// });
+
+
 document.addEventListener("DOMContentLoaded", function () {
+    // ------------------- UNTUK MODAL ADD ----------------------
     const addFileBtn = document.getElementById('add-file-btn');
     const fileInput = document.getElementById('content_media');
     const previewContainer = document.getElementById('preview-container');
-
-    // Untuk menyimpan semua file yang akan dikirim
     let filesToUpload = [];
 
-    // Trigger input file saat tombol diklik
-    addFileBtn.addEventListener('click', () => {
-        fileInput.click();
-    });
+    if (addFileBtn) {
+        addFileBtn.addEventListener('click', () => fileInput.click());
 
-    // Saat ada file baru dipilih
-    fileInput.addEventListener('change', (e) => {
-        const newFiles = Array.from(e.target.files);
+        fileInput.addEventListener('change', (e) => {
+            const newFiles = Array.from(e.target.files);
 
-        newFiles.forEach(file => {
-            filesToUpload.push(file);
-            renderPreview(file, filesToUpload.length - 1);
+            newFiles.forEach(file => {
+                filesToUpload.push(file);
+                renderPreview(file, filesToUpload.length - 1);
+            });
+
+            fileInput.value = '';
         });
-
-        // Reset input file supaya bisa pilih file yang sama lagi
-        fileInput.value = '';
-    });
+    }
 
     function renderPreview(file, index) {
         const reader = new FileReader();
@@ -64,16 +203,14 @@ document.addEventListener("DOMContentLoaded", function () {
         reader.readAsDataURL(file);
     }
 
-    // Saat form disubmit, tambahkan file ke formData manual
     const form = document.querySelector('.form-marketing');
     form.addEventListener('submit', function (e) {
         const formData = new FormData(form);
 
-        filesToUpload.forEach((file) => {
+        filesToUpload.forEach(file => {
             formData.append('content_media[]', file);
         });
 
-        // Kirim form secara manual pakai fetch agar file ikut terkirim
         e.preventDefault();
 
         fetch(form.action, {
@@ -84,26 +221,91 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => console.log(data))
             .catch(err => console.error('Upload error:', err));
     });
-});
 
+    // ------------------- UNTUK MODAL EDIT ----------------------
+    const editAddFileBtn = document.getElementById('edit-add-file-btn');
+    const editFileInput = document.getElementById('edit_content_media');
+    const editPreviewContainer = document.getElementById('edit-preview-container');
+    let editFilesToUpload = [];
+    let editPreviewElements = [];
 
+    if (editAddFileBtn) {
+        editAddFileBtn.addEventListener('click', () => editFileInput.click());
 
-document.addEventListener("DOMContentLoaded", function () {
-    const targetSpentInput = document.getElementById("target_spent");
-    const targetRevenueInput = document.getElementById("target_revenue");
-    const targetRoasInput = document.getElementById("target_roas");
+        editFileInput.addEventListener('change', (e) => {
+            const newFiles = Array.from(e.target.files);
 
-    function calculateRoas() {
-        const targetSpent = parseFloat(targetSpentInput.value) || 0;
-        const targetRevenue = parseFloat(targetRevenueInput.value) || 0;
-        targetRoasInput.value = targetSpent ?
-            (targetRevenue / targetSpent).toFixed(2) :
-            0;
+            newFiles.forEach((file) => {
+                editFilesToUpload.push(file);
+                renderEditPreview(file);
+            });
+
+            editFileInput.value = '';
+        });
     }
 
-    targetSpentInput.addEventListener("input", calculateRoas);
-    targetRevenueInput.addEventListener("input", calculateRoas);
+    function renderEditPreview(file, isExisting = false, existingUrl = '') {
+        const reader = new FileReader();
+        const col = document.createElement('div');
+        col.className = 'col-md-3 mb-3 preview-item';
+
+        const card = document.createElement('div');
+        card.className = 'position-relative border p-1 rounded';
+
+        const removeBtn = document.createElement('button');
+        removeBtn.innerHTML = '&times;';
+        removeBtn.className = 'btn btn-danger btn-sm position-absolute top-0 end-0';
+        removeBtn.type = 'button';
+        removeBtn.onclick = () => {
+            if (!isExisting) {
+                const index = editPreviewElements.indexOf(col);
+                if (index > -1) {
+                    editFilesToUpload.splice(index, 1);
+                    editPreviewElements.splice(index, 1);
+                }
+            }
+            editPreviewContainer.removeChild(col);
+        };
+
+        let media;
+        if (isExisting) {
+            media = file.type === 'video' ? document.createElement('video') : document.createElement('img');
+            media.src = existingUrl;
+            if (file.type === 'video') {
+                media.controls = true;
+                media.className = 'w-100';
+            } else {
+                media.className = 'img-fluid';
+            }
+
+            card.appendChild(removeBtn);
+            card.appendChild(media);
+            col.appendChild(card);
+            editPreviewContainer.appendChild(col);
+        } else {
+            reader.onload = function (e) {
+                if (file.type.startsWith('video/')) {
+                    media = document.createElement('video');
+                    media.src = e.target.result;
+                    media.controls = true;
+                    media.className = 'w-100';
+                } else {
+                    media = document.createElement('img');
+                    media.src = e.target.result;
+                    media.className = 'img-fluid';
+                }
+
+                card.appendChild(removeBtn);
+                card.appendChild(media);
+                col.appendChild(card);
+                editPreviewContainer.appendChild(col);
+                editPreviewElements.push(col);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
 });
+
 
 document.addEventListener("DOMContentLoaded", function () {
     // ... existing code ...

@@ -648,6 +648,10 @@ ul.dropdown-menu.show {
     transition: all 0.2s ease;
 }
 
+.modal.fade.modal-edit-sa-style {
+    z-index: 2000;
+}
+
 .dropdown-item.sub:hover {
     color: black !important;
     background: white !important;

@@ -16,7 +16,6 @@ class MarketingController extends Controller
         $search = $request->input('search');
         $perPage = $request->input('perPage', 10);
         $status = $request->input('status'); // Hapus default, biarkan status bisa 1, 2, atau 3
-
         $clients = Client::when($search, function ($query) use ($search) {
             return $query->where('nama_client', 'like', '%' . $search . '%')
                 ->orWhere('nama_brand', 'like', '%' . $search . '%')
@@ -33,10 +32,8 @@ class MarketingController extends Controller
         $client_layanans = ClientLayanan::with(['layanan'])
             ->latest()
             ->get(); // atau paginate jika diperlukan
-
         $layanans = Layanan::all(); // Mengambil semua layanan
         $pegawai = Pegawai::all(); // Mengambil semua pegawai
-
         // Mendapatkan halaman saat ini dan total halaman
         $currentPage = $clients->currentPage();
         $totalPages = $clients->lastPage();
@@ -58,13 +55,10 @@ class MarketingController extends Controller
     {
         // Cari data client_layanan berdasarkan ID
         $client_layanan = ClientLayanan::with(['client', 'layanan'])->findOrFail($id);
-
         // Ambil data client dari relasi
         $client = $client_layanan->client;
-
         // Ambil semua layanan (jika ingin tampilkan pilihan)
         $availableLayanans = Layanan::all();
-
         return view('marketlab.marketing.update', compact('client', 'availableLayanans', 'client_layanan'));
     }
 
@@ -72,12 +66,10 @@ class MarketingController extends Controller
     {
         // Cari data client_layanan berdasarkan ID
         $client_layanan = ClientLayanan::findOrFail($id);
-
         // Validasi input
         $validatedData = $request->validate([
             'status' => 'required|in:1,2,3',
         ]);
-
         // Update status
         $client_layanan->status = $validatedData['status'];
         $client_layanan->save();

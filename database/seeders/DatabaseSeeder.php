@@ -79,23 +79,23 @@ class DatabaseSeeder extends Seeder
             'nama' => 'ika'
         ]);
 
-        Client::create([
-            'nama_client' => 'yuyu',
-            'nama_brand' => 'uyuy',
-            'informasi_tambahan' => 'bla',
-            'alamat' => 'jln',
-            'email' => 'u@u',
-            'nama_finance' => 'p',
-            'telepon_finance' => '090',
-            'status_client' => 1,
-            'pegawai_id' => 1,
-            'pj' => 'Insan',
-            'date_in' => '2025-04-11'
-        ]);
+        // Client::create([
+        //     'nama_client' => 'yuyu',
+        //     'nama_brand' => 'uyuy',
+        //     'informasi_tambahan' => 'bla',
+        //     'alamat' => 'jln',
+        //     'email' => 'u@u',
+        //     'nama_finance' => 'p',
+        //     'telepon_finance' => '090',
+        //     'status_client' => 1,
+        //     'pegawai_id' => 1,
+        //     'pj' => 'Insan',
+        //     'date_in' => '2025-04-11'
+        // ]);
 
-        ClientLayanan::create([
-            'client_id' => 1,
-            'layanan_id' => 2
-        ]);
+        // ClientLayanan::create([
+        //     'client_id' => 1,
+        //     'layanan_id' => 2
+        // ]);
     }
 }

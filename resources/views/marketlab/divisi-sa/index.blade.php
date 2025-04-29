@@ -212,7 +212,10 @@
 
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                                    {{-- Tombol Edit / Aksi lain kalau perlu --}}
+                                                    <button type="button" class="btn btn-primary"
+                                                            data-toggle="modal" data-target="#editSAModal">
+                                                            Edit SA
+                                                        </button>
                                                 </div>
                                             </form>
                                     </div>

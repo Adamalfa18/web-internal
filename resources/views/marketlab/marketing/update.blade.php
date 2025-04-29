@@ -56,7 +56,7 @@
                                         </option>
                                         <option value="3"
                                             {{ old('status', $client_layanan->status ?? 3) == 3 ? 'selected' : '' }}>
-                                            Paid
+                                            Tidak Aktif
                                         </option>
                                     </select>
                                     @error('status')

@@ -63,7 +63,8 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware(['checkUserRole:1,2,3'])->group(function () {
         Route::get('/marketing', [MarketingController::class, 'index'])->name('marketing.index');
-        Route::get('/marketing/layanan/{id}/edit', [MarketingController::class, 'edit'])->name('marketing.edit');
+        Route::get('/marketing/layanan/{id}', [MarketingController::class, 'edit'])->name('marketing.edit');
+        Route::put('/marketing/layanan/{id}/edit', [MarketingController::class, 'update'])->name('marketing.update');
         Route::post('/client-layanan', [ClientLayananController::class, 'store'])->name('client_layanan.store');
         Route::get('/get-available-layanan/{clientId}', [MarketingController::class, 'getAvailableLayanan']);
     });

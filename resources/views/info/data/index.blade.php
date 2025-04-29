@@ -64,20 +64,21 @@
                 </div>
                 <div class="card info-style mb-3">
                     <div class="pt-3 card-body">
+                        @foreach ($client->layanans as $layanan)
                         <div class="row">
                             <div class="col-6 info-style">
-                                <h6>Laporan Bulana Market Booster {{ $client->nama_brand }} :</h6>
+                                <h6>Laporan Bulanan {{ $layanan->nama_layanan }} :</h6>
                             </div>
                             <div class="col-6 info-style info-btn-style">
-                                @foreach ($client->layanans as $layanan)
+                                
                                     <a class="btn btn-outline-primary"
                                         href="{{ route('data-client.laporan-bulanan', ['client_id' => encrypt($client->id), 'layanan' => encrypt($layanan->nama_layanan)]) }}">
                                         Data {{ $layanan->nama_layanan }}
                                     </a>
-                                @endforeach
+                                
                             </div>
                         </div>
-
+                        @endforeach
                     </div>
                 </div>
             @endforeach

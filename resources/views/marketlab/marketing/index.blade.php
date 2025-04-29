@@ -126,7 +126,7 @@
                                                                 @case(3)
                                                                     <span
                                                                         class="badge badge-sm border border-danger text-danger badge-paid">
-                                                                        Paid
+                                                                        Tidak Aktif
                                                                     </span>
                                                                 @break
                                                             @endswitch

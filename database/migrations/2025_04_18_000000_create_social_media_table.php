@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('content')->nullable();
             $table->string('caption');
-            $table->string('status')->default(0);
+            $table->int('status')->default(0); //0 menunggu persetujuan, 1 acc, 2 revisi
             $table->string('note')->nullable();
 
             // Tambahkan foreign key ke tabel clients

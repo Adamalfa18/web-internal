@@ -10,13 +10,19 @@ class PostMedia extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    protected $table = 'post_media';
+
+    protected $fillable = [
+        'post',
+        'post_id'
+    ];
     public function post_media()
     {
         return $this->belongsTo(SocialMedia::class);
     }
 
-    public function post()
+    public function postingan()
     {
-        return $this->belongsTo(SocialMedia::class, 'post_id');
+        return $this->belongsTo(SocialMedia::class, 'post_id', 'id');
     }
 }

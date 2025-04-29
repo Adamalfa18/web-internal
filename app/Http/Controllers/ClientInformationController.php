@@ -13,34 +13,19 @@ use Illuminate\Contracts\Pagination\Paginator;
 
 class ClientInformationController extends Controller
 {
-    // public function layanan()
-    // {
-    //     public function index(Request $request)
-    //     {
-    //         $userId = $request->user()->id; // Mendapatkan user ID dari session atau auth
-    
-    //         // Mengambil client berdasarkan user_id dan memuat relasi layanannya
-    //         $clients = Client::with('layanans')
-    //                         ->where('user_id', $userId)
-    //                         ->get();
-    
-    //         return view('clients.index', compact('clients'));
-    //     }
-    // }
-
     public function index(Request $request)
     {
         // Get the authenticated user's ID
-        $userId = auth()->id(); 
-    
+        $userId = auth()->id();
+
         // Retrieve only the clients related to the logged-in user, with their 'layanan' relationship
         $clients = Client::with('layanans')
-                         ->where('user_id', $userId) // Assuming 'user_id' is the field in your clients table that links to the user
-                         ->get();
-    
+            ->where('user_id', $userId) // Assuming 'user_id' is the field in your clients table that links to the user
+            ->get();
+
         return view('info.data.index', compact('clients'));
     }
-    
+
     public function bulanan($encryptedClientId, $encryptedLayanan)
     {
         // Dekripsi parameter yang diterima
@@ -66,7 +51,7 @@ class ClientInformationController extends Controller
     public function prosesLayananA($client_id)
     {
         // ... existing code ...
-        
+
         // Ambil data laporan bulanan berdasarkan client_id dengan pagination
         $dataCount = request()->get('count', 10); // Mengambil jumlah data dari request, default 10
         $reports = PerformanceBulanan::where('client_id', $client_id)->paginate($dataCount);
@@ -119,32 +104,34 @@ class ClientInformationController extends Controller
             ->leftJoin('shopee_ads as s', 'p.id', '=', 's.performa_harian_id')
             ->leftJoin('tokped_ads as t', 'p.id', '=', 't.performa_harian_id')
             ->leftJoin('tiktok_ads as tk', 'p.id', '=', 'tk.performa_harian_id')
-            ->select('p.*', 
-                     'm.regular as meta_regular', 
-                     'm.cpas as meta_cpas', 
-                     'g.search as google_search', 
-                     'g.gtm as google_gtm', 
-                     'g.youtube as google_youtube', 
-                     'g.performance_max as google_performance_max', 
-                     's.manual as shopee_manual', 
-                     's.auto_meta as shopee_auto_meta', 
-                     's.gmv as shopee_gmv', 
-                     's.toko as shopee_toko', 
-                     's.live as shopee_live', 
-                     't.manual as tokped_manual', 
-                     't.auto_meta as tokped_auto_meta', 
-                     't.toko as tokped_toko', 
-                     'tk.live_shopping as tiktok_live_shopping', 
-                     'tk.product_shopping as tiktok_product_shopping', 
-                     'tk.video_shopping as tiktok_video_shopping', 
-                     'tk.gmv_max as tiktok_gmv_max')
+            ->select(
+                'p.*',
+                'm.regular as meta_regular',
+                'm.cpas as meta_cpas',
+                'g.search as google_search',
+                'g.gtm as google_gtm',
+                'g.youtube as google_youtube',
+                'g.performance_max as google_performance_max',
+                's.manual as shopee_manual',
+                's.auto_meta as shopee_auto_meta',
+                's.gmv as shopee_gmv',
+                's.toko as shopee_toko',
+                's.live as shopee_live',
+                't.manual as tokped_manual',
+                't.auto_meta as tokped_auto_meta',
+                't.toko as tokped_toko',
+                'tk.live_shopping as tiktok_live_shopping',
+                'tk.product_shopping as tiktok_product_shopping',
+                'tk.video_shopping as tiktok_video_shopping',
+                'tk.gmv_max as tiktok_gmv_max'
+            )
             ->where('p.performance_bulanan_id', $performanceBulananId)
             ->orderBy('p.id', 'asc')
             ->paginate($perPage);
 
         // Fetch monthly report related to performance_bulanan_id
         $laporanBulanan = PerformanceBulanan::find($performanceBulananId);
-        
+
         // Calculate totals
         $totalSum = DB::table('performa_harians')
             ->where('performance_bulanan_id', $performanceBulananId)
@@ -159,7 +146,7 @@ class ClientInformationController extends Controller
             ->get();
         // Return view with filtered data and monthly report
         session(['activeTab' => 'roas']);
-        return view('info.data.harian', compact('data', 'laporanBulanan', 'totalSum', 'totalOmzet', 'totalRoas','performanceBulananId', 'leads'));
+        return view('info.data.harian', compact('data', 'laporanBulanan', 'totalSum', 'totalOmzet', 'totalRoas', 'performanceBulananId', 'leads'));
     }
 
     public function store_lead(Request $request)
@@ -191,7 +178,7 @@ class ClientInformationController extends Controller
         // Redirect atau kembali dengan pesan sukses
         session(['activeTabLead' => 'lead']);
         return redirect()->route('data-client.laporan-harian', ['activeTabLead' => 'lead'])
-                         ->with('success', 'Data lead berhasil disimpan.');
+            ->with('success', 'Data lead berhasil disimpan.');
     }
 
     public function updateLead(Request $request, $id)
@@ -225,7 +212,6 @@ class ClientInformationController extends Controller
 
         // Redirect kembali dengan format yang diinginkan
         return redirect()->route('data-client.laporan-harian', ['activeTabLead' => 'lead'])
-                         ->with('success', 'Data lead berhasil disimpan.');
+            ->with('success', 'Data lead berhasil disimpan.');
     }
-    
 }

@@ -34,26 +34,23 @@ class SaController extends Controller
         $clients = Client::all();
         $client = Client::findOrFail($client_id);
 
-        // Ambil semua post milik client ini
-        $posts = SocialMedia::where('client_id', $client_id)
+        $posts = SocialMedia::with('media')
+            ->where('client_id', $client_id)
             ->orderBy('created_at', 'desc')
             ->get();
 
-
-        // Ambil satu media pertama dari setiap post
-        $post_medias = [];
-
+        $post_medias = collect([]);
         foreach ($posts as $post) {
-            $media = PostMedia::where('post_id', $post->id)
+            $media = PostMedia::with('postingan') // <-- Tambahkan ini supaya relasi 'post' ikut di-load
+                ->where('post_id', $post->id)
                 ->orderBy('created_at', 'asc')
                 ->first();
-
             if ($media) {
-                $post_medias[] = $media;
+                $post_medias->push($media);
             }
         }
 
-        return view('marketlab.divisi-sa.index', compact('post_medias', 'clients', 'client', 'client_id'));
+        return view('marketlab.divisi-sa.index', compact('posts', 'post_medias', 'clients', 'client', 'client_id'));
     }
 
     public function store(Request $request, $client_id)
@@ -69,7 +66,7 @@ class SaController extends Controller
         $social = SocialMedia::create([
             'caption' => $request->caption,
             'content' => $request->content,
-            'status' => 'draft', // default
+            'status' => '0', // default
             'note' => null,
             'client_id' => $client_id,
             'created_at' => $request->created_at,

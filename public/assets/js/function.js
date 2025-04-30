@@ -307,6 +307,15 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+
+function toggleMobileView() {
+    const wrapper = document.getElementById('profileWrapper');
+    wrapper.classList.toggle('mobile-view');
+    wrapper.classList.toggle('desktop-view');
+}
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
     // ... existing code ...
     const tables = {

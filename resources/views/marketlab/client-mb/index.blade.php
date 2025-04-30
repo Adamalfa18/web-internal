@@ -41,69 +41,72 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach ($clients->filter(function ($client) {
-                                                    return $client->layanans->contains('id', 1);
-                                                }) as $client)
-                                                <tr>
-                                                    <td class="align-middle text-center">
-                                                        {{ $loop->iteration }}
-                                                    </td>
-                                                    
-                                                    <td class="client-name-style">
-                                                        <div class="d-flex px-2 py-1">
-                                                            <div class="d-flex flex-column justify-content-center ms-1">
-                                                                <h6 class="mb-0 text-sm font-weight-semibold">
-                                                                    {{ $client->nama_brand }}
-                                                                </h6>
+                                                @foreach ($clients->filter(function ($client) {
+        return $client->layanans->contains('id', 1);
+    }) as $client)
+                                                    <tr>
+                                                        <td class="align-middle text-center">
+                                                            {{ $loop->iteration }}
+                                                        </td>
+
+                                                        <td class="client-name-style">
+                                                            <div class="d-flex px-2 py-1">
+                                                                <div
+                                                                    class="d-flex flex-column justify-content-center ms-1">
+                                                                    <h6 class="mb-0 text-sm font-weight-semibold">
+                                                                        {{ $client->nama_brand }}
+                                                                    </h6>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="client-name-style">
-                                                        <p class="text-sm text-dark font-weight-semibold mb-0">
-                                                            {{ $client->nama_client }}</p>
-                                                    </td>
-                                                    <td class="align-middle text-center text-sm">
-                                                    @switch($client->status_layanan)
-                                                        @case(1)
-                                                            <span
-                                                                class="badge badge-sm border border-success text-success badge-aktif">Aktif
-                                                            </span>
-                                                        @break
+                                                        </td>
+                                                        <td class="client-name-style">
+                                                            <p class="text-sm text-dark font-weight-semibold mb-0">
+                                                                {{ $client->nama_client }}</p>
+                                                        </td>
+                                                        <td class="align-middle text-center text-sm">
+                                                            @switch($client->status_layanan)
+                                                                @case(1)
+                                                                    <span
+                                                                        class="badge badge-sm border border-success text-success badge-aktif">Aktif
+                                                                    </span>
+                                                                @break
 
-                                                        @case(2)
-                                                            <span
-                                                                class="badge badge-sm border border-warning text-warning badge-pending">Pending
-                                                            </span>
-                                                        @break
+                                                                @case(2)
+                                                                    <span
+                                                                        class="badge badge-sm border border-warning text-warning badge-pending">Pending
+                                                                    </span>
+                                                                @break
 
-                                                        @case(3)
-                                                            <span
-                                                                class="badge badge-sm border border-danger text-danger badge-paid">Paid
+                                                                @case(3)
+                                                                    <span
+                                                                        class="badge badge-sm border border-danger text-danger badge-paid">Paid
+                                                                    </span>
+                                                                @break
+                                                            @endswitch
+                                                        </td>
+                                                        <td class="align-middle text-center">
+                                                            <span class="text-secondary text-sm font-weight-normal">
+                                                                {{ $client->date_in }}
                                                             </span>
-                                                        @break
-                                                    @endswitch
-                                                    </td>
-                                                    <td class="align-middle text-center">
-                                                        <span class="text-secondary text-sm font-weight-normal">
-                                                            {{ $client->date_in }}
-                                                        </span>
-                                                    </td>
-                                                    <td class="align-middle">
-                                                        {{-- Tampilkan data bulanan --}}
-                                                        <a href="{{ route('laporan-bulanan.index', ['client_id' => $client->id]) }}" type="button"
-                                                            class="btn btn-info text-secondary font-weight-bold text-xs active-client"
-                                                            data-bs-toggle="tooltip" data-bs-title="Laporan Bulanan">
-                                                            <svg width="20" height="20"
-                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" strokeWidth={1.5}
-                                                                stroke="currentColor" className="size-6">
-                                                                <path strokeLinecap="round" strokeLinejoin="round"
-                                                                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                                            </svg>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
+                                                        </td>
+                                                        <td class="align-middle">
+                                                            {{-- Tampilkan data bulanan --}}
+                                                            <a href="{{ route('laporan-bulanan.index', ['client_id' => $client->id]) }}"
+                                                                type="button"
+                                                                class="btn btn-info text-secondary font-weight-bold text-xs active-client"
+                                                                data-bs-toggle="tooltip"
+                                                                data-bs-title="Laporan Bulanan">
+                                                                <svg width="20" height="20"
+                                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" strokeWidth={1.5}
+                                                                    stroke="currentColor" className="size-6">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                                                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                                                </svg>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>

@@ -202,8 +202,8 @@
                                                         required>
                                                         <option value="">Pilih Client</option>
                                                         @foreach ($clients->filter(function ($client) {
-                                                            return $client->status_client == 1;
-                                                        }) as $client)
+        return $client->status_client == 1;
+    }) as $client)
                                                             <option value="{{ $client->id }}">
                                                                 {{ $client->nama_client }} - {{ $client->nama_brand }}
                                                             </option>
@@ -308,8 +308,8 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($clients->filter(function ($client) {
-                                                    return $client->status_client == 2;
-                                                }) as $client)
+        return $client->status_client == 2;
+    }) as $client)
                                                     <tr>
                                                         <td class="align-middle text-center">
                                                             {{-- Mengubah cara menghitung nomor urut laporan --}}

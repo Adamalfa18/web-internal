@@ -7,9 +7,9 @@ html {
 }
 
 .profile-container {
-    max-width: 935px;
-    margin: 0 auto;
-    padding: 40px 20px;
+    /* max-width: 935px;
+    margin: 0 auto; */
+    padding: 20px 20px;
 }
 
 .profile-header {
@@ -23,8 +23,13 @@ html {
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    margin-right: 30px;
+    /* margin-right: 30px; */
     border: 2px solid #c13584;
+}
+
+.col-md-3.style-ig {
+    display: flex;
+    justify-content: center;
 }
 
 .profile-info {
@@ -669,4 +674,222 @@ a.dropdown-item {
 }
 li.nav-item.drop {
     padding-bottom: 10px;
+}
+
+/* Wrapper Mode */
+.normal-view {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.mobile-mockup {
+    width: 375px;
+    height: 812px;
+    border: 16px solid #333;
+    border-radius: 36px;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    margin: 20px auto;
+    position: relative;
+}
+
+/* Profile Header */
+.profile-header {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.profile-info {
+    display: flex;
+    justify-content: center;
+}
+.profile-info {
+    flex: 1;
+}
+.style-button-ig {
+    display: flex;
+}
+
+.top-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: nowrap;
+}
+.col-md-6.style-ig {
+    display: flex;
+    align-items: center;
+}
+.top-info h2 {
+    margin-right: 20px;
+}
+.row.top-info {
+    width: 700px;
+}
+.style-clien-header {
+    display: flex;
+}
+
+.stats {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.real-name {
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+.tabs a {
+    text-decoration: none;
+    color: #444;
+    font-size: 14px;
+}
+
+.tabs a.active {
+    font-weight: bold;
+    color: #000;
+}
+
+/* Gallery */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    margin-top: 15px;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Button */
+button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Default Desktop Style */
+#profileWrapper.desktop-view {
+    background: #fff;
+    color: #000;
+}
+
+#profileWrapper.mobile-view {
+    width: 375px;
+    height: 812px;
+    margin: 0 auto;
+    border: 6px solid #333;
+    border-radius: 36px;
+    color: #black;
+    overflow-y: auto;
+}
+
+/* Styling elements in mobile mode */
+#profileWrapper.mobile-view .profile-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+#profileWrapper.mobile-view .profile-info .top-info {
+    display: flex;
+    flex-direction: column;
+}
+#profileWrapper.mobile-view .profile-info .top-info img.profile-pic {
+    margin-right: 0px;
+}
+#profileWrapper.mobile-view .profile-container {
+    padding: 20px 0px;
+}
+
+#profileWrapper.mobile-view .stats {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 10px;
+}
+#profileWrapper.mobile-view .profile-info {
+    width: 375px;
+}
+
+#profileWrapper.mobile-view .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    padding: 10px;
+}
+#profileWrapper.mobile-view .style-clien-header {
+    flex-direction: column;
+    align-items: center;
+}
+#profileWrapper.mobile-view .top-info h2 {
+    margin-right: 0px;
+}
+#profileWrapper.mobile-view .tabs a {
+    padding: 0px;
+}
+#profileWrapper.mobile-view .row.top-info {
+    margin-top: 40px;
+    width: 375px;
+}
+#profileWrapper.mobile-view .btn {
+    margin-bottom: 0px;
+}
+@media (min-width: 768px) {
+    #profileWrapper.mobile-view .col-md-9 {
+        flex: 0 0 auto;
+        width: 375px;
+    }
+}
+
+#profileWrapper .gallery-item {
+    overflow: hidden;
+}
+
+#profileWrapper .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Gaya desktop (rasio 3:4) */
+#profileWrapper.desktop-view .gallery-item {
+    width: 100%; /* atau bisa pakai fixed width */
+    aspect-ratio: 3 / 4;
+}
+
+/* Gaya mobile (rasio 1:1) */
+#profileWrapper.mobile-view .gallery-item {
+    width: 100%;
+    aspect-ratio: 1 / 1;
 }

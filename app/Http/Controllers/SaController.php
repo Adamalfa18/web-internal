@@ -7,6 +7,7 @@ use App\Models\ClientLayanan;
 use App\Models\PostMedia;
 use Illuminate\Http\Request;
 use App\Models\SocialMedia;
+use Illuminate\Support\Facades\Storage;
 
 class SaController extends Controller
 {
@@ -108,29 +109,43 @@ class SaController extends Controller
         $post->created_at = $request->created_at;
         $post->save();
 
-        // Menghapus media yang dihapus
+        // Dapatkan semua media yang ada untuk post ini
+        $existingMedia = PostMedia::where('post_id', $post->id)->get();
+
+        // Jika ada media yang dihapus
         if ($request->has('media_to_delete')) {
-            foreach ($request->media_to_delete as $mediaId) {
-                $media = PostMedia::find($mediaId);
-                if ($media) {
-                    // Menghapus file media dari storage
-                    Storage::delete('public/media/' . $media->post);
-                    // Menghapus data media dari database
+            $mediaToDelete = $request->media_to_delete;
+
+            // Hapus media yang tidak ada dalam existing_media_ids
+            foreach ($existingMedia as $media) {
+                if (!in_array($media->id, $mediaToDelete)) {
+                    // Hapus file dari storage
+                    if (Storage::exists('public/media/' . $media->post)) {
+                        Storage::delete('public/media/' . $media->post);
+                    }
+                    // Hapus dari database
                     $media->delete();
                 }
+            }
+        } else {
+            // Jika tidak ada media yang dipertahankan, hapus semua media yang ada
+            foreach ($existingMedia as $media) {
+                if (Storage::exists('public/media/' . $media->post)) {
+                    Storage::delete('public/media/' . $media->post);
+                }
+                $media->delete();
             }
         }
 
         // Jika ada media baru yang diupload
         if ($request->hasFile('content_media')) {
-            foreach ($request->file('content_media') as $media) {
-                // Menyimpan file ke storage
-                $path = $media->store('media', 'public');
+            foreach ($request->file('content_media') as $file) {
+                $path = $file->store('media', 'public');
+                $filename = basename($path);
 
-                // Menyimpan data media baru ke database
-                $post->media()->create([
-                    'media' => $path,
+                PostMedia::create([
                     'post_id' => $post->id,
+                    'post' => $filename,
                 ]);
             }
         }

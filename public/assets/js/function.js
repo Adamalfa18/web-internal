@@ -83,11 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // ------------------- UNTUK MODAL EDIT ----------------------
-    const editPreviewContainer = document.getElementById(
-        "edit-preview-container"
-    );
-    let editFilesToUpload = [];
-    let editPreviewElements = [];
+    let editFilesToUpload = {};
 
     document.addEventListener("click", function (e) {
         if (e.target.classList.contains("remove-existing-media")) {
@@ -101,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (form) {
                     const input = document.createElement("input");
                     input.type = "hidden";
-                    input.name = "media_to_delete[]"; // Pastikan ini sesuai dengan controller
+                    input.name = "media_to_delete[]";
                     input.value = mediaId;
                     form.appendChild(input);
                 }
@@ -124,7 +120,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const postId = fileInput.getAttribute("data-id");
             const files = Array.from(e.target.files);
 
+            if (!editFilesToUpload[postId]) {
+                editFilesToUpload[postId] = [];
+            }
+
             files.forEach((file) => {
+                editFilesToUpload[postId].push(file);
                 renderEditPreview(file, postId);
             });
 
@@ -150,7 +151,13 @@ document.addEventListener("DOMContentLoaded", function () {
         removeBtn.className =
             "btn btn-danger btn-sm position-absolute top-0 end-0";
         removeBtn.type = "button";
-        removeBtn.onclick = () => container.removeChild(col);
+        removeBtn.onclick = () => {
+            const index = editFilesToUpload[postId].indexOf(file);
+            if (index > -1) {
+                editFilesToUpload[postId].splice(index, 1);
+            }
+            container.removeChild(col);
+        };
 
         reader.onload = function (e) {
             let media;
@@ -172,6 +179,60 @@ document.addEventListener("DOMContentLoaded", function () {
         };
         reader.readAsDataURL(file);
     }
+
+    // Handle form submission for edit
+    document.querySelectorAll(".form-marketing").forEach((form) => {
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const postId = this.querySelector('input[name="id"]').value;
+
+            // Get all existing media IDs that are still visible (not deleted)
+            const existingMediaIds = Array.from(
+                this.querySelectorAll(
+                    '.preview-item input[name="existing_media_ids[]"]'
+                )
+            ).map((input) => input.value);
+
+            // Add existing media IDs to formData
+            existingMediaIds.forEach((id) => {
+                formData.append("media_to_delete[]", id);
+            });
+
+            // Add new files to FormData
+            if (editFilesToUpload[postId]) {
+                editFilesToUpload[postId].forEach((file) => {
+                    formData.append("content_media[]", file);
+                });
+            }
+
+            // Get CSRF token from the form's _token input
+            const token = this.querySelector('input[name="_token"]').value;
+
+            fetch(this.action, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRF-TOKEN": token,
+                },
+            })
+                .then((response) => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    } else {
+                        return response.text();
+                    }
+                })
+                .then((data) => {
+                    if (data) {
+                        console.log(data);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        });
+    });
 });
 
 function toggleMobileView() {

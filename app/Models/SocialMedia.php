@@ -10,10 +10,6 @@ class SocialMedia extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
-    // protected $casts = [
-    //     'content' => 'array',
-    // ];
-
     public function clients()
     {
         return $this->belongsTo(Client::class);

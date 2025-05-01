@@ -58,7 +58,6 @@ class SaController extends Controller
     {
         $request->validate([
             'caption' => 'required|string',
-            'content' => 'required|string',
             'created_at' => 'required|date',
             'content_media' => 'nullable|array',
             'content_media.*' => 'file|mimes:jpg,jpeg,png,gif,mp4,mov,webm|max:20480'
@@ -66,7 +65,6 @@ class SaController extends Controller
         // Simpan data ke social_media
         $social = SocialMedia::create([
             'caption' => $request->caption,
-            'content' => $request->content,
             'status' => '0', // default
             'note' => null,
             'client_id' => $client_id,
@@ -95,7 +93,6 @@ class SaController extends Controller
         // Validasi data
         $request->validate([
             'caption' => 'required|string',
-            'content' => 'required|string',
             'created_at' => 'required|date',
             'content_media.*' => 'nullable|file|mimes:jpg,jpeg,png,gif,mp4,mov,webm|max:20480', // max 20MB per file
         ]);
@@ -105,7 +102,6 @@ class SaController extends Controller
 
         // Update data dasar
         $post->caption = $request->caption;
-        $post->content = $request->content;
         $post->created_at = $request->created_at;
         $post->save();
 

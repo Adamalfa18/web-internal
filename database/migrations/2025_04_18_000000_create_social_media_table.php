@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('social_media', function (Blueprint $table) {
             $table->id();
-            $table->string('content')->nullable();
             $table->string('caption');
-            $table->int('status')->default(0); //0 menunggu persetujuan, 1 acc, 2 revisi
+            $table->integer('status')->default(0); //0 menunggu persetujuan, 1 acc, 2 revisi
             $table->string('note')->nullable();
 
             // Tambahkan foreign key ke tabel clients

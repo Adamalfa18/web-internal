@@ -42,14 +42,6 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="content" class="form-label">Konten (Teks)</label>
-                                        <textarea class="form-control" name="content" id="content" required></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
                                         <label for="created_at" class="form-label">Tanggal Upload</label>
                                         <input type="date" class="form-control" name="created_at" id="created_at"
                                             required>
@@ -245,7 +237,7 @@
                                                 <button type="button" class="btn btn-secondary"
                                                     data-bs-dismiss="modal">Tutup</button>
                                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editSAModal{{ $post->id }}">
-                                                        Edit SA
+                                                        Edit Post
                                                     </button>                                                    
                                             </div>
                                         </form>
@@ -277,11 +269,6 @@
                                         <div class="mb-3">
                                             <label for="caption{{ $post->id }}" class="form-label">Caption</label>
                                             <textarea class="form-control" name="caption" id="caption{{ $post->id }}" required>{{ $post->caption }}</textarea>
-                                        </div>
-                                        {{-- Konten --}}
-                                        <div class="mb-3">
-                                            <label for="content{{ $post->id }}" class="form-label">Konten (Teks)</label>
-                                            <textarea class="form-control" name="content" id="content{{ $post->id }}" required>{{ $post->content }}</textarea>
                                         </div>
                                         {{-- Tanggal Upload --}}
                                         <div class="mb-3">

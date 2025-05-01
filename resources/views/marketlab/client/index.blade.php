@@ -89,7 +89,6 @@
                                 <form class="form-marketing" action="{{ route('clients.store') }}" method="POST"
                                     onsubmit="return validateCheckboxes()" enctype="multipart/form-data">
                                     @csrf
-
                                     <div class="row">
                                         <div class="col-md-6" style="display: none;">
                                             <div class="mb-3">
@@ -116,7 +115,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="mb-3">
@@ -230,8 +228,6 @@
                         </div>
                     </div>
                     <!-- Akhir Modal Add Client -->
-
-
 
                     <div class="collapse multi-collapse show" id="multiCollapseExample1">
                         <div class="card card-body">
@@ -368,7 +364,7 @@
                                                                             enctype="multipart/form-data">
                                                                             @csrf
                                                                             @method('PUT')
-
+                                                                            <input type="hidden" name="id" value="{{ $client->id }}">
                                                                             <div class="row">
                                                                                 <div class="col-md-4">
                                                                                     <div class="mb-3">
@@ -486,13 +482,8 @@
                                                                                             id="pj"
                                                                                             aria-label="Default select example"
                                                                                             required>
-                                                                                            <option
-                                                                                                value="{{ $client->pj }}">
-                                                                                                Plih PJ</option>
-                                                                                            <option value="Insan">
-                                                                                                Insan</option>
-                                                                                            <option value="Feby">Feby
-                                                                                            </option>
+                                                                                            <option value="Insan" {{ $client->pj == 'Insan' ? 'selected' : '' }}>Insan</option>
+                                                                                            <option value="Feby" {{ $client->pj == 'Feby' ? 'selected' : '' }}>Feby</option>
                                                                                         </select>
                                                                                     </div>
                                                                                 </div>
@@ -531,15 +522,9 @@
                                                                                             id="status_client"
                                                                                             aria-label="Default select example"
                                                                                             required>
-                                                                                            <option
-                                                                                                value="{{ $client->status_client }}">
-                                                                                                Plih Status</option>
-                                                                                            <option value="1">
-                                                                                                Aktif</option>
-                                                                                            <option value="2">
-                                                                                                Pending</option>
-                                                                                            <option value="3">Paid
-                                                                                            </option>
+                                                                                            <option value="1" {{ $client->status_client == 1 ? 'selected' : '' }}>Aktif</option>
+                                                                                            <option value="2" {{ $client->status_client == 2 ? 'selected' : '' }}>Pending</option>
+                                                                                            <option value="3" {{ $client->status_client == 3 ? 'selected' : '' }}>Paid</option>
                                                                                         </select>
                                                                                     </div>
                                                                                 </div>
@@ -978,6 +963,30 @@
             var showElement = document.getElementById(showId);
             showElement.classList.add('show');
         }
+
+        // Handle client form submission
+        document.querySelectorAll('.form-marketing').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                    }
+                })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
     </script>
 
 </x-app-layout>

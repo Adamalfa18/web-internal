@@ -64,21 +64,29 @@
                 </div>
                 <div class="card info-style mb-3">
                     <div class="pt-3 card-body">
-                        @foreach ($client->layanans as $layanan)
-                            <div class="row">
-                                <div class="col-6 info-style">
-                                    <h6>Laporan Bulanan {{ $layanan->nama_layanan }} :</h6>
-                                </div>
-                                <div class="col-6 info-style info-btn-style">
+                        <div class="row">
+                            @php
+                                $jumlahLayanan = $client->layanans->count();
+                                $colClass = 'col-4'; // default
 
-                                    <a class="btn btn-outline-primary"
+                                if ($jumlahLayanan == 1) {
+                                    $colClass = 'col-12';
+                                } elseif ($jumlahLayanan == 2) {
+                                    $colClass = 'col-6';
+                                }
+                            @endphp
+
+                            @foreach ($client->layanans as $layanan)
+                                <div class="{{ $colClass }} style-client-index">
+                                    <a class="col-12 btn btn-outline-primary style-client-a"
                                         href="{{ route('data-client.laporan-bulanan', ['client_id' => encrypt($client->id), 'layanan' => encrypt($layanan->nama_layanan)]) }}">
-                                        Data {{ $layanan->nama_layanan }}
+                                        <div class="info-style info-btn-style">
+                                            Laporan Bulanan {{ $layanan->nama_layanan }}
+                                        </div>
                                     </a>
-
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             @endforeach

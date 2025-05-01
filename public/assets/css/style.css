@@ -893,3 +893,13 @@ button {
     width: 100%;
     aspect-ratio: 1 / 1;
 }
+
+.col-4.style-client-index {
+    height: 130px;
+}
+a.col-12.btn.btn-outline-primary.style-client-a {
+    height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

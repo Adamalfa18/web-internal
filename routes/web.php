@@ -100,7 +100,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['checkUserRole:6', 'encryptDecrypt'])->group(function () {
         Log::info('User with role_id 6 accessed the route.');
         Route::get('/data-client', [ClientInformationController::class, 'index'])->name('data-client.index');
-        Route::get('/data-client/{client_id}/{layanan}/laporan-bulanan', [ClientInformationController::class, 'bulanan'])->name('data-client.laporan-bulanan');
+        Route::get('/data-client/{client_id}/{layanan}', [ClientInformationController::class, 'bulanan'])->name('data-client.laporan-bulanan');
         Route::get('/data-client/laporan-bulan', [ClientInformationController::class, 'prosesLayananA'])->name('data-client.laporan-bulan');
         Route::get('/data-client/laporan-harian', [ClientInformationController::class, 'harian'])->name('data-client.laporan-harian');
         Route::post('/data-client/laporan-harian/store-lead', [ClientInformationController::class, 'store_lead'])->name('data-client.laporan-harian.store-lead');

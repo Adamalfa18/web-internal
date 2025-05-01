@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Lead;
 use App\Models\Client;
+use App\Models\PostMedia;
+use App\Models\SocialMedia;
 use Illuminate\Http\Request;
 use App\Models\PerformanceBulanan;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +39,8 @@ class ClientInformationController extends Controller
             case 'Market Booster':
                 // Proses untuk Layanan A
                 return $this->prosesLayananA($client_id);
-            case 'sh':
+            case 'Social Media Management':
+                // dd('Ini adalah layanan Social Media Management');
                 // Proses untuk Layanan B
                 return $this->prosesLayananB($client_id);
             case 'LayananC':
@@ -71,8 +74,24 @@ class ClientInformationController extends Controller
     public function prosesLayananB($client_id)
     {
         // Logika untuk Layanan B
-        $client = Client::findOrFail($client_id); // Pastikan client ada
-        return view('laporan.layanan-b', compact('client'));
+            $client = Client::findOrFail($client_id); // Pastikan client ada
+
+            $posts = SocialMedia::with('media')
+                ->where('client_id', $client_id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            $post_medias = collect([]);
+            foreach ($posts as $post) {
+                $media = PostMedia::with('postingan') // <-- Load relasi 'postingan'
+                    ->where('post_id', $post->id)
+                    ->orderBy('created_at', 'asc')
+                    ->first();
+                if ($media) {
+                    $post_medias->push($media);
+                }
+            }
+                return view('info.data.client-sa', compact('client', 'posts', 'post_medias'));
     }
 
     public function prosesLayananC($client_id)

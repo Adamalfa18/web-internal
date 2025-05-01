@@ -27,7 +27,8 @@
         <meta name="twitter:site" content="@CreativeTim" />
         <meta name="twitter:creator" content="@CreativeTim" />
         <meta name="twitter:title" content="Corporate UI Dashboard Laravel by Creative Tim & UPDIVISION" />
-        <meta name="twitter:description" content="Fullstack tool for building Laravel apps with hundreds of UI components and
+        <meta name="twitter:description"
+            content="Fullstack tool for building Laravel apps with hundreds of UI components and
             ready-made CRUDs" />
         <meta name="twitter:image"
             content="https://s3.amazonaws.com/creativetim_bucket/products/737/original/corporate-ui-dashboard-laravel.jpg?1695288974" />
@@ -49,8 +50,8 @@
         <meta property="product:category" content="Admin &amp; Dashboards">
         <meta name="data-turbolinks-track" content="false">
     @endif
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/apple-icon.png')}}">
-    <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png')}}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/apple-icon.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>
         Corporate UI by Creative Tim & UPDIVISION
@@ -77,14 +78,11 @@
             $topSidenavTransparent = ['signin', 'signup'];
             $topSidenavRTL = ['RTL'];
         @endphp
-        @if (in_array(request()->route()->getName(),
-                $topSidenavArray))
+        @if (in_array(request()->route()->getName(), $topSidenavArray))
             <x-sidenav-top />
-        @elseif(in_array(request()->route()->getName(),
-                $topSidenavTransparent))
+        @elseif(in_array(request()->route()->getName(), $topSidenavTransparent))
 
-        @elseif(in_array(request()->route()->getName(),
-                $topSidenavRTL))
+        @elseif(in_array(request()->route()->getName(), $topSidenavRTL))
         @else
             <x-app.clientsidebar />
         @endif
@@ -155,12 +153,13 @@
                         href="https://www.creative-tim.com/learning-lab/bootstrap/installation-guide/corporate-ui-dashboard">View
                         documentation</a>
                     <div class="w-100 text-center">
-                        <a class="github-button" target="_blank" href="https://github.com/creativetimofficial/corporate-ui-dashboard-laravel"
+                        <a class="github-button" target="_blank"
+                            href="https://github.com/creativetimofficial/corporate-ui-dashboard-laravel"
                             data-icon="octicon-star" data-size="large" data-show-count="true"
                             aria-label="Star creativetimofficial/corporate-ui-dashboard on GitHub">Star</a>
                         <h6 class="mt-3">Thank you for sharing!</h6>
                         <a href="https://twitter.com/intent/tweet?text=Check%20Corporate%20UI%20Dashboard%20made%20by%20%40CreativeTim%20%26%20%40UPDIVISION%20%23webdesign%20%23dashboard%20%23bootstrap5%20%23laravel&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fcorporate-ui-dashboard-laravel"
-                        class="btn btn-dark mb-0 me-2" target="_blank">
+                            class="btn btn-dark mb-0 me-2" target="_blank">
                             <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
                         </a>
                         <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/corporate-ui-dashboard-laravel"
@@ -172,12 +171,14 @@
             </div>
         </div>
         <!--   Core JS Files   -->
-        <script src="{{ asset('assets/js/core/popper.min.js')}}"></script>
-        <script src="{{ asset('assets/js/core/bootstrap.min.js')}}"></script>
-        <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
-        <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
-        <script src="{{ asset('assets/js/plugins/chartjs.min.js')}}"></script>
-        <script src="{{ asset('assets/js/plugins/swiper-bundle.min.js')}}" type="text/javascript"></script>
+        <script src="{{ asset('assets/js/style.js') }}"></script>
+        <script src="{{ asset('assets/js/function.js') }}"></script>
+        <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+        <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/swiper-bundle.min.js') }}" type="text/javascript"></script>
         <script>
             if (document.getElementsByClassName('mySwiper')) {
                 var swiper = new Swiper(".mySwiper", {
@@ -441,6 +442,9 @@
                 Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
             }
         </script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <!-- Github buttons -->
         <script async defer src="https://buttons.github.io/buttons.js"></script>
         <!-- Control Center for Corporate UI Dashboard: parallax effects, scripts for the example pages etc -->

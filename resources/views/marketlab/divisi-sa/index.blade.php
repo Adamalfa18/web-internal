@@ -77,8 +77,8 @@
                     </div>
                 </div>
             </div>
-
             <!-- End Modal Add Post -->
+
             <div id="profileWrapper" class="desktop-view">
                 <div class="profile-container">
                     <div class="profile-header">
@@ -244,11 +244,9 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
                                                     data-bs-dismiss="modal">Tutup</button>
-                                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#editSAModal">
-                                                    Edit SA
-                                                </button>
-                                                <!-- Modal Edit SA -->
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editSAModal{{ $post->id }}">
+                                                        Edit SA
+                                                    </button>                                                    
                                             </div>
                                         </form>
                                     </div>
@@ -257,63 +255,77 @@
                         </div>
                     </div>
                     <!-- Modal Edit SA -->
-                    <div class="modal fade modal-edit-sa-style" id="editSAModal" tabindex="-1" role="dialog"
-                        aria-labelledby="editSAModalLabel" aria-hidden="true">
+                    <div class="modal fade modal-edit-sa-style" id="editSAModal{{ $post->id }}" tabindex="-1" role="dialog"
+                        aria-labelledby="editSAModalLabel{{ $post->id }}" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                                <form class="form-marketing" id="edit-form" action="" method="POST"
+                                <form class="form-marketing" id="edit-form-{{ $post->id }}" method="POST"
+                                    action="{{ route('divisi-sa.update', ['client_id' => $post->client_id, 'post_id' => $post->id]) }}" 
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
-                                    <input type="hidden" name="id" id="post-id">
-                                    <!-- Menyimpan ID post untuk edit -->
+                                    <input type="hidden" name="id" value="{{ $post->id }}">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="editSAModalLabel">Edit Post</h5>
+                                        <h5 class="modal-title" id="editSAModalLabel{{ $post->id }}">Edit Post</h5>
                                         <button type="button" class="close" data-dismiss="modal"
                                             aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label for="caption" class="form-label">Caption</label>
-                                                    <textarea class="form-control" name="caption" id="caption" required></textarea>
-                                                </div>
-                                            </div>
+                                        {{-- Caption --}}
+                                        <div class="mb-3">
+                                            <label for="caption{{ $post->id }}" class="form-label">Caption</label>
+                                            <textarea class="form-control" name="caption" id="caption{{ $post->id }}" required>{{ $post->caption }}</textarea>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label for="content" class="form-label">Konten (Teks)</label>
-                                                    <textarea class="form-control" name="content" id="content" required></textarea>
-                                                </div>
-                                            </div>
+                                        {{-- Konten --}}
+                                        <div class="mb-3">
+                                            <label for="content{{ $post->id }}" class="form-label">Konten (Teks)</label>
+                                            <textarea class="form-control" name="content" id="content{{ $post->id }}" required>{{ $post->content }}</textarea>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label for="created_at" class="form-label">Tanggal Upload</label>
-                                                    <input type="date" class="form-control" name="created_at"
-                                                        id="created_at" required>
-                                                </div>
-                                            </div>
+                                        {{-- Tanggal Upload --}}
+                                        <div class="mb-3">
+                                            <label for="created_at{{ $post->id }}" class="form-label">Tanggal Upload</label>
+                                            <input type="date" class="form-control" name="created_at"
+                                                id="created_at{{ $post->id }}"
+                                                value="{{ $post->created_at->format('Y-m-d') }}" required>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label for="edit_content_media" class="form-label">Upload Gambar /
-                                                        Video</label>
-                                                    <input type="file" class="form-control d-none"
-                                                        id="edit_content_media" name="content_media[]"
-                                                        accept=".jpg, .jpeg, .png, .gif, .mp4, .mov, .webm" multiple>
-                                                    <button type="button" class="btn btn-primary"
-                                                        id="edit-add-file-btn">Add Gambar</button>
-                                                </div>
-                                                <div id="edit-preview-container" class="row mt-3"></div>
+                                        {{-- Upload Media --}}
+                                        <div class="mb-3">
+                                            <label for="edit_content_media{{ $post->id }}" class="form-label">Gambar / Video yang Ada</label>
+                                            <div class="row mt-3" id="edit-preview-container-{{ $post->id }}">
+                                                @foreach ($post->media as $key => $media)
+                                                    <div class="col-md-4 mb-2 position-relative preview-item">
+                                                        <input type="hidden" name="existing_media_ids[]" value="{{ $media->id }}">
+                                                        <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 remove-existing-media"
+                                                            data-media-id="{{ $media->id }}">
+                                                            &times;
+                                                        </button>
+                                                        @if (in_array(pathinfo($media->post, PATHINFO_EXTENSION), ['mp4', 'mov', 'webm']))
+                                                            <video class="w-100" controls>
+                                                                <source src="{{ asset('storage/media/' . $media->post) }}" type="video/mp4">
+                                                                Browser tidak mendukung video.
+                                                            </video>
+                                                        @else
+                                                            <img src="{{ asset('storage/media/' . $media->post) }}" class="img-fluid rounded" alt="Media Post">
+                                                        @endif
+                                                    </div>
+                                                @endforeach
                                             </div>
-                                        </div>
+                                            <div class="mt-2">
+                                                <input type="file" class="form-control d-none edit-file-input" 
+                                                    id="edit_content_media{{ $post->id }}"
+                                                    data-id="{{ $post->id }}"
+                                                    name="content_media[]" 
+                                                    accept=".jpg, .jpeg, .png, .gif, .mp4, .mov, .webm"
+                                                    multiple>
+                                                <button type="button" class="btn btn-primary edit-add-file-btn" 
+                                                        data-id="{{ $post->id }}">
+                                                    Add Gambar
+                                                </button>
+                                            </div>
+                                            <div class="row mt-2 edit-preview-container" id="edit-preview-container-{{ $post->id }}"></div>
+                                        </div>   
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
@@ -324,8 +336,7 @@
                             </div>
                         </div>
                     </div>
-                    {{-- End Modal Edit SA --}}
-                    {{-- End Edit --}}
+                    <!-- End Modal Edit SA -->
                 @endforeach
             </div>
         </div>

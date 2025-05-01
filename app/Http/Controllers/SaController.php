@@ -89,7 +89,54 @@ class SaController extends Controller
         return redirect()->back()->with('success', 'Data berhasil disimpan!');
     }
 
+    public function update(Request $request, $client_id, $post_id)
+    {
+        // Validasi data
+        $request->validate([
+            'caption' => 'required|string',
+            'content' => 'required|string',
+            'created_at' => 'required|date',
+            'content_media.*' => 'nullable|file|mimes:jpg,jpeg,png,gif,mp4,mov,webm|max:20480', // max 20MB per file
+        ]);
 
+        // Temukan post berdasarkan post_id dan client_id
+        $post = SocialMedia::where('client_id', $client_id)->where('id', $post_id)->firstOrFail();
+
+        // Update data dasar
+        $post->caption = $request->caption;
+        $post->content = $request->content;
+        $post->created_at = $request->created_at;
+        $post->save();
+
+        // Menghapus media yang dihapus
+        if ($request->has('media_to_delete')) {
+            foreach ($request->media_to_delete as $mediaId) {
+                $media = PostMedia::find($mediaId);
+                if ($media) {
+                    // Menghapus file media dari storage
+                    Storage::delete('public/media/' . $media->post);
+                    // Menghapus data media dari database
+                    $media->delete();
+                }
+            }
+        }
+
+        // Jika ada media baru yang diupload
+        if ($request->hasFile('content_media')) {
+            foreach ($request->file('content_media') as $media) {
+                // Menyimpan file ke storage
+                $path = $media->store('media', 'public');
+
+                // Menyimpan data media baru ke database
+                $post->media()->create([
+                    'media' => $path,
+                    'post_id' => $post->id,
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Post berhasil diperbarui.');
+    }
 
     public function showProfile()
     {

@@ -1,165 +1,22 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//     const addFileBtn = document.getElementById('add-file-btn');
-//     const fileInput = document.getElementById('content_media');
-//     const previewContainer = document.getElementById('preview-container');
-//     const form = document.querySelector('.form-marketing');
-//     const editForm = document.getElementById('edit-form') || form;
-
-//     // Simpan file baru yang dipilih
-//     let filesToUpload = [];
-//     // Simpan elemen preview agar bisa dikelola index-nya
-//     let previewElements = [];
-
-//     // Klik tombol untuk pilih file
-//     addFileBtn.addEventListener('click', () => {
-//         fileInput.click();
-//     });
-
-//     // Saat file dipilih
-//     fileInput.addEventListener('change', (e) => {
-//         const newFiles = Array.from(e.target.files);
-
-//         newFiles.forEach((file) => {
-//             filesToUpload.push(file);
-//             renderPreview(file);
-//         });
-
-//         fileInput.value = '';
-//     });
-
-//     function renderPreview(file, isExisting = false, existingUrl = '') {
-//         const reader = new FileReader();
-//         const col = document.createElement('div');
-//         col.className = 'col-md-3 mb-3 preview-item';
-
-//         const card = document.createElement('div');
-//         card.className = 'position-relative border p-1 rounded';
-
-//         const removeBtn = document.createElement('button');
-//         removeBtn.innerHTML = '&times;';
-//         removeBtn.className = 'btn btn-danger btn-sm position-absolute top-0 end-0';
-//         removeBtn.type = 'button';
-//         removeBtn.onclick = () => {
-//             if (!isExisting) {
-//                 const index = previewElements.indexOf(col);
-//                 if (index > -1) {
-//                     filesToUpload.splice(index, 1);
-//                     previewElements.splice(index, 1);
-//                 }
-//             }
-//             previewContainer.removeChild(col);
-//         };
-
-//         let media;
-
-//         if (isExisting) {
-//             media = file.type === 'video' ?
-//                 document.createElement('video') :
-//                 document.createElement('img');
-
-//             media.src = existingUrl;
-//             if (file.type === 'video') {
-//                 media.controls = true;
-//                 media.className = 'w-100';
-//             } else {
-//                 media.className = 'img-fluid';
-//             }
-
-//             card.appendChild(removeBtn);
-//             card.appendChild(media);
-//             col.appendChild(card);
-//             previewContainer.appendChild(col);
-//         } else {
-//             reader.onload = function (e) {
-//                 if (file.type.startsWith('video/')) {
-//                     media = document.createElement('video');
-//                     media.src = e.target.result;
-//                     media.controls = true;
-//                     media.className = 'w-100';
-//                 } else {
-//                     media = document.createElement('img');
-//                     media.src = e.target.result;
-//                     media.className = 'img-fluid';
-//                 }
-
-//                 card.appendChild(removeBtn);
-//                 card.appendChild(media);
-//                 col.appendChild(card);
-//                 previewContainer.appendChild(col);
-//                 previewElements.push(col);
-//             };
-//             reader.readAsDataURL(file);
-//         }
-//     }
-
-//     // Submit form pakai fetch
-//     editForm.addEventListener('submit', function (e) {
-//         e.preventDefault();
-
-//         const formData = new FormData(editForm);
-//         filesToUpload.forEach((file) => {
-//             formData.append('content_media[]', file);
-//         });
-
-//         fetch(editForm.action, {
-//                 method: 'POST',
-//                 body: formData,
-//             })
-//             .then(res => res.redirected ? window.location.href = res.url : res.text())
-//             .then(data => console.log(data))
-//             .catch(err => console.error('Upload error:', err));
-//     });
-
-//     // ====== FUNGSI UNTUK EDIT ======
-
-//     // Fungsi untuk load data post ke modal
-//     window.showEditModal = function (data) {
-//         // Kosongkan form & preview sebelumnya
-//         editForm.reset();
-//         previewContainer.innerHTML = '';
-//         filesToUpload = [];
-//         previewElements = [];
-
-//         // Isi form dengan data
-//         document.getElementById('post-id').value = data.id;
-//         document.getElementById('caption').value = data.caption;
-//         document.getElementById('content').value = data.content;
-//         document.getElementById('created_at').value = data.created_at;
-
-//         // Render media lama (gambar/video dari server)
-//         if (data.media && data.media.length > 0) {
-//             data.media.forEach(media => {
-//                 renderPreview({
-//                     type: media.type
-//                 }, true, media.url);
-//             });
-//         }
-
-//         // Tampilkan modal edit
-//         $('#editSAModal').modal('show');
-//     };
-// });
-
-
 document.addEventListener("DOMContentLoaded", function () {
     // ------------------- UNTUK MODAL ADD ----------------------
-    const addFileBtn = document.getElementById('add-file-btn');
-    const fileInput = document.getElementById('content_media');
-    const previewContainer = document.getElementById('preview-container');
+    const addFileBtn = document.getElementById("add-file-btn");
+    const fileInput = document.getElementById("content_media");
+    const previewContainer = document.getElementById("preview-container");
     let filesToUpload = [];
 
     if (addFileBtn) {
-        addFileBtn.addEventListener('click', () => fileInput.click());
+        addFileBtn.addEventListener("click", () => fileInput.click());
 
-        fileInput.addEventListener('change', (e) => {
+        fileInput.addEventListener("change", (e) => {
             const newFiles = Array.from(e.target.files);
 
-            newFiles.forEach(file => {
+            newFiles.forEach((file) => {
                 filesToUpload.push(file);
                 renderPreview(file, filesToUpload.length - 1);
             });
 
-            fileInput.value = '';
+            fileInput.value = "";
         });
     }
 
@@ -167,31 +24,32 @@ document.addEventListener("DOMContentLoaded", function () {
         const reader = new FileReader();
 
         reader.onload = function (e) {
-            const col = document.createElement('div');
-            col.className = 'col-md-3 mb-3';
+            const col = document.createElement("div");
+            col.className = "col-md-3 mb-3";
 
-            const card = document.createElement('div');
-            card.className = 'position-relative border p-1 rounded';
+            const card = document.createElement("div");
+            card.className = "position-relative border p-1 rounded";
 
-            const removeBtn = document.createElement('button');
-            removeBtn.innerHTML = '&times;';
-            removeBtn.className = 'btn btn-danger btn-sm position-absolute top-0 end-0';
-            removeBtn.type = 'button';
+            const removeBtn = document.createElement("button");
+            removeBtn.innerHTML = "&times;";
+            removeBtn.className =
+                "btn btn-danger btn-sm position-absolute top-0 end-0";
+            removeBtn.type = "button";
             removeBtn.onclick = () => {
                 filesToUpload.splice(index, 1);
                 previewContainer.removeChild(col);
             };
 
             let media;
-            if (file.type.startsWith('video/')) {
-                media = document.createElement('video');
+            if (file.type.startsWith("video/")) {
+                media = document.createElement("video");
                 media.src = e.target.result;
                 media.controls = true;
-                media.className = 'w-100';
+                media.className = "w-100";
             } else {
-                media = document.createElement('img');
+                media = document.createElement("img");
                 media.src = e.target.result;
-                media.className = 'img-fluid';
+                media.className = "img-fluid";
             }
 
             card.appendChild(removeBtn);
@@ -203,118 +61,124 @@ document.addEventListener("DOMContentLoaded", function () {
         reader.readAsDataURL(file);
     }
 
-    const form = document.querySelector('.form-marketing');
-    form.addEventListener('submit', function (e) {
+    const form = document.querySelector(".form-marketing");
+    form.addEventListener("submit", function (e) {
         const formData = new FormData(form);
 
-        filesToUpload.forEach(file => {
-            formData.append('content_media[]', file);
+        filesToUpload.forEach((file) => {
+            formData.append("content_media[]", file);
         });
 
         e.preventDefault();
 
         fetch(form.action, {
-                method: 'POST',
-                body: formData,
-            })
-            .then(res => res.redirected ? window.location.href = res.url : res.text())
-            .then(data => console.log(data))
-            .catch(err => console.error('Upload error:', err));
+            method: "POST",
+            body: formData,
+        })
+            .then((res) =>
+                res.redirected ? (window.location.href = res.url) : res.text()
+            )
+            .then((data) => console.log(data))
+            .catch((err) => console.error("Upload error:", err));
     });
 
     // ------------------- UNTUK MODAL EDIT ----------------------
-    const editAddFileBtn = document.getElementById('edit-add-file-btn');
-    const editFileInput = document.getElementById('edit_content_media');
-    const editPreviewContainer = document.getElementById('edit-preview-container');
+    const editPreviewContainer = document.getElementById(
+        "edit-preview-container"
+    );
     let editFilesToUpload = [];
     let editPreviewElements = [];
 
-    if (editAddFileBtn) {
-        editAddFileBtn.addEventListener('click', () => editFileInput.click());
+    document.addEventListener("click", function (e) {
+        if (e.target.classList.contains("remove-existing-media")) {
+            const btn = e.target;
+            const parent = btn.closest(".preview-item");
+            if (parent) {
+                parent.remove();
 
-        editFileInput.addEventListener('change', (e) => {
-            const newFiles = Array.from(e.target.files);
-
-            newFiles.forEach((file) => {
-                editFilesToUpload.push(file);
-                renderEditPreview(file);
-            });
-
-            editFileInput.value = '';
-        });
-    }
-
-    function renderEditPreview(file, isExisting = false, existingUrl = '') {
-        const reader = new FileReader();
-        const col = document.createElement('div');
-        col.className = 'col-md-3 mb-3 preview-item';
-
-        const card = document.createElement('div');
-        card.className = 'position-relative border p-1 rounded';
-
-        const removeBtn = document.createElement('button');
-        removeBtn.innerHTML = '&times;';
-        removeBtn.className = 'btn btn-danger btn-sm position-absolute top-0 end-0';
-        removeBtn.type = 'button';
-        removeBtn.onclick = () => {
-            if (!isExisting) {
-                const index = editPreviewElements.indexOf(col);
-                if (index > -1) {
-                    editFilesToUpload.splice(index, 1);
-                    editPreviewElements.splice(index, 1);
+                const mediaId = btn.getAttribute("data-media-id");
+                const form = btn.closest("form");
+                if (form) {
+                    const input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = "media_to_delete[]"; // Pastikan ini sesuai dengan controller
+                    input.value = mediaId;
+                    form.appendChild(input);
                 }
             }
-            editPreviewContainer.removeChild(col);
-        };
+        }
+    });
 
-        let media;
-        if (isExisting) {
-            media = file.type === 'video' ? document.createElement('video') : document.createElement('img');
-            media.src = existingUrl;
-            if (file.type === 'video') {
+    document.querySelectorAll(".edit-add-file-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+            const postId = button.getAttribute("data-id");
+            const fileInput = document.querySelector(
+                `#edit_content_media${postId}`
+            );
+            if (fileInput) fileInput.click();
+        });
+    });
+
+    document.querySelectorAll(".edit-file-input").forEach((fileInput) => {
+        fileInput.addEventListener("change", (e) => {
+            const postId = fileInput.getAttribute("data-id");
+            const files = Array.from(e.target.files);
+
+            files.forEach((file) => {
+                renderEditPreview(file, postId);
+            });
+
+            fileInput.value = ""; // reset
+        });
+    });
+
+    function renderEditPreview(file, postId) {
+        const container = document.querySelector(
+            `#edit-preview-container-${postId}`
+        );
+        if (!container) return;
+
+        const reader = new FileReader();
+        const col = document.createElement("div");
+        col.className = "col-md-3 mb-3 preview-item";
+
+        const card = document.createElement("div");
+        card.className = "position-relative border p-1 rounded";
+
+        const removeBtn = document.createElement("button");
+        removeBtn.innerHTML = "&times;";
+        removeBtn.className =
+            "btn btn-danger btn-sm position-absolute top-0 end-0";
+        removeBtn.type = "button";
+        removeBtn.onclick = () => container.removeChild(col);
+
+        reader.onload = function (e) {
+            let media;
+            if (file.type.startsWith("video/")) {
+                media = document.createElement("video");
+                media.src = e.target.result;
                 media.controls = true;
-                media.className = 'w-100';
+                media.className = "w-100";
             } else {
-                media.className = 'img-fluid';
+                media = document.createElement("img");
+                media.src = e.target.result;
+                media.className = "img-fluid";
             }
 
             card.appendChild(removeBtn);
             card.appendChild(media);
             col.appendChild(card);
-            editPreviewContainer.appendChild(col);
-        } else {
-            reader.onload = function (e) {
-                if (file.type.startsWith('video/')) {
-                    media = document.createElement('video');
-                    media.src = e.target.result;
-                    media.controls = true;
-                    media.className = 'w-100';
-                } else {
-                    media = document.createElement('img');
-                    media.src = e.target.result;
-                    media.className = 'img-fluid';
-                }
-
-                card.appendChild(removeBtn);
-                card.appendChild(media);
-                col.appendChild(card);
-                editPreviewContainer.appendChild(col);
-                editPreviewElements.push(col);
-            };
-            reader.readAsDataURL(file);
-        }
+            container.appendChild(col);
+        };
+        reader.readAsDataURL(file);
     }
 });
 
-
-
 function toggleMobileView() {
-    const wrapper = document.getElementById('profileWrapper');
-    wrapper.classList.toggle('mobile-view');
-    wrapper.classList.toggle('desktop-view');
+    const wrapper = document.getElementById("profileWrapper");
+    wrapper.classList.toggle("mobile-view");
+    wrapper.classList.toggle("desktop-view");
 }
-
-
 
 document.addEventListener("DOMContentLoaded", function () {
     // ... existing code ...

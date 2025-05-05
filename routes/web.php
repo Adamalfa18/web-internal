@@ -105,6 +105,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/data-client/laporan-harian', [ClientInformationController::class, 'harian'])->name('data-client.laporan-harian');
         Route::post('/data-client/laporan-harian/store-lead', [ClientInformationController::class, 'store_lead'])->name('data-client.laporan-harian.store-lead');
         Route::put('/data-client/laporan-harian/update-lead/{id}', [ClientInformationController::class, 'updateLead'])->name('data-client.laporan-harian.update-lead');
+        Route::put('/data-client/{client_id}/divisi-sa/{post_id}', [ClientInformationController::class, 'update'])->name('data-client.update-sa');
     });
 });
 

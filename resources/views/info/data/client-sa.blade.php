@@ -143,10 +143,10 @@
                                                 <textarea class="form-control" rows="3" disabled>{{ $post->caption }}</textarea>
                                             </div>
 
-                                            {{-- Notes --}}
+                                            {{-- Note --}}
                                             <div class="form-group">
-                                                <label>Notes</label>
-                                                <textarea class="form-control" rows="3" disabled>{{ $post->notes }}</textarea>
+                                                <label>Note</label>
+                                                <textarea class="form-control" rows="3" disabled>{{ $post->note }}</textarea>
                                             </div>
 
                                             {{-- Status --}}
@@ -174,11 +174,11 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
                                                     data-bs-dismiss="modal">Tutup</button>
-                                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#editSAModal">
-                                                    Edit SA
+                                                <button type="button" class="btn btn-primary" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#editSAModal{{ $post->id }}">
+                                                    Edit Post
                                                 </button>
-                                                <!-- Modal Edit SA -->
                                             </div>
                                         </form>
                                     </div>
@@ -187,23 +187,17 @@
                         </div>
                     </div>
                     <!-- Modal Edit SA -->
-                    <div class="modal fade modal-edit-sa-style" id="editSAModal" tabindex="-1" role="dialog"
-                        aria-labelledby="editSAModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="editSAModal{{ $post->id }}" tabindex="-1" role="dialog"
+                        aria-labelledby="editSAModalLabel{{ $post->id }}" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                                <form class="form-marketing" id="edit-form" action="" method="POST"
-                                    enctype="multipart/form-data">
+                                <form class="form-marketing" action="{{ route('data-client.update-sa', ['client_id' => $client->id, 'post_id' => $post->id]) }}" method="POST" id="editForm{{ $post->id }}">
                                     @csrf
                                     @method('PUT')
-                                    <input type="hidden" name="id" id="post-id">
-                                    <!-- Menyimpan ID post untuk edit -->
 
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="editSAModalLabel">Edit Post</h5>
-                                        <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                                        <h5 class="modal-title" id="editSAModalLabel{{ $post->id }}">Edit Post</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -251,44 +245,73 @@
                                             <div class="modal-body">
                                                 <div class="mb-3">
                                                     <label for="caption" class="form-label">Caption</label>
-                                                    <textarea class="form-control" name="caption" id="caption" disabled></textarea>
+                                                    <textarea class="form-control" name="caption" id="caption" readonly>{{ $post->caption }}</textarea>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="created_at" class="form-label">Tanggal
-                                                        Upload</label>
-                                                    <input type="date" class="form-control" name="created_at"
-                                                        id="created_at" disabled>
+                                                    <label for="created_at" class="form-label">Tanggal Upload</label>
+                                                    <input type="date" class="form-control" name="created_at" id="created_at" value="{{ $post->created_at->format('Y-m-d') }}" disabled>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="exampleFormControlTextarea1">Example textarea</label>
-                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                    <label for="note">Note</label>
+                                                    <textarea class="form-control" name="note" id="note" rows="3">{{ $post->note }}</textarea>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="status_client">Status
-                                                        Client</label>
-                                                    <select class="form-select" name="status_client"
-                                                        id="status_client" aria-label="Default select example"
-                                                        required>
-                                                        <option value="{{ $client->status_client }}">
-                                                            Plih Status</option>
-                                                        <option value="1">Aktif</option>
-                                                        <option value="2">Pending</option>
-                                                        <option value="3">Paid</option>
+                                                    <label for="status">Status</label>
+                                                    <select class="form-select" name="status" id="status" required>
+                                                        <option value="">Pilih Status</option>
+                                                        <option value="1" {{ $firstMedia && $firstMedia->postingan && $firstMedia->postingan->status == 1 ? 'selected' : '' }}>Acc</option>
+                                                        <option value="2" {{ $firstMedia && $firstMedia->postingan && $firstMedia->postingan->status == 2 ? 'selected' : '' }}>Revisi</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary" id="saveButton{{ $post->id }}">Simpan</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    {{-- End Modal Edit SA --}}
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const form = document.getElementById('editForm{{ $post->id }}');
+                            const saveButton = document.getElementById('saveButton{{ $post->id }}');
+                            
+                            if (form && saveButton) {
+                                form.addEventListener('submit', function(e) {
+                                    e.preventDefault();
+                                    console.log('Form submission started');
+                                    
+                                    const formData = new FormData(form);
+                                    console.log('Form data:', Object.fromEntries(formData));
+                                    
+                                    fetch(form.action, {
+                                        method: 'POST',
+                                        body: formData,
+                                        headers: {
+                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                        }
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log('Success:', data);
+                                        if (data.success) {
+                                            window.location.reload();
+                                        } else {
+                                            alert(data.message || 'Terjadi kesalahan saat menyimpan data');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                        alert('Terjadi kesalahan saat menyimpan data');
+                                    });
+                                });
+                            }
+                        });
+                    </script>
                     {{-- End Edit --}}
                 @endforeach
             </div>

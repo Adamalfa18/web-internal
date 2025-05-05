@@ -207,8 +207,8 @@
 
                                             {{-- Notes --}}
                                             <div class="form-group">
-                                                <label>Notes</label>
-                                                <textarea class="form-control" rows="3" disabled>{{ $post->notes }}</textarea>
+                                                <label>Note</label>
+                                                <textarea class="form-control" rows="3" disabled>{{ $post->note }}</textarea>
                                             </div>
 
                                             {{-- Status --}}

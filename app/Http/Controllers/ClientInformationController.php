@@ -74,24 +74,24 @@ class ClientInformationController extends Controller
     public function prosesLayananB($client_id)
     {
         // Logika untuk Layanan B
-            $client = Client::findOrFail($client_id); // Pastikan client ada
+        $client = Client::findOrFail($client_id); // Pastikan client ada
 
-            $posts = SocialMedia::with('media')
-                ->where('client_id', $client_id)
-                ->orderBy('created_at', 'desc')
-                ->get();
+        $posts = SocialMedia::with('media')
+            ->where('client_id', $client_id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-            $post_medias = collect([]);
-            foreach ($posts as $post) {
-                $media = PostMedia::with('postingan') // <-- Load relasi 'postingan'
-                    ->where('post_id', $post->id)
-                    ->orderBy('created_at', 'asc')
-                    ->first();
-                if ($media) {
-                    $post_medias->push($media);
-                }
+        $post_medias = collect([]);
+        foreach ($posts as $post) {
+            $media = PostMedia::with('postingan') // <-- Load relasi 'postingan'
+                ->where('post_id', $post->id)
+                ->orderBy('created_at', 'asc')
+                ->first();
+            if ($media) {
+                $post_medias->push($media);
             }
-                return view('info.data.client-sa', compact('client', 'posts', 'post_medias'));
+        }
+        return view('info.data.client-sa', compact('client', 'posts', 'post_medias'));
     }
 
     public function prosesLayananC($client_id)
@@ -232,5 +232,73 @@ class ClientInformationController extends Controller
         // Redirect kembali dengan format yang diinginkan
         return redirect()->route('data-client.laporan-harian', ['activeTabLead' => 'lead'])
             ->with('success', 'Data lead berhasil disimpan.');
+    }
+
+    public function update(Request $request, $client_id, $post_id)
+    {
+        try {
+            \Log::info('Update request received', [
+                'client_id' => $client_id,
+                'post_id' => $post_id,
+                'request_data' => $request->all()
+            ]);
+
+            // Validate the request
+            $request->validate([
+                'note' => 'nullable|string',
+                'status' => 'required|in:1,2', // 1 for Acc, 2 for Revisi
+            ]);
+
+            // Find the post
+            $post = SocialMedia::where('client_id', $client_id)
+                ->where('id', $post_id)
+                ->firstOrFail();
+
+            \Log::info('Post found', ['post' => $post->toArray()]);
+
+            // Update post note
+            $post->note = $request->note;
+            $post->save();
+
+            \Log::info('Post note updated', ['note' => $request->note]);
+
+            // Find the post media and update status
+            $postMedia = PostMedia::where('post_id', $post_id)->first();
+
+            if ($postMedia) {
+                \Log::info('Post media found', ['post_media' => $postMedia->toArray()]);
+
+                // If postingan relationship exists, update it
+                if ($postMedia->postingan) {
+                    $postMedia->postingan->update([
+                        'status' => $request->status
+                    ]);
+                    \Log::info('Postingan status updated', ['status' => $request->status]);
+                } else {
+                    // If no postingan exists, create one
+                    $postMedia->postingan()->create([
+                        'status' => $request->status
+                    ]);
+                    \Log::info('New postingan created', ['status' => $request->status]);
+                }
+            } else {
+                \Log::warning('No post media found for post_id: ' . $post_id);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Post berhasil diperbarui'
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error updating post', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

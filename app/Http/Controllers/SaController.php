@@ -60,8 +60,13 @@ class SaController extends Controller
             'caption' => 'required|string',
             'created_at' => 'required|date',
             'content_media' => 'nullable|array',
-            'content_media.*' => 'file|mimes:webp,webm|max:20480'
+            'content_media.*' => 'file|mimes:webp,webm|max:20480',
+            'cover' => 'nullable|file|mimes:webp|max:20480', // Cover validation
         ]);
+
+        // Variabel untuk menyimpan nama file cover
+        $cover = null;
+
         // Simpan data ke social_media
         $social = SocialMedia::create([
             'caption' => $request->caption,
@@ -70,14 +75,27 @@ class SaController extends Controller
             'client_id' => $client_id,
             'created_at' => $request->created_at,
             'updated_at' => now(),
+            'cover' => null, // Kosongkan terlebih dahulu
         ]);
 
-        // Upload dan simpan file media jika ada
+        // Jika ada file cover yang diupload, simpan cover ke folder cover
+        if ($request->hasFile('cover')) {
+            $coverFile = $request->file('cover');
+            $coverPath = $coverFile->store('cover', 'public');
+            $cover = basename($coverPath);
+
+            // Update kolom cover pada tabel social_media dengan nama file cover
+            $social->cover = $cover;
+            $social->save();
+        }
+
+        // Upload dan simpan file media biasa jika ada
         if ($request->hasFile('content_media')) {
             foreach ($request->file('content_media') as $file) {
                 $path = $file->store('media', 'public');
                 $filename = basename($path);
 
+                // Simpan media ke tabel PostMedia
                 PostMedia::create([
                     'post_id' => $social->id,
                     'post' => $filename,

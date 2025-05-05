@@ -1,28 +1,42 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // ------------------- UNTUK MODAL ADD ----------------------
     const addFileBtn = document.getElementById("add-file-btn");
+    const addCoverBtn = document.getElementById("add-cover-btn");
     const fileInput = document.getElementById("content_media");
+    const coverInput = document.getElementById("cover");
     const previewContainer = document.getElementById("preview-container");
+    const form = document.querySelector(".form-marketing");
+
     let filesToUpload = [];
+    let coverFile = null;
 
     if (addFileBtn) {
         addFileBtn.addEventListener("click", () => fileInput.click());
 
         fileInput.addEventListener("change", (e) => {
             const newFiles = Array.from(e.target.files);
-
             newFiles.forEach((file) => {
                 filesToUpload.push(file);
                 renderPreview(file, filesToUpload.length - 1);
             });
-
             fileInput.value = "";
+        });
+    }
+
+    if (addCoverBtn) {
+        addCoverBtn.addEventListener("click", () => coverInput.click());
+
+        coverInput.addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                coverFile = file; // Simpan cover ke variabel terpisah
+                renderPreview(file, filesToUpload.length); // Index aman
+            }
+            coverInput.value = "";
         });
     }
 
     function renderPreview(file, index) {
         const reader = new FileReader();
-
         reader.onload = function (e) {
             const col = document.createElement("div");
             col.className = "col-md-3 mb-3";
@@ -57,17 +71,19 @@ document.addEventListener("DOMContentLoaded", function () {
             col.appendChild(card);
             previewContainer.appendChild(col);
         };
-
         reader.readAsDataURL(file);
     }
 
-    const form = document.querySelector(".form-marketing");
     form.addEventListener("submit", function (e) {
         const formData = new FormData(form);
 
         filesToUpload.forEach((file) => {
-            formData.append("content_media[]", file);
+            formData.append("content_media[]", file); // Tetap pisahkan media biasa
         });
+
+        if (coverFile) {
+            formData.append("cover", coverFile); // Tambahkan cover dengan nama field yang benar
+        }
 
         e.preventDefault();
 
@@ -75,10 +91,13 @@ document.addEventListener("DOMContentLoaded", function () {
             method: "POST",
             body: formData,
         })
-            .then((res) =>
-                res.redirected ? (window.location.href = res.url) : res.text()
-            )
-            .then((data) => console.log(data))
+            .then((res) => {
+                if (res.redirected) {
+                    window.location.href = res.url;
+                } else {
+                    return res.text().then((text) => console.log(text));
+                }
+            })
             .catch((err) => console.error("Upload error:", err));
     });
 

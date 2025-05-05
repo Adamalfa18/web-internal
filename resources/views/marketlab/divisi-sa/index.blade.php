@@ -57,6 +57,8 @@
                                             multiple>
                                         <button type="button" class="btn btn-primary" id="add-file-btn">Add
                                             Gambar</button>
+                                        <input type="file" class="form-control d-none" id="cover" name="cover" accept=".webp">
+                                        <button type="button" class="btn btn-primary" id="add-cover-btn">Set Cover</button>
                                     </div>
                                     <div id="preview-container" class="row mt-3"></div>
                                 </div>
@@ -121,23 +123,38 @@
                     </div>
                     <div class="gallery">
                         @forelse ($posts as $post)
-                            {{-- Ambil media pertama yang sudah disiapkan di controller --}}
                             @php
                                 $firstMedia = $post_medias->firstWhere('post_id', $post->id);
                             @endphp
-                            @if ($firstMedia)
-                                <div class="gallery-item">
-                                    <a href="#" data-bs-toggle="modal"
-                                        data-bs-target="#mediaModal{{ $post->id }}" target="_blank">
-                                        <img src="{{ asset('storage/media/' . $firstMedia->post) }}"
-                                            alt="Social Media" class="img-fluid">
-                                    </a>
-                                </div>
-                            @endif
+                            <div class="gallery-item">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#mediaModal{{ $post->id }}" target="_blank">
+                                    @if ($post->cover)
+                                        {{-- Tampilkan cover jika ada --}}
+                                        @if (Str::endsWith($post->cover, '.webp'))
+                                            <img src="{{ asset('storage/cover/' . $post->cover) }}" alt="Cover Image" class="img-fluid">
+                                        @elseif (Str::endsWith($post->cover, '.webm'))
+                                            <video width="100%" controls>
+                                                <source src="{{ asset('storage/cover/' . $post->cover) }}" type="video/webm">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        @endif
+                                    @elseif ($firstMedia)
+                                        {{-- Jika tidak ada cover, tampilkan media pertama --}}
+                                        @if (Str::endsWith($firstMedia->post, '.webp'))
+                                            <img src="{{ asset('storage/media/' . $firstMedia->post) }}" alt="Social Media" class="img-fluid">
+                                        @elseif (Str::endsWith($firstMedia->post, '.webm'))
+                                            <video width="100%" controls>
+                                                <source src="{{ asset('storage/media/' . $firstMedia->post) }}" type="video/webm">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        @endif
+                                    @endif
+                                </a>
+                            </div>
                         @empty
                             <p>Belum ada media.</p>
                         @endforelse
-                    </div>
+                    </div>                                        
                 </div>
 
 

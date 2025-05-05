@@ -53,7 +53,7 @@
                                     <div class="mb-3">
                                         <label for="content" class="form-label">Upload Gambar / Video</label>
                                         <input type="file" class="form-control d-none" id="content_media"
-                                            name="content_media[]" accept=".jpg, .jpeg, .png, .gif, .mp4, .mov, .webm"
+                                            name="content_media[]" accept=".webp, .webm"
                                             multiple>
                                         <button type="button" class="btn btn-primary" id="add-file-btn">Add
                                             Gambar</button>
@@ -304,7 +304,7 @@
                                                     id="edit_content_media{{ $post->id }}"
                                                     data-id="{{ $post->id }}"
                                                     name="content_media[]" 
-                                                    accept=".jpg, .jpeg, .png, .gif, .mp4, .mov, .webm"
+                                                    accept=".webp, .webm"
                                                     multiple>
                                                 <button type="button" class="btn btn-primary edit-add-file-btn" 
                                                         data-id="{{ $post->id }}">

@@ -60,7 +60,7 @@ class SaController extends Controller
             'caption' => 'required|string',
             'created_at' => 'required|date',
             'content_media' => 'nullable|array',
-            'content_media.*' => 'file|mimes:jpg,jpeg,png,gif,mp4,mov,webm|max:20480'
+            'content_media.*' => 'file|mimes:webp,webm|max:20480'
         ]);
         // Simpan data ke social_media
         $social = SocialMedia::create([
@@ -94,7 +94,7 @@ class SaController extends Controller
         $request->validate([
             'caption' => 'required|string',
             'created_at' => 'required|date',
-            'content_media.*' => 'nullable|file|mimes:jpg,jpeg,png,gif,mp4,mov,webm|max:20480', // max 20MB per file
+            'content_media.*' => 'nullable|file|mimes:webp,webm|max:20480', // max 20MB per file
         ]);
 
         // Temukan post berdasarkan post_id dan client_id

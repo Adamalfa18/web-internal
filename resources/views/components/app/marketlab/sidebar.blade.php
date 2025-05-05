@@ -14,6 +14,17 @@
     <!-- Sidebar Start -->
     <div class="collapse navbar-collapse px-style w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
+            {{-- Dasboard --}}
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                    href="{{ route('dashboard') }}">
+                    <div
+                        class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
+                        <!-- Icon for account -->
+                    </div>
+                    <span class="font-weight-normal text-md ms-2">Dashboard</span>
+                </a>
+            </li>
 
             <!-- Marketing -->
             <li class="nav-item dropdown">

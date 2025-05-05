@@ -14,42 +14,36 @@ class MarketingController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $perPage = $request->input('perPage', 10);
-        $status = $request->input('status'); // Hapus default, biarkan status bisa 1, 2, atau 3
-        $clients = Client::when($search, function ($query) use ($search) {
-            return $query->where('nama_client', 'like', '%' . $search . '%')
-                ->orWhere('nama_brand', 'like', '%' . $search . '%')
-                ->orWhereHas('pegawai', function ($query) use ($search) { // Menggunakan relasi untuk pegawai
-                    return $query->where('nama', 'like', '%' . $search . '%');
-                });
-        })
-            ->when(in_array($status, [1, 2, 3]), function ($query) use ($status) { // Tambahkan filter untuk status 2 dan 3
-                return $query->where('status_client', $status);
+        $status = $request->input('status');
+        $clientFilter = $request->input('clientFilter');
+        $dateFilter = $request->input('dateFilter');
+    
+        // Ambil semua data clients (tanpa pagination)
+    
+        $client_layanans = ClientLayanan::with(['layanan', 'client'])
+            ->when($clientFilter, function ($query) use ($clientFilter) {
+                return $query->where('client_id', $clientFilter);
             })
-            ->orderBy('created_at', 'desc')
-            ->paginate($perPage);
-
-        $client_layanans = ClientLayanan::with(['layanan'])
+            ->when($dateFilter, function ($query) use ($dateFilter) {
+                return $query->whereDate('created_at', $dateFilter);
+            })
             ->latest()
-            ->get(); // atau paginate jika diperlukan
-        $layanans = Layanan::all(); // Mengambil semua layanan
-        $pegawai = Pegawai::all(); // Mengambil semua pegawai
-        // Mendapatkan halaman saat ini dan total halaman
-        $currentPage = $clients->currentPage();
-        $totalPages = $clients->lastPage();
-
+            ->get();
+    
+        $layanans = Layanan::all();
+        $pegawai = Pegawai::all();
+        $clients = Client::all();
+    
         return view('marketlab.marketing.index', compact(
             'clients',
             'layanans',
             'pegawai',
             'search',
-            'perPage',
             'status',
-            'currentPage',
-            'totalPages',
             'client_layanans'
         ));
     }
+    
 
     public function edit($id)
     {

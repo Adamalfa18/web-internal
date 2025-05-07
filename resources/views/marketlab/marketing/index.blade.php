@@ -29,8 +29,11 @@
                                             </a>
                                         </div>
                                     </div>
-
-                                    <div class="d-sm-flex align-items-center mb-4">
+                                </div>
+                            </div>
+                            <div class="card border shadow-xs mb-4 border-client">
+                                <div class="card-header border-bottom pb-0 border-client-bottom">
+                                    <div class="d-sm-flex align-items-center mb-2">
                                         <div class="d-flex mb-3">
                                             <!-- Filter berdasarkan Nama Client -->
                                             <select id="clientFilter" class="form-select me-2">

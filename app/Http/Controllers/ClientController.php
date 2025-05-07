@@ -17,34 +17,28 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
-        $search = $request->input('search');
-        $perPage = $request->input('perPage', 10);
-        $status = $request->input('status'); // Hapus default, biarkan status bisa 1, 2, atau 3
-
-        $clients = Client::when($search, function ($query) use ($search) {
-            return $query->where('nama_client', 'like', '%' . $search . '%')
-                ->orWhere('nama_brand', 'like', '%' . $search . '%')
-                ->orWhere('pj', 'like', '%' . $search . '%')
-                ->orWhereHas('pegawai', function ($query) use ($search) { // Menggunakan relasi untuk pegawai
-                    return $query->where('nama', 'like', '%' . $search . '%');
-                });
+   public function index()
+{
+    $status = request('status', 1); // Default status 1 (aktif)
+    
+    $clients = Client::with(['pegawai', 'layanan'])
+        ->where('status_client', $status)
+        ->orderBy('created_at', 'desc')
+        ->when(request('brand'), function($query) {
+            $query->where('nama_brand', 'like', '%'.request('brand').'%');
         })
-            ->when(in_array($status, [1, 2, 3]), function ($query) use ($status) { // Tambahkan filter untuk status 2 dan 3
-                return $query->where('status_client', $status);
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate($perPage);
+        ->when(request('date_aktif'), function($query) {
+            $query->whereDate('date_in', request('date_aktif'));
+        })
+        ->paginate(10)
+        ->withQueryString(); // Pertahankan semua parameter
 
-        // Mendapatkan halaman saat ini dan total halaman
-        $currentPage = $clients->currentPage();
-        $totalPages = $clients->lastPage();
-        $layanans = Layanan::all();
-        $pegawai = Pegawai::all();
+    $pegawai = Pegawai::all();
+    $layanans = Layanan::all();
 
-        return view('marketlab.client.index', compact('clients', 'layanans', 'pegawai', 'search', 'perPage', 'status', 'currentPage', 'totalPages'));
-    }
+    return view('marketlab.client.index', compact('clients', 'pegawai', 'layanans', 'status'));
+}
+    
 
     /**
      * Show the form for creating a new resource.
@@ -145,10 +139,8 @@ class ClientController extends Controller
             'pj' => 'required|string|max:50',
             'pegawai_id' => 'required|string|max:20',
             'date_in' => 'required|date',
-            'layanan' => 'required|array', // Pastikan ini sesuai dengan multiple select checkbox layanan
             'gambar_client' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
         ]);
-
         // Update data client tanpa memperbarui gambar terlebih dahulu
         $client->update($request->only('nama_client', 'nama_brand', 'informasi_tambahan', 'alamat', 'email', 'nama_finance', 'telepon_finance', 'status_client', 'date_in', 'pj', 'pegawai_id'));
 
@@ -179,8 +171,6 @@ class ClientController extends Controller
         // Simpan perubahan data client, termasuk gambar
         $client->save();
 
-        // Sinkronisasi layanan yang dipilih
-        $client->layanan()->sync($request->layanan);
 
         return redirect()->route('clients.index')->with('success', 'Data client berhasil diperbarui.');
     }

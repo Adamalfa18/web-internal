@@ -888,6 +888,16 @@ button {
     aspect-ratio: 3 / 4;
 }
 
+.d-sm-flex.style-filter-marketing {
+    justify-content: end;
+}
+td.text-sm {
+    text-align: center;
+}
+
+button.btn.btn-style-client.btn-outline-primary {
+    width: 100%;
+}
 /* Gaya mobile (rasio 1:1) */
 #profileWrapper.mobile-view .gallery-item {
     width: 100%;

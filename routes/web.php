@@ -79,7 +79,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard-sa', [DasboardAdminController::class, 'dasboar_sa'])->name('dashboard.sa');
     });
     // PIC-SA (5)
-    Route::middleware(['checkUserRole:1,2,3,5'])->group(function () {
+    Route::middleware(['checkUserRole:1,2,3,4,5'])->group(function () {
         Route::get('/divisi-sa/{client_id}', [SaController::class, 'index'])->name('divisi-sa.index');
         Route::put('/divisi-sa/{client_id}/{post_id}', [SaController::class, 'update'])->name('divisi-sa.update');
         Route::post('/divisi-sa/store/{client_id}', [SaController::class, 'store'])->name('divisi-sa.store');

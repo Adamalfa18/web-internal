@@ -15,7 +15,12 @@
                                             <h6 class="font-weight-semibold text-lg mb-0">Data Client SA</h6>
                                             <p class="text-sm">Berikut Adalah List Client SA</p>
                                         </div>
-                                        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                                        <div class="ms-md-auto pe-md-3 d-flex align-items-center gap-2">
+                                            <!-- Filter Tanggal Aktip -->
+                                            <input type="date" id="filterTanggalAktipSA"
+                                                class="form-control form-control-sm">
+
+                                            <!-- Search Brand -->
                                             <div class="input-group">
                                                 <span class="input-group-text text-body bg-white border-end-0">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16px"
@@ -25,7 +30,7 @@
                                                             d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                                                     </svg>
                                                 </span>
-                                                <input type="text" id="search-client" class="form-control ps-0"
+                                                <input type="text" id="searchClientSA" class="form-control ps-0"
                                                     placeholder="Search by Brand">
                                             </div>
                                         </div>
@@ -33,16 +38,13 @@
                                 </div>
                                 <div class="card-body px-0 py-0">
                                     <div class="table-responsive p-0">
-                                        <table class="table align-items-center mb-0">
+                                        <table class="table align-items-center mb-0" id="clientTableSA">
                                             <thead class="bg-gray-100">
                                                 <tr class="tabel-style">
-                                                    <th class="text-secondary text-xs font-weight-semibold opacity-7">
-                                                        No
+                                                    <th class="text-secondary text-xs font-weight-semibold opacity-7">No
                                                     </th>
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
-                                                        Nama
-                                                        Brand
-                                                    </th>
+                                                        Nama Brand</th>
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
                                                         Nama Client</th>
                                                     <th
@@ -55,14 +57,14 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($clients->filter(function ($client) {
-        return $client->layanans->contains('id', 2);
-    }) as $client)
-                                                    <tr>
+                                                @foreach ($clients as $client)
+                                                    <tr class="client-row-sa"
+                                                        data-nama-brand-sa="{{ strtolower($client->nama_brand) }}"
+                                                        data-tanggal-aktip-sa="{{ $client->date_in }}"
+                                                        data-status-sa="{{ $client->status_layanan }}">
                                                         <td class="align-middle text-center">
                                                             {{ $loop->iteration }}
                                                         </td>
-
                                                         <td class="client-name-style">
                                                             <div class="d-flex px-2 py-1">
                                                                 <div
@@ -81,20 +83,17 @@
                                                             @switch($client->status_layanan)
                                                                 @case(1)
                                                                     <span
-                                                                        class="badge badge-sm border border-success text-success badge-aktif">Aktif
-                                                                    </span>
+                                                                        class="badge badge-sm border border-success text-success badge-aktif">Aktif</span>
                                                                 @break
 
                                                                 @case(2)
                                                                     <span
-                                                                        class="badge badge-sm border border-warning text-warning badge-pending">Pending
-                                                                    </span>
+                                                                        class="badge badge-sm border border-warning text-warning badge-pending">Pending</span>
                                                                 @break
 
                                                                 @case(3)
                                                                     <span
-                                                                        class="badge badge-sm border border-danger text-danger badge-paid">Paid
-                                                                    </span>
+                                                                        class="badge badge-sm border border-danger text-danger badge-paid">Paid</span>
                                                                 @break
                                                             @endswitch
                                                         </td>
@@ -104,9 +103,7 @@
                                                             </span>
                                                         </td>
                                                         <td class="align-middle">
-                                                            {{-- Tampilkan data bulanan --}}
                                                             <a href="{{ route('divisi-sa.index', ['client_id' => $client->id]) }}"
-                                                                type="button"
                                                                 class="btn btn-info text-secondary font-weight-bold text-xs active-client"
                                                                 data-bs-toggle="tooltip"
                                                                 data-bs-title="Laporan Bulanan">
@@ -133,18 +130,51 @@
             </div>
         </div>
     </main>
+
     <!-- jQuery (if not already loaded) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Real-time Search Script -->
+    <!-- Real-time Search & Filter Script -->
     <script>
         $(document).ready(function() {
-            $('#search-client').on('keyup', function() {
-                var value = $(this).val().toLowerCase();
-                $('table tbody tr').filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            function applyFilterSA() {
+                var valueBrandSA = $('#searchClientSA').val().toLowerCase();
+                var valueTanggalSA = $('#filterTanggalAktipSA').val();
+
+                $('#clientTableSA tbody tr').each(function() {
+                    var row = $(this);
+                    var namaBrandSA = row.data('nama-brand-sa');
+                    var tanggalAktipSA = row.data('tanggal-aktip-sa');
+                    var statusSA = row.data('status-sa');
+
+                    // Always hide if status ≠ 1
+                    if (statusSA != 1) {
+                        row.hide();
+                        return; // skip this row
+                    }
+
+                    var showRowSA = true;
+
+                    // Filter nama brand
+                    if (valueBrandSA && namaBrandSA.indexOf(valueBrandSA) === -1) {
+                        showRowSA = false;
+                    }
+
+                    // Filter tanggal aktip (exact match)
+                    if (valueTanggalSA && tanggalAktipSA !== valueTanggalSA) {
+                        showRowSA = false;
+                    }
+
+                    row.toggle(showRowSA);
                 });
-            });
+            }
+
+            // Apply filter on search and date change
+            $('#searchClientSA').on('keyup', applyFilterSA);
+            $('#filterTanggalAktipSA').on('change', applyFilterSA);
+
+            // Jalankan filter pertama kali untuk hide yang tidak aktif
+            applyFilterSA();
         });
     </script>
 </x-app-layout>

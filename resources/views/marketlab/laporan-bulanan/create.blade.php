@@ -46,7 +46,8 @@
                                                 <div class="mb-3">
                                                     <label for="target_roas" class="form-label">Target Roas</label>
                                                     <input type="text" class="form-control" name="target_roas"
-                                                        id="target_roas" placeholder="Target Roas" required readonly>
+                                                        id="targetRoasBulananMB" placeholder="Target Roas" required
+                                                        readonly>
                                                 </div>
                                             </div>
                                         </div>
@@ -55,15 +56,16 @@
                                                 <div class="mb-3">
                                                     <label for="target_spent" class="form-label">Target Spant</label>
                                                     <input type="text" class="form-control" name="target_spent"
-                                                        id="target_spent" placeholder="Target Spant" required>
+                                                        id="targetSpentnBulananMB" placeholder="Target Spant" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label for="target_revenue" class="form-label">Target
+                                                    <label for="targetRevenueBulananMB" class="form-label">Target
                                                         Revenue</label>
                                                     <input type="text" class="form-control" name="target_revenue"
-                                                        id="target_revenue" placeholder="Target Revenue" required>
+                                                        id="targetRevenueBulananMB" placeholder="Target Revenue"
+                                                        required>
                                                 </div>
                                             </div>
                                         </div>
@@ -103,6 +105,37 @@
             </div>
         </div>
 
-        <script></script>
+        <script>
+            // Fungsi hitung dan update ROAS Bulanan MB
+            function calculateRoasBulananMB() {
+                const spanInput = document.getElementById('targetSpentnBulananMB');
+                const revenueInput = document.getElementById('targetRevenueBulananMB');
+                const roasInput = document.getElementById('targetRoasBulananMB');
+
+                const spanValue = parseFloat(spanInput.value) || 0;
+                const revenueValue = parseFloat(revenueInput.value) || 0;
+                let roasValue = 0;
+
+                if (revenueValue !== 0) {
+                    roasValue = spanValue / revenueValue;
+                }
+
+                // Update hasil ke input Target Roas
+                if (roasInput) {
+                    roasInput.value = roasValue.toFixed(2);
+                }
+            }
+
+            // Menambahkan event listener untuk update ROAS Bulanan MB
+            document.addEventListener('DOMContentLoaded', function() {
+                const spanInputMB = document.getElementById('targetSpentnBulananMB');
+                const revenueInputMB = document.getElementById('targetRevenueBulananMB');
+
+                if (spanInputMB && revenueInputMB) {
+                    spanInputMB.addEventListener('input', calculateRoasBulananMB);
+                    revenueInputMB.addEventListener('input', calculateRoasBulananMB);
+                }
+            });
+        </script>
 
 </x-app-layout>

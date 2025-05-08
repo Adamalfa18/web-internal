@@ -53,12 +53,13 @@
                                     <div class="mb-3">
                                         <label for="content" class="form-label">Upload Gambar / Video</label>
                                         <input type="file" class="form-control d-none" id="content_media"
-                                            name="content_media[]" accept=".webp, .webm"
-                                            multiple>
+                                            name="content_media[]" accept=".webp, .webm" multiple>
                                         <button type="button" class="btn btn-primary" id="add-file-btn">Add
                                             Gambar</button>
-                                        <input type="file" class="form-control d-none" id="cover" name="cover" accept=".webp">
-                                        <button type="button" class="btn btn-primary" id="add-cover-btn">Set Cover</button>
+                                        <input type="file" class="form-control d-none" id="cover" name="cover"
+                                            accept=".webp">
+                                        <button type="button" class="btn btn-primary" id="add-cover-btn">Set
+                                            Cover</button>
                                     </div>
                                     <div id="preview-container" class="row mt-3"></div>
                                 </div>
@@ -127,24 +128,29 @@
                                 $firstMedia = $post_medias->firstWhere('post_id', $post->id);
                             @endphp
                             <div class="gallery-item">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#mediaModal{{ $post->id }}" target="_blank">
+                                <a href="#" data-bs-toggle="modal"
+                                    data-bs-target="#mediaModal{{ $post->id }}" target="_blank">
                                     @if ($post->cover)
                                         {{-- Tampilkan cover jika ada --}}
                                         @if (Str::endsWith($post->cover, '.webp'))
-                                            <img src="{{ asset('storage/cover/' . $post->cover) }}" alt="Cover Image" class="img-fluid">
+                                            <img src="{{ asset('storage/cover/' . $post->cover) }}" alt="Cover Image"
+                                                class="img-fluid">
                                         @elseif (Str::endsWith($post->cover, '.webm'))
                                             <video width="100%" controls>
-                                                <source src="{{ asset('storage/cover/' . $post->cover) }}" type="video/webm">
+                                                <source src="{{ asset('storage/cover/' . $post->cover) }}"
+                                                    type="video/webm">
                                                 Your browser does not support the video tag.
                                             </video>
                                         @endif
                                     @elseif ($firstMedia)
                                         {{-- Jika tidak ada cover, tampilkan media pertama --}}
                                         @if (Str::endsWith($firstMedia->post, '.webp'))
-                                            <img src="{{ asset('storage/media/' . $firstMedia->post) }}" alt="Social Media" class="img-fluid">
+                                            <img src="{{ asset('storage/media/' . $firstMedia->post) }}"
+                                                alt="Social Media" class="img-fluid">
                                         @elseif (Str::endsWith($firstMedia->post, '.webm'))
                                             <video width="100%" controls>
-                                                <source src="{{ asset('storage/media/' . $firstMedia->post) }}" type="video/webm">
+                                                <source src="{{ asset('storage/media/' . $firstMedia->post) }}"
+                                                    type="video/webm">
                                                 Your browser does not support the video tag.
                                             </video>
                                         @endif
@@ -154,7 +160,7 @@
                         @empty
                             <p>Belum ada media.</p>
                         @endforelse
-                    </div>                                        
+                    </div>
                 </div>
 
 
@@ -164,13 +170,6 @@
                         aria-labelledby="mediaModalLabel{{ $post->id }}" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document"> {{-- modal-lg biar gede --}}
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="mediaModalLabel{{ $post->id }}">Detail Post</h5>
-                                    <button type="button" class="close" data-bs-dismiss="modal"
-                                        aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
 
                                 <div class="row form-marketing" enctype="multipart/form-data">
                                     <div class="col-lg-6">
@@ -253,9 +252,10 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
                                                     data-bs-dismiss="modal">Tutup</button>
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editSAModal{{ $post->id }}">
-                                                        Edit Post
-                                                    </button>                                                    
+                                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#editSAModal{{ $post->id }}">
+                                                    Edit Post
+                                                </button>
                                             </div>
                                         </form>
                                     </div>
@@ -264,18 +264,19 @@
                         </div>
                     </div>
                     <!-- Modal Edit SA -->
-                    <div class="modal fade modal-edit-sa-style" id="editSAModal{{ $post->id }}" tabindex="-1" role="dialog"
-                        aria-labelledby="editSAModalLabel{{ $post->id }}" aria-hidden="true">
+                    <div class="modal fade modal-edit-sa-style" id="editSAModal{{ $post->id }}" tabindex="-1"
+                        role="dialog" aria-labelledby="editSAModalLabel{{ $post->id }}" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <form class="form-marketing" id="edit-form-{{ $post->id }}" method="POST"
-                                    action="{{ route('divisi-sa.update', ['client_id' => $post->client_id, 'post_id' => $post->id]) }}" 
+                                    action="{{ route('divisi-sa.update', ['client_id' => $post->client_id, 'post_id' => $post->id]) }}"
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <input type="hidden" name="id" value="{{ $post->id }}">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="editSAModalLabel{{ $post->id }}">Edit Post</h5>
+                                        <h5 class="modal-title" id="editSAModalLabel{{ $post->id }}">Edit Post
+                                        </h5>
                                         <button type="button" class="close" data-dismiss="modal"
                                             aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -284,52 +285,59 @@
                                     <div class="modal-body">
                                         {{-- Caption --}}
                                         <div class="mb-3">
-                                            <label for="caption{{ $post->id }}" class="form-label">Caption</label>
+                                            <label for="caption{{ $post->id }}"
+                                                class="form-label">Caption</label>
                                             <textarea class="form-control" name="caption" id="caption{{ $post->id }}" required>{{ $post->caption }}</textarea>
                                         </div>
                                         {{-- Tanggal Upload --}}
                                         <div class="mb-3">
-                                            <label for="created_at{{ $post->id }}" class="form-label">Tanggal Upload</label>
+                                            <label for="created_at{{ $post->id }}" class="form-label">Tanggal
+                                                Upload</label>
                                             <input type="date" class="form-control" name="created_at"
                                                 id="created_at{{ $post->id }}"
                                                 value="{{ $post->created_at->format('Y-m-d') }}" required>
                                         </div>
                                         {{-- Upload Media --}}
                                         <div class="mb-3">
-                                            <label for="edit_content_media{{ $post->id }}" class="form-label">Gambar / Video yang Ada</label>
+                                            <label for="edit_content_media{{ $post->id }}"
+                                                class="form-label">Gambar / Video yang Ada</label>
                                             <div class="row mt-3" id="edit-preview-container-{{ $post->id }}">
                                                 @foreach ($post->media as $key => $media)
                                                     <div class="col-md-4 mb-2 position-relative preview-item">
-                                                        <input type="hidden" name="existing_media_ids[]" value="{{ $media->id }}">
-                                                        <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 remove-existing-media"
+                                                        <input type="hidden" name="existing_media_ids[]"
+                                                            value="{{ $media->id }}">
+                                                        <button type="button"
+                                                            class="btn btn-danger btn-sm position-absolute top-0 end-0 remove-existing-media"
                                                             data-media-id="{{ $media->id }}">
                                                             &times;
                                                         </button>
                                                         @if (in_array(pathinfo($media->post, PATHINFO_EXTENSION), ['mp4', 'mov', 'webm']))
                                                             <video class="w-100" controls>
-                                                                <source src="{{ asset('storage/media/' . $media->post) }}" type="video/mp4">
+                                                                <source
+                                                                    src="{{ asset('storage/media/' . $media->post) }}"
+                                                                    type="video/mp4">
                                                                 Browser tidak mendukung video.
                                                             </video>
                                                         @else
-                                                            <img src="{{ asset('storage/media/' . $media->post) }}" class="img-fluid rounded" alt="Media Post">
+                                                            <img src="{{ asset('storage/media/' . $media->post) }}"
+                                                                class="img-fluid rounded" alt="Media Post">
                                                         @endif
                                                     </div>
                                                 @endforeach
                                             </div>
                                             <div class="mt-2">
-                                                <input type="file" class="form-control d-none edit-file-input" 
+                                                <input type="file" class="form-control d-none edit-file-input"
                                                     id="edit_content_media{{ $post->id }}"
-                                                    data-id="{{ $post->id }}"
-                                                    name="content_media[]" 
-                                                    accept=".webp, .webm"
-                                                    multiple>
-                                                <button type="button" class="btn btn-primary edit-add-file-btn" 
-                                                        data-id="{{ $post->id }}">
+                                                    data-id="{{ $post->id }}" name="content_media[]"
+                                                    accept=".webp, .webm" multiple>
+                                                <button type="button" class="btn btn-primary edit-add-file-btn"
+                                                    data-id="{{ $post->id }}">
                                                     Add Gambar
                                                 </button>
                                             </div>
-                                            <div class="row mt-2 edit-preview-container" id="edit-preview-container-{{ $post->id }}"></div>
-                                        </div>   
+                                            <div class="row mt-2 edit-preview-container"
+                                                id="edit-preview-container-{{ $post->id }}"></div>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"

@@ -108,59 +108,95 @@
                                         </div>
                                     </div>
                                     <div class="stats">
-                                        <span><strong>testtt</strong> posts</span>
-                                        <span><strong>testtt</strong> followers</span>
-                                        <span><strong>testtt</strong> following</span>
+                                        <span><strong>Post</strong> 100 </span>
+                                        <span><strong>Real</strong> 100 </span>
+                                        <span><strong>Story</strong> 100 </span>
                                     </div>
                                     <div class="real-name">{{ $client->nama_client }}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tabs">
-                        <a href="#" class="active"><i class="fas fa-th"></i> POSTS</a>
-                        <a href="#"><i class="far fa-bookmark"></i> SAVED</a>
-                        <a href="#"><i class="far fa-user"></i> TAGGED</a>
+                    <div class="tabs text-center d-flex justify-content-around border-top border-bottom py-2">
+                        <a href="javascript:void(0)"
+                            class="tab-item {{ request('category', 'post') == 'post' ? 'active' : '' }}"
+                            onclick="filterByCategory('post')">
+                            POSTS
+                        </a>
+                        <a href="javascript:void(0)"
+                            class="tab-item {{ request('category') == 'real' ? 'active' : '' }}"
+                            onclick="filterByCategory('real')">
+                            REAL
+                        </a>
+                        <a href="javascript:void(0)"
+                            class="tab-item {{ request('category') == 'story' ? 'active' : '' }}"
+                            onclick="filterByCategory('story')">
+                            STORY
+                        </a>
                     </div>
+
                     <div class="gallery">
-                        @forelse ($posts as $post)
-                            @php
-                                $firstMedia = $post_medias->firstWhere('post_id', $post->id);
-                            @endphp
-                            <div class="gallery-item">
-                                <a href="#" data-bs-toggle="modal"
-                                    data-bs-target="#mediaModal{{ $post->id }}" target="_blank">
-                                    @if ($post->cover)
-                                        {{-- Tampilkan cover jika ada --}}
-                                        @if (Str::endsWith($post->cover, '.webp'))
-                                            <img src="{{ asset('storage/cover/' . $post->cover) }}" alt="Cover Image"
-                                                class="img-fluid">
-                                        @elseif (Str::endsWith($post->cover, '.webm'))
-                                            <video width="100%" controls>
-                                                <source src="{{ asset('storage/cover/' . $post->cover) }}"
-                                                    type="video/webm">
-                                                Your browser does not support the video tag.
-                                            </video>
+                        @php
+                            $category = request('category', 'post');
+                        @endphp
+
+                        @if ($category === 'post')
+                            {{-- Tampilkan post yang asli --}}
+                            @forelse ($posts as $post)
+                                @php
+                                    $firstMedia = $post_medias->firstWhere('post_id', $post->id);
+                                @endphp
+                                <div class="gallery-item">
+                                    <a href="#" data-bs-toggle="modal"
+                                        data-bs-target="#mediaModal{{ $post->id }}">
+                                        @if ($post->cover)
+                                            @if (Str::endsWith($post->cover, '.webp'))
+                                                <img src="{{ asset('storage/cover/' . $post->cover) }}"
+                                                    alt="Cover Image" class="img-fluid">
+                                            @elseif (Str::endsWith($post->cover, '.webm'))
+                                                <video width="100%" controls>
+                                                    <source src="{{ asset('storage/cover/' . $post->cover) }}"
+                                                        type="video/webm">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            @endif
+                                        @elseif ($firstMedia)
+                                            @if (Str::endsWith($firstMedia->post, '.webp'))
+                                                <img src="{{ asset('storage/media/' . $firstMedia->post) }}"
+                                                    alt="Social Media" class="img-fluid">
+                                            @elseif (Str::endsWith($firstMedia->post, '.webm'))
+                                                <video width="100%" controls>
+                                                    <source src="{{ asset('storage/media/' . $firstMedia->post) }}"
+                                                        type="video/webm">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            @endif
                                         @endif
-                                    @elseif ($firstMedia)
-                                        {{-- Jika tidak ada cover, tampilkan media pertama --}}
-                                        @if (Str::endsWith($firstMedia->post, '.webp'))
-                                            <img src="{{ asset('storage/media/' . $firstMedia->post) }}"
-                                                alt="Social Media" class="img-fluid">
-                                        @elseif (Str::endsWith($firstMedia->post, '.webm'))
-                                            <video width="100%" controls>
-                                                <source src="{{ asset('storage/media/' . $firstMedia->post) }}"
-                                                    type="video/webm">
-                                                Your browser does not support the video tag.
-                                            </video>
-                                        @endif
-                                    @endif
-                                </a>
-                            </div>
-                        @empty
-                            <p>Belum ada media.</p>
-                        @endforelse
+                                    </a>
+                                </div>
+                            @empty
+                                <p>Belum ada media.</p>
+                            @endforelse
+                        @elseif ($category === 'real')
+                            {{-- Dummy data untuk REAL --}}
+                            @for ($i = 1; $i <= 6; $i++)
+                                <div class="gallery-item">
+                                    <img src="https://picsum.photos/seed/real{{ $i }}/300/300"
+                                        alt="Real {{ $i }}" class="img-fluid">
+                                </div>
+                            @endfor
+                        @elseif ($category === 'story')
+                            {{-- Dummy data untuk STORY --}}
+                            @for ($i = 1; $i <= 6; $i++)
+                                <div class="gallery-item">
+                                    <img src="https://picsum.photos/seed/story{{ $i }}/300/500"
+                                        alt="Story {{ $i }}" class="img-fluid">
+                                </div>
+                            @endfor
+                        @endif
+
                     </div>
+
                 </div>
 
 
@@ -353,5 +389,11 @@
             </div>
         </div>
     </main>
-
+    <script>
+        function filterByCategory(category) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('category', category);
+            window.location.href = url;
+        }
+    </script>
 </x-app-layout>

@@ -53,16 +53,15 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) // Pastikan tipe parameter adalah Request
+    public function store(Request $request)
     {
-        // dd($request->all());
         // Validasi data termasuk gambar
         $validatedData = $request->validate([
             'nama_client' => 'required|string',
             'nama_brand' => 'required|string',
             'informasi_tambahan' => 'nullable|string',
             'alamat' => 'required|string',
-            'email' => 'required|email|unique:clients,email', // Tambahkan validasi unique untuk email
+            'email' => 'required|email|unique:clients,email', // Validasi unique email
             'nama_finance' => 'nullable|string',
             'pj' => 'required|string',
             'pegawai_id' => 'required|string',
@@ -71,32 +70,48 @@ class ClientController extends Controller
             'date_in' => 'required|date',
             'gambar_client' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
         ]);
-
-        // Buat data client tanpa gambar terlebih dahulu
-        $client = Client::create($request->only('nama_client', 'nama_brand', 'informasi_tambahan', 'alamat', 'email', 'nama_finance', 'pj', 'pegawai_id', 'telepon_finance', 'status_client', 'date_in'));
-
-        // Upload gambar jika ada
+    
+        // 1️⃣ Buat data client TANPA gambar terlebih dahulu
+        $client = Client::create($request->only([
+            'nama_client',
+            'nama_brand',
+            'informasi_tambahan',
+            'alamat',
+            'email',
+            'nama_finance',
+            'pj',
+            'pegawai_id',
+            'telepon_finance',
+            'status_client',
+            'date_in'
+        ]));
+    
+        // 2️⃣ Upload gambar jika ada & update client
+        $gambarPath = null; // default null
         if ($request->hasFile('gambar_client')) {
-            $path = $request->file('gambar_client')->store('client_images', 'public'); // Simpan gambar di folder public/storage/client_images
-            $client->gambar_client = $path; // Simpan path gambar ke dalam kolom gambar_client
-            $client->save(); // Simpan perubahan pada client setelah menyimpan gambar
+            $gambarPath = $request->file('gambar_client')->store('client_images', 'public'); // Simpan di public/storage/client_images
+            $client->gambar_client = $gambarPath; // Simpan path gambar di client
+            $client->save(); // Save perubahan client
+            
         }
-
-        // Buat data user baru
+    
+        // 3️⃣ Buat user BARU setelah client selesai upload gambar (biar logo ikut)
         $user = User::create([
-            'name' => $client->nama_brand, // Menggunakan nama_brand sebagai username
-            'password' => bcrypt($client->nama_brand), // Menggunakan nama_brand sebagai password yang di-hash
-            'user_role_id' => 6, // Mengatur role user ke 2
-            'email' => $client->email, // Menambahkan email dari client
-            'logo' => $client->gambar_client // Menambahkan gambar dari client
+            'name' => $client->nama_brand, // username pakai nama_brand
+            'password' => bcrypt($client->nama_brand), // password hash
+            'user_role_id' => 6, // role id
+            'email' => $client->email, // email dari client
+            'logo' => $client->gambar_client // 🚀 Pastiin sudah ada gambar di sini
         ]);
-
-        // Simpan user_id ke client
+    
+        // 4️⃣ Simpan user_id di client
         $client->user_id = $user->id;
-        $client->save(); // Simpan client setelah user_id diset
-
+        $client->save(); // Save lagi setelah set user_id
+    
+        // 5️⃣ Redirect & pesan sukses
         return redirect()->route('clients.index')->with('success', 'Client berhasil ditambahkan.');
     }
+    
 
     /**
      * Display the specified resource.

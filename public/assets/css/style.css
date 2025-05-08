@@ -913,3 +913,33 @@ a.col-12.btn.btn-outline-primary.style-client-a {
     align-items: center;
     justify-content: center;
 }
+
+.tabs .tab-item {
+    text-decoration: none;
+    color: #333;
+    font-weight: 400;
+    padding: 8px 0;
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.tabs .tab-item:hover {
+    color: var(--bs-primary);
+}
+
+.tabs .tab-item.active {
+    color: #000;
+    font-weight: 700;
+}
+
+.tabs .tab-item.active::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--bs-primary);
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+}

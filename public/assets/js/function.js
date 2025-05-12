@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Handle form submission for edit
-    document.querySelectorAll(".form-marketing").forEach((form) => {
+    document.querySelectorAll(".form-marketing-edit").forEach((form) => {
         form.addEventListener("submit", function (e) {
             e.preventDefault();
             const formData = new FormData(this);
@@ -250,6 +250,130 @@ document.addEventListener("DOMContentLoaded", function () {
                 .catch((error) => {
                     console.error("Error:", error);
                 });
+        });
+    });
+
+    // --- TIKTOK FORM HANDLER ---
+    const addFileBtnTiktok = document.getElementById("add-file-btn-tiktok");
+    const addCoverBtnTiktok = document.getElementById("add-cover-btn-tiktok");
+    const fileInputTiktok = document.getElementById("tiktok_media");
+    const coverInputTiktok = document.getElementById("tiktok_cover");
+    const previewContainerTiktok = document.getElementById(
+        "preview-container-tiktok"
+    );
+    const tiktokForm = document.querySelector(".form-marketing-tiktok");
+
+    let tiktokFilesToUpload = [];
+    let tiktokCoverFile = null;
+
+    if (addFileBtnTiktok && fileInputTiktok && previewContainerTiktok) {
+        addFileBtnTiktok.addEventListener("click", () =>
+            fileInputTiktok.click()
+        );
+
+        fileInputTiktok.addEventListener("change", (e) => {
+            const newFiles = Array.from(e.target.files);
+            newFiles.forEach((file) => {
+                tiktokFilesToUpload.push(file);
+                renderPreviewTiktok(file, tiktokFilesToUpload.length - 1);
+            });
+            fileInputTiktok.value = "";
+        });
+    }
+
+    if (addCoverBtnTiktok && coverInputTiktok && previewContainerTiktok) {
+        addCoverBtnTiktok.addEventListener("click", () =>
+            coverInputTiktok.click()
+        );
+
+        coverInputTiktok.addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                tiktokCoverFile = file;
+                renderPreviewTiktok(file, tiktokFilesToUpload.length, true);
+            }
+            coverInputTiktok.value = "";
+        });
+    }
+
+    function renderPreviewTiktok(file, index, isCover = false) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const col = document.createElement("div");
+            col.className = "col-md-3 mb-3";
+
+            const card = document.createElement("div");
+            card.className = "position-relative border p-1 rounded";
+
+            const removeBtn = document.createElement("button");
+            removeBtn.innerHTML = "&times;";
+            removeBtn.className =
+                "btn btn-danger btn-sm position-absolute top-0 end-0";
+            removeBtn.type = "button";
+            removeBtn.onclick = () => {
+                if (isCover) {
+                    tiktokCoverFile = null;
+                } else {
+                    tiktokFilesToUpload.splice(index, 1);
+                }
+                previewContainerTiktok.removeChild(col);
+            };
+
+            let media;
+            if (file.type.startsWith("video/")) {
+                media = document.createElement("video");
+                media.src = e.target.result;
+                media.controls = true;
+                media.className = "w-100";
+            } else {
+                media = document.createElement("img");
+                media.src = e.target.result;
+                media.className = "img-fluid";
+            }
+
+            card.appendChild(removeBtn);
+            card.appendChild(media);
+            col.appendChild(card);
+            previewContainerTiktok.appendChild(col);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Handle TikTok form submission
+    document.querySelectorAll(".form-marketing-tiktok").forEach((form) => {
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            // Add TikTok media files
+            tiktokFilesToUpload.forEach((file) => {
+                formData.append("tiktok_media[]", file);
+            });
+
+            // Add cover file if exists
+            if (tiktokCoverFile) {
+                formData.append("cover", tiktokCoverFile);
+            }
+
+            // Get CSRF token from the form
+            const token = this.querySelector('input[name="_token"]').value;
+
+            fetch(this.action, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRF-TOKEN": token,
+                },
+            })
+                .then((res) => {
+                    if (res.redirected) {
+                        window.location.href = res.url;
+                    } else {
+                        return res.text().then((text) => console.log(text));
+                    }
+                })
+                .catch((err) => console.error("Upload error:", err));
         });
     });
 });

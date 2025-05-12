@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\ClientLayanan;
 use App\Models\PostMedia;
+use App\Models\Tiktok;
+use App\Models\TiktokMedia;
 use Illuminate\Http\Request;
 use App\Models\SocialMedia;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class SaController extends Controller
 {
@@ -41,9 +44,15 @@ class SaController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
+        $tiktok = Tiktok::with('tiktok_media')
+            ->where('client_id', $client_id)
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
+            ->get();
+
         $post_medias = collect([]);
         foreach ($posts as $post) {
-            $media = PostMedia::with('postingan') // <-- Tambahkan ini supaya relasi 'post' ikut di-load
+            $media = PostMedia::with('postingan')
                 ->where('post_id', $post->id)
                 ->orderBy('created_at', 'asc')
                 ->first();
@@ -52,7 +61,18 @@ class SaController extends Controller
             }
         }
 
-        return view('marketlab.divisi-sa.index', compact('posts', 'post_medias', 'clients', 'client', 'client_id'));
+        $tiktok_medias = collect([]);
+        foreach ($tiktok as $postt) {
+            $tmedia = TiktokMedia::with('post_tiktok')
+                ->where('post_id', $postt->id)
+                ->orderBy('created_at', 'asc')
+                ->first();
+            if ($tmedia) {
+                $tiktok_medias->push($tmedia);
+            }
+        }
+
+        return view('marketlab.divisi-sa.index', compact('posts', 'tiktok', 'post_medias', 'tiktok_medias', 'clients', 'client', 'client_id'));
     }
 
     public function store(Request $request, $client_id)
@@ -174,5 +194,87 @@ class SaController extends Controller
     {
         $socialMedias = SocialMedia::all(); // atau bisa di-filter sesuai kebutuhan
         return view('profile.show', compact('socialMedias'));
+    }
+
+    // Tambahkan method untuk store TikTok
+    public function storeTiktok(Request $request, $client_id)
+    {
+        try {
+            $request->validate([
+                'caption' => 'required|string',
+                'created_at' => 'required|date',
+                'tiktok_media' => 'nullable|array',
+                'tiktok_media.*' => 'file|mimes:webp,webm|max:20480',
+                'cover' => 'nullable|file|mimes:webp|max:20480',
+            ]);
+
+            Log::info('TikTok Store Request:', [
+                'has_tiktok_media' => $request->hasFile('tiktok_media'),
+                'tiktok_media_count' => $request->hasFile('tiktok_media') ? count($request->file('tiktok_media')) : 0
+            ]);
+
+            // Simpan data ke tabel tiktok
+            $tiktok = Tiktok::create([
+                'caption' => $request->caption,
+                'client_id' => $client_id,
+                'created_at' => $request->created_at,
+                'cover' => null,
+                'status' => '0', // default status
+                'note' => null
+            ]);
+
+            Log::info('TikTok Created:', ['tiktok_id' => $tiktok->id]);
+
+            // Jika ada file cover yang diupload, simpan cover ke folder cover_tiktok
+            if ($request->hasFile('cover')) {
+                $coverFile = $request->file('cover');
+                $coverPath = $coverFile->store('cover_tiktok', 'public');
+                $cover = basename($coverPath);
+                $tiktok->cover = $cover;
+                $tiktok->save();
+            }
+
+            // Upload dan simpan file media tiktok jika ada
+            if ($request->hasFile('tiktok_media')) {
+                foreach ($request->file('tiktok_media') as $file) {
+                    try {
+                        $path = $file->store('tiktok_media', 'public');
+                        $filename = basename($path);
+
+                        Log::info('Storing TikTok Media:', [
+                            'filename' => $filename,
+                            'tiktok_id' => $tiktok->id
+                        ]);
+
+                        // Simpan ke tabel tiktok_media
+                        $tiktokMedia = TiktokMedia::create([
+                            'media' => $filename,
+                            'post_id' => $tiktok->id
+                        ]);
+
+                        Log::info('TikTok Media Created:', ['media_id' => $tiktokMedia->id]);
+                    } catch (\Exception $e) {
+                        Log::error('Error storing TikTok media:', [
+                            'error' => $e->getMessage(),
+                            'tiktok_id' => $tiktok->id
+                        ]);
+                        throw $e;
+                    }
+                }
+            }
+
+            // Reload tiktok dengan media-nya
+            $tiktok->load('tiktok_media');
+
+            Log::info('TikTok Media Count After Save:', [
+                'tiktok_id' => $tiktok->id,
+                'media_count' => $tiktok->tiktok_media->count()
+            ]);
+
+            return redirect()->back()->with('success', 'Post TikTok berhasil disimpan!');
+        } catch (\Exception $e) {
+            Log::error('TikTok Store Error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }

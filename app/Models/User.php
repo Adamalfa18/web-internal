@@ -46,7 +46,11 @@ class User extends Authenticatable
     }
 
     protected $fillable = [
-        'name', 'email', 'password', 'user_role_id', // tambahkan user_role_id
+        'name',
+        'email',
+        'password',
+        'user_role_id',
+        'logo', // tambahkan logo
     ];
 
     // Relasi dengan Role (jika diperlukan)

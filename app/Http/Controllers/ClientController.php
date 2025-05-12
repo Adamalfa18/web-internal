@@ -17,28 +17,28 @@ class ClientController extends Controller
     /**
      * Display a listing of the resource.
      */
-   public function index()
-{
-    $status = request('status', 1); // Default status 1 (aktif)
-    
-    $clients = Client::with(['pegawai', 'layanan'])
-        ->where('status_client', $status)
-        ->orderBy('created_at', 'desc')
-        ->when(request('brand'), function($query) {
-            $query->where('nama_brand', 'like', '%'.request('brand').'%');
-        })
-        ->when(request('date_aktif'), function($query) {
-            $query->whereDate('date_in', request('date_aktif'));
-        })
-        ->paginate(10)
-        ->withQueryString(); // Pertahankan semua parameter
+    public function index()
+    {
+        $status = request('status', 1); // Default status 1 (aktif)
 
-    $pegawai = Pegawai::all();
-    $layanans = Layanan::all();
+        $clients = Client::with(['pegawai', 'layanan'])
+            ->where('status_client', $status)
+            ->orderBy('created_at', 'desc')
+            ->when(request('brand'), function ($query) {
+                $query->where('nama_brand', 'like', '%' . request('brand') . '%');
+            })
+            ->when(request('date_aktif'), function ($query) {
+                $query->whereDate('date_in', request('date_aktif'));
+            })
+            ->paginate(10)
+            ->withQueryString(); // Pertahankan semua parameter
 
-    return view('marketlab.client.index', compact('clients', 'pegawai', 'layanans', 'status'));
-}
-    
+        $pegawai = Pegawai::all();
+        $layanans = Layanan::all();
+
+        return view('marketlab.client.index', compact('clients', 'pegawai', 'layanans', 'status'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -61,57 +61,54 @@ class ClientController extends Controller
             'nama_brand' => 'required|string',
             'informasi_tambahan' => 'nullable|string',
             'alamat' => 'required|string',
-            'email' => 'required|email|unique:clients,email', // Validasi unique email
+            'email' => 'required|email|unique:clients,email|unique:users,email', // email unik di 2 tabel
             'nama_finance' => 'nullable|string',
             'pj' => 'required|string',
             'pegawai_id' => 'required|string',
             'telepon_finance' => 'nullable|string',
             'status_client' => 'required|string',
             'date_in' => 'required|date',
-            'gambar_client' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
+            'gambar_client' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
-        // 1️⃣ Buat data client TANPA gambar terlebih dahulu
-        $client = Client::create($request->only([
-            'nama_client',
-            'nama_brand',
-            'informasi_tambahan',
-            'alamat',
-            'email',
-            'nama_finance',
-            'pj',
-            'pegawai_id',
-            'telepon_finance',
-            'status_client',
-            'date_in'
-        ]));
-    
-        // 2️⃣ Upload gambar jika ada & update client
-        $gambarPath = null; // default null
+
+        // Upload gambar jika ada
+        $gambarPath = null;
         if ($request->hasFile('gambar_client')) {
-            $gambarPath = $request->file('gambar_client')->store('client_images', 'public'); // Simpan di public/storage/client_images
-            $client->gambar_client = $gambarPath; // Simpan path gambar di client
-            $client->save(); // Save perubahan client
-            
+            $gambarPath = $request->file('gambar_client')->store('client_images', 'public');
         }
-    
-        // 3️⃣ Buat user BARU setelah client selesai upload gambar (biar logo ikut)
-        $user = User::create([
-            'name' => $client->nama_brand, // username pakai nama_brand
-            'password' => bcrypt($client->nama_brand), // password hash
-            'user_role_id' => 6, // role id
-            'email' => $client->email, // email dari client
-            'logo' => $client->gambar_client // 🚀 Pastiin sudah ada gambar di sini
+
+        // 1️⃣ Buat data client
+        $client = Client::create([
+            'nama_client' => $validatedData['nama_client'],
+            'nama_brand' => $validatedData['nama_brand'],
+            'informasi_tambahan' => $validatedData['informasi_tambahan'] ?? null,
+            'alamat' => $validatedData['alamat'],
+            'email' => $validatedData['email'],
+            'nama_finance' => $validatedData['nama_finance'] ?? null,
+            'pj' => $validatedData['pj'],
+            'pegawai_id' => $validatedData['pegawai_id'],
+            'telepon_finance' => $validatedData['telepon_finance'] ?? null,
+            'status_client' => $validatedData['status_client'],
+            'date_in' => $validatedData['date_in'],
+            'gambar_client' => $gambarPath,
         ]);
-    
-        // 4️⃣ Simpan user_id di client
+
+        // 2️⃣ Buat akun user otomatis
+        $user = User::create([
+            'name' => $client->nama_brand,
+            'email' => $client->email,
+            'password' => bcrypt($client->nama_brand), // default password (bisa diubah nanti)
+            'user_role_id' => 6, // Role khusus client
+            'logo' => $gambarPath,
+        ]);
+
+        // 3️⃣ Simpan user_id ke client
         $client->user_id = $user->id;
-        $client->save(); // Save lagi setelah set user_id
-    
-        // 5️⃣ Redirect & pesan sukses
-        return redirect()->route('clients.index')->with('success', 'Client berhasil ditambahkan.');
+        $client->save();
+
+        return redirect()->route('clients.index')->with('success', 'Client dan akun berhasil dibuat.');
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -137,7 +134,6 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
         // Ambil data client berdasarkan ID
         $client = Client::findOrFail($id);
 
@@ -156,6 +152,7 @@ class ClientController extends Controller
             'date_in' => 'required|date',
             'gambar_client' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
         ]);
+
         // Update data client tanpa memperbarui gambar terlebih dahulu
         $client->update($request->only('nama_client', 'nama_brand', 'informasi_tambahan', 'alamat', 'email', 'nama_finance', 'telepon_finance', 'status_client', 'date_in', 'pj', 'pegawai_id'));
 
@@ -178,6 +175,10 @@ class ClientController extends Controller
             // Update logo di tabel user
             $user = User::find($client->user_id); // Ambil user terkait
             if ($user) {
+                // Hapus logo lama di user jika ada
+                if ($user->logo && Storage::exists('public/' . $user->logo)) {
+                    Storage::delete('public/' . $user->logo);
+                }
                 $user->logo = $path; // Update logo
                 $user->save(); // Simpan perubahan
             }
@@ -185,7 +186,6 @@ class ClientController extends Controller
 
         // Simpan perubahan data client, termasuk gambar
         $client->save();
-
 
         return redirect()->route('clients.index')->with('success', 'Data client berhasil diperbarui.');
     }

@@ -133,11 +133,10 @@
                                             </div>
                                         </div>
                                         <div class="stats">
-                                            <span><strong>Post</strong> {{ $posts->count() }} </span>
-                                            <span><strong>Reel</strong> 0 </span>
-                                            <span><strong>Story</strong> 0 </span>
+                                            <span><strong>Post</strong> {{ $posts->where('category', 'post')->count() }} </span>
+                                            <span><strong>Reel</strong> {{ $posts->where('category', 'reel')->count() }} </span>
+                                            <span><strong>Story</strong> {{ $posts->where('category', 'story')->count() }} </span>
                                         </div>
-                                        <div class="reel-name">{{ $client->nama_client }}</div>
                                     </div>
                                 </div>
                             </div>

@@ -55,8 +55,9 @@ class UserController extends Controller
     }
     public function store(Request $request)
     {
+        // Validasi data
         $validatedData = $request->validate([
-            'id' => ['required', 'min:1', 'max:255', 'unique:users,id'], // Pastikan validasi unik untuk kolom 'id'
+            'id' => ['nullable', 'min:1', 'max:255', 'unique:users,id'],
             'name' => ['required', 'min:3', 'max:255', 'unique:users,name'],
             'email' => ['required', 'min:3', 'max:255', 'unique:users,email'],
             'password' => ['required', 'min:2', 'max:255'],
@@ -64,32 +65,51 @@ class UserController extends Controller
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        // Enkripsi password
         $validatedData['password'] = Hash::make($validatedData['password']);
-        
+
+        // Simpan file logo jika diupload
         if ($request->hasFile('logo')) {
-            $validatedData['logo'] = $request->file('logo')->store('client_images', 'public'); // Simpan path logo
+            $validatedData['logo'] = $request->file('logo')->store('client_images', 'public');
         }
 
-        User::create($validatedData);
+        // Ambil data user tanpa logo
+        $userData = $validatedData;
+        unset($userData['logo']); // Jangan simpan logo ke tabel users langsung
 
-        // Tambahkan logika untuk memperbarui tabel logo_client
+        // Simpan user (dengan atau tanpa ID manual)
+        if (!empty($validatedData['id'])) {
+            $user = new User($userData);
+            $user->id = $validatedData['id'];
+            $user->save();
+        } else {
+            $user = User::create($userData); // Auto-generate ID jika tidak ada id manual
+        }
+
+        // Simpan logo ke tabel 'users' jika ada
         if ($request->hasFile('logo')) {
-            // Cek apakah user memiliki relasi dengan tabel clients
-            $existingClient = DB::table('clients')->where('user_id', $validatedData['id'])->first();
-            if ($existingClient) { // Pastikan ada relasi
-                // Hapus logo sebelumnya jika ada
-                if ($existingClient->gambar_client) {
-                    Storage::disk('public')->delete($existingClient->gambar_client); // Hapus file logo sebelumnya
-                }
-                // Update logo di tabel client
-                DB::table('clients')->updateOrInsert(
-                    ['user_id' => $validatedData['id']],
-                    ['gambar_client' => $validatedData['logo']]
-                );
+            $user->logo = $validatedData['logo']; // Simpan logo ke field logo di tabel users
+            $user->save();
+        }
+
+        // Simpan logo ke tabel 'clients' jika role ID adalah 6
+        if ($request->hasFile('logo') && $user->user_role_id == 6) {
+            // Cek apakah data klien sudah ada
+            $existingClient = DB::table('clients')->where('user_id', $user->id)->first();
+
+            // Hapus gambar lama jika ada
+            if ($existingClient && $existingClient->gambar_client) {
+                Storage::disk('public')->delete($existingClient->gambar_client);
             }
+
+            // Simpan atau perbarui data di tabel clients
+            DB::table('clients')->updateOrInsert(
+                ['user_id' => $user->id],
+                ['gambar_client' => $validatedData['logo']]
+            );
         }
 
-        return redirect()->route('acount.index'); // Perbaiki typo 'acount' menjadi 'account'
+        return redirect()->route('acount.index')->with('success', 'Akun berhasil ditambahkan.');
     }
 
     public function edit($id)

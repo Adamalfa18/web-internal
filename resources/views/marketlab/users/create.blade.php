@@ -30,10 +30,10 @@
                         @csrf
                         <div class="row">
                             <div class="mb-3 col-md-6">
-                                <label for="id" class="form-label">Id Acount</label>
+                                <label for="id" class="form-label">ID (Opsional)</label>
                                 <input type="text" name="id"
-                                    class="form-control  @error('id') is-invalid @enderror" id="id"
-                                    placeholder="Id Acount" required value="{{ old('id') }}">
+                                    class="form-control @error('id') is-invalid @enderror" id="id"
+                                    placeholder="Biarkan kosong untuk generate otomatis" value="{{ old('id') }}">
                                 @error('id')
                                     <div class="invalid-feedback">
                                         {{ $message }}

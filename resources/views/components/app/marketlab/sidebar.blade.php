@@ -127,7 +127,7 @@
 
 
             <!-- Account -->
-            @if (!in_array(auth()->user()->user_role_id, [3, 4, 5]))
+            @if (!in_array(auth()->user()->user_role_id, [2, 3, 4, 5, 7, 8, 9, 10]))
                 <li class="nav-item">
                     <a class="nav-link {{ in_array(Route::currentRouteName(), ['acount.index', 'acount.create', 'acount.edit']) ? 'active' : '' }}"
                         href="{{ route('acount.index') }}">

@@ -79,6 +79,7 @@ class ClientInformationController extends Controller
         $posts = SocialMedia::with('media')
             ->where('client_id', $client_id)
             ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
             ->get();
 
         $post_medias = collect([]);

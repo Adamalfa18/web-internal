@@ -152,6 +152,11 @@
 
                                     <div class="col-lg-6">
                                         <form>
+                                            <div class="form-group">
+                                                <label>Tanggal Upload</label>
+                                                <textarea class="form-control" rows="3" disabled>{{ $post->created_at->format('d-m-Y') }}</textarea>
+                                            </div> 
+                                            
                                             {{-- Captin --}}
                                             <div class="form-group">
                                                 <label>Caption</label>

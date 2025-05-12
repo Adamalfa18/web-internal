@@ -38,6 +38,7 @@ class SaController extends Controller
         $posts = SocialMedia::with('media')
             ->where('client_id', $client_id)
             ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
             ->get();
 
         $post_medias = collect([]);
@@ -62,6 +63,7 @@ class SaController extends Controller
             'content_media' => 'nullable|array',
             'content_media.*' => 'file|mimes:webp,webm|max:20480',
             'cover' => 'nullable|file|mimes:webp|max:20480', // Cover validation
+            'category' => 'required|string'
         ]);
 
         // Variabel untuk menyimpan nama file cover
@@ -76,6 +78,7 @@ class SaController extends Controller
             'created_at' => $request->created_at,
             'updated_at' => now(),
             'cover' => null, // Kosongkan terlebih dahulu
+            'category' => $request->category
         ]);
 
         // Jika ada file cover yang diupload, simpan cover ke folder cover

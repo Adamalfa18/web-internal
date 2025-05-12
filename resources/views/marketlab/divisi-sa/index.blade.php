@@ -35,7 +35,19 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="created_at" class="form-label">Caption</label>
+                                        <label for="category" class="form-label">Category</label>
+                                        <select name="category" id="category">
+                                            <option value="post">Post</option>
+                                            <option value="reel">Reel</option>
+                                            <option value="story">Story</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="caption" class="form-label">Caption</label>
                                         <textarea class="form-control" name="caption" id="caption" required></textarea>
                                     </div>
                                 </div>
@@ -142,7 +154,7 @@
                         <div class="tab-content">
                             <div id="instagram-post" class="tab-pane active">
                                 <div class="gallery">
-                                    @foreach ($posts as $post)
+                                    @foreach ($posts->where('category', 'post') as $post)
                                         @php
                                             $firstMedia = $post_medias->firstWhere('post_id', $post->id);
                                         @endphp
@@ -181,23 +193,79 @@
 
                             <div id="instagram-reel" class="tab-pane">
                                 <div class="gallery">
-                                    @for ($i = 1; $i <= 6; $i++)
+                                    @foreach ($posts->where('category', 'reel') as $post)
+                                        @php
+                                            $firstMedia = $post_medias->firstWhere('post_id', $post->id);
+                                        @endphp
                                         <div class="gallery-item">
-                                            <img src="https://picsum.photos/seed/reel{{ $i }}/300/300"
-                                                alt="Reel {{ $i }}" class="img-fluid">
+                                            <a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#mediaModal{{ $post->id }}">
+                                                @if ($post->cover)
+                                                    @if (Str::endsWith($post->cover, '.webp'))
+                                                        <img src="{{ asset('storage/cover/' . $post->cover) }}"
+                                                            alt="Cover Image" class="img-fluid">
+                                                    @elseif (Str::endsWith($post->cover, '.webm'))
+                                                        <video width="100%" controls>
+                                                            <source src="{{ asset('storage/cover/' . $post->cover) }}"
+                                                                type="video/webm">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    @endif
+                                                @elseif ($firstMedia)
+                                                    @if (Str::endsWith($firstMedia->post, '.webp'))
+                                                        <img src="{{ asset('storage/media/' . $firstMedia->post) }}"
+                                                            alt="Social Media" class="img-fluid">
+                                                    @elseif (Str::endsWith($firstMedia->post, '.webm'))
+                                                        <video width="100%" controls>
+                                                            <source
+                                                                src="{{ asset('storage/media/' . $firstMedia->post) }}"
+                                                                type="video/webm">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    @endif
+                                                @endif
+                                            </a>
                                         </div>
-                                    @endfor
+                                    @endforeach
                                 </div>
                             </div>
 
                             <div id="instagram-story" class="tab-pane">
                                 <div class="gallery">
-                                    @for ($i = 1; $i <= 6; $i++)
+                                    @foreach ($posts->where('category', 'story') as $post)
+                                        @php
+                                            $firstMedia = $post_medias->firstWhere('post_id', $post->id);
+                                        @endphp
                                         <div class="gallery-item">
-                                            <img src="https://picsum.photos/seed/story{{ $i }}/300/500"
-                                                alt="Story {{ $i }}" class="img-fluid">
+                                            <a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#mediaModal{{ $post->id }}">
+                                                @if ($post->cover)
+                                                    @if (Str::endsWith($post->cover, '.webp'))
+                                                        <img src="{{ asset('storage/cover/' . $post->cover) }}"
+                                                            alt="Cover Image" class="img-fluid">
+                                                    @elseif (Str::endsWith($post->cover, '.webm'))
+                                                        <video width="100%" controls>
+                                                            <source src="{{ asset('storage/cover/' . $post->cover) }}"
+                                                                type="video/webm">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    @endif
+                                                @elseif ($firstMedia)
+                                                    @if (Str::endsWith($firstMedia->post, '.webp'))
+                                                        <img src="{{ asset('storage/media/' . $firstMedia->post) }}"
+                                                            alt="Social Media" class="img-fluid">
+                                                    @elseif (Str::endsWith($firstMedia->post, '.webm'))
+                                                        <video width="100%" controls>
+                                                            <source
+                                                                src="{{ asset('storage/media/' . $firstMedia->post) }}"
+                                                                type="video/webm">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    @endif
+                                                @endif
+                                            </a>
                                         </div>
-                                    @endfor
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -318,7 +386,7 @@
                                 <div class="gallery">
                                     @for ($i = 1; $i <= 6; $i++)
                                         <a href="#" data-bs-toggle="modal"
-                                            data-bs-target="#mediaTiktokModal{{ $post->id }}">
+                                            data-bs-target="#mediaTiktokModal">
                                             <div class="gallery-item">
                                                 <video width="100%" controls>
                                                     <source
@@ -401,6 +469,12 @@
 
                                 <div class="col-lg-6">
                                     <form>
+
+                                        <div class="form-group">
+                                            <label>Tanggal Upload</label>
+                                            <textarea class="form-control" rows="3" disabled>{{ $post->created_at->format('d-m-Y') }}</textarea>
+                                        </div>                                        
+
                                         {{-- Captin --}}
                                         <div class="form-group">
                                             <label>Caption</label>
@@ -468,6 +542,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
+
                                     {{-- Caption --}}
                                     <div class="mb-3">
                                         <label for="caption{{ $post->id }}" class="form-label">Caption</label>

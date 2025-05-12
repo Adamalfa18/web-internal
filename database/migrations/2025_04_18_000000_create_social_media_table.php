@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('status')->default(0); //0 menunggu persetujuan, 1 acc, 2 revisi
             $table->string('note')->nullable();
             $table->string('cover')->nullable();
+            $table->string('category');
 
             // Tambahkan foreign key ke tabel clients
             $table->unsignedBigInteger('client_id');

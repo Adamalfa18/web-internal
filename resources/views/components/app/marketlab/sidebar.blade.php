@@ -16,7 +16,7 @@
         <ul class="navbar-nav">
             {{-- Dasboard --}}
             @auth
-                @if (Auth::user()->user_role_id == 1)
+                @if (in_array(Auth::user()->user_role_id, [1, 2]))
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
                             href="{{ route('dashboard') }}">

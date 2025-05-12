@@ -28,13 +28,25 @@ class UserController extends Controller
     //     $this->middleware('can:destroy-user', ['only' => ['destroy']]);
     // }
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('user_role')->get(); // Menggunakan eager loading untuk menghindari N+1
+        $query = User::query()->with('user_role');
+    
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+    
+        if ($request->filled('role')) {
+            $query->where('user_role_id', $request->role);
+        }
+    
+        $users = $query->paginate(10);
         $rool = UserRole::all();
+    
         return view('marketlab.users.index', compact('users', 'rool'));
-        // return view('laravel-examples.users-management', compact('users'));
     }
+    
+
 
     public function create()
     {

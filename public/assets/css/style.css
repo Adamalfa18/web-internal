@@ -943,3 +943,6 @@ a.col-12.btn.btn-outline-primary.style-client-a {
     bottom: -2px;
     left: 0;
 }
+button.tab-item {
+    background: none !important;
+}

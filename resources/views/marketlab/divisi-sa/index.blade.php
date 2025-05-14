@@ -87,6 +87,101 @@
             </div>
             <!-- End Modal Add Post -->
 
+            <!-- Modal Edit Profile -->
+            <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addPostModalLabel">Edit Profile</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form class="form-marketing form-marketing-edit-profile"
+                            action="{{ $profile ? route('divisi-sa.updateProfile', ['client_id' => $client_id]) : route('divisi-sa.storeProfile', ['client_id' => $client_id]) }}"
+                            method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @if($profile)
+                                @method('PUT')
+                            @endif
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">Username</label>
+                                        <textarea class="form-control" name="username" id="username" required>{{ $profile->username ?? '' }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Name</label>
+                                        <textarea class="form-control" name="name" id="name" required>{{ $profile->name ?? '' }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="followers" class="form-label">Followers</label>
+                                        <textarea class="form-control" name="followers" id="followers" required>{{ $profile->followers ?? '' }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="following" class="form-label">Following</label>
+                                        <textarea class="form-control" name="following" id="following" required>{{ $profile->following ?? '' }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="bio" class="form-label">Bio</label>
+                                        <textarea class="form-control" name="bio" id="bio" required>{{ $profile->bio ?? '' }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">Link</label>
+                                        <button type="button" class="btn btn-primary" id="add-link-btn">Add Link</button>
+                                        <div id="links-container" class="mt-2">
+                                            @if($profile && $profile->links)
+                                                @foreach($profile->links as $index => $link)
+                                                    <div class="mb-2 row">
+                                                        <div class="col-md-5">
+                                                            <textarea class="form-control mb-1" name="links[{{ $index }}][url]" placeholder="URL" required>{{ $link->url }}</textarea>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <textarea class="form-control mb-1" name="links[{{ $index }}][name]" placeholder="Nama Link" required>{{ $link->name }}</textarea>
+                                                        </div>
+                                                        <div class="col-md-2 d-flex align-items-center">
+                                                            <button type="button" class="btn btn-danger btn-sm remove-link-btn" title="Hapus Link">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
             <div class="d-flex gap-2 mb-3">
                 <button id="btnInstagram" class="btn btn-sm btn-outline-primary active d-flex align-items-center gap-2"
                     onclick="showInstagram()">
@@ -101,6 +196,14 @@
                 </button>
             </div>
 
+            <div class="style-button-ig d-flex justify-content-end">
+                <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
+                    data-toggle="modal" data-target="#editProfileModal">
+                    <span class="btn-inner--icon">
+                    </span>
+                    <span class="btn-inner--text">Edit Profile</span>
+                </a>
+            </div>
 
             <div id="profileWrapper" class="">
                 <!-- Instagram Page -->
@@ -111,14 +214,18 @@
                         <div class="profile-info">
                             <div class="row top-info">
                                 <div class="col-md-3 style-ig">
-                                            <img src="{{ asset('storage/' . $client->gambar_client) }}"
-                                                class="profile-pic">
+                                    <img src="{{ asset('storage/' . $client->gambar_client) }}"
+                                    class="profile-pic"
+                                    id="profileStoryTrigger"
+                                    style="cursor:pointer"
+                                    data-toggle="modal"
+                                    data-target="#storyModal">
                                 </div>
                                 <div class="col-md-9">
                                     <div class="style-clien-header">
                                         <div class="nama-brand">
-                                            <h2>{{ $client->nama_brand }}</h2>
-                                        </div>
+                                            <h2>{{ !empty($profile->username) ? $profile->username : $client->nama_brand }}</h2>
+                                        </div>                                                                               
                                         <div class="style-button-ig">
                                             <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
                                                 data-toggle="modal" data-target="#addPostModal">
@@ -134,16 +241,35 @@
                                             </a>
                                                 </div>
                                             </div>
-                                            <div class="stats">
-                                                <span><strong>Post</strong>
-                                                    {{ $posts->where('category', 'post')->count() }}
-                                                </span>
-                                                <span><strong>Reel</strong>
-                                                    {{ $posts->where('category', 'reel')->count() }}
-                                                </span>
-                                                <span><strong>Story</strong>
-                                                    {{ $posts->where('category', 'story')->count() }} </span>
-                                            </div>
+                                            @if($profile)
+                                                <div class="stats">
+                                                    <span><strong>Followers</strong> {{ $profile->followers }}</span>
+                                                    <span><strong>Following</strong> {{ $profile->following }}</span>
+                                                </div>
+                                                <div class="stats">
+                                                    <span><strong>Post</strong>
+                                                        {{ $posts->where('category', 'post')->count() }}
+                                                    </span>
+                                                    <span><strong>Reel</strong>
+                                                        {{ $posts->where('category', 'reel')->count() }}
+                                                    </span>
+                                                    <span><strong>Story</strong>
+                                                        {{ $posts->where('category', 'story')->count() }} </span>
+                                                </div>
+                                                <div class="name_ig">
+                                                    <span><strong>{{ $profile->name }}</strong></span>
+                                                </div>
+                                                <div class="bio">
+                                                    <span>{{ $profile->bio }}</span>
+                                                </div>
+                                                <div class="link">
+                                                    @foreach($profile->links as $link)
+                                                        <a href="{{ $link->url }}" target="_blank">{{ $link->name }}</a>
+                                                    @endforeach
+                                                </div>
+                                            @else
+                                                <div class="text-danger">Profile belum diisi.</div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -316,6 +442,16 @@
                                             <div class="stats">
                                                 <span><strong>Followers</strong> 1.2M </span>
                                                 <span><strong>Likes</strong> 5.7M </span>
+                                            </div>
+                                            <div class="bio">
+                                                <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                                                    Ducimus expedita reprehenderit eum ad quisquam ullam doloremque 
+                                                    minima nam officia beatae? Nemo perspiciatis vel, alias accusamus 
+                                                    fuga repellat voluptatem vero quia?
+                                                </span>
+                                            </div>
+                                            <div class="link">
+                                                <a href="">link.com/links</a>
                                             </div>
                                         </div>
                                     </div>
@@ -626,7 +762,7 @@
                                             </div>
                                         <div class="row mt-2 edit-preview-container"
                                             id="edit-preview-container-{{ $post->id }}"></div>
-                                    </div>
+                                        </div>   
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"

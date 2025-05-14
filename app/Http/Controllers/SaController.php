@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\ClientLayanan;
 use App\Models\PostMedia;
+use App\Models\ProfileSa;
+use App\Models\LinkSa;
 use App\Models\Tiktok;
 use App\Models\TiktokMedia;
 use Illuminate\Http\Request;
@@ -37,6 +39,7 @@ class SaController extends Controller
     {
         $clients = Client::all();
         $client = Client::findOrFail($client_id);
+        $profile = ProfileSa::with('links')->where('client_id', $client_id)->first();
 
         $posts = SocialMedia::with('media')
             ->where('client_id', $client_id)
@@ -72,7 +75,58 @@ class SaController extends Controller
             }
         }
 
-        return view('marketlab.divisi-sa.index', compact('posts', 'tiktok', 'post_medias', 'tiktok_medias', 'clients', 'client', 'client_id'));
+        return view('marketlab.divisi-sa.index', compact('posts', 'tiktok', 'post_medias', 'tiktok_medias', 'clients', 'client', 'client_id', 'profile'));
+    }
+
+    public function updateProfile(Request $request, $client_id)
+    {
+        $request->validate([
+            'username' => 'required|string',
+            'name' => 'required|string',
+            'followers' => 'required|integer',
+            'following' => 'required|integer',
+            'bio' => 'required|string',
+            'links' => 'nullable|array',
+            'links.*.url' => 'required|url',
+            'links.*.name' => 'required|string',
+        ]);
+
+        try {
+            // Find or create profile
+            $profile = ProfileSa::firstOrNew(['client_id' => $client_id]);
+
+            // Update profile data
+            $profile->fill([
+                'username' => $request->username,
+                'name' => $request->name,
+                'followers' => $request->followers,
+                'following' => $request->following,
+                'bio' => $request->bio
+            ]);
+
+            $profile->save();
+
+            // Handle links
+            if ($request->has('links')) {
+                // Delete existing links
+                if ($profile->links()->exists()) {
+                    $profile->links()->delete();
+                }
+
+                // Create new links
+                foreach ($request->links as $link) {
+                    LinkSa::create([
+                        'profile_id' => $profile->id,
+                        'url' => $link['url'],
+                        'name' => $link['name'],
+                    ]);
+                }
+            }
+
+            return redirect()->back()->with('success', 'Profile berhasil ' . ($profile->wasRecentlyCreated ? 'dibuat' : 'diperbarui') . '.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 
     public function store(Request $request, $client_id)
@@ -337,5 +391,53 @@ class SaController extends Controller
         }
 
         return redirect()->back()->with('success', 'Post berhasil diperbarui.');
+    }
+
+    public function storeProfile(Request $request, $client_id)
+    {
+        $request->validate([
+            'username' => 'required|string',
+            'name' => 'required|string',
+            'followers' => 'required|integer',
+            'following' => 'required|integer',
+            'bio' => 'required|string',
+            'links' => 'nullable|array',
+            'links.*.url' => 'required|url',
+            'links.*.name' => 'required|string',
+        ]);
+
+        try {
+            // Check if profile already exists
+            $existingProfile = ProfileSa::where('client_id', $client_id)->first();
+
+            if ($existingProfile) {
+                return redirect()->back()->with('error', 'Profile untuk client ini sudah ada. Gunakan Edit Profile untuk mengubah data.');
+            }
+
+            // Create new profile
+            $profile = ProfileSa::create([
+                'client_id' => $client_id,
+                'username' => $request->username,
+                'name' => $request->name,
+                'followers' => $request->followers,
+                'following' => $request->following,
+                'bio' => $request->bio
+            ]);
+
+            // Handle links if any
+            if ($request->has('links')) {
+                foreach ($request->links as $link) {
+                    LinkSa::create([
+                        'profile_id' => $profile->id,
+                        'url' => $link['url'],
+                        'name' => $link['name'],
+                    ]);
+                }
+            }
+
+            return redirect()->back()->with('success', 'Profile berhasil dibuat.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }

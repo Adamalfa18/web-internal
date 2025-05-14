@@ -85,6 +85,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/divisi-sa/store/{client_id}', [SaController::class, 'store'])->name('divisi-sa.store');
         Route::post('/divisi-sa/store-tiktok/{client_id}', [SaController::class, 'storeTiktok'])->name('divisi-sa.storeTiktok');
         Route::put('/divisi-sa/update-tiktok/{client_id}/{post_id}', [SaController::class, 'updateTiktok'])->name('divisi-sa.updateTiktok');
+        Route::post('/divisi-sa/profile/{client_id}', [SaController::class, 'storeProfile'])->name('divisi-sa.storeProfile');
+        Route::put('/divisi-sa/profile/{client_id}', [SaController::class, 'updateProfile'])->name('divisi-sa.updateProfile');
     });
 
     // Head-MB (7)

@@ -530,6 +530,78 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
         });
     });
+
+    // Handle form submission for edit profile
+    document
+        .querySelectorAll(".form-marketing-edit-profile")
+        .forEach((form) => {
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+
+                // Get CSRF token from the form's _token input
+                const token = this.querySelector('input[name="_token"]').value;
+
+                fetch(this.action, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-CSRF-TOKEN": token,
+                    },
+                })
+                    .then((response) => {
+                        if (response.redirected) {
+                            window.location.href = response.url;
+                        } else {
+                            return response.text();
+                        }
+                    })
+                    .then((data) => {
+                        if (data) {
+                            console.log(data);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                    });
+            });
+        });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const addLinkBtn = document.getElementById("add-link-btn");
+    const linksContainer = document.getElementById("links-container");
+    let linkIndex = 0;
+
+    addLinkBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        linkIndex++;
+        const linkGroup = document.createElement("div");
+        linkGroup.className = "mb-2 row";
+
+        linkGroup.innerHTML = `
+            <div class="col-md-5">
+                <textarea class="form-control mb-1" name="links[${linkIndex}][url]" placeholder="URL" required></textarea>
+            </div>
+            <div class="col-md-5">
+                <textarea class="form-control mb-1" name="links[${linkIndex}][name]" placeholder="Nama Link" required></textarea>
+            </div>
+            <div class="col-md-2 d-flex align-items-center">
+                <button type="button" class="btn btn-danger btn-sm remove-link-btn" title="Hapus Link">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `;
+        linksContainer.appendChild(linkGroup);
+
+        // Handler hapus
+        linkGroup
+            .querySelector(".remove-link-btn")
+            .addEventListener("click", function () {
+                linksContainer.removeChild(linkGroup);
+            });
+    });
 });
 
 document.addEventListener("DOMContentLoaded", function () {

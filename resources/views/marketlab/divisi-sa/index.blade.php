@@ -87,101 +87,6 @@
             </div>
             <!-- End Modal Add Post -->
 
-            <!-- Modal Edit Profile -->
-            <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addPostModalLabel">Edit Profile</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form class="form-marketing form-marketing-edit-profile"
-                            action="{{ $profile ? route('divisi-sa.updateProfile', ['client_id' => $client_id]) : route('divisi-sa.storeProfile', ['client_id' => $client_id]) }}"
-                            method="POST"
-                            enctype="multipart/form-data">
-                            @csrf
-                            @if($profile)
-                                @method('PUT')
-                            @endif
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="username" class="form-label">Username</label>
-                                        <textarea class="form-control" name="username" id="username" required>{{ $profile->username ?? '' }}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label">Name</label>
-                                        <textarea class="form-control" name="name" id="name" required>{{ $profile->name ?? '' }}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="followers" class="form-label">Followers</label>
-                                        <textarea class="form-control" name="followers" id="followers" required>{{ $profile->followers ?? '' }}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="following" class="form-label">Following</label>
-                                        <textarea class="form-control" name="following" id="following" required>{{ $profile->following ?? '' }}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="bio" class="form-label">Bio</label>
-                                        <textarea class="form-control" name="bio" id="bio" required>{{ $profile->bio ?? '' }}</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Link</label>
-                                        <button type="button" class="btn btn-primary" id="add-link-btn">Add Link</button>
-                                        <div id="links-container" class="mt-2">
-                                            @if($profile && $profile->links)
-                                                @foreach($profile->links as $index => $link)
-                                                    <div class="mb-2 row">
-                                                        <div class="col-md-5">
-                                                            <textarea class="form-control mb-1" name="links[{{ $index }}][url]" placeholder="URL" required>{{ $link->url }}</textarea>
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <textarea class="form-control mb-1" name="links[{{ $index }}][name]" placeholder="Nama Link" required>{{ $link->name }}</textarea>
-                                                        </div>
-                                                        <div class="col-md-2 d-flex align-items-center">
-                                                            <button type="button" class="btn btn-danger btn-sm remove-link-btn" title="Hapus Link">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Simpan</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
             <div class="d-flex gap-2 mb-3">
                 <button id="btnInstagram" class="btn btn-sm btn-outline-primary active d-flex align-items-center gap-2"
                     onclick="showInstagram()">
@@ -224,8 +129,8 @@
                                 <div class="col-md-9">
                                     <div class="style-clien-header">
                                         <div class="nama-brand">
-                                            <h2>{{ !empty($profile->username) ? $profile->username : $client->nama_brand }}</h2>
-                                        </div>                                                                               
+                                            <h2>{{ $profile->username ?? $client->nama_brand }}</h2>
+                                        </div>
                                         <div class="style-button-ig">
                                             <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
                                                 data-toggle="modal" data-target="#addPostModal">
@@ -243,19 +148,20 @@
                                             </div>
                                             @if($profile)
                                                 <div class="stats">
-                                                    <span><strong>Followers</strong> {{ $profile->followers }}</span>
-                                                    <span><strong>Following</strong> {{ $profile->following }}</span>
-                                                </div>
-                                                <div class="stats">
                                                     <span><strong>Post</strong>
                                                         {{ $posts->where('category', 'post')->count() }}
                                                     </span>
+                                                    <span><strong>Followers</strong> {{ $profile->followers }}</span>
+                                                    <span><strong>Following</strong> {{ $profile->following }}</span>
+                                                </div>
+                                                {{-- <div class="stats">
+                                                    
                                                     <span><strong>Reel</strong>
                                                         {{ $posts->where('category', 'reel')->count() }}
                                                     </span>
                                                     <span><strong>Story</strong>
                                                         {{ $posts->where('category', 'story')->count() }} </span>
-                                                </div>
+                                                </div> --}}
                                                 <div class="name_ig">
                                                     <span><strong>{{ $profile->name }}</strong></span>
                                                 </div>
@@ -1127,5 +1033,126 @@
         }
     </script>
 
+    <!-- Modal Edit Profile -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
+                    @if(session('error'))
+                        <div class="alert alert-danger">{{ session('error') }}</div>
+                    @endif
+
+                    @if(!$profile)
+                        <div class="alert alert-warning">
+                            Profile belum diisi untuk client <strong>{{ $client->nama_brand }}</strong>.
+                        </div>
+                    @else
+                        <form class="form-marketing form-marketing-edit-profile-existing"
+                            action="{{ route('divisi-sa.updateProfile', ['client_id' => $client_id]) }}"
+                            method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @if($profile)
+                                @method('PUT')
+                            @endif
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" name="username" id="username" required value="{{ $profile->username ?? '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" name="name" id="name" required value="{{ $profile->name ?? '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="followers" class="form-label">Followers</label>
+                                <input type="text" class="form-control" name="followers" id="followers" required value="{{ $profile->followers ?? '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="following" class="form-label">Following</label>
+                                <input type="text" class="form-control" name="following" id="following" required value="{{ $profile->following ?? '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="bio" class="form-label">Bio</label>
+                                <textarea class="form-control" name="bio" id="bio" rows="3" required>{{ $profile->bio ?? '' }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Link</label>
+                                <button type="button" class="btn btn-primary btn-sm mb-2" id="add-link-btn-modal">Add Link</button>
+                                <div id="links-container-modal" class="mt-2">
+                                    @if($profile && $profile->links)
+                                        @foreach($profile->links as $index => $link)
+                                            <div class="mb-2 row align-items-center">
+                                                <div class="col-md-5">
+                                                    <input class="form-control mb-1" name="links[{{ $index }}][url]" placeholder="URL" required value="{{ $link->url }}">
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <input class="form-control mb-1" name="links[{{ $index }}][name]" placeholder="Nama Link" required value="{{ $link->name }}">
+                                                </div>
+                                                <div class="col-md-2 d-flex align-items-center">
+                                                    <button type="button" class="btn btn-danger btn-sm remove-link-btn" title="Hapus Link">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const addLinkBtn = document.getElementById("add-link-btn-modal");
+            const linksContainer = document.getElementById("links-container-modal");
+            let linkIndex = linksContainer.querySelectorAll('.row').length;
+
+            if (addLinkBtn) {
+                addLinkBtn.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    linkIndex++;
+                    const linkGroup = document.createElement("div");
+                    linkGroup.className = "mb-2 row align-items-center";
+                    linkGroup.innerHTML = `
+                        <div class=\"col-md-5\">
+                            <input class=\"form-control mb-1\" name=\"links[${linkIndex}][url]\" placeholder=\"URL\" required>
+                        </div>
+                        <div class=\"col-md-5\">
+                            <input class=\"form-control mb-1\" name=\"links[${linkIndex}][name]\" placeholder=\"Nama Link\" required>
+                        </div>
+                        <div class=\"col-md-2 d-flex align-items-center\">
+                            <button type=\"button\" class=\"btn btn-danger btn-sm remove-link-btn\" title=\"Hapus Link\">\n                                <i class=\"fas fa-trash\"></i>\n                            </button>
+                        </div>
+                    `;
+                    linksContainer.appendChild(linkGroup);
+                    linkGroup.querySelector(".remove-link-btn").addEventListener("click", function () {
+                        linksContainer.removeChild(linkGroup);
+                    });
+                });
+                // Remove link handler for existing links
+                linksContainer.querySelectorAll('.remove-link-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        btn.closest('.row').remove();
+                    });
+                });
+            }
+        });
+    </script>
 
 </x-app-layout>

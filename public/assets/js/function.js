@@ -531,77 +531,69 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Handle form submission for edit profile
+    // Handle form submission for edit profile (modal)
     document
-        .querySelectorAll(".form-marketing-edit-profile")
+        .querySelectorAll(".form-marketing-edit-profile-existing")
         .forEach((form) => {
             form.addEventListener("submit", function (e) {
                 e.preventDefault();
-
                 const formData = new FormData(this);
-
-                // Get CSRF token from the form's _token input
+                const action = this.action;
+                const method =
+                    this.querySelector('input[name="_method"]')?.value ||
+                    "POST";
                 const token = this.querySelector('input[name="_token"]').value;
+                // Remove previous alert
+                const alertSuccess =
+                    this.closest(".modal-content").querySelector(
+                        ".alert-success"
+                    );
+                const alertError =
+                    this.closest(".modal-content").querySelector(
+                        ".alert-danger"
+                    );
+                if (alertSuccess) alertSuccess.remove();
+                if (alertError) alertError.remove();
 
-                fetch(this.action, {
-                    method: "POST",
+                fetch(action, {
+                    method: method === "PUT" ? "POST" : method,
                     body: formData,
                     headers: {
                         "X-CSRF-TOKEN": token,
                     },
                 })
-                    .then((response) => {
+                    .then(async (response) => {
                         if (response.redirected) {
                             window.location.href = response.url;
-                        } else {
-                            return response.text();
+                            return;
                         }
-                    })
-                    .then((data) => {
-                        if (data) {
-                            console.log(data);
+                        const text = await response.text();
+                        // Try to parse error message from response
+                        let errorMsg = "";
+                        try {
+                            const json = JSON.parse(text);
+                            errorMsg = json.message || text;
+                        } catch {
+                            errorMsg = text;
                         }
+                        // Show error in modal
+                        const alert = document.createElement("div");
+                        alert.className = "alert alert-danger";
+                        alert.innerText = errorMsg;
+                        this.closest(".modal-content")
+                            .querySelector(".modal-body")
+                            .prepend(alert);
                     })
-                    .catch((error) => {
-                        console.error("Error:", error);
+                    .catch((err) => {
+                        const alert = document.createElement("div");
+                        alert.className = "alert alert-danger";
+                        alert.innerText = "Terjadi kesalahan: " + err;
+                        this.closest(".modal-content")
+                            .querySelector(".modal-body")
+                            .prepend(alert);
                     });
             });
         });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const addLinkBtn = document.getElementById("add-link-btn");
-    const linksContainer = document.getElementById("links-container");
-    let linkIndex = 0;
-
-    addLinkBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-        linkIndex++;
-        const linkGroup = document.createElement("div");
-        linkGroup.className = "mb-2 row";
-
-        linkGroup.innerHTML = `
-            <div class="col-md-5">
-                <textarea class="form-control mb-1" name="links[${linkIndex}][url]" placeholder="URL" required></textarea>
-            </div>
-            <div class="col-md-5">
-                <textarea class="form-control mb-1" name="links[${linkIndex}][name]" placeholder="Nama Link" required></textarea>
-            </div>
-            <div class="col-md-2 d-flex align-items-center">
-                <button type="button" class="btn btn-danger btn-sm remove-link-btn" title="Hapus Link">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>
-        `;
-        linksContainer.appendChild(linkGroup);
-
-        // Handler hapus
-        linkGroup
-            .querySelector(".remove-link-btn")
-            .addEventListener("click", function () {
-                linksContainer.removeChild(linkGroup);
-            });
-    });
 });
 
 document.addEventListener("DOMContentLoaded", function () {

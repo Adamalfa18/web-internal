@@ -7,6 +7,7 @@ use App\Models\ClientLayanan;
 use App\Models\PostMedia;
 use App\Models\ProfileSa;
 use App\Models\LinkSa;
+use App\Models\ProfileTiktok;
 use App\Models\Tiktok;
 use App\Models\TiktokMedia;
 use Illuminate\Http\Request;
@@ -30,6 +31,8 @@ class SaController extends Controller
         $clients->each(function ($client) {
             $client->status_layanan = optional($client->client_layanan->first())->status;
         });
+
+        $profile = null;
 
         return view('marketlab.divisi-sa.list-client-sa', compact('clients'));
     }
@@ -80,18 +83,18 @@ class SaController extends Controller
 
     public function updateProfile(Request $request, $client_id)
     {
-        $request->validate([
-            'username' => 'required|string',
-            'name' => 'required|string',
-            'followers' => 'required|integer',
-            'following' => 'required|integer',
-            'bio' => 'required|string',
-            'links' => 'nullable|array',
-            'links.*.url' => 'required|url',
-            'links.*.name' => 'required|string',
-        ]);
-
         try {
+            $request->validate([
+                'username' => 'required|string|max:255',
+                'name' => 'required|string|max:255',
+                'followers' => 'required|string|max:255',
+                'following' => 'required|string|max:255',
+                'bio' => 'required|string',
+                'links' => 'nullable|array',
+                'links.*.url' => 'required|url|max:255',
+                'links.*.name' => 'required|string|max:255',
+            ]);
+
             // Find or create profile
             $profile = ProfileSa::firstOrNew(['client_id' => $client_id]);
 
@@ -109,9 +112,7 @@ class SaController extends Controller
             // Handle links
             if ($request->has('links')) {
                 // Delete existing links
-                if ($profile->links()->exists()) {
-                    $profile->links()->delete();
-                }
+                $profile->links()->delete();
 
                 // Create new links
                 foreach ($request->links as $link) {
@@ -121,10 +122,37 @@ class SaController extends Controller
                         'name' => $link['name'],
                     ]);
                 }
+            } else {
+                // If no links provided, delete all existing links
+                $profile->links()->delete();
             }
 
-            return redirect()->back()->with('success', 'Profile berhasil ' . ($profile->wasRecentlyCreated ? 'dibuat' : 'diperbarui') . '.');
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Profile berhasil diperbarui.',
+                    'profile' => $profile->load('links')
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Profile berhasil diperbarui.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validasi gagal',
+                    'errors' => $e->errors()
+                ], 422);
+            }
+            return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
+            \Log::error('Error updating profile: ' . $e->getMessage());
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+                ], 500);
+            }
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
@@ -395,11 +423,15 @@ class SaController extends Controller
 
     public function storeProfile(Request $request, $client_id)
     {
+        $existingProfile = ProfileSa::where('client_id', $client_id)->first();
+        if ($existingProfile) {
+            return redirect()->back()->with('error', 'Profile sudah diisi.');
+        }
         $request->validate([
             'username' => 'required|string',
             'name' => 'required|string',
-            'followers' => 'required|integer',
-            'following' => 'required|integer',
+            'followers' => 'required|string',
+            'following' => 'required|string',
             'bio' => 'required|string',
             'links' => 'nullable|array',
             'links.*.url' => 'required|url',
@@ -439,5 +471,19 @@ class SaController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
+    }
+
+    public function editProfile($client_id)
+    {
+        $client = Client::findOrFail($client_id);
+        $profile = ProfileSa::with('links')->where('client_id', $client_id)->first();
+        return view('marketlab.divisi-sa.edit-profile', compact('client', 'profile', 'client_id'));
+    }
+
+    public function editProfileTiktok($client_id)
+    {
+        $client = Client::findOrFail($client_id);
+        $profile = ProfileTiktok::with('links')->where('client_id', $client_id)->first();
+        return view('marketlab.divisi-sa.edit-profile-tiktok', compact('client', 'profile', 'client_id'));
     }
 }

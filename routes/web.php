@@ -86,7 +86,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/divisi-sa/store-tiktok/{client_id}', [SaController::class, 'storeTiktok'])->name('divisi-sa.storeTiktok');
         Route::put('/divisi-sa/update-tiktok/{client_id}/{post_id}', [SaController::class, 'updateTiktok'])->name('divisi-sa.updateTiktok');
         Route::post('/divisi-sa/profile/{client_id}', [SaController::class, 'storeProfile'])->name('divisi-sa.storeProfile');
-        Route::put('/divisi-sa/profile/{client_id}', [SaController::class, 'updateProfile'])->name('divisi-sa.updateProfile');
+        Route::post('/divisi-sa/profile-tiktok/{client_id}', [SaController::class, 'storeProfileTiktok'])->name('divisi-sa.storeProfileTiktok');
+        Route::put('/divisi-sa/profile/{client_id}/update', [SaController::class, 'updateProfile'])->name('divisi-sa.updateProfile');
+        Route::get('/divisi-sa/profile/{client_id}/edit', [SaController::class, 'editProfile'])->name('divisi-sa.editProfile');
+        Route::get('/divisi-sa/profile-tiktok/{client_id}/edit', [SaController::class, 'editProfileTiktok'])->name('divisi-sa.editProfileTiktok');
+        Route::put('/divisi-sa/profile-tiktok/{client_id}/update', [SaController::class, 'updateProfileTiktok'])->name('divisi-sa.updateProfileTiktok');
     });
 
     // Head-MB (7)

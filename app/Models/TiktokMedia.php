@@ -17,7 +17,7 @@ class TiktokMedia extends Model
         'post_id'
     ];
 
-    public function tiktok_media()
+    public function tiktoks()
     {
         return $this->belongsTo(Tiktok::class);
     }

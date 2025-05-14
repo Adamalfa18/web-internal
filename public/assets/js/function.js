@@ -88,9 +88,9 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
 
         fetch(form.action, {
-                method: "POST",
-                body: formData,
-            })
+            method: "POST",
+            body: formData,
+        })
             .then((res) => {
                 if (res.redirected) {
                     window.location.href = res.url;
@@ -229,12 +229,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const token = this.querySelector('input[name="_token"]').value;
 
             fetch(this.action, {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        "X-CSRF-TOKEN": token,
-                    },
-                })
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRF-TOKEN": token,
+                },
+            })
                 .then((response) => {
                     if (response.redirected) {
                         window.location.href = response.url;
@@ -360,12 +360,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const token = this.querySelector('input[name="_token"]').value;
 
             fetch(this.action, {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        "X-CSRF-TOKEN": token,
-                    },
-                })
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRF-TOKEN": token,
+                },
+            })
                 .then((res) => {
                     if (res.redirected) {
                         window.location.href = res.url;
@@ -376,8 +376,161 @@ document.addEventListener("DOMContentLoaded", function () {
                 .catch((err) => console.error("Upload error:", err));
         });
     });
-});
 
+    // ------------------- UNTUK MODAL EDIT TIKTOK ----------------------
+    let editFilesToUploadTiktok = {};
+
+    document.addEventListener("click", function (e) {
+        if (e.target.classList.contains("remove-existing-media")) {
+            const btn = e.target;
+            const parent = btn.closest(".preview-item");
+            if (parent) {
+                parent.remove();
+
+                const mediaId = btn.getAttribute("data-media-id");
+                const form = btn.closest("form");
+                if (form) {
+                    const input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = "media_to_delete_tiktok[]";
+                    input.value = mediaId;
+                    form.appendChild(input);
+                }
+            }
+        }
+    });
+
+    document.querySelectorAll(".edit-add-file-btn-tiktok").forEach((button) => {
+        button.addEventListener("click", () => {
+            const postId = button.getAttribute("data-id");
+            const fileInput = document.querySelector(
+                `#edit_content_media_tiktok${postId}`
+            );
+            if (fileInput) fileInput.click();
+        });
+    });
+
+    document
+        .querySelectorAll(".edit-file-input-tiktok")
+        .forEach((fileInput) => {
+            fileInput.addEventListener("change", (e) => {
+                const postId = fileInput.getAttribute("data-id");
+                const files = Array.from(e.target.files);
+
+                if (!editFilesToUploadTiktok[postId]) {
+                    editFilesToUploadTiktok[postId] = [];
+                }
+
+                files.forEach((file) => {
+                    editFilesToUploadTiktok[postId].push(file);
+                    renderEditPreviewTiktok(file, postId);
+                });
+
+                fileInput.value = ""; // reset
+            });
+        });
+
+    function renderEditPreviewTiktok(file, postId) {
+        const container = document.querySelector(
+            `#edit-preview-container-tiktok-${postId}`
+        );
+        if (!container) return;
+
+        const reader = new FileReader();
+        const col = document.createElement("div");
+        col.className = "col-md-4 mb-2 position-relative preview-item";
+
+        const card = document.createElement("div");
+        card.className = "position-relative border p-1 rounded";
+
+        const removeBtn = document.createElement("button");
+        removeBtn.innerHTML = "&times;";
+        removeBtn.className =
+            "btn btn-danger btn-sm position-absolute top-0 end-0";
+        removeBtn.type = "button";
+        removeBtn.onclick = () => {
+            const index = editFilesToUploadTiktok[postId].indexOf(file);
+            if (index > -1) {
+                editFilesToUploadTiktok[postId].splice(index, 1);
+            }
+            container.removeChild(col);
+        };
+
+        reader.onload = function (e) {
+            let media;
+            if (file.type.startsWith("video/")) {
+                media = document.createElement("video");
+                media.src = e.target.result;
+                media.controls = true;
+                media.className = "w-100";
+            } else {
+                media = document.createElement("img");
+                media.src = e.target.result;
+                media.className = "img-fluid rounded";
+            }
+
+            card.appendChild(removeBtn);
+            card.appendChild(media);
+            col.appendChild(card);
+            container.appendChild(col);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Handle form submission for edit TikTok
+    document.querySelectorAll(".form-marketing-edit-tiktok").forEach((form) => {
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const postId = this.querySelector('input[name="id"]').value;
+
+            // Get all existing media IDs that are still visible (not deleted)
+            const existingMediaIds = Array.from(
+                this.querySelectorAll(
+                    '.preview-item input[name="existing_media_ids[]"]'
+                )
+            ).map((input) => input.value);
+
+            // Add existing media IDs to formData
+            existingMediaIds.forEach((id) => {
+                formData.append("media_to_delete_tiktok[]", id);
+            });
+
+            // Add new files to FormData
+            if (editFilesToUploadTiktok[postId]) {
+                editFilesToUploadTiktok[postId].forEach((file) => {
+                    formData.append("tiktok_media[]", file);
+                });
+            }
+
+            // Get CSRF token from the form's _token input
+            const token = this.querySelector('input[name="_token"]').value;
+
+            fetch(this.action, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRF-TOKEN": token,
+                },
+            })
+                .then((response) => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    } else {
+                        return response.text();
+                    }
+                })
+                .then((data) => {
+                    if (data) {
+                        console.log(data);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        });
+    });
+});
 
 document.addEventListener("DOMContentLoaded", function () {
     // ... existing code ...

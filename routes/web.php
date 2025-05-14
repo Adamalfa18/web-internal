@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/divisi-sa/{client_id}/{post_id}', [SaController::class, 'update'])->name('divisi-sa.update');
         Route::post('/divisi-sa/store/{client_id}', [SaController::class, 'store'])->name('divisi-sa.store');
         Route::post('/divisi-sa/store-tiktok/{client_id}', [SaController::class, 'storeTiktok'])->name('divisi-sa.storeTiktok');
+        Route::put('/divisi-sa/update-tiktok/{client_id}/{post_id}', [SaController::class, 'updateTiktok'])->name('divisi-sa.updateTiktok');
     });
 
     // Head-MB (7)

@@ -277,4 +277,65 @@ class SaController extends Controller
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
+
+    public function updateTiktok(Request $request, $client_id, $post_id)
+    {
+        // Validasi data
+        $request->validate([
+            'caption' => 'required|string',
+            'created_at' => 'required|date',
+            'tiktok_media.*' => 'nullable|file|mimes:webp,webm|max:20480', // max 20MB per file
+        ]);
+
+        // Temukan post berdasarkan post_id dan client_id
+        $post = Tiktok::where('client_id', $client_id)->where('id', $post_id)->firstOrFail();
+
+        // Update data dasar
+        $post->caption = $request->caption;
+        $post->created_at = $request->created_at;
+        $post->save();
+
+        // Dapatkan semua media yang ada untuk post ini
+        $existingMedia = TiktokMedia::where('post_id', $post->id)->get();
+
+        // Jika ada media yang dihapus
+        if ($request->has('media_to_delete_tiktok')) {
+            $mediaToDelete = $request->media_to_delete_tiktok;
+
+            // Hapus media yang tidak ada dalam existing_media_ids
+            foreach ($existingMedia as $media) {
+                if (!in_array($media->id, $mediaToDelete)) {
+                    // Hapus file dari storage
+                    if (Storage::exists('public/tiktok_media/' . $media->media)) {
+                        Storage::delete('public/tiktok_media/' . $media->post);
+                    }
+                    // Hapus dari database
+                    $media->delete();
+                }
+            }
+        } else {
+            // Jika tidak ada media yang dipertahankan, hapus semua media yang ada
+            foreach ($existingMedia as $media) {
+                if (Storage::exists('public/tiktok_media/' . $media->post)) {
+                    Storage::delete('public/tiktok_media/' . $media->post);
+                }
+                $media->delete();
+            }
+        }
+
+        // Jika ada media baru yang diupload
+        if ($request->hasFile('tiktok_media')) {
+            foreach ($request->file('tiktok_media') as $file) {
+                $path = $file->store('tiktok_media', 'public');
+                $filename = basename($path);
+
+                TiktokMedia::create([
+                    'post_id' => $post->id,
+                    'media' => $filename,
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Post berhasil diperbarui.');
+    }
 }

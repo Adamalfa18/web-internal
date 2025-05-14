@@ -88,9 +88,9 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
 
         fetch(form.action, {
-            method: "POST",
-            body: formData,
-        })
+                method: "POST",
+                body: formData,
+            })
             .then((res) => {
                 if (res.redirected) {
                     window.location.href = res.url;
@@ -229,12 +229,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const token = this.querySelector('input[name="_token"]').value;
 
             fetch(this.action, {
-                method: "POST",
-                body: formData,
-                headers: {
-                    "X-CSRF-TOKEN": token,
-                },
-            })
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-CSRF-TOKEN": token,
+                    },
+                })
                 .then((response) => {
                     if (response.redirected) {
                         window.location.href = response.url;
@@ -360,12 +360,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const token = this.querySelector('input[name="_token"]').value;
 
             fetch(this.action, {
-                method: "POST",
-                body: formData,
-                headers: {
-                    "X-CSRF-TOKEN": token,
-                },
-            })
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-CSRF-TOKEN": token,
+                    },
+                })
                 .then((res) => {
                     if (res.redirected) {
                         window.location.href = res.url;
@@ -378,11 +378,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-function toggleMobileView() {
-    const wrapper = document.getElementById("profileWrapper");
-    wrapper.classList.toggle("mobile-view");
-    wrapper.classList.toggle("desktop-view");
-}
 
 document.addEventListener("DOMContentLoaded", function () {
     // ... existing code ...

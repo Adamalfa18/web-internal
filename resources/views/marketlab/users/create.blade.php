@@ -1,27 +1,17 @@
 <!-- resources/views/clients/create.blade.php -->
 
 <x-app-layout>
-
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-
         <x-app.marketlab.navbar />
-
         <div class="container-fluid py-4 px-5">
-
             <div class="row">
-
                 @if ($errors->any())
-
                     <div class="alert alert-danger">
-
                         <ul>
-
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
-
                         </ul>
-
                     </div>
                 @endif
 

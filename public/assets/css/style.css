@@ -677,7 +677,7 @@ li.nav-item.drop {
 }
 
 /* Wrapper Mode */
-.normal-view {
+/* .normal-view {
     max-width: 100%;
     margin: 0 auto;
     padding: 20px;
@@ -693,7 +693,7 @@ li.nav-item.drop {
     overflow-y: auto;
     margin: 20px auto;
     position: relative;
-}
+} */
 
 /* Profile Header */
 .profile-header {
@@ -778,7 +778,6 @@ li.nav-item.drop {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 5px;
-    margin-top: 15px;
 }
 
 .gallery-item img {
@@ -799,12 +798,12 @@ button {
 }
 
 /* Default Desktop Style */
-#profileWrapper.desktop-view {
+/* #profileWrapper.desktop-view {
     background: #fff;
     color: #000;
-}
+} */
 
-#profileWrapper.mobile-view {
+/* #profileWrapper.mobile-view {
     width: 375px;
     height: 812px;
     margin: 0 auto;
@@ -812,10 +811,10 @@ button {
     border-radius: 36px;
     color: #black;
     overflow-y: auto;
-}
+} */
 
 /* Styling elements in mobile mode */
-#profileWrapper.mobile-view .profile-header {
+/* #profileWrapper.mobile-view .profile-header {
     flex-direction: column;
     align-items: center;
     text-align: center;
@@ -869,7 +868,7 @@ button {
         flex: 0 0 auto;
         width: 375px;
     }
-}
+} */
 
 #profileWrapper .gallery-item {
     overflow: hidden;
@@ -887,6 +886,10 @@ button {
     width: 100%; /* atau bisa pakai fixed width */
     aspect-ratio: 3 / 4;
 }
+.gallery-item {
+    width: 100%; /* atau bisa pakai fixed width */
+    aspect-ratio: 3 / 4;
+}
 
 .d-sm-flex.style-filter-marketing {
     justify-content: end;
@@ -895,14 +898,19 @@ td.text-sm {
     text-align: center;
 }
 
+button.btn.btn-style-sa {
+    border: solid 1px #774dd3;
+    color: #774dd3;
+}
+
 button.btn.btn-style-client.btn-outline-primary {
     width: 100%;
 }
 /* Gaya mobile (rasio 1:1) */
-#profileWrapper.mobile-view .gallery-item {
+/* #profileWrapper.mobile-view .gallery-item {
     width: 100%;
     aspect-ratio: 1 / 1;
-}
+} */
 
 .col-4.style-client-index {
     height: 130px;
@@ -945,4 +953,181 @@ a.col-12.btn.btn-outline-primary.style-client-a {
 }
 button.tab-item {
     background: none !important;
+}
+
+body.mobile {
+    background-color: #eaeef2;
+}
+
+#profileWrapper {
+    background: #fff;
+    color: #000;
+    margin: auto;
+    transition: all 0.3s ease;
+}
+
+/* Mobile View */
+#profileWrapper.mobile-view {
+    width: 375px;
+    height: 812px;
+    margin: 0 auto;
+    border: 6px solid #333;
+    border-radius: 36px;
+    overflow-y: auto;
+    color: #000;
+}
+
+#profileWrapper.mobile-view .row.top-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+    margin-top: 40px;
+    width: 375px;
+    flex-direction: column;
+}
+
+#profileWrapper.mobile-view .row.style-tiktok-sa {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+    margin-top: 40px;
+    width: 375px;
+    flex-direction: row;
+    justify-content: flex-start;
+    justify-content: center;
+}
+#profileWrapper.mobile-view .col-md-9.style-tiktok-sa.style-clien-header {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#profileWrapper.mobile-view .style-clien-header {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+#profileWrapper.mobile-view .row.top-info h2 {
+    margin: 0;
+}
+
+#profileWrapper.mobile-view .profile-container {
+    padding: 20px 0px;
+    width: 100%;
+}
+
+#profileWrapper.mobile-view .profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
+#profileWrapper.mobile-view .profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#profileWrapper.mobile-view .stats {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+#profileWrapper.mobile-view .tabs {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+}
+
+#profileWrapper.mobile-view .tabs button {
+    background: none;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#profileWrapper.mobile-view .tabs button.active {
+    color: #e1306c;
+}
+
+#profileWrapper.mobile-view .tab-pane {
+    display: none;
+    padding: 10px;
+}
+
+#profileWrapper.mobile-view .tab-pane.active {
+    display: block;
+}
+
+#profileWrapper.mobile-view .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    padding: 10px;
+}
+
+#profileWrapper.mobile-view .gallery-item {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background-color: #ddd;
+    overflow: hidden;
+    border-radius: 5px;
+    position: relative;
+}
+#profileWrapper.mobile-view .nama-brand h2 {
+    font-size: x-large;
+}
+.col-md-9.style-tiktok-sa {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.row.style-tiktok-sa {
+    width: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: nowrap;
+}
+.row.style-tiktok-sa h2 {
+    margin-right: 20px;
+    font-size: 24px;
+}
+#profileWrapper.mobile-view .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#profileWrapper.mobile-view .col-md-9.style-tiktok-sa .style-clien-header {
+    display: flex;
+    align-items: flex-start !important;
+}
+
+@media (min-width: 768px) {
+    #profileWrapper.mobile-view .col-md-9 {
+        flex: 0 0 auto;
+        width: 375px;
+    }
+    #profileWrapper.mobile-view .col-md-9.style-tiktok-sa {
+        flex: 0 0 auto;
+        width: auto;
+        padding-left: 20px;
+    }
 }

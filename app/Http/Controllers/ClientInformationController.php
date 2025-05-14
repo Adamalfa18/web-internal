@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Lead;
 use App\Models\Client;
+use App\Models\Tiktok;
 use App\Models\PostMedia;
 use App\Models\SocialMedia;
 use Illuminate\Http\Request;
 use App\Models\PerformanceBulanan;
 use Illuminate\Support\Facades\DB;
+use App\Models\TiktokMedia;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Pagination\Paginator;
 
@@ -73,8 +75,8 @@ class ClientInformationController extends Controller
 
     public function prosesLayananB($client_id)
     {
-        // Logika untuk Layanan B
-        $client = Client::findOrFail($client_id); // Pastikan client ada
+        $clients = Client::all();
+        $client = Client::findOrFail($client_id);
 
         $posts = SocialMedia::with('media')
             ->where('client_id', $client_id)
@@ -82,9 +84,15 @@ class ClientInformationController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
+        $tiktok = Tiktok::with('tiktok_media')
+            ->where('client_id', $client_id)
+            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
+            ->get();
+
         $post_medias = collect([]);
         foreach ($posts as $post) {
-            $media = PostMedia::with('postingan') // <-- Load relasi 'postingan'
+            $media = PostMedia::with('postingan')
                 ->where('post_id', $post->id)
                 ->orderBy('created_at', 'asc')
                 ->first();
@@ -92,7 +100,18 @@ class ClientInformationController extends Controller
                 $post_medias->push($media);
             }
         }
-        return view('info.data.client-sa', compact('client', 'posts', 'post_medias'));
+
+        $tiktok_medias = collect([]);
+        foreach ($tiktok as $postt) {
+            $tmedia = TiktokMedia::with('post_tiktok')
+                ->where('post_id', $postt->id)
+                ->orderBy('created_at', 'asc')
+                ->first();
+            if ($tmedia) {
+                $tiktok_medias->push($tmedia);
+            }
+        }
+        return view('info.data.client-sa', compact('posts', 'tiktok', 'post_medias', 'tiktok_medias', 'clients', 'client', 'client_id'));
     }
 
     public function prosesLayananC($client_id)

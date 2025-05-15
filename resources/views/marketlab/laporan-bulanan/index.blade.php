@@ -71,7 +71,7 @@
                         </div>
                         <div class="pt-0 card-body">
 
-                            <div class="row col-10">
+                            <div class="row col-12 mt-4">
                                 <div class="col-4">
                                     <label for="name">Nama Client</label>
                                     <input type="text" name="name" id="name"
@@ -86,7 +86,7 @@
                                     <input value="{{ $client->telepon_finance }}" class="form-control" disabled>
                                 </div>
                             </div>
-                            <div class="row mt-2 col-11">
+                            <div class="row mt-2 col-12">
                                 <div class="col-6">
                                     <label for="alamat">Alamat</label>
                                     <textarea name="alamat" id="alamat" rows="3" class="form-control" disabled>{{ $client->alamat }}</textarea>

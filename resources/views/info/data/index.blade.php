@@ -77,14 +77,16 @@
                             @endphp
 
                             @foreach ($client->layanans as $layanan)
-                                <div class="{{ $colClass }} style-client-index">
-                                    <a class="col-12 btn btn-outline-primary style-client-a"
-                                        href="{{ route('data-client.laporan-bulanan', ['client_id' => encrypt($client->id), 'layanan' => encrypt($layanan->nama_layanan)]) }}">
-                                        <div class="info-style info-btn-style">
-                                            Laporan Bulanan {{ $layanan->nama_layanan }}
-                                        </div>
-                                    </a>
-                                </div>
+                                @if ($client->status_client == 1)
+                                    <div class="{{ $colClass }} style-client-index">
+                                        <a class="col-12 btn btn-outline-primary style-client-a"
+                                            href="{{ route('data-client.laporan-bulanan', ['client_id' => encrypt($client->id), 'layanan' => encrypt($layanan->nama_layanan)]) }}">
+                                            <div class="info-style info-btn-style">
+                                                Laporan Bulanan {{ $layanan->nama_layanan }}
+                                            </div>
+                                        </a>
+                                    </div>
+                                @endif
                             @endforeach
                         </div>
                     </div>

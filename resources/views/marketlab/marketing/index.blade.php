@@ -73,7 +73,7 @@
                                                 <tr class="tabel-style">
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">No
                                                     </th>
-                                                    <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                                    <th class="text-secondary font-weight-semibold opacity-7">
                                                         Nama Layanan</th>
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
                                                         Tanggal Landing</th>
@@ -96,7 +96,7 @@
                                                             {{ $loop->iteration }}
                                                         </td>
 
-                                                        <td class="align-middle text-center text-sm">
+                                                        <td class="align-middle">
                                                             <span class="text-sm text-dark font-weight-semibold mb-0">
                                                                 {{ $cl->layanan->nama_layanan ?? '-' }}
                                                             </span>
@@ -180,7 +180,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="addServiceModalLabel">Tambah Service</h5>
+                                    <h5 class="modal-title" id="addServiceModalLabel">Tambah Layanan</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>

@@ -1131,3 +1131,16 @@ body.mobile {
         padding-left: 20px;
     }
 }
+
+td.client-name-style .d-flex.px-2.py-1 {
+    display: flex;
+    justify-content: center;
+}
+th.text-secondary.text-xs.font-weight-semibold.opacity-7,
+td.client-name-style {
+    text-align: center;
+}
+
+td.client-tab-style {
+    padding: 0.75rem 1.5rem;
+}

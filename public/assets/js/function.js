@@ -88,9 +88,9 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
 
         fetch(form.action, {
-            method: "POST",
-            body: formData,
-        })
+                method: "POST",
+                body: formData,
+            })
             .then((res) => {
                 if (res.redirected) {
                     window.location.href = res.url;
@@ -229,12 +229,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const token = this.querySelector('input[name="_token"]').value;
 
             fetch(this.action, {
-                method: "POST",
-                body: formData,
-                headers: {
-                    "X-CSRF-TOKEN": token,
-                },
-            })
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-CSRF-TOKEN": token,
+                    },
+                })
                 .then((response) => {
                     if (response.redirected) {
                         window.location.href = response.url;
@@ -360,12 +360,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const token = this.querySelector('input[name="_token"]').value;
 
             fetch(this.action, {
-                method: "POST",
-                body: formData,
-                headers: {
-                    "X-CSRF-TOKEN": token,
-                },
-            })
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-CSRF-TOKEN": token,
+                    },
+                })
                 .then((res) => {
                     if (res.redirected) {
                         window.location.href = res.url;
@@ -507,12 +507,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const token = this.querySelector('input[name="_token"]').value;
 
             fetch(this.action, {
-                method: "POST",
-                body: formData,
-                headers: {
-                    "X-CSRF-TOKEN": token,
-                },
-            })
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-CSRF-TOKEN": token,
+                    },
+                })
                 .then((response) => {
                     if (response.redirected) {
                         window.location.href = response.url;
@@ -556,12 +556,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (alertError) alertError.remove();
 
                 fetch(action, {
-                    method: method === "PUT" ? "POST" : method,
-                    body: formData,
-                    headers: {
-                        "X-CSRF-TOKEN": token,
-                    },
-                })
+                        method: method === "PUT" ? "POST" : method,
+                        body: formData,
+                        headers: {
+                            "X-CSRF-TOKEN": token,
+                        },
+                    })
                     .then(async (response) => {
                         if (response.redirected) {
                             window.location.href = response.url;
@@ -606,11 +606,11 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <div class="col-md-6">
                 <label for="meta_regular" class="form-label">Regular:</label>
-                <input class="form-control ads-input" type="text" name="meta_regular" id="meta_regular" placeholder="Meta Regular" value="0">
+                <input class="form-control ads-input" type="number" name="meta_regular" id="meta_regular" placeholder="Meta Regular" value="0">
             </div>
             <div class="col-md-6">
                 <label for="meta_cpas" class="form-label">CPAS:</label>
-                <input class="form-control ads-input" type="text" name="meta_cpas" id="meta_cpas" placeholder="Meta CPAS" value="0">
+                <input class="form-control ads-input" type="number" name="meta_cpas" id="meta_cpas" placeholder="Meta CPAS" value="0">
             </div>
         </div>
     `,
@@ -621,19 +621,19 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <div class="col-md-3">
                 <label for="google_search" class="form-label">Search:</label>
-                <input class="form-control ads-input" type="text" name="google_search" id="google_search" placeholder="Google Search" value="0">
+                <input class="form-control ads-input" type="number" name="google_search" id="google_search" placeholder="Google Search" value="0">
             </div>
             <div class="col-md-3">
                 <label for="google_youtube" class="form-label">YouTube:</label>
-                <input class="form-control ads-input" type="text" name="google_youtube" id="google_youtube" placeholder="Google YouTube" value="0">
+                <input class="form-control ads-input" type="number" name="google_youtube" id="google_youtube" placeholder="Google YouTube" value="0">
             </div>
             <div class="col-md-3">
                 <label for="google_gtm" class="form-label">GTM:</label>
-                <input class="form-control ads-input" type="text" name="google_gtm" id="google_gtm" placeholder="Google GTM" value="0">
+                <input class="form-control ads-input" type="number" name="google_gtm" id="google_gtm" placeholder="Google GTM" value="0">
             </div>
             <div class="col-md-3">
                 <label for="google_performance_max" class="form-label">Performance Max:</label>
-                <input class="form-control ads-input" type="text" name="google_performance_max" id="google_performance_max" placeholder="Performance Max" value="0">
+                <input class="form-control ads-input" type="number" name="google_performance_max" id="google_performance_max" placeholder="Performance Max" value="0">
             </div>
         </div>
     `,
@@ -644,23 +644,23 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <div class="col-md-4">
                 <label for="shopee_manual" class="form-label">Manual:</label>
-                <input class="form-control ads-input" type="text" name="shopee_manual" id="shopee_manual" placeholder="Manual" value="0">
+                <input class="form-control ads-input" type="number" name="shopee_manual" id="shopee_manual" placeholder="Manual" value="0">
             </div>
             <div class="col-md-4">
                 <label for="shopee_auto_meta" class="form-label">Auto Meta:</label>
-                <input class="form-control ads-input" type="text" name="shopee_auto_meta" id="shopee_auto_meta" placeholder="Auto Meta" value="0">
+                <input class="form-control ads-input" type="number" name="shopee_auto_meta" id="shopee_auto_meta" placeholder="Auto Meta" value="0">
             </div>
             <div class="col-md-4">
                 <label for="shopee_gmv" class="form-label">GMV:</label>
-                <input class="form-control ads-input" type="text" name="shopee_gmv" id="shopee_gmv" placeholder="GMV" value="0">
+                <input class="form-control ads-input" type="number" name="shopee_gmv" id="shopee_gmv" placeholder="GMV" value="0">
             </div>
             <div class="col-md-6">
                 <label for="shopee_toko" class="form-label">Toko:</label>
-                <input class="form-control ads-input" type="text" name="shopee_toko" id="shopee_toko" placeholder="Toko" value="0">
+                <input class="form-control ads-input" type="number" name="shopee_toko" id="shopee_toko" placeholder="Toko" value="0">
             </div>
             <div class="col-md-6">
                 <label for="shopee_live" class="form-label">Live:</label>
-                <input class="form-control ads-input" type="text" name="shopee_live" id="shopee_live" placeholder="Live" value="0">
+                <input class="form-control ads-input" type="number" name="shopee_live" id="shopee_live" placeholder="Live" value="0">
             </div>
         </div>
     `,
@@ -671,15 +671,15 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <div class="col-md-4">
                 <label for="tokped_manual" class="form-label">Manual:</label>
-                <input class="form-control ads-input" type="text" name="tokped_manual" id="tokped_manual" placeholder="Manual" value="0">
+                <input class="form-control ads-input" type="number" name="tokped_manual" id="tokped_manual" placeholder="Manual" value="0">
             </div>
             <div class="col-md-4">
                 <label for="tokped_auto_meta" class="form-label">Auto Meta:</label>
-                <input class="form-control ads-input" type="text" name="tokped_auto_meta" id="tokped_auto_meta" placeholder="Auto Meta" value="0">
+                <input class="form-control ads-input" type="number" name="tokped_auto_meta" id="tokped_auto_meta" placeholder="Auto Meta" value="0">
             </div>
             <div class="col-md-4">
                 <label for="tokped_toko" class="form-label">Toko:</label>
-                <input class="form-control ads-input" type="text" name="tokped_toko" id="tokped_toko" placeholder="Toko" value="0">
+                <input class="form-control ads-input" type="number" name="tokped_toko" id="tokped_toko" placeholder="Toko" value="0">
             </div>
         </div>
     `,
@@ -690,19 +690,19 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <div class="col-md-3">
                 <label for="tiktok_gmv_max" class="form-label">GMV Max:</label>
-                <input class="form-control ads-input" type="text" name="tiktok_gmv_max" id="tiktok_gmv_max" placeholder="GMV Max" value="0">
+                <input class="form-control ads-input" type="number" name="tiktok_gmv_max" id="tiktok_gmv_max" placeholder="GMV Max" value="0">
             </div>
             <div class="col-md-3">
                 <label for="tiktok_live_shopping" class="form-label">Live Shopping:</label>
-                <input class="form-control ads-input" type="text" name="tiktok_live_shopping" id="tiktok_live_shopping" placeholder="Live Shopping" value="0">
+                <input class="form-control ads-input" type="number" name="tiktok_live_shopping" id="tiktok_live_shopping" placeholder="Live Shopping" value="0">
             </div>
             <div class="col-md-3">
                 <label for="tiktok_product_shopping" class="form-label">Product Shopping:</label>
-                <input class="form-control ads-input" type="text" name="tiktok_product_shopping" id="tiktok_product_shopping" placeholder="Product Shopping" value="0">
+                <input class="form-control ads-input" type="number" name="tiktok_product_shopping" id="tiktok_product_shopping" placeholder="Product Shopping" value="0">
             </div>
             <div class="col-md-3">
                 <label for="tiktok_video_shopping" class="form-label">Video Shopping:</label>
-                <input class="form-control ads-input" type="text" name="tiktok_video_shopping" id="tiktok_video_shopping" placeholder="Video Shopping" value="0">
+                <input class="form-control ads-input" type="number" name="tiktok_video_shopping" id="tiktok_video_shopping" placeholder="Video Shopping" value="0">
             </div>
         </div>
     `,

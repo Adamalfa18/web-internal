@@ -9,6 +9,7 @@ use App\Models\ProfileSa;
 use App\Models\LinkSa;
 use App\Models\ProfileTiktok;
 use App\Models\Tiktok;
+use App\Models\LinkTiktok;
 use App\Models\TiktokMedia;
 use Illuminate\Http\Request;
 use App\Models\SocialMedia;
@@ -43,6 +44,7 @@ class SaController extends Controller
         $clients = Client::all();
         $client = Client::findOrFail($client_id);
         $profile = ProfileSa::with('links')->where('client_id', $client_id)->first();
+        $profileTiktok = ProfileTiktok::with('links')->where('client_id', $client_id)->first();
 
         $posts = SocialMedia::with('media')
             ->where('client_id', $client_id)
@@ -78,7 +80,7 @@ class SaController extends Controller
             }
         }
 
-        return view('marketlab.divisi-sa.index', compact('posts', 'tiktok', 'post_medias', 'tiktok_medias', 'clients', 'client', 'client_id', 'profile'));
+        return view('marketlab.divisi-sa.index', compact('posts', 'tiktok', 'post_medias', 'tiktok_medias', 'clients', 'client', 'client_id', 'profile', 'profileTiktok'));
     }
 
     public function updateProfile(Request $request, $client_id)
@@ -485,5 +487,107 @@ class SaController extends Controller
         $client = Client::findOrFail($client_id);
         $profile = ProfileTiktok::with('links')->where('client_id', $client_id)->first();
         return view('marketlab.divisi-sa.edit-profile-tiktok', compact('client', 'profile', 'client_id'));
+    }
+
+    public function storeProfileTiktok(Request $request, $client_id)
+    {
+        $existingProfile = ProfileTiktok::where('client_id', $client_id)->first();
+        if ($existingProfile) {
+            return redirect()->back()->with('error', 'Profile sudah diisi.');
+        }
+        $request->validate([
+            'username' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'followers' => 'required|string|max:255',
+            'following' => 'required|string|max:255',
+            'likes' => 'required|string|max:255',
+            'bio' => 'required|string',
+            'links' => 'nullable|array',
+            'links.*.url' => 'required|url|max:255',
+            'links.*.name' => 'required|string|max:255',
+        ]);
+
+        try {
+            // Check if profile already exists
+            $existingProfile = ProfileTiktok::where('client_id', $client_id)->first();
+
+            if ($existingProfile) {
+                return redirect()->back()->with('error', 'Profile untuk client ini sudah ada. Gunakan Edit Profile untuk mengubah data.');
+            }
+
+            // Create new profile
+            $profile = ProfileTiktok::create([
+                'client_id' => $client_id,
+                'username' => $request->username,
+                'name' => $request->name,
+                'followers' => $request->followers,
+                'following' => $request->following,
+                'likes' => $request->likes,
+                'bio' => $request->bio
+            ]);
+
+            // Handle links if any
+            if ($request->has('links')) {
+                foreach ($request->links as $link) {
+                    LinkTiktok::create([
+                        'profile_id' => $profile->id,
+                        'url' => $link['url'],
+                        'name' => $link['name'],
+                    ]);
+                }
+            }
+
+            return redirect()->back()->with('success', 'Profile berhasil dibuat.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function updateProfileTiktok(Request $request, $client_id)
+    {
+        try {
+            $request->validate([
+                'username' => 'required|string|max:255',
+                'name' => 'required|string|max:255',
+                'followers' => 'required|string|max:255',
+                'following' => 'required|string|max:255',
+                'likes' => 'required|string|max:255',
+                'bio' => 'required|string',
+                'links' => 'nullable|array',
+                'links.*.url' => 'required|url|max:255',
+                'links.*.name' => 'required|string|max:255',
+            ]);
+
+            // Temukan profile TikTok berdasarkan client_id
+            $profileTiktok = ProfileTiktok::where('client_id', $client_id)->firstOrFail();
+
+            // Update data
+            $profileTiktok->update([
+                'username' => $request->username,
+                'name' => $request->name,
+                'followers' => $request->followers,
+                'following' => $request->following,
+                'likes' => $request->likes,
+                'bio' => $request->bio
+            ]);
+
+            // Update links
+            $profileTiktok->links()->delete();
+            if ($request->has('links')) {
+                foreach ($request->links as $link) {
+                    \App\Models\LinkTiktok::create([
+                        'profile_id' => $profileTiktok->id,
+                        'url' => $link['url'],
+                        'name' => $link['name'],
+                    ]);
+                }
+            }
+            return redirect()->back()->with('success', 'Profile berhasil diperbarui.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            \Log::error('Error updating TikTok profile: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }

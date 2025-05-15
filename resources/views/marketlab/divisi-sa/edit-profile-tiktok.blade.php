@@ -31,7 +31,7 @@
                     @endif
 
                     <form class="form-marketing form-marketing-edit-profile-tiktok"
-                        action="{{ route('divisi-sa.updateProfileTiktok', ['client_id' => $client_id]) }}"
+                        action="{{ route('divisi-sa.storeProfileTiktok', ['client_id' => $client_id]) }}"
                         method="POST"
                         enctype="multipart/form-data">
                         @csrf
@@ -58,6 +58,10 @@
                             <div class="mb-3 col-md-6">
                                 <label for="following" class="form-label">Following</label>
                                 <input type="text" class="form-control" name="following" id="following" required value="{{ $profile->following ?? '' }}" {{ $isDisabled }}>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="likes" class="form-label">Likes</label>
+                                <input type="text" class="form-control" name="likes" id="likes" required value="{{ $profile->likes ?? '' }}" {{ $isDisabled }}>
                             </div>
                         </div>
 

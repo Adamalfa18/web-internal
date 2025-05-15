@@ -102,28 +102,16 @@
                     </svg>
                     <i class="fab fa-tiktok"></i>TikTok
                 </button>
-            </div>
-
-            <div class="style-button-ig d-flex justify-content-end">
-                <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
-                    data-toggle="modal" data-target="#editProfileModal">
-                    <span class="btn-inner--icon">
-                    </span>
-                    <span class="btn-inner--text">Edit Profile</span>
-                </a>
-                <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
-                    data-toggle="modal" data-target="#addPostModal">
-                    <span class="btn-inner--icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-plus-square-fill" viewBox="0 0 16 16">
-                            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0"/>
-                        </svg>
-                    </span>
-                </a>
                 <button class="btn btn-style-sa" onclick="toggleView()">
                     <i class="fas fa-mobile-alt"></i> <span id="btnText">Ubah Preview</span>
                 </button>
             </div>
+
+            {{-- <div class="style-button-ig d-flex justify-content-end">
+                <button class="btn btn-style-sa" onclick="toggleView()">
+                    <i class="fas fa-mobile-alt"></i> <span id="btnText">Ubah Preview</span>
+                </button>
+            </div> --}}
 
             <div id="profileWrapper" class="">
                 <!-- Instagram Page -->
@@ -143,20 +131,35 @@
                                 </div>
                                 <div class="col-md-9">
                                     <div class="style-clien-header">
+                                        
                                         <div class="nama-brand">
                                             <h2>{{ $profile->username ?? $client->nama_brand }}</h2>
                                         </div>
+                                        <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
+                                            data-toggle="modal" data-target="#addPostModal">
+                                            <span class="btn-inner--icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                    class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                                                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0"/>
+                                                </svg>
+                                            </span>
+                                        </a>
+                                        <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
+                                            data-toggle="modal" data-target="#editProfileModal">
+                                            <span class="btn-inner--icon">
+                                            </span>
+                                            <span class="btn-inner--text">Edit Profile</span>
+                                        </a>
                                         <div class="style-button-ig">
                                             
                                                 </div>
                                             </div>
                                             @if($profile)
                                                 <div class="stats">
-                                                    <span><strong>Post</strong>
-                                                        {{ $posts->where('category', 'post')->count() }}
-                                                    </span>
-                                                    <span><strong>Followers</strong> {{ $profile->followers }}</span>
-                                                    <span><strong>Following</strong> {{ $profile->following }}</span>
+                                                    {{ $posts->where('category', 'post')->count() }}
+                                                    <span><strong>Post</strong></span>
+                                                    <span>{{ $profile->followers }}<strong> Followers</strong> </span>
+                                                    <span>{{ $profile->following }}<strong> Following</strong> </span>
                                                 </div>
                                                 {{-- <div class="stats">
                                                     
@@ -330,39 +333,45 @@
                                                 class="profile-pic">
                                         </div>
                                         <div class="col-md-9 style-tiktok-sa">
-                                    <div class="style-clien-header">
-                                        <div class="nama-brand">
-                                            <h2>{{ $client->nama_brand }}</h2>
-                                        </div>
-                                        <div class="style-button-ig">
-                                            <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
+                                            <div class="d-flex align-items-center mb-2">
+                                                <h2 class="mb-0 me-3">{{ $profileTiktok->username ?? $client->nama_brand }}</h2>
+                                                <span class="h6 mb-0 text-muted">{{ $profileTiktok->name ?? '' }}</span>
+                                                <div class="ms-auto d-flex gap-2">
+                                                    <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
                                                         data-toggle="modal" data-target="#addTiktokModal">
-                                                <span class="btn-inner--icon">
-                                                    <svg width="16" height="16"
-                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                        fill="currentColor" class="d-block me-2">
-                                                        <path
-                                                            d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z" />
-                                                    </svg>
-                                                </span>
-                                                        <span class="btn-inner--text">Add Video</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="stats">
-                                                <span><strong>Followers</strong> 1.2M </span>
-                                                <span><strong>Likes</strong> 5.7M </span>
+                                                        <span class="btn-inner--icon">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                                class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                                                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0"/>
+                                                            </svg>
+                                                        </span>
+                                                    </a>
+                                                    <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center"
+                                                        data-toggle="modal" data-target="#editProfileModalTiktok">
+                                                        <span class="btn-inner--icon"></span>
+                                                        <span class="btn-inner--text">Edit Profile</span>
+                                                    </a>
+                                                </div>
                                             </div>
-                                            <div class="bio">
-                                                <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                                                    Ducimus expedita reprehenderit eum ad quisquam ullam doloremque 
-                                                    minima nam officia beatae? Nemo perspiciatis vel, alias accusamus 
-                                                    fuga repellat voluptatem vero quia?
-                                                </span>
-                                            </div>
-                                            <div class="link">
-                                                <a href="">link.com/links</a>
-                                            </div>
+                                            @if($profileTiktok)
+                                                <div class="stats mb-2">
+                                                    <span><strong>{{ $profileTiktok->following }}</strong> Following</span>
+                                                    <span class="ms-3"><strong>{{ $profileTiktok->followers }}</strong> Followers</span>
+                                                    <span class="ms-3"><strong>{{ $profileTiktok->likes }}</strong> Likes</span>
+                                                </div>
+                                                <div class="bio mb-1">
+                                                    <span>{{ $profileTiktok->bio }}</span>
+                                                </div>
+                                                <div class="link">
+                                                    @foreach($profileTiktok->links as $link)
+                                                        <div>
+                                                            <a href="{{ $link->url }}" target="_blank">{{ $link->name }}</a>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @else
+                                                <div class="text-danger">Profile belum diisi.</div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -871,6 +880,10 @@
                                         <div class="row mt-2 edit-preview-container-tiktok"
                                             id="edit-preview-container-tiktok-{{ $tkpost->id }}"></div>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="following_tiktok" class="form-label">Following</label>
+                                        <input type="text" class="form-control" name="following" id="following_tiktok" required value="{{ $profileTiktok->following ?? '' }}">
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
@@ -1162,6 +1175,130 @@
                 });
                 // Remove link handler for existing links
                 linksContainer.querySelectorAll('.remove-link-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        btn.closest('.row').remove();
+                    });
+                });
+            }
+        });
+    </script>
+
+    <!-- Modal Edit Profile TikTok -->
+    <div class="modal fade" id="editProfileModalTiktok" tabindex="-1" role="dialog" aria-labelledby="editProfileModalTiktokLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalTiktokLabel">Edit Profile TikTok</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{-- @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
+                    @if(session('error'))
+                        <div class="alert alert-danger">{{ session('error') }}</div>
+                    @endif --}}
+
+                    @if(!$profileTiktok)
+                        <div class="alert alert-warning">
+                            Profile TikTok belum diisi untuk client <strong>{{ $client->nama_brand }}</strong>.
+                        </div>
+                    @else
+                        <form class="form-marketing form-marketing-edit-profile-existing-tiktok"
+                            action="{{ route('divisi-sa.updateProfileTiktok', ['client_id' => $client_id]) }}"
+                            method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="mb-3">
+                                <label for="username_tiktok" class="form-label">Username</label>
+                                <input type="text" class="form-control" name="username" id="username_tiktok" required value="{{ $profileTiktok->username ?? '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="name_tiktok" class="form-label">Name</label>
+                                <input type="text" class="form-control" name="name" id="name_tiktok" required value="{{ $profileTiktok->name ?? '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="followers_tiktok" class="form-label">Followers</label>
+                                <input type="text" class="form-control" name="followers" id="followers_tiktok" required value="{{ $profileTiktok->followers ?? '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="following_tiktok" class="form-label">Following</label>
+                                <input type="text" class="form-control" name="following" id="following_tiktok" required value="{{ $profileTiktok->following ?? '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="likes_tiktok" class="form-label">Likes</label>
+                                <input type="text" class="form-control" name="likes" id="likes_tiktok" required value="{{ $profileTiktok->likes ?? '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="bio_tiktok" class="form-label">Bio</label>
+                                <textarea class="form-control" name="bio" id="bio_tiktok" rows="3" required>{{ $profileTiktok->bio ?? '' }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Link</label>
+                                <button type="button" class="btn btn-primary btn-sm mb-2" id="add-link-btn-modal-tiktok">Add Link</button>
+                                <div id="links-container-modal-tiktok" class="mt-2">
+                                    @if($profileTiktok && $profileTiktok->links)
+                                        @foreach($profileTiktok->links as $index => $link)
+                                            <div class="mb-2 row align-items-center">
+                                                <div class="col-md-5">
+                                                    <input class="form-control mb-1" name="links[{{ $index }}][url]" placeholder="URL" required value="{{ $link->url }}">
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <input class="form-control mb-1" name="links[{{ $index }}][name]" placeholder="Nama Link" required value="{{ $link->name }}">
+                                                </div>
+                                                <div class="col-md-2 d-flex align-items-center">
+                                                    <button type="button" class="btn btn-danger btn-sm remove-link-btn" title="Hapus Link">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const addLinkBtnTiktok = document.getElementById("add-link-btn-modal-tiktok");
+            const linksContainerTiktok = document.getElementById("links-container-modal-tiktok");
+            let linkIndexTiktok = linksContainerTiktok ? linksContainerTiktok.querySelectorAll('.row').length : 0;
+
+            if (addLinkBtnTiktok && linksContainerTiktok) {
+                addLinkBtnTiktok.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    linkIndexTiktok++;
+                    const linkGroup = document.createElement("div");
+                    linkGroup.className = "mb-2 row align-items-center";
+                    linkGroup.innerHTML = `
+                        <div class=\"col-md-5\">
+                            <input class=\"form-control mb-1\" name=\"links[${linkIndexTiktok}][url]\" placeholder=\"URL\" required>
+                        </div>
+                        <div class=\"col-md-5\">
+                            <input class=\"form-control mb-1\" name=\"links[${linkIndexTiktok}][name]\" placeholder=\"Nama Link\" required>
+                        </div>
+                        <div class=\"col-md-2 d-flex align-items-center\">
+                            <button type=\"button\" class=\"btn btn-danger btn-sm remove-link-btn\" title=\"Hapus Link\">\n                                <i class=\"fas fa-trash\"></i>\n                            </button>
+                        </div>
+                    `;
+                    linksContainerTiktok.appendChild(linkGroup);
+                    linkGroup.querySelector(".remove-link-btn").addEventListener("click", function () {
+                        linksContainerTiktok.removeChild(linkGroup);
+                    });
+                });
+                // Remove link handler for existing links
+                linksContainerTiktok.querySelectorAll('.remove-link-btn').forEach(function(btn) {
                     btn.addEventListener('click', function() {
                         btn.closest('.row').remove();
                     });

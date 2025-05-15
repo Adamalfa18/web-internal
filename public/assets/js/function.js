@@ -88,9 +88,9 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
 
         fetch(form.action, {
-                method: "POST",
-                body: formData,
-            })
+            method: "POST",
+            body: formData,
+        })
             .then((res) => {
                 if (res.redirected) {
                     window.location.href = res.url;
@@ -229,12 +229,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const token = this.querySelector('input[name="_token"]').value;
 
             fetch(this.action, {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        "X-CSRF-TOKEN": token,
-                    },
-                })
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRF-TOKEN": token,
+                },
+            })
                 .then((response) => {
                     if (response.redirected) {
                         window.location.href = response.url;
@@ -360,12 +360,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const token = this.querySelector('input[name="_token"]').value;
 
             fetch(this.action, {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        "X-CSRF-TOKEN": token,
-                    },
-                })
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRF-TOKEN": token,
+                },
+            })
                 .then((res) => {
                     if (res.redirected) {
                         window.location.href = res.url;
@@ -507,12 +507,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const token = this.querySelector('input[name="_token"]').value;
 
             fetch(this.action, {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        "X-CSRF-TOKEN": token,
-                    },
-                })
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRF-TOKEN": token,
+                },
+            })
                 .then((response) => {
                     if (response.redirected) {
                         window.location.href = response.url;
@@ -556,12 +556,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (alertError) alertError.remove();
 
                 fetch(action, {
-                        method: method === "PUT" ? "POST" : method,
-                        body: formData,
-                        headers: {
-                            "X-CSRF-TOKEN": token,
-                        },
-                    })
+                    method: method === "PUT" ? "POST" : method,
+                    body: formData,
+                    headers: {
+                        "X-CSRF-TOKEN": token,
+                    },
+                })
                     .then(async (response) => {
                         if (response.redirected) {
                             window.location.href = response.url;
@@ -595,6 +595,69 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
 });
+
+$(document).on(
+    "submit",
+    ".form-marketing-edit-profile-existing-tiktok",
+    function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const action = this.action;
+        const method =
+            this.querySelector('input[name="_method"]')?.value || "POST";
+        const token = this.querySelector('input[name="_token"]').value;
+
+        const modal = this.closest(".modal-content");
+        const alertSuccess = modal.querySelector(".alert-success");
+        const alertError = modal.querySelector(".alert-danger");
+
+        if (alertSuccess) alertSuccess.remove();
+        if (alertError) alertError.remove();
+
+        fetch(action, {
+            method: method === "PUT" ? "POST" : method,
+            body: formData,
+            headers: {
+                "X-CSRF-TOKEN": token,
+            },
+        })
+            .then(async (response) => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                    return;
+                }
+
+                if (response.ok) {
+                    const alert = document.createElement("div");
+                    alert.className = "alert alert-success";
+                    alert.innerText = "Profil TikTok berhasil diperbarui!";
+                    modal.querySelector(".modal-body").prepend(alert);
+                    return;
+                }
+
+                const text = await response.text();
+                let errorMsg = "";
+                try {
+                    const json = JSON.parse(text);
+                    errorMsg = json.message || text;
+                } catch {
+                    errorMsg = text;
+                }
+
+                const alert = document.createElement("div");
+                alert.className = "alert alert-danger";
+                alert.innerText = errorMsg;
+                modal.querySelector(".modal-body").prepend(alert);
+            })
+            .catch((err) => {
+                const alert = document.createElement("div");
+                alert.className = "alert alert-danger";
+                alert.innerText = "Terjadi kesalahan: " + err;
+                modal.querySelector(".modal-body").prepend(alert);
+            });
+    }
+);
 
 document.addEventListener("DOMContentLoaded", function () {
     // ... existing code ...

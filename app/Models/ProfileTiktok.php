@@ -19,6 +19,7 @@ class ProfileTiktok extends Model
         'name',
         'followers',
         'following',
+        'likes',
         'bio'
     ];
     public function clients()
@@ -27,6 +28,6 @@ class ProfileTiktok extends Model
     }
     public function links()
     {
-        return $this->hasMany(LinkSa::class, 'profile_id', 'id');
+        return $this->hasMany(LinkTiktok::class, 'profile_id', 'id');
     }
 }

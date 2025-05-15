@@ -19,11 +19,11 @@ class LinkTiktok extends Model
     ];
     public function linked()
     {
-        return $this->belongsTo(ProfileSa::class);
+        return $this->belongsTo(ProfileTiktok::class);
     }
 
     public function linkto()
     {
-        return $this->belongsTo(ProfileSa::class, 'profile_id', 'id');
+        return $this->belongsTo(ProfileTiktok::class, 'profile_id', 'id');
     }
 }

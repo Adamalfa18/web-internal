@@ -23,7 +23,7 @@
                                 <div class="card-header border-bottom pb-0">
                                     <div class="d-sm-flex align-items-center">
                                         <div>
-                                            <h6 class="font-weight-semibold text-lg mb-0">Buat Laporan Bulanan</h6>
+                                            <h6 class="font-weight-semibold text-lg mb-0">Tambah Laporan Bulanan</h6>
                                             <p class="text-sm">Berikut adalah input data laporan bulanan</p>
                                         </div>
                                     </div>
@@ -55,7 +55,7 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label for="target_spent" class="form-label">Target Spant</label>
-                                                    <input type="text" class="form-control" name="target_spent"
+                                                    <input type="number" class="form-control" name="target_spent"
                                                         id="targetSpentnBulananMB" placeholder="Target Spant" required>
                                                 </div>
                                             </div>
@@ -63,7 +63,7 @@
                                                 <div class="mb-3">
                                                     <label for="targetRevenueBulananMB" class="form-label">Target
                                                         Revenue</label>
-                                                    <input type="text" class="form-control" name="target_revenue"
+                                                    <input type="number" class="form-control" name="target_revenue"
                                                         id="targetRevenueBulananMB" placeholder="Target Revenue"
                                                         required>
                                                 </div>

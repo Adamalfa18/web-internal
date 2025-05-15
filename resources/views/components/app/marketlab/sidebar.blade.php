@@ -42,12 +42,12 @@
             @auth
                 @if (in_array(Auth::user()->user_role_id, [1, 2, 3]))
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle {{ in_array(Route::currentRouteName(), ['marketing.index', 'dashboard.marketing', 'clients.index', 'clients.create', 'clients.edit']) ? 'active' : '' }}"
+                        <a class="nav-link dropdown-toggle {{ in_array(Route::currentRouteName(), ['marketing.index', 'dashboard.marketing', 'clients.index', 'clients.create', 'clients.edit', 'marketing.edit']) ? 'active' : '' }}"
                             href="#" id="dropdownMarketing" data-bs-toggle="dropdown" aria-expanded="false">
                             <div
                                 class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                    class="bi bi-person-square {{ in_array(Route::currentRouteName(), ['marketing.index', 'dashboard.marketing', 'clients.index', 'clients.create', 'clients.edit']) ? 'text-primary' : 'text-white' }}"
+                                    class="bi bi-person-square {{ in_array(Route::currentRouteName(), ['marketing.index', 'dashboard.marketing', 'clients.index', 'clients.create', 'clients.edit', 'marketing.edit']) ? 'text-primary' : 'text-white' }}"
                                     viewBox="0 0 16 16">
                                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
                                     <path
@@ -59,8 +59,11 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdownMarketing">
                             <li><a class="dropdown-item {{ is_current_route('dashboard.marketing') ? 'active' : '' }}"
                                     href="{{ route('dashboard.marketing') }}">Dashboard</a></li>
-                            <li><a class="dropdown-item {{ is_current_route('marketing.index') ? 'active' : '' }}"
-                                    href="{{ route('marketing.index') }}">Layanan</a></li>
+                            {{-- <li><a class="dropdown-item {{ is_current_route('marketing.index') ? 'active' : '' }}"
+                                    href="{{ route('marketing.index') }}">Layanan</a></li> --}}
+                            <li><a class="dropdown-item {{ in_array(Route::currentRouteName(), ['marketing.index', 'marketing.edit']) ? 'active' : '' }}"
+                                    href="{{ route('marketing.index') }}">Layanan</a>
+                            </li>
                             <li><a class="dropdown-item {{ in_array(Route::currentRouteName(), ['clients.index', 'clients.create', 'clients.edit']) ? 'active' : '' }}"
                                     href="{{ route('clients.index') }}">Client</a></li>
                         </ul>

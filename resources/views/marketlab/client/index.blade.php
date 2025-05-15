@@ -232,11 +232,11 @@
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
                                                         No
                                                     </th>
-                                                    <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                                    <th class="text-secondary font-weight-semibold opacity-7">
                                                         Nama Brand</th>
-                                                    <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                                    <th class="text-secondary font-weight-semibold opacity-7">
                                                         Nama Client</th>
-                                                    <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                                    <th class="text-secondary font-weight-semibold opacity-7">
                                                         Penanggung Jawab</th>
                                                     <th
                                                         class="text-center text-secondary text-xs font-weight-semibold opacity-7">
@@ -253,7 +253,7 @@
                                                         <td class="text-sm">
                                                             {{ ($clients->currentPage() - 1) * $clients->perPage() + $loop->iteration }}
                                                         </td>
-                                                        <td class="client-name-style">
+                                                        <td class="client-tab-style">
                                                             <div class="d-flex px-2 py-1">
                                                                 <div class="d-flex align-items-center">
                                                                     <img src="{{ asset('storage/' . $client->gambar_client) }}"
@@ -269,13 +269,13 @@
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td class="client-name-style">
+                                                        <td class="client-tab-style">
                                                             <p class="text-sm text-dark font-weight-semibold mb-0">
                                                                 {{ $client->nama_client }}</p>
                                                             <p class="text-sm text-secondary mb-0">
                                                                 {{ $client->telepon_finance }}</p>
                                                         </td>
-                                                        <td class="client-name-style">
+                                                        <td class="client-tab-style">
                                                             <p class="text-sm text-dark font-weight-semibold mb-0">
                                                                 {{ $client->pj }}</p>
                                                             <p class="text-sm text-secondary mb-0">

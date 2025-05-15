@@ -102,9 +102,6 @@
                     </svg>
                     <i class="fab fa-tiktok"></i>TikTok
                 </button>
-                <button class="btn btn-style-sa" onclick="toggleView()">
-                    <i class="fas fa-mobile-alt"></i> <span id="btnText">Lihat Mode Mobile</span>
-                </button>
             </div>
 
             <div class="style-button-ig d-flex justify-content-end">
@@ -114,6 +111,18 @@
                     </span>
                     <span class="btn-inner--text">Edit Profile</span>
                 </a>
+                <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
+                    data-toggle="modal" data-target="#addPostModal">
+                    <span class="btn-inner--icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0"/>
+                        </svg>
+                    </span>
+                </a>
+                <button class="btn btn-style-sa" onclick="toggleView()">
+                    <i class="fas fa-mobile-alt"></i> <span id="btnText">Ubah Preview</span>
+                </button>
             </div>
 
             <div id="profileWrapper" class="">
@@ -138,18 +147,7 @@
                                             <h2>{{ $profile->username ?? $client->nama_brand }}</h2>
                                         </div>
                                         <div class="style-button-ig">
-                                            <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
-                                                data-toggle="modal" data-target="#addPostModal">
-                                                <span class="btn-inner--icon">
-                                                    <svg width="16" height="16"
-                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                        fill="currentColor" class="d-block me-2">
-                                                        <path
-                                                            d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z" />
-                                                    </svg>
-                                                </span>
-                                                <span class="btn-inner--text">Add Post</span>
-                                            </a>
+                                            
                                                 </div>
                                             </div>
                                             @if($profile)
@@ -1017,11 +1015,22 @@
 
             if (!isMobile) {
                 wrapper.classList.add('mobile-view');
-                text.innerText = "Lihat Versi Desktop";
+                text.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-display" viewBox="0 0 16 16">
+                        <path d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4q0 1 .25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75Q6 13 6 12H2s-2 0-2-2zm1.398-.855a.76.76 0 0 0-.254.302A1.5 1.5 0 0 0 1 4.01V10c0 .325.078.502.145.602q.105.156.302.254a1.5 1.5 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.76.76 0 0 0 .254-.302 1.5 1.5 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.76.76 0 0 0-.302-.254A1.5 1.5 0 0 0 13.99 3H2c-.325 0-.502.078-.602.145"/>
+                    </svg>
+                `;
                 isMobile = true;
             } else {
                 wrapper.classList.remove('mobile-view');
-                text.innerText = "Lihat Mode Mobile";
+                text.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-phone" viewBox="0 0 16 16">
+                        <path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                        <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                    </svg>
+                `;
                 isMobile = false;
             }
         }

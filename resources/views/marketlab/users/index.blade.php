@@ -10,7 +10,7 @@
                             <div class="row">
                                 <div class="col-6">
                                     <h5 class="">Account Management</h5>
-                                    <p class="mb-0 text-sm">Here you can manage users.</p>
+                                    <p class="mb-0 text-sm">Management user internal hub</p>
                                 </div>
                                 <div class="col-6 text-end user-add-sytle">
                                     <a href="{{ route('acount.create') }}"

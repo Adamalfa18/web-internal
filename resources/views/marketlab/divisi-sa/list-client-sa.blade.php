@@ -62,7 +62,7 @@
                                                         data-nama-brand-sa="{{ strtolower($client->nama_brand) }}"
                                                         data-tanggal-aktip-sa="{{ $client->date_in }}"
                                                         data-status-sa="{{ $client->status_layanan }}">
-                                                        <td class="align-middle text-center">
+                                                        <td class="align-middle text-center row-number">
                                                             {{ $loop->iteration }}
                                                         </td>
                                                         <td class="client-name-style">
@@ -150,6 +150,16 @@
     <!-- Real-time Search & Filter Script -->
     <script>
         $(document).ready(function() {
+            function updateRowNumbers() {
+                let visibleCount = 1;
+                $('#clientTableSA tbody tr').each(function() {
+                    if ($(this).is(':visible')) {
+                        $(this).find('.row-number').text(visibleCount);
+                        visibleCount++;
+                    }
+                });
+            }
+
             function applyFilterSA() {
                 var valueBrandSA = $('#searchClientSA').val().toLowerCase();
                 var valueTanggalSA = $('#filterTanggalAktipSA').val();
@@ -180,6 +190,9 @@
 
                     row.toggle(showRowSA);
                 });
+
+                // Update row numbers after filtering
+                updateRowNumbers();
             }
 
             // Apply filter on search and date change

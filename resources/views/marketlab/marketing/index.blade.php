@@ -135,8 +135,7 @@
                                                                 @break
 
                                                                 @case(2)
-                                                                    <span
-                                                                        class="badge badge-sm border border-success text-success badge-aktif">
+                                                                    <span class="badge badge-sm border border-warning text-warning badge-warning">
                                                                         Pending
                                                                     </span>
                                                                 @break

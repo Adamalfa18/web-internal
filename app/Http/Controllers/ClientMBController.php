@@ -19,16 +19,16 @@ class ClientMBController extends Controller
         $clients = Client::whereHas('client_layanan', function ($query) {
             $query->where('layanan_id', 1);
         })
-        ->with(['client_layanan' => function ($query) {
-            $query->where('layanan_id', 1);
-        }])
-        ->get();
-    
+            ->with(['client_layanan' => function ($query) {
+                $query->where('layanan_id', 1);
+            }])
+            ->paginate(10);
+
         // Inject status_layanan
         $clients->each(function ($client) {
             $client->status_layanan = optional($client->client_layanan->first())->status;
         });
-    
+
         return view('marketlab.client-mb.index', compact('clients'));
     }
 }

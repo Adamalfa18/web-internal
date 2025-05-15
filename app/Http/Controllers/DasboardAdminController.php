@@ -78,9 +78,9 @@ class DasboardAdminController extends Controller
                     ->where('status', 3);
             })
             ->count();
-            
 
-             // Menghitung jumlah klien per bulan berdasarkan status
+
+        // Menghitung jumlah klien per bulan berdasarkan status
         $monthNames = [
             "Januari",
             "Februari",
@@ -96,7 +96,7 @@ class DasboardAdminController extends Controller
             "Desember"
         ];
 
-            $mbClientsPerMonth = ClientLayanan::where('layanan_id', 1) // <-- tambahkan filter layanan MB
+        $mbClientsPerMonth = ClientLayanan::where('layanan_id', 1) // <-- tambahkan filter layanan MB
             ->selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, 
                 SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as active,
                 SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as pending,
@@ -116,7 +116,6 @@ class DasboardAdminController extends Controller
             'mb_nonaktip',
             'mbClientsPerMonth'
         ));
-
     }
     public function dasboar_sa()
     {
@@ -139,22 +138,22 @@ class DasboardAdminController extends Controller
             })
             ->count();
 
-            $monthNames = [
-                "Januari",
-                "Februari",
-                "Maret",
-                "April",
-                "Mei",
-                "Juni",
-                "Juli",
-                "Agustus",
-                "September",
-                "Oktober",
-                "November",
-                "Desember"
-            ];
+        $monthNames = [
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember"
+        ];
 
-            $saClientsPerMonth = ClientLayanan::where('layanan_id', 2)
+        $saClientsPerMonth = ClientLayanan::where('layanan_id', 2)
             ->selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, 
                 SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as active,
                 SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as pending,
@@ -167,7 +166,7 @@ class DasboardAdminController extends Controller
             $item->month = $monthNames[$item->month - 1] . ' ' . $item->year;
             return $item;
         });
-    
+
 
         return view('marketlab.divisi-sa.dashboard-sa', compact(
             'sa_aktip',

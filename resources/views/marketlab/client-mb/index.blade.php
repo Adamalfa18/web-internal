@@ -50,7 +50,7 @@
                                                         data-nama-brand-mb="{{ strtolower($client->nama_brand) }}"
                                                         data-tanggal-aktip-mb="{{ $client->date_in }}"
                                                         data-status-layanan-mb="{{ $client->status_layanan }}">
-                                                        <td class="align-middle text-center">
+                                                        <td class="align-middle text-center row-number">
                                                             {{ $loop->iteration }}
                                                         </td>
 
@@ -135,6 +135,17 @@
                 }
             });
 
+            // Function to update row numbers
+            function updateRowNumbers() {
+                let visibleCount = 1;
+                rowsMB.forEach(row => {
+                    if (row.style.display !== 'none') {
+                        row.querySelector('.row-number').textContent = visibleCount;
+                        visibleCount++;
+                    }
+                });
+            }
+
             // Filter function
             function applyFilterMB() {
                 const namaBrandValueMB = filterNamaBrandMB.value.toLowerCase();
@@ -164,10 +175,16 @@
 
                     row.style.display = showRowMB ? '' : 'none';
                 });
+
+                // Update row numbers after filtering
+                updateRowNumbers();
             }
 
             filterNamaBrandMB.addEventListener('input', applyFilterMB);
             filterTanggalAktipMB.addEventListener('change', applyFilterMB);
+
+            // Initial row number update
+            updateRowNumbers();
         });
     </script>
 </x-app-layout>

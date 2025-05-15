@@ -31,7 +31,7 @@
                     @endif
 
                     <form class="form-marketing form-marketing-edit-profile"
-                        action="{{ route('divisi-sa.updateProfile', ['client_id' => $client_id]) }}"
+                        action="{{ route('divisi-sa.storeProfile', ['client_id' => $client_id]) }}"
                         method="POST"
                         enctype="multipart/form-data">
                         @csrf

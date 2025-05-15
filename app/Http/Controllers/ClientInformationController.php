@@ -13,6 +13,7 @@ use App\Models\PerformanceBulanan;
 use Illuminate\Support\Facades\DB;
 use App\Models\TiktokMedia;
 use App\Http\Controllers\Controller;
+use App\Models\ProfileSa;
 use Illuminate\Contracts\Pagination\Paginator;
 
 class ClientInformationController extends Controller
@@ -78,6 +79,11 @@ class ClientInformationController extends Controller
         $clients = Client::all();
         $client = Client::findOrFail($client_id);
 
+        // Ambil data profile dari model ProfileSa
+        $profile = ProfileSa::with('links')
+            ->where('client_id', $client_id)
+            ->first();
+
         $posts = SocialMedia::with('media')
             ->where('client_id', $client_id)
             ->orderBy('created_at', 'desc')
@@ -111,7 +117,7 @@ class ClientInformationController extends Controller
                 $tiktok_medias->push($tmedia);
             }
         }
-        return view('info.data.client-sa', compact('posts', 'tiktok', 'post_medias', 'tiktok_medias', 'clients', 'client', 'client_id'));
+        return view('info.data.client-sa', compact('posts', 'tiktok', 'post_medias', 'tiktok_medias', 'clients', 'client', 'client_id', 'profile'));
     }
 
     public function prosesLayananC($client_id)

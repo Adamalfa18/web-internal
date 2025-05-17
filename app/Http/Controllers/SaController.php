@@ -18,25 +18,34 @@ use Illuminate\Support\Facades\Log;
 
 class SaController extends Controller
 {
-    public function indexList()
+    public function indexList(Request $request)
     {
-        $clients = Client::whereHas('client_layanan', function ($query) {
-            $query->where('layanan_id', 2); // Ambil hanya client dengan layanan_id = 2
-        })
-            ->with(['client_layanan' => function ($query) {
-                $query->where('layanan_id', 2); // Ambil hanya layanan_id = 2 di relasi
-            }])
-            ->get();
+        $query = Client::whereHas('client_layanan', function ($q) {
+            $q->where('layanan_id', 2); // hanya layanan_id = 2
+        });
 
-        // Inject status_layanan dari layanan_id = 2
+        // Filter berdasarkan tanggal
+        if ($request->filled('tanggal')) {
+            $query->whereDate('date_in', $request->tanggal);
+        }
+
+        // Filter berdasarkan nama brand
+        if ($request->filled('brand')) {
+            $query->where('nama_brand', 'like', '%' . $request->brand . '%');
+        }
+
+        $clients = $query->with(['client_layanan' => function ($q) {
+            $q->where('layanan_id', 2);
+        }])->paginate(10)->appends($request->query());
+
+        // Inject status
         $clients->each(function ($client) {
             $client->status_layanan = optional($client->client_layanan->first())->status;
         });
 
-        $profile = null;
-
         return view('marketlab.divisi-sa.list-client-sa', compact('clients'));
     }
+
 
 
     public function index($client_id)

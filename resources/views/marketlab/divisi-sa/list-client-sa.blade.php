@@ -16,23 +16,22 @@
                                             <p class="text-sm">Berikut Adalah List Client SA</p>
                                         </div>
                                         <div class="ms-md-auto pe-md-3 d-flex align-items-center gap-2">
-                                            <!-- Filter Tanggal Aktip -->
-                                            <input type="date" id="filterTanggalAktipSA"
-                                                class="form-control form-control-sm">
+                                            <!-- Filter Form -->
+                                            <form method="GET" action="{{ route('list-client-sa.index') }}" class="d-flex gap-2">
+                                                <input type="date" name="tanggal" value="{{ request('tanggal') }}" class="form-control form-control-sm">
+                                                
+                                                <input type="text" name="brand" placeholder="Search by Brand" value="{{ request('brand') }}"
+                                                    class="form-control form-control-sm">
 
-                                            <!-- Search Brand -->
-                                            <div class="input-group">
-                                                <span class="input-group-text text-body bg-white border-end-0">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16px"
-                                                        height="16px" fill="none" viewBox="0 0 24 24"
-                                                        stroke-width="1.5" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                                                <button type="submit" class="btn btn-primary btn-sm">Filter</button>
+                                                <a href="{{ route('list-client-sa.index') }}?status={{ request('status', 1) }}" class="btn btn-secondary" id="resetFilter">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                        class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z" />
                                                     </svg>
-                                                </span>
-                                                <input type="text" id="searchClientSA" class="form-control ps-0"
-                                                    placeholder="Search by Brand">
-                                            </div>
+                                                </a>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -134,6 +133,10 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        <!-- Pagination -->
+                                        <div class="d-flex justify-content-center mt-4">
+                                            {{ $clients->appends(request()->except('page'))->links('vendor.pagination.custom') }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

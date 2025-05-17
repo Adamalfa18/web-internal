@@ -596,11 +596,12 @@
 
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Tutup</button>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                data-target="#editSAModal{{ $post->id }}">
-                                                        Edit Post
-                                                    </button>                                                    
+                                                    data-bs-dismiss="modal">Tutup
+                                                </button>
+                                                <button type="button" class="btn btn-primary"
+                                                    onclick="$('#mediaModal{{ $post->id }}').modal('hide'); setTimeout(function(){$('#editSAModal{{ $post->id }}').modal('show');}, 500);">
+                                                            Edit Post
+                                                </button> 
                                             </div>
                                         </form>
                                     </div>
@@ -623,7 +624,7 @@
                                     <div class="modal-header">
                                     <h5 class="modal-title" id="editSAModalLabel{{ $post->id }}">Edit Post
                                     </h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
@@ -685,7 +686,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close</button>
+                                            data-bs-dismiss="modal">Close</button>
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                     </div>
                                 </form>
@@ -792,11 +793,12 @@
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Tutup</button>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                data-target="#editSATiktokModal{{ $tkpost->id }}">
-                                                Edit Post
+                                                data-bs-dismiss="modal">Tutup
                                             </button>
+                                            <button type="button" class="btn btn-primary"
+                                                    onclick="$('#mediaModal{{ $post->id }}').modal('hide'); setTimeout(function(){$('#editSATiktokModal{{ $tkpost->id }}').modal('show');}, 500);">
+                                                            Edit Post
+                                            </button> 
                                         </div>
                                     </form>
                                 </div>
@@ -818,7 +820,7 @@
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="editSATiktokModalLabel{{ $tkpost->id }}">Edit Post
                                     </h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -880,14 +882,10 @@
                                         <div class="row mt-2 edit-preview-container-tiktok"
                                             id="edit-preview-container-tiktok-{{ $tkpost->id }}"></div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="following_tiktok" class="form-label">Following</label>
-                                        <input type="text" class="form-control" name="following" id="following_tiktok" required value="{{ $profileTiktok->following ?? '' }}">
-                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
-                                        data-dismiss="modal">Close</button>
+                                        data-bs-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Simpan</button>
                                 </div>
                             </form>

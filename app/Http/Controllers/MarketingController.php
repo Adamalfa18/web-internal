@@ -17,23 +17,31 @@ class MarketingController extends Controller
         $status = $request->input('status');
         $clientFilter = $request->input('clientFilter');
         $dateFilter = $request->input('dateFilter');
-    
-        // Ambil semua data clients (tanpa pagination)
-    
+        $brand = $request->input('brand');
+        $dateAktif = $request->input('date_aktif');
+
         $client_layanans = ClientLayanan::with(['layanan', 'client'])
             ->when($clientFilter, function ($query) use ($clientFilter) {
-                return $query->where('client_id', $clientFilter);
+                return $query->where('layanan_id', $clientFilter);
             })
             ->when($dateFilter, function ($query) use ($dateFilter) {
                 return $query->whereDate('created_at', $dateFilter);
             })
+            ->when($brand, function ($query) use ($brand) {
+                return $query->whereHas('client', function ($q) use ($brand) {
+                    $q->where('nama_brand', 'like', '%' . $brand . '%');
+                });
+            })
+            ->when($dateAktif, function ($query) use ($dateAktif) {
+                return $query->whereDate('created_at', $dateAktif);
+            })
             ->latest()
-            ->get();
-    
+            ->paginate(10);
+
         $layanans = Layanan::all();
         $pegawai = Pegawai::all();
         $clients = Client::all();
-    
+
         return view('marketlab.marketing.index', compact(
             'clients',
             'layanans',
@@ -43,7 +51,8 @@ class MarketingController extends Controller
             'client_layanans'
         ));
     }
-    
+
+
 
     public function edit($id)
     {

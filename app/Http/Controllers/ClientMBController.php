@@ -14,17 +14,28 @@ use App\Models\Pegawai;
 
 class ClientMBController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $clients = Client::whereHas('client_layanan', function ($query) {
-            $query->where('layanan_id', 1);
-        })
-            ->with(['client_layanan' => function ($query) {
-                $query->where('layanan_id', 1);
-            }])
-            ->paginate(10);
+        $namaBrand = $request->input('nama_brand');
+        $tanggalAktif = $request->input('tanggal_aktif');
 
-        // Inject status_layanan
+        $clients = Client::whereHas('client_layanan', function ($query) {
+            $query->where('layanan_id', 1)
+                ->where('status', 1);
+        })
+            ->when($namaBrand, function ($query, $namaBrand) {
+                $query->where('nama_brand', 'like', '%' . $namaBrand . '%');
+            })
+            ->when($tanggalAktif, function ($query, $tanggalAktif) {
+                $query->whereDate('date_in', $tanggalAktif);
+            })
+            ->with(['client_layanan' => function ($query) {
+                $query->where('layanan_id', 1)
+                    ->where('status', 1);
+            }])
+            ->paginate(10)
+            ->withQueryString();
+
         $clients->each(function ($client) {
             $client->status_layanan = optional($client->client_layanan->first())->status;
         });

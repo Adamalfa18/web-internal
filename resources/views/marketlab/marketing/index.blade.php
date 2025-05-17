@@ -33,38 +33,42 @@
                             </div>
                             <div class="card border shadow-xs mb-4 border-client">
                                 <div class="card-header border-bottom pb-0 border-client-bottom">
-                                    <div class="d-sm-flex align-items-center mb-2">
-                                        <div class="d-flex mb-3">
-                                            <!-- Filter berdasarkan Nama Client -->
-                                            <select id="clientFilter" class="form-select me-2">
-                                                <option value="">Pilih Client</option>
-                                                @foreach ($clients as $client)
-                                                    <option value="{{ $client->id }}">{{ $client->nama_client }} -
-                                                        {{ $client->nama_brand }}</option>
-                                                @endforeach
-                                            </select>
+                                    <!-- Filters -->
+                                    <form id="filterForm" method="GET" class="d-flex m-3 gap-2">
 
-                                            <!-- Filter berdasarkan Tanggal Landing -->
-                                            <input type="date" id="dateFilter" class="form-control" />
-                                        </div>
-                                    </div>
+                                        <!-- Filter berdasarkan Layanan -->
+                                        <select name="clientFilter" class="form-select me-2">
+                                            <option value="">Pilih Layanan</option>
+                                            @foreach ($layanans as $layanan)
+                                                <option value="{{ $layanan->id }}" {{ request('clientFilter') == $layanan->id ? 'selected' : '' }}>
+                                                    {{ $layanan->nama_layanan }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+
+                                        <!-- Filter berdasarkan Tanggal Landing -->
+                                        <input type="date" name="dateFilter" value="{{ request('dateFilter') }}" class="form-control" />
+
+                                        <!-- Filter brand -->
+                                        <input type="text" name="brand" value="{{ request('brand') }}" class="form-control" placeholder="Cari Nama Brand">
+
+                                        <button type="submit" class="btn btn-primary">Filter</button>
+
+                                        <a href="{{ route('marketing.index') }}?status={{ request('status', 1) }}" class="btn btn-secondary" id="resetFilter">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z" />
+                                            </svg>
+                                        </a>
+                                    </form>
                                 </div>
 
                                 <!-- Pindahkan notifikasi error dan success ke sini -->
                                 <div class="card-body px-0 py-0">
                                     <div class="table-responsive p-0">
-                                        <!-- Notifikasi Error -->
-                                        @if (session('error'))
-                                            <div class="alert alert-danger">
-                                                {{ session('error') }}
-                                            </div>
-                                        @endif
-
-                                        <!-- Notifikasi Success -->
-                                        @if (session('success'))
-                                            <div class="alert alert-success">
-                                                {{ session('success') }}
-                                            </div>
+                                        @if (session('success') || session('error'))
+                                            <script>alert("{{ session('success') ?: session('error') }}")</script>
                                         @endif
 
                                         <!-- Tabel Data Layanan -->
@@ -166,6 +170,11 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
+
+                                        <!-- Pagination -->
+                                        <div class="d-flex justify-content-center mt-4">
+                                            {{ $client_layanans->appends(request()->except('page'))->links('vendor.pagination.custom') }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

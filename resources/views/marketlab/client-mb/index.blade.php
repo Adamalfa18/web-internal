@@ -15,13 +15,20 @@
                                             <p class="text-sm">Berikut Adalah List Client MB</p>
                                         </div>
 
-                                        <!-- Filter form (frontend only) -->
-                                        <div class="d-flex gap-2">
-                                            <input type="text" id="filterNamaBrandMB" placeholder="Cari Nama Brand"
+                                        <form method="GET" class="d-flex gap-2">
+                                            <input type="text" name="nama_brand" value="{{ request('nama_brand') }}" placeholder="Cari Nama Brand"
                                                 class="form-control form-control-sm">
-                                            <input type="date" id="filterTanggalAktipMB"
+                                            <input type="date" name="tanggal_aktif" value="{{ request('tanggal_aktif') }}"
                                                 class="form-control form-control-sm">
-                                        </div>
+                                            <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+                                            <a href="{{ route('clients-mb.index') }}?status={{ request('status', 1) }}" class="btn btn-secondary" id="resetFilter">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                    class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z" />
+                                                </svg>
+                                            </a>
+                                        </form>                                        
                                     </div>
                                 </div>
                                 <div class="card-body px-0 py-0">
@@ -40,7 +47,7 @@
                                                         Status</th>
                                                     <th
                                                         class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                        Tanggal Aktip</th>
+                                                        Tanggal Aktif</th>
                                                     <th class="text-secondary opacity-7"></th>
                                                 </tr>
                                             </thead>
@@ -109,10 +116,15 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
+
+                                        <!-- Pagination -->
+                                        <div class="d-flex justify-content-center mt-4">
+                                            {{ $clients->appends(request()->except('page'))->links('vendor.pagination.custom') }}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
                 </div>

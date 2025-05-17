@@ -61,11 +61,11 @@
                                             </div>
                                             @if($profile)
                                                 <div class="stats">
-                                                    <span><strong>Post</strong>
-                                                        {{ $posts->where('category', 'post')->count() }}
+                                                    <span>{{ $posts->where('category', 'post')->count() }}
+                                                        <strong>Post</strong>
                                                     </span>
-                                                    <span><strong>Followers</strong> {{ $profile->followers }}</span>
-                                                    <span><strong>Following</strong> {{ $profile->following }}</span>
+                                                    <span>{{ $profile->followers }}<strong> Followers</strong> </span>
+                                                    <span>{{ $profile->following }}<strong> Following</strong> </span>
                                                 </div>
                                                 <div class="name_ig">
                                                     <span><strong>{{ $profile->name }}</strong></span>
@@ -237,9 +237,24 @@
                                                     <h2>{{ $client->nama_brand }}</h2>
                                                 </div>
                                             </div>
-                                            <div class="stats">
-                                                <span><strong>Followers</strong> 1.2M </span>
-                                                <span><strong>Likes</strong> 5.7M </span>
+                                                @if($profileTiktok)
+                                                <div class="stats mb-2">
+                                                    <span><strong>{{ $profileTiktok->following }}</strong> Following</span>
+                                                    <span class="ms-3"><strong>{{ $profileTiktok->followers }}</strong> Followers</span>
+                                                    <span class="ms-3"><strong>{{ $profileTiktok->likes }}</strong> Likes</span>
+                                                </div>
+                                                <div class="bio mb-1">
+                                                    <span>{{ $profileTiktok->bio }}</span>
+                                                </div>
+                                                <div class="link">
+                                                    @foreach($profileTiktok->links as $link)
+                                                        <div>
+                                                            <a href="{{ $link->url }}" target="_blank">{{ $link->name }}</a>
+                                                        </div>
+                                                    @endforeach
+                                            @else
+                                                <div class="text-danger">Profile belum diisi.</div>
+                                            @endif
                                             </div>
                                         </div>
                                     </div>
@@ -417,7 +432,7 @@
                     aria-labelledby="editSAModalLabel{{ $post->id }}" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                            <form class="form-marketing"
+                            <form class="form-marketing-edit-sa"
                                 action="{{ route('data-client.update-sa', ['client_id' => $client->id, 'post_id' => $post->id]) }}"
                                 method="POST" id="editForm{{ $post->id }}">
                                     @csrf
@@ -593,17 +608,17 @@
                                         {{-- Status --}}
                                         @php
                                             // ambil media pertama dari tiktok ini (kalau kamu dalam @foreach $posts)
-                                            $firstMedia = $post_medias->firstWhere('post_id', $tiktok->id);
+                                            $firstMedia = $tiktok_medias->firstWhere('post_id', $tiktok->id);
                                         @endphp
 
-                                        @if ($firstMedia && $firstMedia->postingan)
+                                        @if ($firstMedia && $firstMedia->post_tiktok)
                                             <div class="form-group">
                                                 <label>Status:</label>
-                                                @if ($firstMedia->postingan->status == 0)
+                                                @if ($firstMedia->post_tiktok->status == 0)
                                                     <span class="badge badge-secondary">Menunggu Persetujuan</span>
-                                                @elseif ($firstMedia->postingan->status == 1)
+                                                @elseif ($firstMedia->post_tiktok->status == 1)
                                                     <span class="badge badge-success ">Disetujui</span>
-                                                @elseif ($firstMedia->postingan->status == 2)
+                                                @elseif ($firstMedia->post_tiktok->status == 2)
                                                     <span class="badge badge-danger">Perlu Revisi</span>
                                                 @else
                                                     <span class="badge badge-secondary">Status Tidak
@@ -626,17 +641,16 @@
                         </div>
                     </div>
                 </div>
-                <!-- Modal Edit SA -->
+                <!-- Modal Edit tiktok -->
                 <div class="modal fade" id="editTiktokmediaModal{{ $tiktok->id }}" tabindex="-1" role="dialog"
                     aria-labelledby="editTiktokmediaModalLabel{{ $tiktok->id }}" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <form class="form-marketing"
-                                action="{{ route('data-client.update-sa', ['client_id' => $client->id, 'post_id' => $tiktok->id]) }}"
-                                method="POST" id="editForm{{ $tiktok->id }}">
+                            <form class="form-marketing form-marketing-edit-tiktok"
+                                action="{{ route('data-client.update-tiktok', ['client_id' => $client->id, 'post_id' => $tiktok->id]) }}"
+                                method="POST" id="editFormTiktok{{ $tiktok->id }}">
                                 @csrf
                                 @method('PUT')
-
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="editTiktokmediaModalLabel{{ $tiktok->id }}">Edit
                                         Post
@@ -644,99 +658,47 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        {{-- Carousel Dinamis --}}
-                                        @if ($tiktok->tiktok_media->count())
-                                            <div id="carouselIndicators{{ $tiktok->id }}" class="carousel slide"
-                                                data-bs-ride="carousel">
-                                                <div class="carousel-inner">
-                                                    @foreach ($tiktok->tiktok_media as $key => $tiktok_media)
-                                                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                                            @if (in_array(pathinfo($tiktok_media->media, PATHINFO_EXTENSION), ['mp4', 'mov', 'webm']))
-                                                                <video class="d-block w-100" controls>
-                                                                    <source
-                                                                        src="{{ asset('storage/tiktok_media/' . $tiktok_media->media) }}"
-                                                                        type="video/mp4">
-                                                                </video>
-                                                            @else
-                                                                <img src="{{ asset('storage/tiktok_media/' . $tiktok_media->media) }}"
-                                                                    class="d-block w-100" alt="Post Media">
-                                                            @endif
-                                                        </div>
-                @endforeach
-            </div>
-                                                @if ($tiktok->tiktok_media->count() > 1)
-                                                    <button class="carousel-control-prev" type="button"
-                                                        data-bs-target="#carouselIndicators{{ $tiktok->id }}"
-                                                        data-bs-slide="prev">
-                                                        <span class="carousel-control-prev-icon"
-                                                            aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Previous</span>
-                                                    </button>
-                                                    <button class="carousel-control-next" type="button"
-                                                        data-bs-target="#carouselIndicators{{ $tiktok->id }}"
-                                                        data-bs-slide="next">
-                                                        <span class="carousel-control-next-icon"
-                                                            aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Next</span>
-                                                    </button>
-                                                @endif
-                                            </div>
-                                        @endif
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="caption-tiktok-{{ $tiktok->id }}" class="form-label">Caption</label>
+                                        <textarea class="form-control" name="caption" id="caption-tiktok-{{ $tiktok->id }}" required readonly>{{ $tiktok->caption }}</textarea>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="modal-body">
-                                            <div class="mb-3">
-                                                <label for="caption" class="form-label">Caption</label>
-                                                <textarea class="form-control" name="caption" id="caption" readonly>{{ $tiktok->caption }}</textarea>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="created_at" class="form-label">Tanggal Upload</label>
-                                                <input type="date" class="form-control" name="created_at"
-                                                    id="created_at"
-                                                    value="{{ $tiktok->created_at->format('Y-m-d') }}" disabled>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="note">Note</label>
-                                                <textarea class="form-control" name="note" id="note" rows="3">{{ $tiktok->note }}</textarea>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="status">Status</label>
-                                                <select class="form-select" name="status" id="status" required>
-                                                    <option value="">Pilih Status</option>
-                                                    <option value="1"
-                                                        {{ $firstMedia && $firstMedia->postingan && $firstMedia->postingan->status == 1 ? 'selected' : '' }}>
-                                                        Acc</option>
-                                                    <option value="2"
-                                                        {{ $firstMedia && $firstMedia->postingan && $firstMedia->postingan->status == 2 ? 'selected' : '' }}>
-                                                        Revisi</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                    <div class="mb-3">
+                                        <label for="created_at-tiktok-{{ $tiktok->id }}" class="form-label">Tanggal Upload</label>
+                                        <input type="date" class="form-control" name="created_at" id="created_at-tiktok-{{ $tiktok->id }}" value="{{ $tiktok->created_at->format('Y-m-d') }}" required readonly>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary"
-                                            id="saveButton{{ $tiktok->id }}">Simpan</button>
+                                    <div class="mb-3">
+                                        <label for="note-tiktok-{{ $tiktok->id }}" class="form-label">Note</label>
+                                        <textarea class="form-control" name="note" id="note-tiktok-{{ $tiktok->id }}">{{ $tiktok->note }}</textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="status-tiktok-{{ $tiktok->id }}" class="form-label">Status</label>
+                                        <select class="form-select" name="status" id="status-tiktok-{{ $tiktok->id }}" required>
+                                            <option value="">Pilih Status</option>
+                                            <option value="1" {{ $tiktok->status == 1 ? 'selected' : '' }}>Acc</option>
+                                            <option value="2" {{ $tiktok->status == 2 ? 'selected' : '' }}>Revisi</option>
+                                        </select>
                                     </div>
                                 </div>
-                            </form>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-                {{-- End Modal Edit SA --}}
-            @endforeach
+                    {{-- End Modal Edit SA --}}
+                @endforeach
             {{-- End modal Media Instagram --}}
         </div>
-
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Handle all edit forms
-            document.querySelectorAll('form.form-marketing').forEach(function(form) {
+            document.querySelectorAll('form.form-marketing-edit-sa').forEach(function(form) {
                 const saveButton = form.querySelector('button[type="submit"]');
                 
                 if (form && saveButton) {
@@ -767,6 +729,50 @@
                                 console.error('Error:', error);
                                 alert('Terjadi kesalahan saat menyimpan data');
                             });
+                    });
+                }
+            });
+
+            document.querySelectorAll('form.form-marketing-edit-tiktok').forEach(function(form) {
+                const saveButton = form.querySelector('button[type="submit"]');
+
+                if (form && saveButton) {
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        console.log('TikTok form submission started');
+
+                        const formData = new FormData(form);
+
+                        fetch(form.action, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Accept': 'application/json'  // penting agar Laravel tahu ini request AJAX
+                            }
+                        })
+                        .then(async response => {
+                            // Jika respons JSON valid
+                            const contentType = response.headers.get('content-type') || '';
+                            if (contentType.includes('application/json')) {
+                                const data = await response.json();
+                                console.log('Success:', data);
+                                if (data.success) {
+                                    window.location.reload();
+                                } else {
+                                    alert(data.message || 'Terjadi kesalahan saat menyimpan data');
+                                }
+                            } else if (response.ok) {
+                                // Kalau respons bukan JSON tapi sukses (200), reload saja
+                                window.location.reload();
+                            } else {
+                                throw new Error('Respons tidak valid atau gagal');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Terjadi kesalahan saat menyimpan data');
+                        });
                     });
                 }
             });

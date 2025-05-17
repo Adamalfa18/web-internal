@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Tiktok;
 use App\Models\PostMedia;
 use App\Models\SocialMedia;
+use App\Models\ProfileTiktok;
 use Illuminate\Http\Request;
 use App\Models\PerformanceBulanan;
 use Illuminate\Support\Facades\DB;
@@ -78,6 +79,8 @@ class ClientInformationController extends Controller
     {
         $clients = Client::all();
         $client = Client::findOrFail($client_id);
+        // Temukan profile TikTok berdasarkan client_id
+        $profileTiktok = ProfileTiktok::where('client_id', $client_id)->firstOrFail();
 
         // Ambil data profile dari model ProfileSa
         $profile = ProfileSa::with('links')
@@ -117,7 +120,7 @@ class ClientInformationController extends Controller
                 $tiktok_medias->push($tmedia);
             }
         }
-        return view('info.data.client-sa', compact('posts', 'tiktok', 'post_medias', 'tiktok_medias', 'clients', 'client', 'client_id', 'profile'));
+        return view('info.data.client-sa', compact('posts', 'tiktok', 'post_medias', 'tiktok_medias', 'clients', 'client', 'client_id', 'profile', 'profileTiktok'));
     }
 
     public function prosesLayananC($client_id)
@@ -326,5 +329,35 @@ class ClientInformationController extends Controller
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
             ], 500);
         }
+    }
+
+    public function updateTiktok(Request $request, $client_id, $post_id)
+    {
+        $request->validate([
+            'caption' => 'required|string',
+            'created_at' => 'required|date',
+            'note' => 'nullable|string',
+            'status' => 'required|in:1,2',
+        ]);
+
+        $tiktok = \App\Models\Tiktok::where('client_id', $client_id)
+            ->where('id', $post_id)
+            ->firstOrFail();
+
+        $tiktok->caption = $request->caption;
+        $tiktok->created_at = $request->created_at;
+        $tiktok->note = $request->note;
+        $tiktok->status = $request->status;
+        $tiktok->save();
+
+        // Deteksi jika request adalah AJAX (fetch)
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post TikTok berhasil diperbarui.'
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Post TikTok berhasil diperbarui.');
     }
 }

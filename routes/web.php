@@ -114,6 +114,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/data-client/laporan-harian/store-lead', [ClientInformationController::class, 'store_lead'])->name('data-client.laporan-harian.store-lead');
         Route::put('/data-client/laporan-harian/update-lead/{id}', [ClientInformationController::class, 'updateLead'])->name('data-client.laporan-harian.update-lead');
         Route::put('/data-client/{client_id}/divisi-sa/{post_id}', [ClientInformationController::class, 'update'])->name('data-client.update-sa');
+        Route::put('/data-client/{client_id}/tiktok/{post_id}', [ClientInformationController::class, 'updateTiktok'])->name('data-client.update-tiktok');
     });
 });
 

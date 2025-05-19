@@ -1041,6 +1041,18 @@ body.mobile {
     border-radius: 50%;
     object-fit: cover;
 }
+.col-md-3.style-tiktok-title {
+    display: none;
+}
+#profileWrapper.mobile-view .col-md-3.style-tiktok-title {
+    display: block;
+}
+#profileWrapper.mobile-view .nama-brand.style-tiktok-title {
+    display: none;
+}
+/* .name_ig {
+    order: 1;
+} */
 
 #profileWrapper.mobile-view .stats {
     display: flex;
@@ -1148,6 +1160,25 @@ body.mobile {
 }
 .bio {
     font-weight: 400;
+}
+#profileWrapper.mobile-view .col-md-9.tiktok-style {
+    display: flex;
+    flex-direction: column;
+}
+#profileWrapper.mobile-view .name_ig {
+    order: 1;
+}
+#profileWrapper.mobile-view .stats {
+    order: 2;
+}
+#profileWrapper.mobile-view .bio {
+    order: 3;
+}
+#profileWrapper.mobile-view .link {
+    order: 4;
+}
+#profileWrapper.mobile-view .nama-brand h2 {
+    font-size: 1rem; /* setara dengan h6 */
 }
 
 @media (min-width: 768px) {

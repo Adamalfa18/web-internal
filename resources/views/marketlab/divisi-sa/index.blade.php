@@ -110,13 +110,6 @@
                     <i class="fas fa-mobile-alt"></i> <span id="btnText">Ubah Preview</span>
                 </button>
             </div>
-
-            {{-- <div class="style-button-ig d-flex justify-content-end">
-                <button class="btn btn-style-sa" onclick="toggleView()">
-                    <i class="fas fa-mobile-alt"></i> <span id="btnText">Ubah Preview</span>
-                </button>
-            </div> --}}
-
             <div id="profileWrapper" class="">
                 <!-- Instagram Page -->
                 <div class="instagram-page" id="instagramSection" style="display: block;">
@@ -161,18 +154,11 @@
                                                 <div class="stats">
 
                                                     <span
-                                                        class="ig-style-post">{{ $posts->where('category', 'post')->count() }}<strong>Post</strong></span>
+                                                        class="ig-style-post">{{ $posts->where('category', 'post')->count() }}<strong>
+                                                            Post</strong></span>
                                                     <span>{{ $profileIG->followers }}<strong> Followers</strong> </span>
                                                     <span>{{ $profileIG->following }}<strong> Following</strong> </span>
                                                 </div>
-                                                {{-- <div class="stats">
-                                                    
-                                                    <span><strong>Reel</strong>
-                                                        {{ $posts->where('category', 'reel')->count() }}
-                                                    </span>
-                                                    <span><strong>Story</strong>
-                                                        {{ $posts->where('category', 'story')->count() }} </span>
-                                                </div> --}}
                                                 <div class="name_ig">
                                                     <span><strong>{{ $profileIG->name }}</strong></span>
                                                 </div>
@@ -346,82 +332,16 @@
                 <div class="tiktok-page" style="display: none;" id="tiktokSection">
                     <div id="tiktokProfileWrapper" class="desktop-view">
                         <div class="profile-container">
-                            {{-- <div class="profile-header">
-                                <div class="profile-info">
-                                    <div class="row style-tiktok-sa">
-                                        <div class="col-md-3 style-ig">
-                                            <img src="{{ asset('storage/' . $client->gambar_client) }}"
-                                                class="profile-pic">
-                                        </div>
-                                        <div class="col-md-9 style-tiktok-sa">
-                                            <div class="d-flex align-items-center mb-2">
-                                                <h2 class="mb-0 me-3">
-                                                    {{ $profileTiktok->username ?? $client->nama_brand }}</h2>
-                                                <span
-                                                    class="h6 mb-0 text-muted">{{ $profileTiktok->name ?? '' }}</span>
-                                                <div class="ms-auto d-flex gap-2">
-                                                    <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
-                                                        data-toggle="modal" data-target="#addTiktokModal">
-                                                        <span class="btn-inner--icon">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                height="16" fill="currentColor"
-                                                                class="bi bi-plus-square-fill" viewBox="0 0 16 16">
-                                                                <path
-                                                                    d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
-                                                            </svg>
-                                                        </span>
-                                                    </a>
-                                                    <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center"
-                                                        data-toggle="modal" data-target="#editProfileModalTiktok">
-                                                        <span class="btn-inner--icon"></span>
-                                                        <span class="btn-inner--text">Edit Profile</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            @if ($profileTiktok)
-                                                <div class="stats mb-2">
-                                                    <span><strong>{{ $profileTiktok->following }}</strong>
-                                                        Following</span>
-                                                    <span
-                                                        class="ms-3"><strong>{{ $profileTiktok->followers }}</strong>
-                                                        Followers</span>
-                                                    <span class="ms-3"><strong>{{ $profileTiktok->likes }}</strong>
-                                                        Likes</span>
-                                                </div>
-                                                <div class="bio mb-1">
-                                                    <span>{{ $profileTiktok->bio }}</span>
-                                                </div>
-                                                <div class="link">
-                                                    @foreach ($profileTiktok->links as $link)
-                                                        <div>
-                                                            <a href="{{ $link->url }}"
-                                                                target="_blank">{{ $link->name }}</a>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            @else
-                                                <div class="style-clien-header mt-3">
-                                                    <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
-                                                        data-toggle="modal" data-target="#addPofileTiktokModal">
-                                                        <span class="btn-inner--icon">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                height="16" fill="currentColor"
-                                                                class="bi bi-plus-square-fill" viewBox="0 0 16 16">
-                                                                <path
-                                                                    d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
-                                                            </svg>
-                                                        </span>
-                                                    </a>
-                                                    <div class="text-danger">Profile belum diisi.</div>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
                             <div class="profile-header">
                                 <div class="profile-info">
                                     <div class="row top-info">
+                                        <div class="col-md-3 style-tiktok-title">
+                                            <div class="style-clien-header">
+                                                <div class="nama-brand">
+                                                    <h6>{{ $profileTiktok->username ?? $client->nama_brand }}</h6>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-md-3 style-ig">
                                             <img src="{{ asset('storage/' . $client->gambar_client) }}"
                                                 class="profile-pic" id="profileStoryTrigger" style="cursor:pointer"
@@ -429,7 +349,7 @@
                                         </div>
                                         <div class="col-md-9 tiktok-style">
                                             <div class="style-clien-header">
-                                                <div class="nama-brand">
+                                                <div class="nama-brand style-tiktok-title">
                                                     <h2>{{ $profileTiktok->username ?? $client->nama_brand }}</h2>
                                                 </div>
                                                 <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"

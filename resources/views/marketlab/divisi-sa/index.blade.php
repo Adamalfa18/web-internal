@@ -66,6 +66,9 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="content" class="form-label">Upload Media</label>
+                                        <p class="text-muted small mb-2">
+                                            * Format media harus berupa gambar <strong>.webp</strong> atau video <strong>.webm</strong>
+                                        </p>
                                         <input type="file" class="form-control d-none" id="content_media"
                                             name="content_media[]" accept=".webp, .webm" multiple>
                                         <button type="button" class="btn btn-primary" id="add-file-btn">Add
@@ -354,7 +357,7 @@
                                                     <h2>{{ $profileTiktok->username ?? $client->nama_brand }}</h2>
                                                 </div>
                                                 <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
-                                                    data-toggle="modal" data-target="#addProfileTiktokModal">
+                                                    data-bs-toggle="modal" data-bs-target="#addTiktokModal">
                                                     <span class="btn-inner--icon">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                             height="16" fill="currentColor"
@@ -527,6 +530,9 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="content" class="form-label">Upload Media</label>
+                                        <p class="text-muted small mb-2">
+                                            * Format media harus berupa gambar <strong>.webp</strong> atau video <strong>.webm</strong>
+                                        </p>
                                         <input type="file" class="form-control d-none" id="tiktok_media"
                                             name="tiktok_media[]" accept=".webp, .webm" multiple>
                                         <button type="button" class="btn btn-primary" id="add-file-btn-tiktok">Add

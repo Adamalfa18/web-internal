@@ -23,7 +23,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addPostModalLabel">Tambah Post</h5>
+                            <h5 class="modal-title" id="addPostModalLabel">Add Post Instagram</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -56,7 +56,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="created_at" class="form-label">Tanggal Upload</label>
+                                        <label for="created_at" class="form-label">Upload Date</label>
                                         <input type="date" class="form-control" name="created_at" id="created_at"
                                             required>
                                     </div>
@@ -65,14 +65,14 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="content" class="form-label">Upload Gambar / Video</label>
+                                        <label for="content" class="form-label">Upload Media</label>
                                         <input type="file" class="form-control d-none" id="content_media"
                                             name="content_media[]" accept=".webp, .webm" multiple>
                                         <button type="button" class="btn btn-primary" id="add-file-btn">Add
-                                            Gambar</button>
+                                            Media</button>
                                         <input type="file" class="form-control d-none" id="cover" name="cover"
                                             accept=".webp">
-                                        <button type="button" class="btn btn-primary" id="add-cover-btn">Set
+                                        <button type="button" class="btn btn-primary" id="add-cover-btn">Add
                                             Cover</button>
                                     </div>
                                     <div id="preview-container" class="row mt-3"></div>
@@ -80,7 +80,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </form>
                     </div>
@@ -497,7 +497,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addTiktokModalLabel">Tambah Post Tiktok</h5>
+                            <h5 class="modal-title" id="addTiktokModalLabel">Add Post Tiktok</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -517,7 +517,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="created_at" class="form-label">Tanggal Upload</label>
+                                        <label for="created_at" class="form-label">Upload Date</label>
                                         <input type="date" class="form-control" name="created_at" id="created_at"
                                             required>
                                     </div>
@@ -526,14 +526,14 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label for="content" class="form-label">Upload Gambar / Video</label>
+                                        <label for="content" class="form-label">Upload Media</label>
                                         <input type="file" class="form-control d-none" id="tiktok_media"
                                             name="tiktok_media[]" accept=".webp, .webm" multiple>
                                         <button type="button" class="btn btn-primary" id="add-file-btn-tiktok">Add
-                                            Gambar</button>
+                                            Media</button>
                                         <input type="file" class="form-control d-none" id="tiktok_cover"
                                             name="cover" accept=".webp">
-                                        <button type="button" class="btn btn-primary" id="add-cover-btn-tiktok">Set
+                                        <button type="button" class="btn btn-primary" id="add-cover-btn-tiktok">Add
                                             Cover</button>
                                     </div>
                                     <div id="preview-container-tiktok" class="row mt-3"></div>
@@ -541,7 +541,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </form>
                     </div>
@@ -600,7 +600,7 @@
                                     <form>
 
                                         <div class="form-group">
-                                            <label>Tanggal Upload</label>
+                                            <label>Upload Date</label>
                                             <textarea class="form-control" rows="3" disabled>{{ $post->created_at->format('d-m-Y') }}</textarea>
                                         </div>
 
@@ -669,7 +669,7 @@
                                 @method('PUT')
                                 <input type="hidden" name="id" value="{{ $post->id }}">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editSAModalLabel{{ $post->id }}">Edit Post
+                                    <h5 class="modal-title" id="editSAModalLabel{{ $post->id }}">Edit Post Instagram
                                     </h5>
                                     <button type="button" class="close" data-bs-dismiss="modal"
                                         aria-label="Close">
@@ -685,16 +685,15 @@
                                     </div>
                                     {{-- Tanggal Upload --}}
                                     <div class="mb-3">
-                                        <label for="created_at{{ $post->id }}" class="form-label">Tanggal
-                                            Upload</label>
+                                        <label for="created_at{{ $post->id }}" class="form-label">
+                                            Upload Date</label>
                                         <input type="date" class="form-control" name="created_at"
                                             id="created_at{{ $post->id }}"
                                             value="{{ $post->created_at->format('Y-m-d') }}" required>
                                     </div>
                                     {{-- Upload Media --}}
                                     <div class="mb-3">
-                                        <label for="edit_content_media{{ $post->id }}" class="form-label">Gambar
-                                            / Video yang Ada</label>
+                                        <label for="edit_content_media{{ $post->id }}" class="form-label">Media</label>
                                         <div class="row mt-3" id="edit-preview-container-{{ $post->id }}">
                                             @foreach ($post->media as $key => $media)
                                                 <div class="col-md-4 mb-2 position-relative preview-item">
@@ -725,7 +724,7 @@
                                                 accept=".webp, .webm" multiple>
                                             <button type="button" class="btn btn-primary edit-add-file-btn"
                                                 data-id="{{ $post->id }}">
-                                                Add Gambar
+                                                Add Media
                                             </button>
                                         </div>
                                         <div class="row mt-2 edit-preview-container"
@@ -735,7 +734,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                 </div>
                             </form>
                         </div>
@@ -803,7 +802,7 @@
                                     <form>
                                         {{-- tanggal upload --}}
                                         <div class="form-group">
-                                            <label>Tanggal Upload</label>
+                                            <label>Upload Date</label>
                                             <input class="form-control" rows="3" disabled
                                                 value="{{ $tkpost->created_at->format('d-m-Y') }}">
                                         </div>
@@ -843,7 +842,7 @@
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Tutup
+                                                data-bs-dismiss="modal">Close
                                             </button>
                                             <button type="button" class="btn btn-primary"
                                                 onclick="$('#mediaModal{{ $post->id }}').modal('hide'); setTimeout(function(){$('#editSATiktokModal{{ $tkpost->id }}').modal('show');}, 500);">
@@ -887,8 +886,8 @@
                                     </div>
                                     {{-- Tanggal Upload --}}
                                     <div class="mb-3">
-                                        <label for="created_at{{ $tkpost->id }}" class="form-label">Tanggal
-                                            Upload</label>
+                                        <label for="created_at{{ $tkpost->id }}" class="form-label">
+                                            Upload Date</label>
                                         <input type="date" class="form-control" name="created_at"
                                             id="created_at{{ $tkpost->id }}"
                                             value="{{ $tkpost->created_at->format('Y-m-d') }}" required>
@@ -896,8 +895,7 @@
                                     {{-- Upload Media --}}
                                     <div class="mb-3">
                                         <label for="edit_content_media_tiktok{{ $tkpost->id }}"
-                                            class="form-label">Gambar
-                                            / Video yang Ada</label>
+                                            class="form-label">Media</label>
                                         <div class="row mt-3"
                                             id="edit-preview-container-tiktok-{{ $tkpost->id }}">
                                             @foreach ($tkpost->tiktok_media as $key => $tiktok_media)
@@ -935,7 +933,7 @@
                                                 accept=".webp, .webm" multiple>
                                             <button type="button" class="btn btn-primary edit-add-file-btn-tiktok"
                                                 data-id="{{ $tkpost->id }}">
-                                                Add Gambar
+                                                Add Media
                                             </button>
                                         </div>
                                         <div class="row mt-2 edit-preview-container-tiktok"
@@ -945,7 +943,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                 </div>
                             </form>
                         </div>
@@ -1059,7 +1057,7 @@
 
                             <div class="d-flex justify-content-end gap-2">
                                 <a href="{{ route('list-client-sa.index') }}" class="btn btn-secondary">Kembali</a>
-                                <button type="submit" class="btn btn-primary" {{ $isDisabled }}>Simpan</button>
+                                <button type="submit" class="btn btn-primary" {{ $isDisabled }}>Save</button>
                             </div>
                         </form>
                     </div>
@@ -1178,7 +1176,7 @@
 
                             <div class="d-flex justify-content-end gap-2">
                                 <a href="{{ route('list-client-sa.index') }}" class="btn btn-secondary">Kembali</a>
-                                <button type="submit" class="btn btn-primary" {{ $isDisabled }}>Simpan</button>
+                                <button type="submit" class="btn btn-primary" {{ $isDisabled }}>Save</button>
                             </div>
                         </form>
                     </div>
@@ -1270,7 +1268,7 @@
                                 </div>
 
                                 <div class="text-right">
-                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                 </div>
                             </form>
                         @endif
@@ -1358,7 +1356,7 @@
                                 </div>
 
                                 <div class="text-right">
-                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                 </div>
                             </form>
                         @endif

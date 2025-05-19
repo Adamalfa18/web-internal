@@ -91,14 +91,21 @@
                             <span class="nav-link-text ms-1">Client MB</span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownClientMB">
-                            <li><a class="dropdown-item {{ is_current_route('dashboard.mb') ? 'active' : '' }}"
-                                    href="{{ route('dashboard.mb') }}">Dashboard</a></li>
-                            <li><a class="dropdown-item {{ in_array(Route::currentRouteName(), ['clients-mb.index', 'laporan-bulanan.index', 'laporan-bulanan.create', 'laporan-bulanan.edit', 'laporan-harian.index', 'laporan-harian.create', 'laporan-harian.edit']) ? 'active' : '' }}"
-                                    href="{{ route('clients-mb.index') }}">Client MB</a></li>
+                            @if (Auth::user()->user_role_id != 8)
+                                <li>
+                                    <a class="dropdown-item {{ is_current_route('dashboard.mb') ? 'active' : '' }}"
+                                        href="{{ route('dashboard.mb') }}">Dashboard</a>
+                                </li>
+                            @endif
+                            <li>
+                                <a class="dropdown-item {{ in_array(Route::currentRouteName(), ['clients-mb.index', 'laporan-bulanan.index', 'laporan-bulanan.create', 'laporan-bulanan.edit', 'laporan-harian.index', 'laporan-harian.create', 'laporan-harian.edit']) ? 'active' : '' }}"
+                                    href="{{ route('clients-mb.index') }}">Client MB</a>
+                            </li>
                         </ul>
                     </li>
                 @endif
             @endauth
+
 
             @auth
                 @if (in_array(Auth::user()->user_role_id, [1, 2, 4, 5]))
@@ -119,8 +126,10 @@
                             <span class="nav-link-text ms-1">Client SA</span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownClientSA">
-                            <li><a class="dropdown-item {{ is_current_route('dashboard.sa') ? 'active' : '' }}"
-                                    href="{{ route('dashboard.sa') }}">Dashboard</a></li>
+                            @if (Auth::user()->user_role_id != 5)
+                                <li><a class="dropdown-item {{ is_current_route('dashboard.sa') ? 'active' : '' }}"
+                                        href="{{ route('dashboard.sa') }}">Dashboard</a></li>
+                            @endif
                             <li><a class="dropdown-item {{ in_array(Route::currentRouteName(), ['list-client-sa.index', 'divisi-sa.index']) ? 'active' : '' }}"
                                     href="{{ route('list-client-sa.index') }}">Client SA</a></li>
                         </ul>

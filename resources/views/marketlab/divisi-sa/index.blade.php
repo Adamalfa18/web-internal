@@ -36,7 +36,8 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="category" class="form-label">Category</label>
-                                        <select name="category" id="category">
+                                        <select class="form-select" name="category" id="category"
+                                            aria-label="Default select example" required>
                                             <option value="post">Post</option>
                                             <option value="reel">Reel</option>
                                             <option value="story">Story</option>

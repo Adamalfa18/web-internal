@@ -80,7 +80,10 @@ class ClientInformationController extends Controller
         $clients = Client::all();
         $client = Client::findOrFail($client_id);
         // Temukan profile TikTok berdasarkan client_id
-        $profileTiktok = ProfileTiktok::where('client_id', $client_id)->firstOrFail();
+        // $profileTiktok = ProfileTiktok::where('client_id', $client_id)->firstOrFail();
+        $profileIG = ProfileSa::with('links')->where('client_id', $client_id)->first();
+        $profileTiktok = ProfileTiktok::with('links')->where('client_id', $client_id)->first();
+
 
         // Ambil data profile dari model ProfileSa
         $profile = ProfileSa::with('links')

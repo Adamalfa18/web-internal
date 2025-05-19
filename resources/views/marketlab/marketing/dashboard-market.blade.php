@@ -42,7 +42,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="style-fount w-100">
-                                        <p class="text-sm text-secondary mb-1">Tidak Aktif</p>
+                                        <p class="text-sm text-secondary mb-1">Client Tidak Aktif</p>
                                         <h1 class="mb-2 font-weight-bold">{{ $nonaktip }}</h1>
 
                                     </div>
@@ -57,7 +57,7 @@
                 <div class="col-12 card border shadow-xs mb-4 pb-4">
                     <div class="mt-3 mb-3">
                         <h6 class="font-weight-semibold dasboard-style text-lg mb-0">
-                            Jumlah Klien per-Bulan
+                            Clients Per Month
                         </h6>
                     </div>
                     <div class="col-lg-12">

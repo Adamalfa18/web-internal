@@ -55,7 +55,7 @@
                 <div class="col-12 card border shadow-xs mb-4 pb-4">
                     <div class="mt-3 mb-3">
                         <h6 class="font-weight-semibold dasboard-style text-lg mb-0">
-                            Jumlah Klien MB Per-Bulan
+                            Clients MB Per Month
                         </h6>
                     </div>
                     <div class="col-lg-12">

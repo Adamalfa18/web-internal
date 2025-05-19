@@ -11,8 +11,8 @@
                                 <div class="card-header border-bottom pb-0 border-client-bottom">
                                     <div class="d-sm-flex align-items-center">
                                         <div>
-                                            <h6 class="font-weight-semibold text-lg mb-0">Data Layanan</h6>
-                                            <p class="text-sm">Berikut adalah list daftar layanan</p>
+                                            <h6 class="font-weight-semibold text-lg mb-0">Service List</h6>
+                                            <p class="text-sm">Marketlab clients services list</p>
                                         </div>
                                         <div class="ms-auto d-flex">
                                             <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
@@ -38,7 +38,7 @@
 
                                         <!-- Filter berdasarkan Layanan -->
                                         <select name="clientFilter" class="form-select me-2">
-                                            <option value="">Pilih Layanan</option>
+                                            <option value="">Select Service</option>
                                             @foreach ($layanans as $layanan)
                                                 <option value="{{ $layanan->id }}" {{ request('clientFilter') == $layanan->id ? 'selected' : '' }}>
                                                     {{ $layanan->nama_layanan }}
@@ -50,7 +50,7 @@
                                         <input type="date" name="dateFilter" value="{{ request('dateFilter') }}" class="form-control" />
 
                                         <!-- Filter brand -->
-                                        <input type="text" name="brand" value="{{ request('brand') }}" class="form-control" placeholder="Cari Nama Brand">
+                                        <input type="text" name="brand" value="{{ request('brand') }}" class="form-control" placeholder="Search Brand Name">
 
                                         <button type="submit" class="btn btn-primary">Filter</button>
 
@@ -78,14 +78,14 @@
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">No
                                                     </th>
                                                     <th class="text-secondary font-weight-semibold opacity-7">
-                                                        Nama Layanan</th>
+                                                        Service</th>
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
-                                                        Tanggal Landing</th>
+                                                        Landing Date</th>
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
-                                                        Nama Client</th>
+                                                        Client Name</th>
                                                     <th
                                                         class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                        Nama Brand</th>
+                                                        Brand Name</th>
                                                     <th
                                                         class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                         Status</th>

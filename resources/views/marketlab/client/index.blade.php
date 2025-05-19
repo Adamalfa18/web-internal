@@ -187,8 +187,8 @@
                             <div class="card-header border-bottom pb-0 border-client-bottom">
                                 <div class="d-sm-flex align-items-center">
                                     <div>
-                                        <h6 class="font-weight-semibold text-lg mb-0">Data Client</h6>
-                                        <p class="text-sm">Berikut adalah list daftar client</p>
+                                        <h6 class="font-weight-semibold text-lg mb-0">Clients List</h6>
+                                        <p class="text-sm">Marketlab clients list</p>
                                     </div>
                                     <div class="ms-auto d-flex">
                                         <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
@@ -198,7 +198,7 @@
                                                 <path
                                                     d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z" />
                                             </svg>
-                                            <span class="btn-inner--text">Add Client Modal</span>
+                                            <span class="btn-inner--text">Add Client</span>
                                         </a>
                                     </div>
                                 </div>
@@ -210,7 +210,7 @@
                     <form id="filterForm" method="GET" class="d-flex m-3 gap-2">
                         <input type="hidden" name="status" value="{{ request('status', 1) }}">
                         <input type="text" name="brand" value="{{ request('brand') }}" class="form-control"
-                            placeholder="Cari Nama Brand">
+                            placeholder="Search Brand Name">
                         <input type="date" name="date_aktif" value="{{ request('date_aktif') }}"
                             class="form-control">
                         <button type="submit" class="btn btn-primary">Filter</button>
@@ -235,17 +235,17 @@
                                                         No
                                                     </th>
                                                     <th class="text-secondary font-weight-semibold opacity-7">
-                                                        Nama Brand</th>
+                                                        Brand Name</th>
                                                     <th class="text-secondary font-weight-semibold opacity-7">
-                                                        Nama Client</th>
+                                                        Client Name</th>
                                                     <th class="text-secondary font-weight-semibold opacity-7">
-                                                        Penanggung Jawab</th>
+                                                        PIC</th>
                                                     <th
                                                         class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                         Status</th>
                                                     <th
                                                         class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                        Tanggal Aktif</th>
+                                                        Active Date</th>
                                                     <th class="text-secondary opacity-7"></th>
                                                 </tr>
                                             </thead>

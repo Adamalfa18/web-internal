@@ -11,12 +11,12 @@
                                 <div class="card-header border-bottom pb-0 border-client-bottom">
                                     <div class="d-sm-flex align-items-center justify-content-between">
                                         <div>
-                                            <h6 class="font-weight-semibold text-lg mb-0">Data Client MB</h6>
-                                            <p class="text-sm">Berikut Adalah List Client MB</p>
+                                            <h6 class="font-weight-semibold text-lg mb-0">Clients MB List</h6>
+                                            <p class="text-sm">Marketlab clients MB list</p>
                                         </div>
 
                                         <form method="GET" class="d-flex gap-2">
-                                            <input type="text" name="nama_brand" value="{{ request('nama_brand') }}" placeholder="Cari Nama Brand"
+                                            <input type="text" name="nama_brand" value="{{ request('nama_brand') }}" placeholder="Search Brand Name"
                                                 class="form-control form-control-sm">
                                             <input type="date" name="tanggal_aktif" value="{{ request('tanggal_aktif') }}"
                                                 class="form-control form-control-sm">
@@ -39,15 +39,15 @@
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">No
                                                     </th>
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
-                                                        Nama Brand</th>
+                                                        Brand Name</th>
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
-                                                        Nama Client</th>
+                                                        Client Name</th>
                                                     <th
                                                         class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                         Status</th>
                                                     <th
                                                         class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                        Tanggal Aktif</th>
+                                                        Active Date</th>
                                                     <th class="text-secondary opacity-7"></th>
                                                 </tr>
                                             </thead>

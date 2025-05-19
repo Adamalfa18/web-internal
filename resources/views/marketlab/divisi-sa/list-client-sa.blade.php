@@ -17,16 +17,20 @@
                                         </div>
                                         <div class="ms-md-auto pe-md-3 d-flex align-items-center gap-2">
                                             <!-- Filter Form -->
-                                            <form method="GET" action="{{ route('list-client-sa.index') }}" class="d-flex gap-2">
-                                                <input type="date" name="tanggal" value="{{ request('tanggal') }}" class="form-control form-control-sm">
-                                                
-                                                <input type="text" name="brand" placeholder="Search by Brand" value="{{ request('brand') }}"
+                                            <form method="GET" action="{{ route('list-client-sa.index') }}"
+                                                class="d-flex gap-2">
+                                                <input type="date" name="tanggal" value="{{ request('tanggal') }}"
                                                     class="form-control form-control-sm">
 
+                                                <input type="text" name="brand" placeholder="Search by Brand"
+                                                    value="{{ request('brand') }}" class="form-control form-control-sm">
+
                                                 <button type="submit" class="btn btn-primary btn-sm">Filter</button>
-                                                <a href="{{ route('list-client-sa.index') }}?status={{ request('status', 1) }}" class="btn btn-secondary" id="resetFilter">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                                        class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                <a href="{{ route('list-client-sa.index') }}?status={{ request('status', 1) }}"
+                                                    class="btn btn-secondary" id="resetFilter">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-trash-fill"
+                                                        viewBox="0 0 16 16">
                                                         <path
                                                             d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z" />
                                                     </svg>
@@ -114,7 +118,7 @@
                                                                         d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                                                                 </svg>
                                                             </a>
-                                                            <a href="{{ route('divisi-sa.editProfile', ['client_id' => $client->id]) }}"
+                                                            {{-- <a href="{{ route('divisi-sa.editProfile', ['client_id' => $client->id]) }}"
                                                                 class="btn btn-primary text-secondary font-weight-bold text-xs active-client"
                                                                 data-bs-title="Edit instagram">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
@@ -127,7 +131,7 @@
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
                                                                     <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
                                                                 </svg>
-                                                            </a>
+                                                            </a> --}}
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -207,36 +211,36 @@
         });
 
         $(document).on('click', '[data-client-id]', function() {
-    var clientId = $(this).data('client-id');
-    var modal = $('#editProfileModal');
-    var form = modal.find('form');
-    var urlUpdate = '/divisi-sa/profile/' + clientId;
-    var urlStore = '/divisi-sa/profile/' + clientId;
+            var clientId = $(this).data('client-id');
+            var modal = $('#editProfileModal');
+            var form = modal.find('form');
+            var urlUpdate = '/divisi-sa/profile/' + clientId;
+            var urlStore = '/divisi-sa/profile/' + clientId;
 
-    // Reset form
-    form[0].reset();
-    form.find('input[name="_method"]').remove();
+            // Reset form
+            form[0].reset();
+            form.find('input[name="_method"]').remove();
 
-    // Ambil data profile via AJAX
-    $.get('/divisi-sa/profile/' + clientId + '/json', function(profile) {
-        if (profile) {
-            // Isi field
-            form.find('[name="username"]').val(profile.username);
-            form.find('[name="name"]').val(profile.name);
-            form.find('[name="followers"]').val(profile.followers);
-            form.find('[name="following"]').val(profile.following);
-            form.find('[name="bio"]').val(profile.bio);
+            // Ambil data profile via AJAX
+            $.get('/divisi-sa/profile/' + clientId + '/json', function(profile) {
+                if (profile) {
+                    // Isi field
+                    form.find('[name="username"]').val(profile.username);
+                    form.find('[name="name"]').val(profile.name);
+                    form.find('[name="followers"]').val(profile.followers);
+                    form.find('[name="following"]').val(profile.following);
+                    form.find('[name="bio"]').val(profile.bio);
 
-            // Set action dan method
-            form.attr('action', urlUpdate);
-            form.prepend('<input type="hidden" name="_method" value="PUT">');
+                    // Set action dan method
+                    form.attr('action', urlUpdate);
+                    form.prepend('<input type="hidden" name="_method" value="PUT">');
 
-            // Isi links
-            var linksContainer = form.find('#links-container');
-            linksContainer.html('');
-            if (profile.links && profile.links.length) {
-                profile.links.forEach(function(link, idx) {
-                    linksContainer.append(`
+                    // Isi links
+                    var linksContainer = form.find('#links-container');
+                    linksContainer.html('');
+                    if (profile.links && profile.links.length) {
+                        profile.links.forEach(function(link, idx) {
+                            linksContainer.append(`
                         <div class="mb-2 row">
                             <div class="col-md-5">
                                 <textarea class="form-control mb-1" name="links[${idx}][url]" placeholder="URL" required>${link.url}</textarea>
@@ -251,15 +255,17 @@
                             </div>
                         </div>
                     `);
-                });
-            }
-        } else {
-            // Profile belum ada, kosongkan field
-            form.find('[name="username"],[name="name"],[name="followers"],[name="following"],[name="bio"]').val('');
-            form.attr('action', urlStore);
-            // Tidak perlu _method PUT
-        }
-    });
-});
+                        });
+                    }
+                } else {
+                    // Profile belum ada, kosongkan field
+                    form.find(
+                        '[name="username"],[name="name"],[name="followers"],[name="following"],[name="bio"]'
+                        ).val('');
+                    form.attr('action', urlStore);
+                    // Tidak perlu _method PUT
+                }
+            });
+        });
     </script>
 </x-app-layout>

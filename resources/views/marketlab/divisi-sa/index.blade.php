@@ -1181,8 +1181,185 @@
         </div>
         {{-- END TIKTOK --}}
 
+        <!-- Modal Edit Profile TikTok -->
+        <div class="modal fade" id="editProfileModalTiktok" tabindex="-1" role="dialog"
+            aria-labelledby="editProfileModalTiktokLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Profile TikTok</h5>
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        @if (!$profileTiktok)
+                            <div class="alert alert-warning">Profile TikTok belum diisi untuk
+                                <strong>{{ $client->nama_brand }}</strong>.
+                            </div>
+                        @else
+                            <form action="{{ route('divisi-sa.updateProfileTiktok', ['client_id' => $client_id]) }}"
+                                method="POST" enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
 
-        {{-- End Pfofile Tiktok --}}
+                                <div class="mb-3">
+                                    <label>Username</label>
+                                    <input type="text" name="username" class="form-control" required
+                                        value="{{ $profileTiktok->username }}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Name</label>
+                                    <input type="text" name="name" class="form-control" required
+                                        value="{{ $profileTiktok->name }}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Followers</label>
+                                    <input type="text" name="followers" class="form-control" required
+                                        value="{{ $profileTiktok->followers }}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Following</label>
+                                    <input type="text" name="following" class="form-control" required
+                                        value="{{ $profileTiktok->following }}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Likes</label>
+                                    <input type="text" name="likes" class="form-control" required
+                                        value="{{ $profileTiktok->likes }}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Bio</label>
+                                    <textarea name="bio" class="form-control" rows="3" required>{{ $profileTiktok->bio }}</textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Link</label>
+                                    <button type="button" id="add-link-btn-modal-tiktok"
+                                        class="btn btn-sm btn-primary mb-2">Add Link</button>
+                                    <div id="links-container-modal-tiktok">
+                                        @foreach ($profileTiktok->links as $index => $link)
+                                            <div class="mb-2 row align-items-center">
+                                                <div class="col-md-5">
+                                                    <input name="links[{{ $index }}][url]"
+                                                        class="form-control" value="{{ $link->url }}" required
+                                                        placeholder="URL">
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <input name="links[{{ $index }}][name]"
+                                                        class="form-control" value="{{ $link->name }}" required
+                                                        placeholder="Nama Link">
+                                                </div>
+                                                <div class="col-md-2 d-flex align-items-center">
+                                                    <button type="button"
+                                                        class="btn btn-danger btn-sm remove-link-btn"><i
+                                                            class="fas fa-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </form>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal Edit Profile -->
+        <!-- Modal Edit Profile Instagram -->
+        <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog"
+            aria-labelledby="editProfileModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Profile Instagram</h5>
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        @if (!$profileIG)
+                            <div class="alert alert-warning">Profile Instagram belum diisi untuk
+                                <strong>{{ $client->nama_brand }}</strong>.
+                            </div>
+                        @else
+                            <form action="{{ route('divisi-sa.updateProfile', ['client_id' => $client_id]) }}"
+                                method="POST" enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="mb-3">
+                                    <label>Username</label>
+                                    <input type="text" name="username" class="form-control" required
+                                        value="{{ $profileIG->username }}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Name</label>
+                                    <input type="text" name="name" class="form-control" required
+                                        value="{{ $profileIG->name }}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Followers</label>
+                                    <input type="text" name="followers" class="form-control" required
+                                        value="{{ $profileIG->followers }}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Following</label>
+                                    <input type="text" name="following" class="form-control" required
+                                        value="{{ $profileIG->following }}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Bio</label>
+                                    <textarea name="bio" class="form-control" rows="3" required>{{ $profileIG->bio }}</textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Link</label>
+                                    <button type="button" id="add-link-btn-modal"
+                                        class="btn btn-sm btn-primary mb-2">Add Link</button>
+                                    <div id="links-container-modal">
+                                        @foreach ($profileIG->links as $index => $link)
+                                            <div class="mb-2 row align-items-center">
+                                                <div class="col-md-5">
+                                                    <input name="links[{{ $index }}][url]"
+                                                        class="form-control" value="{{ $link->url }}" required
+                                                        placeholder="URL">
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <input name="links[{{ $index }}][name]"
+                                                        class="form-control" value="{{ $link->name }}" required
+                                                        placeholder="Nama Link">
+                                                </div>
+                                                <div class="col-md-2 d-flex align-items-center">
+                                                    <button type="button"
+                                                        class="btn btn-danger btn-sm remove-link-btn"><i
+                                                            class="fas fa-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </form>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     {{-- Script untuk modal Instagram --}}
@@ -1300,72 +1477,6 @@
         });
     </script>
 
-
-    {{-- <script>
-        function toggleMobileView() {
-            const ig = document.getElementById('instagramSection');
-            const tiktok = document.getElementById('tiktokSection');
-
-            if (ig.style.display !== 'none') {
-                ig.classList.toggle('mobile-mode');
-            } else if (tiktok.style.display !== 'none') {
-                tiktok.classList.toggle('mobile-mode');
-            }
-        }
-    </script>
-    <script>
-        function showInstagram() {
-            document.getElementById('instagramSection').style.display = 'block';
-            document.getElementById('tiktokSection').style.display = 'none';
-
-            document.getElementById('btnInstagram').classList.add('active');
-            document.getElementById('btnTiktok').classList.remove('active');
-
-            // Set tab aktif: Post
-            setActiveTab('instagram', 'post');
-        }
-
-        function showTiktok() {
-            document.getElementById('instagramSection').style.display = 'none';
-            document.getElementById('tiktokSection').style.display = 'block';
-
-            document.getElementById('btnInstagram').classList.remove('active');
-            document.getElementById('btnTiktok').classList.add('active');
-
-            // Set tab aktif: Videos
-            setActiveTab('tiktok', 'videos');
-        }
-
-        function switchTab(event, tabId) {
-            const isInstagram = tabId.startsWith('instagram');
-            const prefix = isInstagram ? 'instagram' : 'tiktok';
-
-            // Nonaktifkan semua tab dan kontennya
-            document.querySelectorAll(`#${prefix}Section .tab-item`).forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll(`#${prefix}Section .tab-pane`).forEach(pane => {
-                pane.classList.remove('active');
-            });
-
-            // Aktifkan tab yang diklik
-            event.currentTarget.classList.add('active');
-            document.getElementById(tabId)?.classList.add('active');
-        }
-
-        function setActiveTab(prefix, name) {
-            const tabItems = document.querySelectorAll(`#${prefix}Section .tab-item`);
-            const tabPanes = document.querySelectorAll(`#${prefix}Section .tab-pane`);
-
-            // Reset semua tab
-            tabItems.forEach(btn => btn.classList.remove('active'));
-            tabPanes.forEach(pane => pane.classList.remove('active'));
-
-            const targetBtn = Array.from(tabItems).find(btn => btn.getAttribute('onclick')?.includes(`${prefix}-${name}`));
-            const targetPane = document.getElementById(`${prefix}-${name}`);
-
-            if (targetBtn) targetBtn.classList.add('active');
-            if (targetPane) targetPane.classList.add('active');
-        }
-    </script> --}}
     <script>
         function showInstagram() {
             document.getElementById('instagramSection').style.display = 'block';
@@ -1418,8 +1529,6 @@
             if (targetPane) targetPane.classList.add('active');
         }
     </script>
-
-
     <script>
         let isMobile = false;
 
@@ -1461,185 +1570,6 @@
             document.getElementById(tabId).classList.add('active');
         }
     </script>
-
-    <!-- Modal Edit Profile -->
-    <!-- Modal Edit Profile Instagram -->
-    <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog"
-        aria-labelledby="editProfileModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Profile Instagram</h5>
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    @if (!$profileIG)
-                        <div class="alert alert-warning">Profile Instagram belum diisi untuk
-                            <strong>{{ $client->nama_brand }}</strong>.
-                        </div>
-                    @else
-                        <form action="{{ route('divisi-sa.updateProfile', ['client_id' => $client_id]) }}"
-                            method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
-
-                            <div class="mb-3">
-                                <label>Username</label>
-                                <input type="text" name="username" class="form-control" required
-                                    value="{{ $profileIG->username }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Name</label>
-                                <input type="text" name="name" class="form-control" required
-                                    value="{{ $profileIG->name }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Followers</label>
-                                <input type="text" name="followers" class="form-control" required
-                                    value="{{ $profileIG->followers }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Following</label>
-                                <input type="text" name="following" class="form-control" required
-                                    value="{{ $profileIG->following }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Bio</label>
-                                <textarea name="bio" class="form-control" rows="3" required>{{ $profileIG->bio }}</textarea>
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Link</label>
-                                <button type="button" id="add-link-btn-modal"
-                                    class="btn btn-sm btn-primary mb-2">Add Link</button>
-                                <div id="links-container-modal">
-                                    @foreach ($profileIG->links as $index => $link)
-                                        <div class="mb-2 row align-items-center">
-                                            <div class="col-md-5">
-                                                <input name="links[{{ $index }}][url]" class="form-control"
-                                                    value="{{ $link->url }}" required placeholder="URL">
-                                            </div>
-                                            <div class="col-md-5">
-                                                <input name="links[{{ $index }}][name]" class="form-control"
-                                                    value="{{ $link->name }}" required placeholder="Nama Link">
-                                            </div>
-                                            <div class="col-md-2 d-flex align-items-center">
-                                                <button type="button"
-                                                    class="btn btn-danger btn-sm remove-link-btn"><i
-                                                        class="fas fa-trash"></i></button>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-
-                            <div class="text-right">
-                                <button type="submit" class="btn btn-primary">Simpan</button>
-                            </div>
-                        </form>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <!-- Modal Edit Profile TikTok -->
-    <div class="modal fade" id="editProfileModalTiktok" tabindex="-1" role="dialog"
-        aria-labelledby="editProfileModalTiktokLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Profile TikTok</h5>
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    @if (!$profileTiktok)
-                        <div class="alert alert-warning">Profile TikTok belum diisi untuk
-                            <strong>{{ $client->nama_brand }}</strong>.
-                        </div>
-                    @else
-                        <form action="{{ route('divisi-sa.updateProfileTiktok', ['client_id' => $client_id]) }}"
-                            method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
-
-                            <div class="mb-3">
-                                <label>Username</label>
-                                <input type="text" name="username" class="form-control" required
-                                    value="{{ $profileTiktok->username }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Name</label>
-                                <input type="text" name="name" class="form-control" required
-                                    value="{{ $profileTiktok->name }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Followers</label>
-                                <input type="text" name="followers" class="form-control" required
-                                    value="{{ $profileTiktok->followers }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Following</label>
-                                <input type="text" name="following" class="form-control" required
-                                    value="{{ $profileTiktok->following }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Likes</label>
-                                <input type="text" name="likes" class="form-control" required
-                                    value="{{ $profileTiktok->likes }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Bio</label>
-                                <textarea name="bio" class="form-control" rows="3" required>{{ $profileTiktok->bio }}</textarea>
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Link</label>
-                                <button type="button" id="add-link-btn-modal-tiktok"
-                                    class="btn btn-sm btn-primary mb-2">Add Link</button>
-                                <div id="links-container-modal-tiktok">
-                                    @foreach ($profileTiktok->links as $index => $link)
-                                        <div class="mb-2 row align-items-center">
-                                            <div class="col-md-5">
-                                                <input name="links[{{ $index }}][url]" class="form-control"
-                                                    value="{{ $link->url }}" required placeholder="URL">
-                                            </div>
-                                            <div class="col-md-5">
-                                                <input name="links[{{ $index }}][name]" class="form-control"
-                                                    value="{{ $link->name }}" required placeholder="Nama Link">
-                                            </div>
-                                            <div class="col-md-2 d-flex align-items-center">
-                                                <button type="button"
-                                                    class="btn btn-danger btn-sm remove-link-btn"><i
-                                                        class="fas fa-trash"></i></button>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-
-                            <div class="text-right">
-                                <button type="submit" class="btn btn-primary">Simpan</button>
-                            </div>
-                        </form>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-
-
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

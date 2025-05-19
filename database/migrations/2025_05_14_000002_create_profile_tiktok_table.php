@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('followers');
             $table->string('following');
             $table->string('bio');
+            $table->string('likes');
 
             // Tambahkan foreign key ke tabel clients
             $table->unsignedBigInteger('client_id');

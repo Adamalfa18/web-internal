@@ -739,6 +739,7 @@ li.nav-item.drop {
 }
 .style-clien-header {
     display: flex;
+    align-items: center;
 }
 
 .stats {
@@ -1120,10 +1121,39 @@ body.mobile {
     align-items: flex-start !important;
 }
 
+#profileWrapper.mobile-view
+    a.btn.btn-sm.btn-primary.btn-icon.d-flex.align-items-center.me-2 {
+    display: none !important;
+}
+#profileWrapper.mobile-view .row.top-info.ig-style {
+    display: flex;
+    flex-direction: row !important;
+    align-items: flex-start;
+}
+
+#profileWrapper.mobile-view .col-md-9.ig-style {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+#profileWrapper.mobile-view .ig-style-post {
+    display: flex;
+    flex-direction: column;
+}
+#profileWrapper.mobile-view .stats,
+#profileWrapper.mobile-view .name_ig,
+#profileWrapper.mobile-view .bio,
+#profileWrapper.mobile-view .link {
+    font-size: 12px;
+}
+.bio {
+    font-weight: 400;
+}
+
 @media (min-width: 768px) {
-    #profileWrapper.mobile-view .col-md-9 {
+    #profileWrapper.mobile-view .col-md-9.tiktok-style {
         flex: 0 0 auto;
-        width: 375px;
+        width: 100%;
     }
     #profileWrapper.mobile-view .col-md-9.style-tiktok-sa {
         flex: 0 0 auto;

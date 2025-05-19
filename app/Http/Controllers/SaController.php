@@ -48,11 +48,13 @@ class SaController extends Controller
 
 
 
-    public function index($client_id)
+   public function index($client_id)
     {
         $clients = Client::all();
         $client = Client::findOrFail($client_id);
-        $profile = ProfileSa::with('links')->where('client_id', $client_id)->first();
+
+        // Pisahkan profile Instagram dan TikTok
+        $profileIG = ProfileSa::with('links')->where('client_id', $client_id)->first();
         $profileTiktok = ProfileTiktok::with('links')->where('client_id', $client_id)->first();
 
         $posts = SocialMedia::with('media')
@@ -89,8 +91,19 @@ class SaController extends Controller
             }
         }
 
-        return view('marketlab.divisi-sa.index', compact('posts', 'tiktok', 'post_medias', 'tiktok_medias', 'clients', 'client', 'client_id', 'profile', 'profileTiktok'));
+        return view('marketlab.divisi-sa.index', compact(
+            'posts',
+            'tiktok',
+            'post_medias',
+            'tiktok_medias',
+            'clients',
+            'client',
+            'client_id',
+            'profileIG',        // Tambah ini
+            'profileTiktok'     // Dan ini
+        ));
     }
+
 
     public function updateProfile(Request $request, $client_id)
     {

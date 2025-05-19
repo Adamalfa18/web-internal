@@ -91,6 +91,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/divisi-sa/profile/{client_id}/edit', [SaController::class, 'editProfile'])->name('divisi-sa.editProfile');
         Route::get('/divisi-sa/profile-tiktok/{client_id}/edit', [SaController::class, 'editProfileTiktok'])->name('divisi-sa.editProfileTiktok');
         Route::put('/divisi-sa/profile-tiktok/{client_id}/update', [SaController::class, 'updateProfileTiktok'])->name('divisi-sa.updateProfileTiktok');
+        Route::delete('/divisi-sa/{client_id}/instagram/{post_id}', [SaController::class, 'deleteInstagram'])->name('divisi-sa.deleteInstagram');
+        Route::delete('/divisi-sa/{client_id}/tiktok/{post_id}', [SaController::class, 'deleteTiktok'])->name('divisi-sa.deleteTiktok');
     });
 
     // Head-MB (7)

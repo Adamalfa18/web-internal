@@ -48,7 +48,7 @@ class SaController extends Controller
 
 
 
-   public function index($client_id)
+    public function index($client_id)
     {
         $clients = Client::all();
         $client = Client::findOrFail($client_id);
@@ -611,5 +611,21 @@ class SaController extends Controller
             \Log::error('Error updating TikTok profile: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
+    }
+
+    public function deleteInstagram($client_id, $post_id)
+    {
+        $post = SocialMedia::findOrFail($post_id);
+        $post->delete();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function deleteTiktok($client_id, $post_id)
+    {
+        $post = Tiktok::findOrFail($post_id);
+        $post->delete();
+
+        return response()->json(['success' => true]);
     }
 }

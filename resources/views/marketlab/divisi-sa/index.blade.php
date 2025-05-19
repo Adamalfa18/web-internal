@@ -640,11 +640,14 @@
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Tutup
+                                                data-bs-dismiss="modal">Close
                                             </button>
                                             <button type="button" class="btn btn-primary"
                                                 onclick="$('#mediaModal{{ $post->id }}').modal('hide'); setTimeout(function(){$('#editSAModal{{ $post->id }}').modal('show');}, 500);">
                                                 Edit Post
+                                            </button>
+                                            <button type="button" class="btn btn-primary" onclick="deletePost({{ $post->id }})">
+                                                Delete Post
                                             </button>
                                         </div>
                                     </form>
@@ -845,6 +848,9 @@
                                             <button type="button" class="btn btn-primary"
                                                 onclick="$('#mediaModal{{ $post->id }}').modal('hide'); setTimeout(function(){$('#editSATiktokModal{{ $tkpost->id }}').modal('show');}, 500);">
                                                 Edit Post
+                                            </button>
+                                            <button type="button" class="btn btn-primary" onclick="deletePostTiktok({{ $tkpost->id }})">
+                                                Delete Post
                                             </button>
                                         </div>
                                     </form>
@@ -1616,5 +1622,53 @@
             initLinkHandler("add-link-btn-modal-tiktok", "links-container-modal-tiktok");
         });
     </script>
+    <script>
+        function deletePost(postId) {
+            if (confirm('Apakah Anda yakin ingin menghapus post ini?')) {
+                fetch(`/divisi-sa/{{ $client->id }}/instagram/${postId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload();
+                    } else {
+                        alert(data.message || 'Terjadi kesalahan saat menghapus post');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menghapus post');
+                });
+            }
+        }
 
+        function deletePostTiktok(postId) {
+            if (confirm('Apakah Anda yakin ingin menghapus post ini?')) {
+                fetch(`/divisi-sa/{{ $client->id }}/tiktok/${postId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload();
+                    } else {
+                        alert(data.message || 'Terjadi kesalahan saat menghapus post');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menghapus post');
+                });
+            }
+        }
+    </script>
 </x-app-layout>

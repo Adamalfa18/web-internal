@@ -79,6 +79,13 @@
                                             Cover</button>
                                     </div>
                                     <div id="preview-container" class="row mt-3"></div>
+                                    <!-- Add progress bar -->
+                                    <div class="progress mt-3" style="display: none;">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                                    </div>
+                                    <div class="text-center mt-2" id="upload-status" style="display: none;">
+                                        <small class="text-muted">Uploading... <span id="upload-percentage">0</span>%</small>
+                                    </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -118,31 +125,31 @@
                 <!-- Instagram Page -->
                 <div class="instagram-page" id="instagramSection" style="display: block;">
                     <div id="instagramProfileWrapper" class="desktop-view">
-                        <div class="profile-container">
-                            <div class="profile-header">
-                                <div class="profile-info">
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <div class="profile-info">
                                     <div class="row top-info ig-style">
-                                        <div class="col-md-3 style-ig">
+                                <div class="col-md-3 style-ig">
                                             <img src="{{ asset('storage/' . $client->gambar_client) }}"
                                                 class="profile-pic" id="profileStoryTrigger" style="cursor:pointer"
                                                 data-toggle="modal" data-target="#storyModal">
-                                        </div>
+                                </div>
                                         <div class="col-md-9 ig-style">
-                                            <div class="style-clien-header">
+                                    <div class="style-clien-header">
 
-                                                <div class="nama-brand">
+                                        <div class="nama-brand">
                                                     <h2>{{ $profile->username ?? $client->nama_brand }}</h2>
-                                                </div>
-                                                <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
-                                                    data-toggle="modal" data-target="#addPostModal">
-                                                    <span class="btn-inner--icon">
+                                        </div>
+                                            <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
+                                                data-toggle="modal" data-target="#addPostModal">
+                                                <span class="btn-inner--icon">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                             height="16" fill="currentColor"
                                                             class="bi bi-plus-square-fill" viewBox="0 0 16 16">
-                                                            <path
+                                                        <path
                                                                 d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
-                                                        </svg>
-                                                    </span>
+                                                    </svg>
+                                                </span>
                                                 </a>
                                                 <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
                                                     data-toggle="modal" data-target="#editProfileModal">
@@ -152,29 +159,29 @@
                                                 </a>
                                                 <div class="style-button-ig">
 
-                                                </div>
-                                            </div>
+                                        </div>
+                                    </div>
                                             @if ($profileIG)
-                                                <div class="stats">
+                                    <div class="stats">
 
                                                     <span
                                                         class="ig-style-post">{{ $posts->where('category', 'post')->count() }}<strong>
                                                             Post</strong></span>
                                                     <span>{{ $profileIG->followers }}<strong> Followers</strong> </span>
                                                     <span>{{ $profileIG->following }}<strong> Following</strong> </span>
-                                                </div>
+                                    </div>
                                                 <div class="name_ig">
                                                     <span><strong>{{ $profileIG->name }}</strong></span>
-                                                </div>
+                                </div>
                                                 <div class="bio">
                                                     <span>{{ $profileIG->bio }}</span>
-                                                </div>
+                            </div>
                                                 <div class="link">
                                                     @foreach ($profileIG->links as $link)
                                                         <a href="{{ $link->url }}"
                                                             target="_blank">{{ $link->name }}</a>
                                                     @endforeach
-                                                </div>
+                        </div>
                                             @else
                                                 <div class="style-clien-header mt-3">
                                                     <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
@@ -192,7 +199,7 @@
                                                     </a>
 
                                                     <div class="text-danger">Profile belum diisi.</div>
-                                                </div>
+                    </div>
                                             @endif
                                         </div>
                                     </div>
@@ -200,23 +207,23 @@
                             </div>
 
                             <!-- Tabs Navigation -->
-                            <div class="tabs">
+                    <div class="tabs">
                                 <button class="tab-item active"
                                     onclick="switchTab(event, 'instagram-post')">Post</button>
                                 <button class="tab-item" onclick="switchTab(event, 'instagram-reel')">Reel</button>
                                 <button class="tab-item" onclick="switchTab(event, 'instagram-story')">Story</button>
-                            </div>
+                    </div>
 
                             <!-- Tab Content -->
                             <div class="tab-content">
                                 <div id="instagram-post" class="tab-pane active">
-                                    <div class="gallery">
+                    <div class="gallery">
                                         @foreach ($posts->where('category', 'post') as $post)
-                                            @php
-                                                $firstMedia = $post_medias->firstWhere('post_id', $post->id);
-                                            @endphp
-                                            <div class="gallery-item">
-                                                <a href="#" data-bs-toggle="modal"
+                            @php
+                                $firstMedia = $post_medias->firstWhere('post_id', $post->id);
+                            @endphp
+                                <div class="gallery-item">
+                                    <a href="#" data-bs-toggle="modal"
                                                     data-bs-target="#mediaModal{{ $post->id }}">
                                                     @if ($post->cover)
                                                         @if (Str::endsWith($post->cover, '.webp'))
@@ -232,8 +239,8 @@
                                                         @endif
                                                     @elseif ($firstMedia)
                                                         @if (Str::endsWith($firstMedia->post, '.webp'))
-                                                            <img src="{{ asset('storage/media/' . $firstMedia->post) }}"
-                                                                alt="Social Media" class="img-fluid">
+                                        <img src="{{ asset('storage/media/' . $firstMedia->post) }}"
+                                            alt="Social Media" class="img-fluid">
                                                         @elseif (Str::endsWith($firstMedia->post, '.webm'))
                                                             <video width="100%" controls>
                                                                 <source
@@ -243,8 +250,8 @@
                                                             </video>
                                                         @endif
                                                     @endif
-                                                </a>
-                                            </div>
+                                    </a>
+                                </div>
                                         @endforeach
                                     </div>
                                 </div>
@@ -269,7 +276,7 @@
                                                                     type="video/webm">
                                                                 Your browser does not support the video tag.
                                                             </video>
-                                                        @endif
+                            @endif
                                                     @elseif ($firstMedia)
                                                         @if (Str::endsWith($firstMedia->post, '.webp'))
                                                             <img src="{{ asset('storage/media/' . $firstMedia->post) }}"
@@ -286,8 +293,8 @@
                                                 </a>
                                             </div>
                                         @endforeach
-                                    </div>
-                                </div>
+                    </div>
+                </div>
 
                                 <div id="instagram-story" class="tab-pane">
                                     <div class="gallery">
@@ -498,13 +505,13 @@
             <div class="modal fade" id="addTiktokModal" tabindex="-1" role="dialog"
                 aria-labelledby="addTiktokModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
+                            <div class="modal-content">
+                                <div class="modal-header">
                             <h5 class="modal-title" id="addTiktokModalLabel">Add Post Tiktok</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
                         <form class="form-marketing form-marketing-tiktok"
                             action="{{ route('divisi-sa.storeTiktok', ['client_id' => $client_id]) }}" method="POST"
                             enctype="multipart/form-data">
@@ -543,10 +550,17 @@
                                             Cover</button>
                                     </div>
                                     <div id="preview-container-tiktok" class="row mt-3"></div>
+                                    <!-- Add progress bar -->
+                                    <div class="progress mt-3" style="display: none;">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                                    </div>
+                                    <div class="text-center mt-2" id="upload-status" style="display: none;">
+                                        <small class="text-muted">Uploading... <span id="upload-percentage">0</span>%</small>
+                                    </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </form>
@@ -560,194 +574,201 @@
                     <div class="modal-dialog modal-lg" role="document"> {{-- modal-lg biar gede --}}
                         <div class="modal-content">
 
-                            <div class="row form-marketing" enctype="multipart/form-data">
-                                <div class="col-lg-6">
-                                    {{-- Carousel Dinamis --}}
-                                    @if ($post->media->count())
-                                        <div id="carouselIndicators{{ $post->id }}" class="carousel slide"
-                                            data-bs-ride="carousel">
-                                            <div class="carousel-inner">
-                                                @foreach ($post->media as $key => $media)
-                                                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                                        @if (in_array(pathinfo($media->post, PATHINFO_EXTENSION), ['mp4', 'mov', 'webm']))
-                                                            <video class="d-block w-100" controls>
-                                                                <source
-                                                                    src="{{ asset('storage/media/' . $media->post) }}"
-                                                                    type="video/mp4">
-                                                            </video>
-                                                        @else
-                                                            <img src="{{ asset('storage/media/' . $media->post) }}"
-                                                                class="d-block w-100" alt="Post Media">
-                                                        @endif
-                                                    </div>
-                                                @endforeach
+                                <div class="row form-marketing" enctype="multipart/form-data">
+                                    <div class="col-lg-6">
+                                        {{-- Carousel Dinamis --}}
+                                        @if ($post->media->count())
+                                            <div id="carouselIndicators{{ $post->id }}" class="carousel slide"
+                                                data-bs-ride="carousel">
+                                                <div class="carousel-inner">
+                                                    @foreach ($post->media as $key => $media)
+                                                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                                            @if (in_array(pathinfo($media->post, PATHINFO_EXTENSION), ['mp4', 'mov', 'webm']))
+                                                                <video class="d-block w-100" controls>
+                                                                    <source
+                                                                        src="{{ asset('storage/media/' . $media->post) }}"
+                                                                        type="video/mp4">
+                                                                </video>
+                                                            @else
+                                                                <img src="{{ asset('storage/media/' . $media->post) }}"
+                                                                    class="d-block w-100" alt="Post Media">
+                                                            @endif
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                @if ($post->media->count() > 1)
+                                                    <button class="carousel-control-prev" type="button"
+                                                        data-bs-target="#carouselIndicators{{ $post->id }}"
+                                                        data-bs-slide="prev">
+                                                        <span class="carousel-control-prev-icon"
+                                                            aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Previous</span>
+                                                    </button>
+                                                    <button class="carousel-control-next" type="button"
+                                                        data-bs-target="#carouselIndicators{{ $post->id }}"
+                                                        data-bs-slide="next">
+                                                        <span class="carousel-control-next-icon"
+                                                            aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Next</span>
+                                                    </button>
+                                                @endif
                                             </div>
-                                            @if ($post->media->count() > 1)
-                                                <button class="carousel-control-prev" type="button"
-                                                    data-bs-target="#carouselIndicators{{ $post->id }}"
-                                                    data-bs-slide="prev">
-                                                    <span class="carousel-control-prev-icon"
-                                                        aria-hidden="true"></span>
-                                                    <span class="visually-hidden">Previous</span>
-                                                </button>
-                                                <button class="carousel-control-next" type="button"
-                                                    data-bs-target="#carouselIndicators{{ $post->id }}"
-                                                    data-bs-slide="next">
-                                                    <span class="carousel-control-next-icon"
-                                                        aria-hidden="true"></span>
-                                                    <span class="visually-hidden">Next</span>
-                                                </button>
-                                            @endif
-                                        </div>
-                                    @endif
-                                </div>
+                                        @endif
+                                    </div>
 
-                                <div class="col-lg-6">
-                                    <form>
+                                    <div class="col-lg-6">
+                                        <form>
 
                                         <div class="form-group">
                                             <label>Upload Date</label>
                                             <textarea class="form-control" rows="3" disabled>{{ $post->created_at->format('d-m-Y') }}</textarea>
                                         </div>
 
-                                        {{-- Captin --}}
-                                        <div class="form-group">
-                                            <label>Caption</label>
-                                            <textarea class="form-control" rows="3" disabled>{{ $post->caption }}</textarea>
-                                        </div>
-
-                                        {{-- Notes --}}
-                                        <div class="form-group">
-                                            <label>Note</label>
-                                            <textarea class="form-control" rows="3" disabled>{{ $post->note }}</textarea>
-                                        </div>
-
-                                        {{-- Status --}}
-                                        @php
-                                            // ambil media pertama dari post ini (kalau kamu dalam @foreach $posts)
-                                            $firstMedia = $post_medias->firstWhere('post_id', $post->id);
-                                        @endphp
-
-                                        @if ($firstMedia && $firstMedia->postingan)
+                                            {{-- Captin --}}
                                             <div class="form-group">
-                                                <label>Status:</label>
-                                                @if ($firstMedia->postingan->status == 0)
-                                                    <span class="badge badge-secondary">Menunggu Persetujuan</span>
-                                                @elseif ($firstMedia->postingan->status == 1)
-                                                    <span class="badge badge-success ">Disetujui</span>
-                                                @elseif ($firstMedia->postingan->status == 2)
-                                                    <span class="badge badge-danger">Perlu Revisi</span>
-                                                @else
-                                                    <span class="badge badge-secondary">Status Tidak
-                                                        Diketahui</span>
-                                                @endif
+                                                <label>Caption</label>
+                                                <textarea class="form-control" rows="3" disabled>{{ $post->caption }}</textarea>
                                             </div>
-                                        @endif
 
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
+                                            {{-- Notes --}}
+                                            <div class="form-group">
+                                                <label>Note</label>
+                                                <textarea class="form-control" rows="3" disabled>{{ $post->note }}</textarea>
+                                            </div>
+
+                                            {{-- Status --}}
+                                            @php
+                                                // ambil media pertama dari post ini (kalau kamu dalam @foreach $posts)
+                                                $firstMedia = $post_medias->firstWhere('post_id', $post->id);
+                                            @endphp
+
+                                            @if ($firstMedia && $firstMedia->postingan)
+                                                <div class="form-group">
+                                                    <label>Status:</label>
+                                                    @if ($firstMedia->postingan->status == 0)
+                                                        <span class="badge badge-secondary">Menunggu Persetujuan</span>
+                                                    @elseif ($firstMedia->postingan->status == 1)
+                                                        <span class="badge badge-success ">Disetujui</span>
+                                                    @elseif ($firstMedia->postingan->status == 2)
+                                                        <span class="badge badge-danger">Perlu Revisi</span>
+                                                    @else
+                                                        <span class="badge badge-secondary">Status Tidak
+                                                            Diketahui</span>
+                                                    @endif
+                                                </div>
+                                            @endif
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Close
                                             </button>
                                             <button type="button" class="btn btn-primary"
                                                 onclick="$('#mediaModal{{ $post->id }}').modal('hide'); setTimeout(function(){$('#editSAModal{{ $post->id }}').modal('show');}, 500);">
-                                                Edit Post
-                                            </button>
+                                                        Edit Post
+                                                    </button>                                                    
                                             <button type="button" class="btn btn-primary" onclick="deletePost({{ $post->id }})">
                                                 Delete Post
                                             </button>
-                                        </div>
-                                    </form>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Modal Edit SA -->
+                    <!-- Modal Edit SA -->
                 <div class="modal fade modal-edit-sa-style" id="editSAModal{{ $post->id }}" tabindex="-1"
                     role="dialog" aria-labelledby="editSAModalLabel{{ $post->id }}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
                             <form class="form-marketing form-marketing-edit" id="edit-form-{{ $post->id }}"
                                 method="POST"
-                                action="{{ route('divisi-sa.update', ['client_id' => $post->client_id, 'post_id' => $post->id]) }}"
-                                enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
-                                <input type="hidden" name="id" value="{{ $post->id }}">
-                                <div class="modal-header">
+                                    action="{{ route('divisi-sa.update', ['client_id' => $post->client_id, 'post_id' => $post->id]) }}" 
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="id" value="{{ $post->id }}">
+                                    <div class="modal-header">
                                     <h5 class="modal-title" id="editSAModalLabel{{ $post->id }}">Edit Post Instagram
                                     </h5>
                                     <button type="button" class="close" data-bs-dismiss="modal"
-                                        aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-
-                                    {{-- Caption --}}
-                                    <div class="mb-3">
-                                        <label for="caption{{ $post->id }}" class="form-label">Caption</label>
-                                        <textarea class="form-control" name="caption" id="caption{{ $post->id }}" required>{{ $post->caption }}</textarea>
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
-                                    {{-- Tanggal Upload --}}
-                                    <div class="mb-3">
+                                    <div class="modal-body">
+
+                                        {{-- Caption --}}
+                                        <div class="mb-3">
+                                            <label for="caption{{ $post->id }}" class="form-label">Caption</label>
+                                            <textarea class="form-control" name="caption" id="caption{{ $post->id }}" required>{{ $post->caption }}</textarea>
+                                        </div>
+                                        {{-- Tanggal Upload --}}
+                                        <div class="mb-3">
                                         <label for="created_at{{ $post->id }}" class="form-label">
                                             Upload Date</label>
-                                        <input type="date" class="form-control" name="created_at"
-                                            id="created_at{{ $post->id }}"
-                                            value="{{ $post->created_at->format('Y-m-d') }}" required>
-                                    </div>
-                                    {{-- Upload Media --}}
-                                    <div class="mb-3">
+                                            <input type="date" class="form-control" name="created_at"
+                                                id="created_at{{ $post->id }}"
+                                                value="{{ $post->created_at->format('Y-m-d') }}" required>
+                                        </div>
+                                        {{-- Upload Media --}}
+                                        <div class="mb-3">
                                         <label for="edit_content_media{{ $post->id }}" class="form-label">Media</label>
-                                        <div class="row mt-3" id="edit-preview-container-{{ $post->id }}">
-                                            @foreach ($post->media as $key => $media)
-                                                <div class="col-md-4 mb-2 position-relative preview-item">
+                                            <div class="row mt-3" id="edit-preview-container-{{ $post->id }}">
+                                                @foreach ($post->media as $key => $media)
+                                                    <div class="col-md-4 mb-2 position-relative preview-item">
                                                     <input type="hidden" name="existing_media_ids[]"
                                                         value="{{ $media->id }}">
                                                     <button type="button"
                                                         class="btn btn-danger btn-sm position-absolute top-0 end-0 remove-existing-media"
-                                                        data-media-id="{{ $media->id }}">
-                                                        &times;
-                                                    </button>
-                                                    @if (in_array(pathinfo($media->post, PATHINFO_EXTENSION), ['mp4', 'mov', 'webm']))
-                                                        <video class="w-100" controls>
+                                                            data-media-id="{{ $media->id }}">
+                                                            &times;
+                                                        </button>
+                                                        @if (in_array(pathinfo($media->post, PATHINFO_EXTENSION), ['mp4', 'mov', 'webm']))
+                                                            <video class="w-100" controls>
                                                             <source src="{{ asset('storage/media/' . $media->post) }}"
                                                                 type="video/mp4">
-                                                            Browser tidak mendukung video.
-                                                        </video>
-                                                    @else
+                                                                Browser tidak mendukung video.
+                                                            </video>
+                                                        @else
                                                         <img src="{{ asset('storage/media/' . $media->post) }}"
                                                             class="img-fluid rounded" alt="Media Post">
-                                                    @endif
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                        <div class="mt-2">
-                                            <input type="file" class="form-control d-none edit-file-input"
-                                                id="edit_content_media{{ $post->id }}"
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <div class="mt-2">
+                                                <input type="file" class="form-control d-none edit-file-input" 
+                                                    id="edit_content_media{{ $post->id }}"
                                                 data-id="{{ $post->id }}" name="content_media[]"
                                                 accept=".webp, .webm" multiple>
-                                            <button type="button" class="btn btn-primary edit-add-file-btn"
-                                                data-id="{{ $post->id }}">
+                                                <button type="button" class="btn btn-primary edit-add-file-btn" 
+                                                        data-id="{{ $post->id }}">
                                                 Add Media
-                                            </button>
-                                        </div>
+                                                </button>
+                                            </div>
                                         <div class="row mt-2 edit-preview-container"
                                             id="edit-preview-container-{{ $post->id }}"></div>
+                                        </div>
+                                        <!-- Add progress bar -->
+                                        <div class="progress mt-3" style="display: none;">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                                        </div>
+                                        <div class="text-center mt-2" id="upload-status" style="display: none;">
+                                            <small class="text-muted">Uploading... <span id="upload-percentage">0</span>%</small>
+                                        </div>   
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Save</button>
-                                </div>
-                            </form>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- End Modal Edit SA -->
-            @endforeach
+                    <!-- End Modal Edit SA -->
+                @endforeach
             {{-- End modal Media Instagram --}}
 
             {{-- Modal per Post *Tiktok  --}}
@@ -877,7 +898,7 @@
                                 @method('PUT')
                                 <input type="hidden" name="id" value="{{ $tkpost->id }}">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editSATiktokModalLabel{{ $tkpost->id }}">Edit Post
+                                    <h5 class="modal-title" id="editSATiktokModalLabel{{ $tkpost->id }}">Edit Post Tiktok
                                     </h5>
                                     <button type="button" class="close" data-bs-dismiss="modal"
                                         aria-label="Close">
@@ -943,7 +964,15 @@
                                             </button>
                                         </div>
                                         <div class="row mt-2 edit-preview-container-tiktok"
-                                            id="edit-preview-container-tiktok-{{ $tkpost->id }}"></div>
+                                            id="edit-preview-container-tiktok-{{ $tkpost->id }}">
+                                        </div>
+                                        <!-- Add progress bar -->
+                                        <div class="progress mt-3" style="display: none;">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                                        </div>
+                                        <div class="text-center mt-2" id="upload-status" style="display: none;">
+                                            <small class="text-muted">Uploading... <span id="upload-percentage">0</span>%</small>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

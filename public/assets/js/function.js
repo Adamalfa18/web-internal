@@ -75,30 +75,59 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     form.addEventListener("submit", function (e) {
+        e.preventDefault();
         const formData = new FormData(form);
 
         filesToUpload.forEach((file) => {
-            formData.append("content_media[]", file); // Tetap pisahkan media biasa
+            formData.append("content_media[]", file);
         });
 
         if (coverFile) {
-            formData.append("cover", coverFile); // Tambahkan cover dengan nama field yang benar
+            formData.append("cover", coverFile);
         }
 
-        e.preventDefault();
+        const token = form.querySelector('input[name="_token"]').value;
 
-        fetch(form.action, {
-            method: "POST",
-            body: formData,
-        })
-            .then((res) => {
-                if (res.redirected) {
-                    window.location.href = res.url;
+        const progressBar = form.querySelector(".progress");
+        const progressBarInner = progressBar.querySelector(".progress-bar");
+        const uploadStatus = form.querySelector("#upload-status");
+        const uploadPercentage = form.querySelector("#upload-percentage");
+
+        progressBar.style.display = "block";
+        uploadStatus.style.display = "block";
+
+        // Use XMLHttpRequest instead of fetch for upload progress
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", form.action, true);
+
+        xhr.upload.addEventListener("progress", function (e) {
+            if (e.lengthComputable) {
+                const percentCompleted = Math.round((e.loaded * 100) / e.total);
+                progressBarInner.style.width = percentCompleted + "%";
+                uploadPercentage.textContent = percentCompleted;
+            }
+        });
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    uploadStatus.innerHTML =
+                        '<small class="text-success">Upload selesai!</small>';
+                    progressBar.classList.add("bg-success");
+                    setTimeout(() => {
+                        window.location.href = xhr.responseURL;
+                    }, 1000);
                 } else {
-                    return res.text().then((text) => console.log(text));
+                    uploadStatus.innerHTML =
+                        '<small class="text-danger">Upload gagal!</small>';
+                    console.error("Upload error:", xhr.responseText);
                 }
-            })
-            .catch((err) => console.error("Upload error:", err));
+            }
+        };
+
+        xhr.open("POST", form.action, true);
+        xhr.setRequestHeader("X-CSRF-TOKEN", token);
+        xhr.send(formData);
     });
 
     // ------------------- UNTUK MODAL EDIT ----------------------
@@ -228,28 +257,48 @@ document.addEventListener("DOMContentLoaded", function () {
             // Get CSRF token from the form's _token input
             const token = this.querySelector('input[name="_token"]').value;
 
-            fetch(this.action, {
-                method: "POST",
-                body: formData,
-                headers: {
-                    "X-CSRF-TOKEN": token,
-                },
-            })
-                .then((response) => {
-                    if (response.redirected) {
-                        window.location.href = response.url;
+            const progressBar = form.querySelector(".progress");
+            const progressBarInner = progressBar.querySelector(".progress-bar");
+            const uploadStatus = form.querySelector("#upload-status");
+            const uploadPercentage = form.querySelector("#upload-percentage");
+
+            progressBar.style.display = "block";
+            uploadStatus.style.display = "block";
+
+            // Use XMLHttpRequest instead of fetch for upload progress
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", form.action, true);
+
+            xhr.upload.addEventListener("progress", function (e) {
+                if (e.lengthComputable) {
+                    const percentCompleted = Math.round(
+                        (e.loaded * 100) / e.total
+                    );
+                    progressBarInner.style.width = percentCompleted + "%";
+                    uploadPercentage.textContent = percentCompleted;
+                }
+            });
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        uploadStatus.innerHTML =
+                            '<small class="text-success">Upload selesai!</small>';
+                        progressBar.classList.add("bg-success");
+                        setTimeout(() => {
+                            window.location.href = xhr.responseURL;
+                        }, 1000);
                     } else {
-                        return response.text();
+                        uploadStatus.innerHTML =
+                            '<small class="text-danger">Upload gagal!</small>';
+                        console.error("Upload error:", xhr.responseText);
                     }
-                })
-                .then((data) => {
-                    if (data) {
-                        console.log(data);
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                });
+                }
+            };
+
+            xhr.open("POST", form.action, true);
+            xhr.setRequestHeader("X-CSRF-TOKEN", token);
+            xhr.send(formData);
         });
     });
 
@@ -346,34 +395,59 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const formData = new FormData(this);
 
-            // Add TikTok media files
+            // Tambahkan media TikTok
             tiktokFilesToUpload.forEach((file) => {
                 formData.append("tiktok_media[]", file);
             });
 
-            // Add cover file if exists
+            // Tambahkan cover jika ada
             if (tiktokCoverFile) {
                 formData.append("cover", tiktokCoverFile);
             }
 
-            // Get CSRF token from the form
             const token = this.querySelector('input[name="_token"]').value;
 
-            fetch(this.action, {
-                method: "POST",
-                body: formData,
-                headers: {
-                    "X-CSRF-TOKEN": token,
-                },
-            })
-                .then((res) => {
-                    if (res.redirected) {
-                        window.location.href = res.url;
+            const xhr = new XMLHttpRequest();
+
+            // Update progress bar
+            const progressBar = form.querySelector(".progress-bar");
+            const progressContainer = form.querySelector(".progress");
+            const uploadStatus = form.querySelector("#upload-status");
+            const uploadPercentage = form.querySelector("#upload-percentage");
+
+            progressContainer.style.display = "block";
+            uploadStatus.style.display = "block";
+            progressBar.style.width = "0%";
+            uploadPercentage.innerText = "0";
+
+            xhr.upload.addEventListener("progress", function (e) {
+                if (e.lengthComputable) {
+                    const percent = Math.round((e.loaded / e.total) * 100);
+                    progressBar.style.width = percent + "%";
+                    uploadPercentage.innerText = percent;
+                }
+            });
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        uploadStatus.innerHTML =
+                            '<small class="text-success">Upload selesai!</small>';
+                        progressBar.classList.add("bg-success");
+                        setTimeout(() => {
+                            window.location.href = xhr.responseURL;
+                        }, 1000);
                     } else {
-                        return res.text().then((text) => console.log(text));
+                        uploadStatus.innerHTML =
+                            '<small class="text-danger">Upload gagal!</small>';
+                        console.error("Upload error:", xhr.responseText);
                     }
-                })
-                .catch((err) => console.error("Upload error:", err));
+                }
+            };
+
+            xhr.open("POST", form.action, true);
+            xhr.setRequestHeader("X-CSRF-TOKEN", token);
+            xhr.send(formData);
         });
     });
 
@@ -506,28 +580,48 @@ document.addEventListener("DOMContentLoaded", function () {
             // Get CSRF token from the form's _token input
             const token = this.querySelector('input[name="_token"]').value;
 
-            fetch(this.action, {
-                method: "POST",
-                body: formData,
-                headers: {
-                    "X-CSRF-TOKEN": token,
-                },
-            })
-                .then((response) => {
-                    if (response.redirected) {
-                        window.location.href = response.url;
+            const progressBar = form.querySelector(".progress");
+            const progressBarInner = progressBar.querySelector(".progress-bar");
+            const uploadStatus = form.querySelector("#upload-status");
+            const uploadPercentage = form.querySelector("#upload-percentage");
+
+            progressBar.style.display = "block";
+            uploadStatus.style.display = "block";
+
+            // Use XMLHttpRequest instead of fetch for upload progress
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", form.action, true);
+
+            xhr.upload.addEventListener("progress", function (e) {
+                if (e.lengthComputable) {
+                    const percentCompleted = Math.round(
+                        (e.loaded * 100) / e.total
+                    );
+                    progressBarInner.style.width = percentCompleted + "%";
+                    uploadPercentage.textContent = percentCompleted;
+                }
+            });
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        uploadStatus.innerHTML =
+                            '<small class="text-success">Upload selesai!</small>';
+                        progressBar.classList.add("bg-success");
+                        setTimeout(() => {
+                            window.location.href = xhr.responseURL;
+                        }, 1000);
                     } else {
-                        return response.text();
+                        uploadStatus.innerHTML =
+                            '<small class="text-danger">Upload gagal!</small>';
+                        console.error("Upload error:", xhr.responseText);
                     }
-                })
-                .then((data) => {
-                    if (data) {
-                        console.log(data);
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                });
+                }
+            };
+
+            xhr.open("POST", form.action, true);
+            xhr.setRequestHeader("X-CSRF-TOKEN", token);
+            xhr.send(formData);
         });
     });
 

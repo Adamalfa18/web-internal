@@ -1165,6 +1165,9 @@ body.mobile {
     display: flex;
     flex-direction: column;
 }
+button.btn.btn-danger.btn-sm.position-absolute.top-0.end-0.remove-existing-media {
+    z-index: 10 !important;
+}
 #profileWrapper.mobile-view .name_ig {
     order: 1;
 }

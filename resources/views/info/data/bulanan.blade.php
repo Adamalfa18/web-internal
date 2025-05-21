@@ -160,12 +160,14 @@
                                                     <td class="align-middle text-center">
                                                         {{ $reports->firstItem() + $index }}</td>
                                                     <td class="align-middle text-center">
-                                                        <span
-                                                            class="text-secondary text-sm font-weight-normal">{{ $report->target_spent }}</span>
+                                                        <span class="text-secondary text-sm font-weight-normal">
+                                                            Rp {{ number_format($report->target_spent, 0, ',', '.') }}
+                                                        </span>
                                                     </td>
                                                     <td class="align-middle text-center">
-                                                        <span
-                                                            class="text-secondary text-sm font-weight-normal">{{ $report->target_revenue }}</span>
+                                                        <span class="text-secondary text-sm font-weight-normal">
+                                                            Rp {{ number_format($report->target_revenue, 0, ',', '.') }}
+                                                        </span>
                                                     </td>
                                                     <td class="align-middle text-center">
                                                         <span

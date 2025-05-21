@@ -181,7 +181,7 @@
                                     <div class="d-sm-flex align-items-center">
                                         <div>
                                             <h6 class="font-weight-semibold text-lg mb-0">Daftar Laporan Harian</h6>
-                                            <p class="text-sm">Berikut adalah list daftar laporan Bulanan</p>
+                                            <p class="text-sm">Berikut adalah list daftar laporan Harian</p>
                                         </div>
 
                                     </div>

@@ -135,42 +135,42 @@
         const combinedData = {
             labels: @json($clientsPerMonth->pluck('month')),
             datasets: [{
-                    label: 'Klien Aktif',
+                    label: 'Client Aktif',
                     data: @json($clientsPerMonth->pluck('active')),
                     backgroundColor: 'rgba(10, 185, 10, 0.8)',
                     borderColor: 'rgb(10, 185, 10)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Klien Tidak Aktif',
+                    label: 'Client Tidak Aktif',
                     data: @json($clientsPerMonth->pluck('inactive')),
                     backgroundColor: 'rgba(255, 0, 0, 0.8)',
                     borderColor: 'rgb(255, 0, 0)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Klien MB Aktif',
+                    label: 'Client MB Aktif',
                     data: @json($mbClientsPerMonth->pluck('active')),
                     backgroundColor: 'rgba(10, 185, 150, 0.8)',
                     borderColor: 'rgb(10, 185, 150)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Klien MB Tidak Aktif',
+                    label: 'Client MB Tidak Aktif',
                     data: @json($mbClientsPerMonth->pluck('inactive')),
                     backgroundColor: 'rgba(200, 0, 0, 0.8)',
                     borderColor: 'rgb(200, 0, 0)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Klien SA Aktif',
+                    label: 'Client SA Aktif',
                     data: @json($saClientsPerMonth->pluck('active')),
                     backgroundColor: 'rgba(0, 185, 255, 0.8)',
                     borderColor: 'rgb(0, 185, 255)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Klien SA Tidak Aktif',
+                    label: 'Client SA Tidak Aktif',
                     data: @json($saClientsPerMonth->pluck('inactive')),
                     backgroundColor: 'rgba(0, 0, 150, 0.8)',
                     borderColor: 'rgb(0, 0, 150)',
@@ -203,7 +203,7 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Jumlah Klien'
+                            text: 'Total Clients'
                         },
                         ticks: {
                             callback: function(value) {

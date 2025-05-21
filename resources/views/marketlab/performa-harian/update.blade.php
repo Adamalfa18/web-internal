@@ -9,8 +9,8 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0">Update Laporan Harian</h6>
-                                    <p class="text-sm">Berikut adalah update data laporan bulanan</p>
+                                    <h6 class="font-weight-semibold text-lg mb-0">Update Daily Report</h6>
+                                    <p class="text-sm">Update daily report page</p>
                                 </div>
                             </div>
                         </div>
@@ -24,7 +24,7 @@
 
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="performance_bulanan_id">Performance Bulanan ID</label>
+                                                <label for="performance_bulanan_id">Performance ID</label>
                                                 <input type="text" class="form-control" id="performance_bulanan_id"
                                                     name="performance_bulanan_id"
                                                     value="{{ $data[0]->performance_bulanan_id }}" readonly>
@@ -35,7 +35,7 @@
 
                                         <div class="mb-3">
                                             <div class="form-group">
-                                                <label for="hari">Hari</label>
+                                                <label for="hari">Date</label>
                                                 <input type="date" class="form-control" id="hari" name="hari"
                                                     value="{{ $data[0]->hari }}" required>
                                             </div>
@@ -134,8 +134,8 @@
                                         <div class="mb-3">
                                             <div class="form-group">
                                                 <label for="google_performance_max">Google Performance MAX</label>
-                                                <input type="number" class="form-control"
-                                                    id="google_performance_max" name="google_performance_max"
+                                                <input type="number" class="form-control" id="google_performance_max"
+                                                    name="google_performance_max"
                                                     value="{{ $data[0]->google_performance_max }}">
                                             </div>
                                         </div>
@@ -213,8 +213,7 @@
                                                 <div class="form-group">
                                                     <label for="tokped_manual">Tokped Manual</label>
                                                     <input type="number" class="form-control" id="tokped_manual"
-                                                        name="tokped_manual"
-                                                        value="{{ $data[0]->tokped_manual ?? 0 }}">
+                                                        name="tokped_manual" value="{{ $data[0]->tokped_manual ?? 0 }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -261,8 +260,8 @@
                                         <div class="mb-3">
                                             <div class="form-group">
                                                 <label for="tiktok_product_shopping">Tiktok Product Shopping</label>
-                                                <input type="number" class="form-control"
-                                                    id="tiktok_product_shopping" name="tiktok_product_shopping"
+                                                <input type="number" class="form-control" id="tiktok_product_shopping"
+                                                    name="tiktok_product_shopping"
                                                     value="{{ $data[0]->tiktok_product_shopping ?? 0 }}">
                                             </div>
                                         </div>
@@ -282,8 +281,7 @@
                                             <div class="form-group">
                                                 <label for="tiktok_gmv_max">Tiktok GMV MAX</label>
                                                 <input type="number" class="form-control" id="tiktok_gmv_max"
-                                                    name="tiktok_gmv_max"
-                                                    value="{{ $data[0]->tiktok_gmv_max ?? 0 }}">
+                                                    name="tiktok_gmv_max" value="{{ $data[0]->tiktok_gmv_max ?? 0 }}">
                                             </div>
                                         </div>
                                     </div>

@@ -83,21 +83,21 @@
         const mbData = {
             labels: @json($mbClientsPerMonth->pluck('month')),
             datasets: [{
-                    label: 'Klien MB Aktif',
+                    label: 'Client MB Aktif',
                     data: @json($mbClientsPerMonth->pluck('active')),
                     backgroundColor: 'rgba(10, 185, 10, 0.8)',
                     borderColor: 'rgb(10, 185, 10)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Klien MB Pending',
+                    label: 'Client MB Pending',
                     data: @json($mbClientsPerMonth->pluck('pending')),
                     backgroundColor: 'rgba(255, 166, 0, 0.8)',
                     borderColor: 'rgb(255, 166, 0)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Klien MB Tidak Aktif',
+                    label: 'Client MB Tidak Aktif',
                     data: @json($mbClientsPerMonth->pluck('inactive')),
                     backgroundColor: 'rgba(255, 0, 0, 0.8)',
                     borderColor: 'rgb(255, 0, 0)',
@@ -115,7 +115,7 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Jumlah Klien MB'
+                            text: 'Total Clients MB'
                         },
                         ticks: {
                             callback: function(value) {

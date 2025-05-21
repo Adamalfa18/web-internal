@@ -88,21 +88,21 @@
         const clientsData = {
             labels: @json($clientsPerMonth->pluck('month')), // Menggunakan nama bulan dan tahun yang sudah diproses
             datasets: [{
-                    label: 'Klien Aktif',
+                    label: 'Client Aktif',
                     data: @json($clientsPerMonth->pluck('active')),
                     backgroundColor: 'rgb(10, 185, 10, 0.8)',
                     borderColor: 'rgb(10, 185, 10)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Klien Pending',
+                    label: 'Client Pending',
                     data: @json($clientsPerMonth->pluck('pending')),
                     backgroundColor: 'rgb(255, 166, 0, 0.8)',
                     borderColor: 'rgb(255, 166, 0)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Klien Tidak Aktif',
+                    label: 'Client Tidak Aktif',
                     data: @json($clientsPerMonth->pluck('inactive')),
                     backgroundColor: 'rgb(255, 0, 0,0.8)',
                     borderColor: 'rgb(255, 0, 0)',
@@ -121,7 +121,7 @@
                         min: 0, // Mengatur nilai minimum sumbu Y menjadi 1
                         title: {
                             display: true,
-                            text: 'Jumlah Klien' // Menambahkan label untuk sumbu Y
+                            text: 'Total Clients' // Menambahkan label untuk sumbu Y
                         },
                         ticks: {
                             // Mengatur agar hanya menampilkan angka bulat

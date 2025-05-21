@@ -6,13 +6,13 @@
         <div class="container-fluid py-4 px-5">
             <div class="row">
                 @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
                 @endif
 
                 <div class="col-md-12">
@@ -21,24 +21,23 @@
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label for="id" class="form-label">ID (Opsional)</label>
-                                <input type="text" name="id"
-                                    class="form-control @error('id') is-invalid @enderror" id="id"
-                                    placeholder="Biarkan kosong untuk generate otomatis" value="{{ old('id') }}">
+                                <input type="text" name="id" class="form-control @error('id') is-invalid @enderror"
+                                    id="id" placeholder="Biarkan kosong untuk generate otomatis"
+                                    value="{{ old('id') }}">
                                 @error('id')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
                                 @enderror
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="name" class="form-label">Acount</label>
-                                <input type="text" name="name"
-                                    class="form-control  @error('name') is-invalid @enderror" id="name"
-                                    placeholder="Acount" required value="{{ old('name') }}">
+                                <input type="text" name="name" class="form-control  @error('name') is-invalid @enderror"
+                                    id="name" placeholder="Acount" required value="{{ old('name') }}">
                                 @error('name')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
                                 @enderror
                             </div>
                         </div>
@@ -49,20 +48,20 @@
                                     class="form-control  @error('email') is-invalid @enderror" id="email"
                                     placeholder="Email" required value="{{ old('email') }}">
                                 @error('email')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
                                 @enderror
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="user_role_id" class="form-label">Status Akun</label>
                                 <select class="form-select" name="user_role_id">
                                     @foreach ($rool as $rool)
-                                        @if (old('user_role_id') == $rool->id)
-                                            <option value="{{ $rool->id }}" selected>{{ $rool->role }}</option>
-                                        @else
-                                            <option value="{{ $rool->id }}">{{ $rool->role }}</option>
-                                        @endif
+                                    @if (old('user_role_id') == $rool->id)
+                                    <option value="{{ $rool->id }}" selected>{{ $rool->role }}</option>
+                                    @else
+                                    <option value="{{ $rool->id }}">{{ $rool->role }}</option>
+                                    @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -74,22 +73,21 @@
                                     class="form-control counded-buttom @error('password') is-invalid @enderror"
                                     id="password" placeholder="Password" required>
                                 @error('password')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
                                 @enderror
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="logo" class="form-label">Logo Brand</label>
-                                    <input type="file" class="form-control" name="logo" id="logo"
-                                        accept="image/*">
+                                    <input type="file" class="form-control" name="logo" id="logo" accept="image/*">
                                 </div>
                             </div>
                         </div>
                         <a href="/dashboard/user_login" class="btn btn-success"> <span
-                                data-feather="arrow-left"></span>Kembali</a>
-                        <button type="submit" class="btn btn-primary">Tambah Akun</button>
+                                data-feather="arrow-left"></span>Back</a>
+                        <button type="submit" class="btn btn-primary">Add Account</button>
                     </form>
                 </div>
             </div>

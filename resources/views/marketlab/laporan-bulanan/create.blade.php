@@ -11,20 +11,20 @@
                     <div class="card border shadow-xs mb-4">
                         <div class="row">
                             @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
                             @endif
                             <div class="col-md-12">
                                 <div class="card-header border-bottom pb-0">
                                     <div class="d-sm-flex align-items-center">
                                         <div>
-                                            <h6 class="font-weight-semibold text-lg mb-0">Tambah Laporan Bulanan</h6>
-                                            <p class="text-sm">Berikut adalah input data laporan bulanan</p>
+                                            <h6 class="font-weight-semibold text-lg mb-0">Add Monthly Report</h6>
+                                            <p class="text-sm">Input monthly report data</p>
                                         </div>
                                     </div>
                                 </div>
@@ -46,8 +46,7 @@
                                                 <div class="mb-3">
                                                     <label for="target_roas" class="form-label">Target Roas</label>
                                                     <input type="text" class="form-control" name="target_roas"
-                                                        id="targetRoasBulananMB" placeholder="Target Roas" required
-                                                        readonly>
+                                                        id="targetRoasBulananMB" placeholder="Target Roas" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -74,7 +73,8 @@
                                                 <div class="mb-3">
                                                     <div class="mb-3">
                                                         <label for="note" class="form-label">Note</label>
-                                                        <textarea class="form-control" name="note" id="note" placeholder="Note....." rows="3" required></textarea>
+                                                        <textarea class="form-control" name="note" id="note"
+                                                            placeholder="Note....." rows="3" required></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -82,7 +82,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label for="report_date" class="form-label">Bulan</label>
+                                                    <label for="report_date" class="form-label">Month</label>
                                                     <input type="month" class="form-control" name="report_date"
                                                         id="report_date" required pattern="\d{4}-\d{2}">
                                                     <!-- Menambahkan pola untuk format M -->
@@ -93,7 +93,7 @@
 
                                         <div class="border-top py-3 px-3 d-flex align-items-center">
                                             <div class="ms-auto">
-                                                <button type="submit" class="btn btn-sm btn-white mb-0">Simpan</button>
+                                                <button type="submit" class="btn btn-sm btn-white mb-0">Save</button>
                                             </div>
                                         </div>
                                     </form>
@@ -105,7 +105,7 @@
             </div>
         </div>
 
-        <script>
+        {{-- <script>
             // Fungsi hitung dan update ROAS Bulanan MB
             function calculateRoasBulananMB() {
                 const spanInput = document.getElementById('targetSpentnBulananMB');
@@ -136,6 +136,6 @@
                     revenueInputMB.addEventListener('input', calculateRoasBulananMB);
                 }
             });
-        </script>
+        </script> --}}
 
 </x-app-layout>

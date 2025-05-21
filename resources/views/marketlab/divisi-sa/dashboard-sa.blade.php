@@ -81,21 +81,21 @@
         const saData = {
             labels: @json($saClientsPerMonth->pluck('month')),
             datasets: [{
-                    label: 'Klien SA Aktif',
+                    label: 'Client SA Aktif',
                     data: @json($saClientsPerMonth->pluck('active')),
                     backgroundColor: 'rgba(10, 185, 10, 0.8)',
                     borderColor: 'rgb(10, 185, 10)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Klien SA Pending',
+                    label: 'Client SA Pending',
                     data: @json($saClientsPerMonth->pluck('pending')),
                     backgroundColor: 'rgba(255, 166, 0, 0.8)',
                     borderColor: 'rgb(255, 166, 0)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Klien SA Tidak Aktif',
+                    label: 'Client SA Tidak Aktif',
                     data: @json($saClientsPerMonth->pluck('inactive')),
                     backgroundColor: 'rgba(255, 0, 0, 0.8)',
                     borderColor: 'rgb(255, 0, 0)',
@@ -113,7 +113,7 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Jumlah Klien SA'
+                            text: 'Total Clients SA'
                         },
                         ticks: {
                             callback: function(value) {

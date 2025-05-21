@@ -1,13 +1,10 @@
 <x-app-layout>
-
     <main class="main-content position-relative max-height-vh-100 h-100 bor
     er-radius-lg ">
         <x-app.marketlab.navbar />
         <div class="container-fluid py-4 px-5">
-
             <div class="col-lg-12 col-12">
                 <div class="card card-body" id="profile">
-
                     <img src="{{ asset('/assets/img/backgroun-client.jpg') }}" alt="pattern-lines"
                         class="top-0 rounded-2 position-absolute start-0 w-100 h-100">
                     <div class="row z-index-2 justify-start">
@@ -33,12 +30,10 @@
                                     <span
                                         class="badge badge-sm border border-success text-success bg-success status-client-style">Aktif</span>
                                     @break
-
                                     @case(2)
                                     <span
                                         class="badge badge-sm border border-warning text-warning bg-warning status-client-style">Pending</span>
                                     @break
-
                                     @case(3)
                                     <span
                                         class="badge badge-sm border border-danger text-danger bg-danger status-client-style">Paid</span>
@@ -61,7 +56,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -72,7 +66,6 @@
                             <h5>Info {{ $client->nama_brand }}</h5>
                         </div>
                         <div class="pt-0 card-body">
-
                             <div class="row col-12 mt-4">
                                 <div class="col-4">
                                     <label for="name">Client Name</label>
@@ -104,7 +97,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-12">
                     {{-- Notifikasi untuk data berhasil atau gagal --}}
@@ -119,8 +111,41 @@
                     @endif
                 </div>
             </div>
-
-
+            <div class="row mb-4">
+                <div class="col-12 col-md-4">
+                    <div class="card border shadow-xs mb-4 border-client">
+                        <div class="card-header border-bottom pb-0 border-client-bottom">
+                            <h6 class="font-weight-semibold text-lg mb-0">Spent</h6>
+                            <p class="text-sm">Monthly Spent</p>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="spentChart" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card border shadow-xs mb-4 border-client">
+                        <div class="card-header border-bottom pb-0 border-client-bottom">
+                            <h6 class="font-weight-semibold text-lg mb-0">Revenue</h6>
+                            <p class="text-sm">Monthly Revenue</p>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="revenueChart" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card border shadow-xs mb-4 border-client">
+                        <div class="card-header border-bottom pb-0 border-client-bottom">
+                            <h6 class="font-weight-semibold text-lg mb-0">ROAS</h6>
+                            <p class="text-sm">Monthly ROAS</p>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="roasChart" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4 border-client">
@@ -245,7 +270,6 @@
                                                 </span>
                                             </td>
                                             <td class="align-middle">
-
                                                 <button type="button"
                                                     class="btn-style btn btn-info text-secondary font-weight-bold text-xs"
                                                     data-bs-toggle="modal" data-bs-toggle="tooltip"
@@ -260,8 +284,6 @@
                                                             d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                                     </svg>
                                                 </button>
-
-
                                                 {{-- Tampilkan data bulanan --}}
                                                 <a href="{{ route('laporan-harian.index', ['performance_bulanan_id' => $report->id]) }}"
                                                     type="button"
@@ -274,7 +296,6 @@
                                                             d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                                                     </svg>
                                                 </a>
-
                                                 {{-- Edit Data --}}
                                                 <a href="{{ route('laporan-bulanan.edit', $report->id) }}" type="button"
                                                     class="btn btn-primary text-secondary font-weight-bold text-xs active-client"
@@ -288,7 +309,6 @@
                                                 </a>
                                             </td>
                                         </tr>
-
                                         <div class="modal fade" id="reportDetailModal{{ $report->id }}" tabindex="-1"
                                             aria-labelledby="reportDetailModalLabel{{ $report->id }}"
                                             aria-hidden="true">
@@ -338,7 +358,6 @@
                                     <a href="{{ $reports->previousPageUrl() . '&client_id=' . $client->id }}"
                                         class="btn btn-sm btn-white mb-0">Previous</a>
                                     @endif
-
                                     @if ($reports->hasMorePages())
                                     <a href="{{ $reports->nextPageUrl() . '&client_id=' . $client->id }}"
                                         class="btn btn-sm btn-white mb-0">Next</a>
@@ -352,56 +371,100 @@
                 </div>
             </div>
         </div>
-        <script></script>
+        <script>
+            @php
+                $labels = [];
+                $spent = [];
+                $revenue = [];
+                $roas = [];
 
+                foreach ($reports as $index => $report) {
+                    // Label bisa berupa urutan atau tanggal
+                    $labels[] = \Carbon\Carbon::parse($report->report_date)->format('M Y');
+                    $spent[] = $report->target_spent;
+                    $revenue[] = $report->target_revenue;
+                    $roas[] = $report->target_roas;
+                }
+            @endphp
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const labels = {!! json_encode($labels) !!};
+            const spent = {!! json_encode($spent) !!};
+            const revenue = {!! json_encode($revenue) !!};
+            const roas = {!! json_encode($roas) !!};
+
+            // Chart Spent
+            new Chart(document.getElementById('spentChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Spent',
+                        data: spent,
+                        borderColor: 'rgb(255, 99, 132)',
+                        fill: false,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: true }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // Chart Revenue
+            new Chart(document.getElementById('revenueChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Revenue',
+                        data: revenue,
+                        borderColor: 'rgb(54, 162, 235)',
+                        fill: false,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: true }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            // Chart ROAS
+            new Chart(document.getElementById('roasChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'ROAS',
+                        data: roas,
+                        borderColor: 'rgb(75, 192, 192)',
+                        fill: false,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: true }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        });
+        </script>
     </main>
-
 </x-app-layout>
-
-
-
-{{-- <x-app-layout>
-
-    <main class="main-content position-relative max-height-vh-100 h-100 bor
-    er-radius-lg ">
-        <x-app.navbar />
-        <div class="container-fluid py-4 px-5">
-
-            <h1>Laporan Bulanan</h1>
-            <h2>Client: {{ $client->nama_client }}</h2> <!-- Menampilkan nama client yang dipilih -->
-
-
-            @if ($reports->isEmpty())
-            <p>Tidak ada laporan bulanan untuk client ini.</p>
-            @else
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Client ID</th>
-                        <th>Target Spent</th>
-                        <th>Target Revenue</th>
-                        <th>Report Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($reports as $report)
-                    <tr>
-                        <td>{{ $report->id }}</td>
-                        <td>{{ $report->client_id }}</td>
-                        <td>{{ $report->target_spent }}</td>
-                        <td>{{ $report->target_revenue }}</td>
-                        <td>{{ $report->report_date }}</td>
-
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            @endif
-
-        </div>
-
-    </main>
-
-</x-app-layout> --}}

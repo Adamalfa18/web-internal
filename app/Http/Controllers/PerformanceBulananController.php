@@ -12,44 +12,45 @@ use Carbon\Carbon;
 class PerformanceBulananController extends Controller
 {
     public function index(Request $request)
-{
-    // Validate the client_id received
-    $request->validate([
-        'client_id' => 'required|exists:clients,id',
-        'perPage' => 'nullable|integer|min:1', // Validate perPage input
-    ]);
+    {
+        // Validate the client_id received
+        $request->validate([
+            'client_id' => 'required|exists:clients,id',
+            'perPage' => 'nullable|integer|min:1', // Validate perPage input
+        ]);
 
-    // Get the selected client
-    $client = Client::find($request->client_id);
-    
-    // Set the number of items per page, defaulting to 10
-    $perPage = $request->input('perPage', 10);
+        // Get the selected client
+        $client = Client::find($request->client_id);
 
-    // Check if the client exists
-    if (!$client) {
-        return redirect()->back()->withErrors(['Client not found.']);
+        // Set the number of items per page, defaulting to 10
+        $perPage = $request->input('perPage', 10);
+
+        // Check if the client exists
+        if (!$client) {
+            return redirect()->back()->withErrors(['Client not found.']);
+        }
+
+        // Calculate the difference between tanggal_berakhir and tanggal_aktif
+        $startDate = Carbon::parse($client->tanggal_aktif);
+        $endDate = Carbon::parse($client->tanggal_berakhir);
+
+        // Get the difference in months and days
+        $difference = $startDate->diff($endDate);
+        $months = $difference->m; // Number of months
+        $days = $difference->d; // Number of days
+
+        // Get monthly reports based on client_id
+        $reports = PerformanceBulanan::where('client_id', $request->client_id)
+            ->orderBy('report_date', 'asc')
+            ->paginate($perPage); // Pagination
+
+        // Get current page and total pages for the pagination
+        $currentPage = $reports->currentPage(); // Current page
+        $totalPages = $reports->lastPage(); // Total pages
+
+        // Return view with monthly reports, client data, and months and days count
+        return view('marketlab.laporan-bulanan.index', compact('reports', 'client', 'months', 'days', 'perPage', 'currentPage', 'totalPages'));
     }
-
-    // Calculate the difference between tanggal_berakhir and tanggal_aktif
-    $startDate = Carbon::parse($client->tanggal_aktif);
-    $endDate = Carbon::parse($client->tanggal_berakhir);
-
-    // Get the difference in months and days
-    $difference = $startDate->diff($endDate);
-    $months = $difference->m; // Number of months
-    $days = $difference->d; // Number of days
-
-    // Get monthly reports based on client_id
-    $reports = PerformanceBulanan::where('client_id', $request->client_id)
-                ->paginate($perPage); // Pagination
-
-    // Get current page and total pages for the pagination
-    $currentPage = $reports->currentPage(); // Current page
-    $totalPages = $reports->lastPage(); // Total pages
-
-    // Return view with monthly reports, client data, and months and days count
-    return view('marketlab.laporan-bulanan.index', compact('reports', 'client', 'months', 'days', 'perPage', 'currentPage', 'totalPages'));
-}
     public function create(Request $request)
     {
         $request->validate([
@@ -99,16 +100,16 @@ class PerformanceBulananController extends Controller
     }
 
     public function show($id)
-{   
-    // Ambil data laporan bulanan berdasarkan ID
-    $report = PerformanceBulanan::findOrFail($id);
-    
-    // Ambil data semua pegawai
-    $pegawai = Pegawai::all();
+    {
+        // Ambil data laporan bulanan berdasarkan ID
+        $report = PerformanceBulanan::findOrFail($id);
 
-    // Kembalikan view dengan data laporan bulanan dan data pegawai
-    return view('laporan-bulanan.show', compact('report', 'pegawai'));
-}
+        // Ambil data semua pegawai
+        $pegawai = Pegawai::all();
+
+        // Kembalikan view dengan data laporan bulanan dan data pegawai
+        return view('laporan-bulanan.show', compact('report', 'pegawai'));
+    }
 
     public function edit($id)
     {
@@ -119,10 +120,9 @@ class PerformanceBulananController extends Controller
         $pegawai = Pegawai::all();
 
         // Kembalikan view dengan data laporan bulanan dan data client
-        return view('marketlab.laporan-bulanan.update', compact('reports','pegawai'));
-
+        return view('marketlab.laporan-bulanan.update', compact('reports', 'pegawai'));
     }
-    
+
 
     public function update(Request $request, $id)
     {
@@ -153,9 +153,9 @@ class PerformanceBulananController extends Controller
 
         // Redirect based on whether the update was successful
         if ($reports) {
-        return redirect()->route('laporan-bulanan.index', ['client_id' => $client->id])
-            ->with('success', 'Laporan bulanan berhasil diperbarui!'); // Optional success message
-        }else{
+            return redirect()->route('laporan-bulanan.index', ['client_id' => $client->id])
+                ->with('success', 'Laporan bulanan berhasil diperbarui!'); // Optional success message
+        } else {
             return redirect()->back()->with('error', 'Laporan bulanan gagal diperbarui!');
         }
     }

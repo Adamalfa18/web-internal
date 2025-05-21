@@ -173,6 +173,42 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card border shadow-xs mb-4 border-client">
+                                <div class="card-header border-bottom pb-0 border-client-bottom">
+                                    <h6 class="font-weight-semibold text-lg mb-0">Spent</h6>
+                                    <p class="text-sm">Spent this month</p>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="chartSpent" height="100"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border shadow-xs mb-4 border-client">
+                                <div class="card-header border-bottom pb-0 border-client-bottom">
+                                    <h6 class="font-weight-semibold text-lg mb-0">Revenue</h6>
+                                    <p class="text-sm">Omzet this month</p>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="chartRevenue" height="100"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border shadow-xs mb-4 border-client">
+                                <div class="card-header border-bottom pb-0 border-client-bottom">
+                                    <h6 class="font-weight-semibold text-lg mb-0">ROAS</h6>
+                                    <p class="text-sm">ROAS this month</p>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="chartRoas" height="100"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-12">
                             <div class="card border shadow-xs mb-4 border-client">
@@ -333,7 +369,6 @@
                                                             </button>
                                                         </form>
                                                     </td>
-
                                                 </tr>
                                                 <div class="modal fade" id="reportDetailModal{{ $item->id }}"
                                                     tabindex="-1"
@@ -1044,7 +1079,6 @@
                 </div>
             </div>
         </div>
-
     </main>
     <script>
         // Fungsi untuk mengatur tab aktif
@@ -1066,6 +1100,44 @@
                 '{{ $activeTabLead }}'; // Ambil dari sessionStorage atau sesi
             setActiveTab(activeTab); // Atur tab aktif
         });
+    </script>
+    <script>
+        @php
+            $labels = [];
+            $spent = [];
+            $revenue = [];
+            $roas = [];
+
+            $i = 1;
+            foreach ($data as $item) {
+                $labels[] = $i++;
+                $spent[] = $item->total;
+                $revenue[] = $item->omzet;
+                $roas[] = $item->roas;
+            }
+        @endphp
+
+        document.addEventListener('DOMContentLoaded', function () {
+        const labels = {!! json_encode($labels) !!};
+
+        const configChart = (label, data, color) => ({
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    fill: false,
+                    borderColor: color,
+                    tension: 0.1
+                }]
+            }
+        });
+
+        new Chart(document.getElementById('chartSpent'), configChart('Spent', {!! json_encode($spent) !!}, 'rgb(255, 99, 132)'));
+        new Chart(document.getElementById('chartRevenue'), configChart('Revenue', {!! json_encode($revenue) !!}, 'rgb(54, 162, 235)'));
+        new Chart(document.getElementById('chartRoas'), configChart('ROAS', {!! json_encode($roas) !!}, 'rgb(75, 192, 192)'));
+    });
     </script>
 
 </x-app-layout>

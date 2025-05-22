@@ -50,9 +50,9 @@ html {
 .modal-dialog {
     max-width: 900px;
 }
-.form-marketing {
+/* .form-marketing {
     padding: 20px;
-}
+} */
 
 .top-info {
     display: flex;
@@ -133,6 +133,11 @@ html {
 .tabs a.active {
     color: #fff;
     border-top: 2px solid #fff;
+}
+.gallery.tiktok-gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
 }
 
 .gallery {
@@ -1216,4 +1221,48 @@ html.no-scroll {
     -webkit-overflow-scrolling: touch; /* untuk smooth scrolling di mobile */
     position: relative;
     background: #fff; /* pastikan kelihatan */
+}
+
+.modal-content {
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.modal-body {
+    overflow-y: auto;
+    max-height: 100%;
+    padding-right: 15px; /* agar konten tidak tertutup scrollbar */
+    scroll-behavior: smooth; /* opsional, untuk efek halus */
+}
+.modal-header {
+    padding: 0;
+    border-bottom: none;
+}
+.row.form-marketing.row-post-instagram,
+.row.form-marketing.row-post-tiktok {
+    padding: 1rem;
+}
+.modal-header.modal-header-edit,
+.modal-header.header-profile-instagram,
+.modal-header.header-add-post,
+.modal-header.header-sa-tiktok-edit,
+.modal-header.modal-header-add-tiktok,
+.modal-header.modal-edit-profile-tiktok,
+.modal-header.header-profile-instagram {
+    border-bottom: none;
+    margin-bottom: 10px;
+}
+
+button.close {
+    background: none;
+    color: black;
+    font-size: 30px;
+}
+
+.carousel-media-3by4 {
+    aspect-ratio: 3 / 4;
+    object-fit: cover; /* agar tidak melebar atau menyempit */
+    width: 100%;
+    height: auto;
+    max-height: 500px; /* opsional: batasi tinggi maksimal */
 }

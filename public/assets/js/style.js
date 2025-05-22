@@ -1,3 +1,11 @@
+document.querySelectorAll('.modal-body').forEach(el => {
+    el.addEventListener('wheel', function (e) {
+        e.stopPropagation(); // pastikan event scroll tidak dikunci oleh parent/modal
+    }, {
+        passive: true
+    });
+});
+
 // // Fungsi hitung dan update ROAS Bulanan MB
 // function calculateRoasBulananMB() {
 //     const spanInput = document.getElementById('targetSpentnBulananMB');
@@ -40,9 +48,9 @@ document.getElementById("searchInput").addEventListener("input", function () {
             .querySelector("td:nth-child(1) .font-weight-semibold")
             .textContent.toLowerCase();
         row.style.display =
-            clientName.includes(searchValue) || brandName.includes(searchValue)
-                ? ""
-                : "none";
+            clientName.includes(searchValue) || brandName.includes(searchValue) ?
+            "" :
+            "none";
     });
 });
 
@@ -54,9 +62,9 @@ document.querySelectorAll('input[name="btnradiotable"]').forEach((radio) => {
             const itemStatus = item.getAttribute("data-status");
             item.style.display =
                 itemStatus == selectedValue ||
-                (selectedValue == 2 && itemStatus !== "1")
-                    ? "block"
-                    : "none";
+                (selectedValue == 2 && itemStatus !== "1") ?
+                "block" :
+                "none";
         });
     });
 });
@@ -95,9 +103,9 @@ function searchByDate() {
         const dateCell = row.querySelector(".report-date span");
         if (dateCell) {
             const dateText = dateCell.textContent || dateCell.innerText;
-            row.style.display = dateText.toLowerCase().includes(filter)
-                ? ""
-                : "none";
+            row.style.display = dateText.toLowerCase().includes(filter) ?
+                "" :
+                "none";
         }
     });
 }

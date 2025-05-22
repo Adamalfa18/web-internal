@@ -22,80 +22,82 @@
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addPostModalLabel">Add Post Instagram</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                        <div class="modal-body">
+                            <div class="modal-header header-add-post">
+                                <h5 class="modal-title" id="addPostModalLabel">Add Post Instagram</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form class="form-marketing"
+                                action="{{ route('divisi-sa.store', ['client_id' => $client_id]) }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="category" class="form-label">Category</label>
+                                            <select class="form-select" name="category" id="category"
+                                                aria-label="Default select example" required>
+                                                <option value="post">Post</option>
+                                                <option value="reel">Reel</option>
+                                                <option value="story">Story</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="caption" class="form-label">Caption</label>
+                                            <textarea class="form-control" name="caption" id="caption" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="created_at" class="form-label">Upload Date</label>
+                                            <input type="date" class="form-control" name="created_at" id="created_at"
+                                                required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="content" class="form-label">Upload Media</label>
+                                            <p class="text-muted small mb-2">
+                                                * Format media harus berupa gambar <strong>.webp</strong> atau video
+                                                <strong>.webm</strong>
+                                            </p>
+                                            <input type="file" class="form-control d-none" id="content_media"
+                                                name="content_media[]" accept=".webp, .webm" multiple>
+                                            <button type="button" class="btn btn-primary" id="add-file-btn">Add
+                                                Media</button>
+                                            <input type="file" class="form-control d-none" id="cover"
+                                                name="cover" accept=".webp">
+                                            <button type="button" class="btn btn-primary" id="add-cover-btn">Add
+                                                Cover</button>
+                                        </div>
+                                        <div id="preview-container" class="row mt-3"></div>
+                                        <!-- Add progress bar -->
+                                        <div class="progress mt-3" style="display: none;">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                role="progressbar" style="width: 0%"></div>
+                                        </div>
+                                        <div class="text-center mt-2" id="upload-status" style="display: none;">
+                                            <small class="text-muted">Uploading... <span
+                                                    id="upload-percentage">0</span>%</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </form>
                         </div>
-                        <form class="form-marketing"
-                            action="{{ route('divisi-sa.store', ['client_id' => $client_id]) }}" method="POST"
-                            enctype="multipart/form-data">
-                            @csrf
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="category" class="form-label">Category</label>
-                                        <select class="form-select" name="category" id="category"
-                                            aria-label="Default select example" required>
-                                            <option value="post">Post</option>
-                                            <option value="reel">Reel</option>
-                                            <option value="story">Story</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="caption" class="form-label">Caption</label>
-                                        <textarea class="form-control" name="caption" id="caption" required></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="created_at" class="form-label">Upload Date</label>
-                                        <input type="date" class="form-control" name="created_at" id="created_at"
-                                            required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="content" class="form-label">Upload Media</label>
-                                        <p class="text-muted small mb-2">
-                                            * Format media harus berupa gambar <strong>.webp</strong> atau video
-                                            <strong>.webm</strong>
-                                        </p>
-                                        <input type="file" class="form-control d-none" id="content_media"
-                                            name="content_media[]" accept=".webp, .webm" multiple>
-                                        <button type="button" class="btn btn-primary" id="add-file-btn">Add
-                                            Media</button>
-                                        <input type="file" class="form-control d-none" id="cover" name="cover"
-                                            accept=".webp">
-                                        <button type="button" class="btn btn-primary" id="add-cover-btn">Add
-                                            Cover</button>
-                                    </div>
-                                    <div id="preview-container" class="row mt-3"></div>
-                                    <!-- Add progress bar -->
-                                    <div class="progress mt-3" style="display: none;">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
-                                            role="progressbar" style="width: 0%"></div>
-                                    </div>
-                                    <div class="text-center mt-2" id="upload-status" style="display: none;">
-                                        <small class="text-muted">Uploading... <span
-                                                id="upload-percentage">0</span>%</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -441,7 +443,7 @@
                             <!-- Tab Content -->
                             <div class="tab-content">
                                 <div id="tiktok-videos" class="tab-pane active">
-                                    <div class="gallery">
+                                    <div class="gallery tiktok-gallery">
                                         @foreach ($tiktok as $tkpost)
                                             @php
                                                 $firstMedia = $tkpost->tiktok_media->first();
@@ -468,7 +470,7 @@
                                                             );
                                                         @endphp
                                                         @if (in_array($ext, ['mp4', 'mov', 'webm']))
-                                                            <video class="w-100" controls>
+                                                            <video class="w-100 carousel-media-3by4" controls>
                                                                 <source
                                                                     src="{{ asset('storage/tiktok_media/' . $firstMedia->media) }}"
                                                                     type="video/{{ $ext }}">
@@ -509,68 +511,72 @@
                 aria-labelledby="addTiktokModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addTiktokModalLabel">Add Post Tiktok</h5>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                        <div class="modal-body">
+                            <div class="modal-header modal-header-add-tiktok">
+                                <h5 class="modal-title" id="addTiktokModalLabel">Add Post Tiktok</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form class="form-marketing form-marketing-tiktok"
+                                action="{{ route('divisi-sa.storeTiktok', ['client_id' => $client_id]) }}"
+                                method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="caption" class="form-label">Caption</label>
+                                            <textarea class="form-control" name="caption" id="caption" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="created_at" class="form-label">Upload Date</label>
+                                            <input type="date" class="form-control" name="created_at"
+                                                id="created_at" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="content" class="form-label">Upload Media</label>
+                                            <p class="text-muted small mb-2">
+                                                * Format media harus berupa gambar <strong>.webp</strong> atau video
+                                                <strong>.webm</strong>
+                                            </p>
+                                            <input type="file" class="form-control d-none" id="tiktok_media"
+                                                name="tiktok_media[]" accept=".webp, .webm" multiple>
+                                            <button type="button" class="btn btn-primary"
+                                                id="add-file-btn-tiktok">Add
+                                                Media</button>
+                                            <input type="file" class="form-control d-none" id="tiktok_cover"
+                                                name="cover" accept=".webp">
+                                            <button type="button" class="btn btn-primary"
+                                                id="add-cover-btn-tiktok">Add
+                                                Cover</button>
+                                        </div>
+                                        <div id="preview-container-tiktok" class="row mt-3"></div>
+                                        <!-- Add progress bar -->
+                                        <div class="progress mt-3" style="display: none;">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                role="progressbar" style="width: 0%"></div>
+                                        </div>
+                                        <div class="text-center mt-2" id="upload-status" style="display: none;">
+                                            <small class="text-muted">Uploading... <span
+                                                    id="upload-percentage">0</span>%</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                            </form>
                         </div>
-                        <form class="form-marketing form-marketing-tiktok"
-                            action="{{ route('divisi-sa.storeTiktok', ['client_id' => $client_id]) }}" method="POST"
-                            enctype="multipart/form-data">
-                            @csrf
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="caption" class="form-label">Caption</label>
-                                        <textarea class="form-control" name="caption" id="caption" required></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="created_at" class="form-label">Upload Date</label>
-                                        <input type="date" class="form-control" name="created_at" id="created_at"
-                                            required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label for="content" class="form-label">Upload Media</label>
-                                        <p class="text-muted small mb-2">
-                                            * Format media harus berupa gambar <strong>.webp</strong> atau video
-                                            <strong>.webm</strong>
-                                        </p>
-                                        <input type="file" class="form-control d-none" id="tiktok_media"
-                                            name="tiktok_media[]" accept=".webp, .webm" multiple>
-                                        <button type="button" class="btn btn-primary" id="add-file-btn-tiktok">Add
-                                            Media</button>
-                                        <input type="file" class="form-control d-none" id="tiktok_cover"
-                                            name="cover" accept=".webp">
-                                        <button type="button" class="btn btn-primary" id="add-cover-btn-tiktok">Add
-                                            Cover</button>
-                                    </div>
-                                    <div id="preview-container-tiktok" class="row mt-3"></div>
-                                    <!-- Add progress bar -->
-                                    <div class="progress mt-3" style="display: none;">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
-                                            role="progressbar" style="width: 0%"></div>
-                                    </div>
-                                    <div class="text-center mt-2" id="upload-status" style="display: none;">
-                                        <small class="text-muted">Uploading... <span
-                                                id="upload-percentage">0</span>%</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -580,105 +586,105 @@
                     aria-labelledby="mediaModalLabel{{ $post->id }}" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document"> {{-- modal-lg biar gede --}}
                         <div class="modal-content">
-
-                            <div class="row form-marketing" enctype="multipart/form-data">
-                                <div class="col-lg-6">
-                                    {{-- Carousel Dinamis --}}
-                                    @if ($post->media->count())
-                                        <div id="carouselIndicators{{ $post->id }}" class="carousel slide"
-                                            data-bs-ride="carousel">
-                                            <div class="carousel-inner">
-                                                @foreach ($post->media as $key => $media)
-                                                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                                        @if (in_array(pathinfo($media->post, PATHINFO_EXTENSION), ['mp4', 'mov', 'webm']))
-                                                            <video class="d-block w-100" controls>
-                                                                <source
-                                                                    src="{{ asset('storage/media/' . $media->post) }}"
-                                                                    type="video/mp4">
-                                                            </video>
-                                                        @else
-                                                            <img src="{{ asset('storage/media/' . $media->post) }}"
-                                                                class="d-block w-100" alt="Post Media">
-                                                        @endif
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                            @if ($post->media->count() > 1)
-                                                <button class="carousel-control-prev" type="button"
-                                                    data-bs-target="#carouselIndicators{{ $post->id }}"
-                                                    data-bs-slide="prev">
-                                                    <span class="carousel-control-prev-icon"
-                                                        aria-hidden="true"></span>
-                                                    <span class="visually-hidden">Previous</span>
-                                                </button>
-                                                <button class="carousel-control-next" type="button"
-                                                    data-bs-target="#carouselIndicators{{ $post->id }}"
-                                                    data-bs-slide="next">
-                                                    <span class="carousel-control-next-icon"
-                                                        aria-hidden="true"></span>
-                                                    <span class="visually-hidden">Next</span>
-                                                </button>
-                                            @endif
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <form>
-
-                                        <div class="form-group">
-                                            <label>Upload Date</label>
-                                            <textarea class="form-control" rows="3" disabled>{{ $post->created_at->format('d-m-Y') }}</textarea>
-                                        </div>
-
-                                        {{-- Captin --}}
-                                        <div class="form-group">
-                                            <label>Caption</label>
-                                            <textarea class="form-control" rows="3" disabled>{{ $post->caption }}</textarea>
-                                        </div>
-
-                                        {{-- Notes --}}
-                                        <div class="form-group">
-                                            <label>Note</label>
-                                            <textarea class="form-control" rows="3" disabled>{{ $post->note }}</textarea>
-                                        </div>
-
-                                        {{-- Status --}}
-                                        @php
-                                            // ambil media pertama dari post ini (kalau kamu dalam @foreach $posts)
-                                            $firstMedia = $post_medias->firstWhere('post_id', $post->id);
-                                        @endphp
-
-                                        @if ($firstMedia && $firstMedia->postingan)
-                                            <div class="form-group">
-                                                <label>Status:</label>
-                                                @if ($firstMedia->postingan->status == 0)
-                                                    <span class="badge badge-secondary">Menunggu Persetujuan</span>
-                                                @elseif ($firstMedia->postingan->status == 1)
-                                                    <span class="badge badge-success ">Disetujui</span>
-                                                @elseif ($firstMedia->postingan->status == 2)
-                                                    <span class="badge badge-danger">Perlu Revisi</span>
-                                                @else
-                                                    <span class="badge badge-secondary">Status Tidak
-                                                        Diketahui</span>
+                            <div class="modal-body">
+                                <div class="row form-marketing row-post-instagram" enctype="multipart/form-data">
+                                    <div class="col-md-6">
+                                        {{-- Carousel Dinamis --}}
+                                        @if ($post->media->count())
+                                            <div id="carouselIndicators{{ $post->id }}" class="carousel slide"
+                                                data-bs-ride="carousel">
+                                                <div class="carousel-inner">
+                                                    @foreach ($post->media as $key => $media)
+                                                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                                            @if (in_array(pathinfo($media->post, PATHINFO_EXTENSION), ['mp4', 'mov', 'webm']))
+                                                                <video class="d-block w-100" controls>
+                                                                    <source
+                                                                        src="{{ asset('storage/media/' . $media->post) }}"
+                                                                        type="video/mp4">
+                                                                </video>
+                                                            @else
+                                                                <img src="{{ asset('storage/media/' . $media->post) }}"
+                                                                    class="d-block w-100" alt="Post Media">
+                                                            @endif
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                @if ($post->media->count() > 1)
+                                                    <button class="carousel-control-prev" type="button"
+                                                        data-bs-target="#carouselIndicators{{ $post->id }}"
+                                                        data-bs-slide="prev">
+                                                        <span class="carousel-control-prev-icon"
+                                                            aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Previous</span>
+                                                    </button>
+                                                    <button class="carousel-control-next" type="button"
+                                                        data-bs-target="#carouselIndicators{{ $post->id }}"
+                                                        data-bs-slide="next">
+                                                        <span class="carousel-control-next-icon"
+                                                            aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Next</span>
+                                                    </button>
                                                 @endif
                                             </div>
                                         @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <form>
 
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close
-                                            </button>
-                                            <button type="button" class="btn btn-primary"
-                                                onclick="$('#mediaModal{{ $post->id }}').modal('hide'); setTimeout(function(){$('#editSAModal{{ $post->id }}').modal('show');}, 500);">
-                                                Edit Post
-                                            </button>
-                                            <button type="button" class="btn btn-primary"
-                                                onclick="deletePost({{ $post->id }})">
-                                                Delete Post
-                                            </button>
-                                        </div>
-                                    </form>
+                                            <div class="form-group">
+                                                <label>Upload Date</label>
+                                                <textarea class="form-control" rows="3" disabled>{{ $post->created_at->format('d-m-Y') }}</textarea>
+                                            </div>
+
+                                            {{-- Captin --}}
+                                            <div class="form-group">
+                                                <label>Caption</label>
+                                                <textarea class="form-control" rows="3" disabled>{{ $post->caption }}</textarea>
+                                            </div>
+
+                                            {{-- Notes --}}
+                                            <div class="form-group">
+                                                <label>Note</label>
+                                                <textarea class="form-control" rows="3" disabled>{{ $post->note }}</textarea>
+                                            </div>
+
+                                            {{-- Status --}}
+                                            @php
+                                                // ambil media pertama dari post ini (kalau kamu dalam @foreach $posts)
+                                                $firstMedia = $post_medias->firstWhere('post_id', $post->id);
+                                            @endphp
+
+                                            @if ($firstMedia && $firstMedia->postingan)
+                                                <div class="form-group">
+                                                    <label>Status:</label>
+                                                    @if ($firstMedia->postingan->status == 0)
+                                                        <span class="badge badge-secondary">Menunggu Persetujuan</span>
+                                                    @elseif ($firstMedia->postingan->status == 1)
+                                                        <span class="badge badge-success ">Disetujui</span>
+                                                    @elseif ($firstMedia->postingan->status == 2)
+                                                        <span class="badge badge-danger">Perlu Revisi</span>
+                                                    @else
+                                                        <span class="badge badge-secondary">Status Tidak
+                                                            Diketahui</span>
+                                                    @endif
+                                                </div>
+                                            @endif
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close
+                                                </button>
+                                                <button type="button" class="btn btn-primary"
+                                                    onclick="$('#mediaModal{{ $post->id }}').modal('hide'); setTimeout(function(){$('#editSAModal{{ $post->id }}').modal('show');}, 500);">
+                                                    Edit Post
+                                                </button>
+                                                <button type="button" class="btn btn-primary"
+                                                    onclick="deletePost({{ $post->id }})">
+                                                    Delete Post
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -689,23 +695,24 @@
                     role="dialog" aria-labelledby="editSAModalLabel{{ $post->id }}" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <form class="form-marketing form-marketing-edit" id="edit-form-{{ $post->id }}"
-                                method="POST"
-                                action="{{ route('divisi-sa.update', ['client_id' => $post->client_id, 'post_id' => $post->id]) }}"
-                                enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
-                                <input type="hidden" name="id" value="{{ $post->id }}">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editSAModalLabel{{ $post->id }}">Edit Post
-                                        Instagram
-                                    </h5>
-                                    <button type="button" class="close" data-bs-dismiss="modal"
-                                        aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
+                            <div class="modal-body">
+                                <form class="form-marketing form-marketing-edit" id="edit-form-{{ $post->id }}"
+                                    method="POST"
+                                    action="{{ route('divisi-sa.update', ['client_id' => $post->client_id, 'post_id' => $post->id]) }}"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="id" value="{{ $post->id }}">
+                                    <div class="modal-header modal-header-edit">
+                                        <h5 class="modal-title" id="editSAModalLabel{{ $post->id }}">Edit Post
+                                            Instagram
+                                        </h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
 
                                     {{-- Caption --}}
                                     <div class="mb-3">
@@ -769,13 +776,13 @@
                                         <small class="text-muted">Uploading... <span
                                                 id="upload-percentage">0</span>%</small>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                </div>
-                            </form>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -790,8 +797,8 @@
                     <div class="modal-dialog modal-lg" role="document"> {{-- modal-lg biar gede --}}
                         <div class="modal-content">
 
-                            <div class="row form-marketing" enctype="multipart/form-data">
-                                <div class="col-lg-6">
+                            <div class="row form-marketing row-post-tiktok" enctype="multipart/form-data">
+                                <div class="col-md-6">
                                     {{-- Carousel Dinamis --}}
                                     @if ($tkpost->tiktok_media->count())
                                         <div id="carouselIndicators{{ $tkpost->id }}" class="carousel slide"
@@ -805,14 +812,15 @@
                                                             );
                                                         @endphp
                                                         @if (in_array($ext, ['mp4', 'mov', 'webm']))
-                                                            <video class="d-block w-100" controls>
+                                                            <video class="d-block w-100 carousel-media-3by4" controls>
                                                                 <source
                                                                     src="{{ asset('storage/tiktok_media/' . $tiktok_media->media) }}"
                                                                     type="video/{{ $ext }}">
                                                             </video>
                                                         @else
                                                             <img src="{{ asset('storage/tiktok_media/' . $tiktok_media->media) }}"
-                                                                class="d-block w-100" alt="Post Tiktok Media">
+                                                                class="d-block w-100 carousel-media-3by4"
+                                                                alt="Post Tiktok Media">
                                                         @endif
                                                     </div>
                                                 @endforeach
@@ -837,7 +845,7 @@
                                     @endif
                                 </div>
 
-                                <div class="col-lg-6">
+                                <div class="col-md-6">
                                     <form>
                                         {{-- tanggal upload --}}
                                         <div class="form-group">
@@ -903,23 +911,23 @@
                     role="dialog" aria-labelledby="editSATiktokModalLabel{{ $tkpost->id }}" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <form class="form-marketing form-marketing-edit-tiktok"
-                                id="edit-form-{{ $tkpost->id }}" method="POST"
-                                action="{{ route('divisi-sa.updateTiktok', ['client_id' => $tkpost->client_id, 'post_id' => $tkpost->id]) }}"
-                                enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
-                                <input type="hidden" name="id" value="{{ $tkpost->id }}">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editSATiktokModalLabel{{ $tkpost->id }}">Edit Post
-                                        Tiktok
-                                    </h5>
-                                    <button type="button" class="close" data-bs-dismiss="modal"
-                                        aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
+                            <div class="modal-body">
+                                <form class="form-marketing form-marketing-edit-tiktok"
+                                    id="edit-form-{{ $tkpost->id }}" method="POST"
+                                    action="{{ route('divisi-sa.updateTiktok', ['client_id' => $tkpost->client_id, 'post_id' => $tkpost->id]) }}"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="id" value="{{ $tkpost->id }}">
+                                    <div class="modal-header header-sa-tiktok-edit">
+                                        <h5 class="modal-title" id="editSATiktokModalLabel{{ $tkpost->id }}">Edit
+                                            Post Tiktok
+                                        </h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
                                     {{-- Caption --}}
                                     <div class="mb-3">
                                         <label for="caption{{ $tkpost->id }}" class="form-label">Caption</label>
@@ -990,13 +998,13 @@
                                                     id="upload-percentage">0</span>%</small>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                </div>
-                            </form>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1010,12 +1018,13 @@
             aria-labelledby="addProfileIGModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Profile Instagram</h5>
-                        <button type="button" class="close" data-dismiss="modal"
-                            aria-label="Close"><span>&times;</span></button>
-                    </div>
                     <div class="modal-body">
+                        <div class="modal-header header-profile-instagram">
+                            <h5 class="modal-title">Edit Profile Instagram</h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close"><span>&times;</span></button>
+                        </div>
+
                         @if (session('success'))
                             <div class="alert alert-success">{{ session('success') }}</div>
                         @endif
@@ -1122,12 +1131,13 @@
             aria-labelledby="addPofileTiktokModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Profile Tiktok</h5>
-                        <button type="button" class="close" data-dismiss="modal"
-                            aria-label="Close"><span>&times;</span></button>
-                    </div>
                     <div class="modal-body">
+                        <div class="modal-header modal-edit-profile-tiktok">
+                            {{-- <div class="profile-tiktok"> --}}
+                            <h5 class="modal-title">Edit Profile Tiktok</h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close"><span>&times;</span></button>
+                        </div>
                         @if (session('success'))
                             <div class="alert alert-success">{{ session('success') }}</div>
                         @endif
@@ -1230,6 +1240,7 @@
                                 <button type="submit" class="btn btn-primary" {{ $isDisabled }}>Save</button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -1241,11 +1252,11 @@
             aria-labelledby="editProfileModalTiktokLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Profile TikTok</h5>
-                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    </div>
                     <div class="modal-body">
+                        <div class="modal-header modal-edit-profile-tiktok">
+                            <h5 class="modal-title">Edit Profile TikTok</h5>
+                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                        </div>
                         @if (!$profileTiktok)
                             <div class="alert alert-warning">Profile TikTok belum diisi untuk
                                 <strong>{{ $client->nama_brand }}</strong>.
@@ -1335,11 +1346,11 @@
             aria-labelledby="editProfileModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Profile Instagram</h5>
-                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    </div>
                     <div class="modal-body">
+                        <div class="modal-header header-profile-instagram">
+                            <h5 class="modal-title">Edit Profile Instagram</h5>
+                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                        </div>
                         @if (!$profileIG)
                             <div class="alert alert-warning">Profile Instagram belum diisi untuk
                                 <strong>{{ $client->nama_brand }}</strong>.

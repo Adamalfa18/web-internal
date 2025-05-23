@@ -50,15 +50,14 @@ html {
 .modal-dialog {
     max-width: 900px;
 }
-.form-marketing {
+/* .form-marketing {
     padding: 20px;
-}
+} */
 
 .top-info {
     display: flex;
     align-items: center;
     gap: 40px;
-    margin-bottom: 15px;
 }
 
 .top-info h2 {
@@ -134,6 +133,11 @@ html {
 .tabs a.active {
     color: #fff;
     border-top: 2px solid #fff;
+}
+.gallery.tiktok-gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
 }
 
 .gallery {
@@ -759,8 +763,6 @@ li.nav-item.drop {
     justify-content: space-around;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-    margin-top: 20px;
 }
 
 .tabs a {
@@ -785,7 +787,6 @@ li.nav-item.drop {
     width: 100%;
     height: auto;
     object-fit: cover;
-    border-radius: 8px;
 }
 
 /* Button */
@@ -975,6 +976,7 @@ body.mobile {
     border: 6px solid #333;
     border-radius: 36px;
     overflow-y: auto;
+    overflow-x: auto;
     color: #000;
 }
 
@@ -982,11 +984,9 @@ body.mobile {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 15px;
+    padding: 10px 20px;
     background-color: #ffffff;
-    border-bottom: 1px solid #ddd;
     font-weight: bold;
-    margin-top: 40px;
     width: 375px;
     flex-direction: column;
 }
@@ -1033,11 +1033,12 @@ body.mobile {
     align-items: center;
     text-align: center;
     gap: 10px;
+    margin-bottom: 0px !important;
 }
 
 #profileWrapper.mobile-view .profile-pic {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -1062,6 +1063,7 @@ body.mobile {
 }
 
 #profileWrapper.mobile-view .tabs {
+    font-size: 12px;
     display: flex;
     justify-content: space-around;
     padding: 10px 0;
@@ -1080,7 +1082,6 @@ body.mobile {
 
 #profileWrapper.mobile-view .tab-pane {
     display: none;
-    padding: 10px;
 }
 
 #profileWrapper.mobile-view .tab-pane.active {
@@ -1091,7 +1092,6 @@ body.mobile {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 5px;
-    padding: 10px;
 }
 
 #profileWrapper.mobile-view .gallery-item {
@@ -1099,7 +1099,6 @@ body.mobile {
     aspect-ratio: 3 / 4;
     background-color: #ddd;
     overflow: hidden;
-    border-radius: 5px;
     position: relative;
 }
 #profileWrapper.mobile-view .nama-brand h2 {
@@ -1171,6 +1170,7 @@ button.btn.btn-danger.btn-sm.position-absolute.top-0.end-0.remove-existing-media
 #profileWrapper.mobile-view .name_ig {
     order: 1;
 }
+
 #profileWrapper.mobile-view .stats {
     order: 2;
 }
@@ -1207,4 +1207,62 @@ td.client-name-style {
 
 td.client-tab-style {
     padding: 0.75rem 1.5rem;
+}
+
+body.no-scroll,
+html.no-scroll {
+    overflow: hidden !important;
+    height: 100% !important;
+}
+
+#profileWrapper.mobile-view {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* untuk smooth scrolling di mobile */
+    position: relative;
+    background: #fff; /* pastikan kelihatan */
+}
+
+.modal-content {
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.modal-body {
+    overflow-y: auto;
+    max-height: 100%;
+    padding-right: 15px; /* agar konten tidak tertutup scrollbar */
+    scroll-behavior: smooth; /* opsional, untuk efek halus */
+}
+.modal-header {
+    padding: 0;
+    border-bottom: none;
+}
+.row.form-marketing.row-post-instagram,
+.row.form-marketing.row-post-tiktok {
+    padding: 1rem;
+}
+.modal-header.modal-header-edit,
+.modal-header.header-profile-instagram,
+.modal-header.header-add-post,
+.modal-header.header-sa-tiktok-edit,
+.modal-header.modal-header-add-tiktok,
+.modal-header.modal-edit-profile-tiktok,
+.modal-header.header-profile-instagram {
+    border-bottom: none;
+    margin-bottom: 10px;
+}
+
+button.close {
+    background: none;
+    color: black;
+    font-size: 30px;
+}
+
+.carousel-media-3by4 {
+    aspect-ratio: 3 / 4;
+    object-fit: cover; /* agar tidak melebar atau menyempit */
+    width: 100%;
+    height: auto;
+    max-height: 500px; /* opsional: batasi tinggi maksimal */
 }

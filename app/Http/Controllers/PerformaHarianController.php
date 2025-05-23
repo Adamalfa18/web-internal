@@ -65,7 +65,7 @@ class PerformaHarianController extends Controller
                 'tk.gmv_max as tiktok_gmv_max'
             )
             ->where('p.performance_bulanan_id', $performanceBulananId)
-            ->orderBy('p.id', 'asc')
+            ->orderBy('p.hari', 'asc')
             ->paginate($perPage);
 
         // Fetch monthly report related to performance_bulanan_id
@@ -80,6 +80,10 @@ class PerformaHarianController extends Controller
             ->sum('omzet');
         $totalRoas = round($totalOmzet / ($totalSum ?: 1), 2);
 
+        // Data compare untuk grafik
+        $data1 = PerformaHarian::whereBetween('hari', [$request->fromDate, $request->toDate])->get();
+        $data2 = PerformaHarian::whereBetween('hari', [$request->fromDate2, $request->toDate2])->get();
+
         // Fetch data leads terkait dengan performance_bulanan_id
         $leads = DB::table('leads')
             ->where('performance_bulanan_id', $performanceBulananId)
@@ -87,7 +91,7 @@ class PerformaHarianController extends Controller
 
         // Return view with filtered data, monthly report, and leads
         session(['activeTab' => 'roas', 'activeTabLead' => 'roas']);
-        return view('marketlab.performa-harian.index', compact('data', 'laporanBulanan', 'totalSum', 'totalOmzet', 'totalRoas', 'performanceBulananId', 'leads'));
+        return view('marketlab.performa-harian.index', compact('data', 'data1', 'data2', 'laporanBulanan', 'totalSum', 'totalOmzet', 'totalRoas', 'performanceBulananId', 'leads'));
     }
 
 
@@ -551,5 +555,178 @@ class PerformaHarianController extends Controller
         session(['activeTab' => 'roas', 'activeTabLead' => 'roas']);
         return redirect()->route('laporan-harian.index', ['performance_bulanan_id' => $performa->performance_bulanan_id])
             ->with('success', 'Data performa harian dan data iklan terkait berhasil dihapus.');
+    }
+
+    // public function compareData(Request $request)
+    // {
+    //     // Validate request
+    //     $request->validate([
+    //         'fromDate' => 'required|date',
+    //         'toDate' => 'required|date|after_or_equal:fromDate',
+    //         'fromDate2' => 'required|date',
+    //         'toDate2' => 'required|date|after_or_equal:fromDate2',
+    //         'performance_bulanan_id' => 'required|exists:performance_bulanans,id',
+    //     ]);
+
+    //     // Get performance_bulanan_id from the request
+    //     $performanceBulananId = $request->performance_bulanan_id;
+
+    //     // Ambil jumlah data per halaman dari request, default 10
+    //     $perPage = $request->input('perPage', 10);
+
+    //     // Fetch data with pagination
+    //     $data = DB::table('performa_harians as p')
+    //         ->leftJoin('meta_ads as m', 'p.id', '=', 'm.performa_harian_id')
+    //         ->leftJoin('google_ads as g', 'p.id', '=', 'g.performa_harian_id')
+    //         ->leftJoin('shopee_ads as s', 'p.id', '=', 's.performa_harian_id')
+    //         ->leftJoin('tokped_ads as t', 'p.id', '=', 't.performa_harian_id')
+    //         ->leftJoin('tiktok_ads as tk', 'p.id', '=', 'tk.performa_harian_id')
+    //         ->select(
+    //             'p.*',
+    //             'm.regular as meta_regular',
+    //             'm.cpas as meta_cpas',
+    //             'g.search as google_search',
+    //             'g.gtm as google_gtm',
+    //             'g.youtube as google_youtube',
+    //             'g.performance_max as google_performance_max',
+    //             's.manual as shopee_manual',
+    //             's.auto_meta as shopee_auto_meta',
+    //             's.gmv as shopee_gmv',
+    //             's.toko as shopee_toko',
+    //             's.live as shopee_live',
+    //             't.manual as tokped_manual',
+    //             't.auto_meta as tokped_auto_meta',
+    //             't.toko as tokped_toko',
+    //             'tk.live_shopping as tiktok_live_shopping',
+    //             'tk.product_shopping as tiktok_product_shopping',
+    //             'tk.video_shopping as tiktok_video_shopping',
+    //             'tk.gmv_max as tiktok_gmv_max'
+    //         )
+    //         ->where('p.performance_bulanan_id', $performanceBulananId)
+    //         ->orderBy('p.id', 'asc')
+    //         ->paginate($perPage);
+
+    //     // Fetch monthly report related to performance_bulanan_id
+    //     $laporanBulanan = PerformanceBulanan::find($performanceBulananId);
+    //     // Calculate totals
+    //     $totalSum = DB::table('performa_harians')
+    //         ->where('performance_bulanan_id', $performanceBulananId)
+    //         ->sum('total');
+    //     $totalOmzet = DB::table('performa_harians')
+    //         ->where('performance_bulanan_id', $performanceBulananId)
+    //         ->sum('omzet');
+    //     $totalRoas = round($totalOmzet / ($totalSum ?: 1), 2);
+
+    //     // Data compare untuk grafik
+    //     $data1 = PerformaHarian::whereBetween('hari', [$request->fromDate, $request->toDate])->get();
+    //     $data2 = PerformaHarian::whereBetween('hari', [$request->fromDate2, $request->toDate2])->get();
+
+    //     // Fetch data leads terkait dengan performance_bulanan_id
+    //     $leads = DB::table('leads')
+    //         ->where('performance_bulanan_id', $performanceBulananId)
+    //         ->get();
+
+    //     session(['activeTab' => 'roas', 'activeTabLead' => 'roas']);
+
+    //     // Return view with filtered data, monthly report, and leads
+    //     session(['activeTab' => 'roas', 'activeTabLead' => 'roas']);
+    //     return view('marketlab.performa-harian.index', compact('data', 'data1', 'data2', 'laporanBulanan', 'totalSum', 'totalOmzet', 'totalRoas', 'performanceBulananId', 'leads'));
+    // }
+
+    public function compareData(Request $request)
+    {
+        // Validate request
+        $request->validate([
+            'fromDate' => 'required|date',
+            'toDate' => 'required|date|after_or_equal:fromDate',
+            'fromDate2' => 'required|date',
+            'toDate2' => 'required|date|after_or_equal:fromDate2',
+            // 'performance_bulanan_id' => 'required|exists:performance_bulanans,id',
+        ]);
+
+        // Get performance_bulanan_id from the request
+        $performanceBulananId = $request->performance_bulanan_id;
+
+        // Ambil jumlah data per halaman dari request, default 10
+        $perPage = $request->input('perPage', 10);
+
+        // Fetch data with pagination
+        $data = DB::table('performa_harians as p')
+            ->leftJoin('meta_ads as m', 'p.id', '=', 'm.performa_harian_id')
+            ->leftJoin('google_ads as g', 'p.id', '=', 'g.performa_harian_id')
+            ->leftJoin('shopee_ads as s', 'p.id', '=', 's.performa_harian_id')
+            ->leftJoin('tokped_ads as t', 'p.id', '=', 't.performa_harian_id')
+            ->leftJoin('tiktok_ads as tk', 'p.id', '=', 'tk.performa_harian_id')
+            ->select(
+                'p.*',
+                'm.regular as meta_regular',
+                'm.cpas as meta_cpas',
+                'g.search as google_search',
+                'g.gtm as google_gtm',
+                'g.youtube as google_youtube',
+                'g.performance_max as google_performance_max',
+                's.manual as shopee_manual',
+                's.auto_meta as shopee_auto_meta',
+                's.gmv as shopee_gmv',
+                's.toko as shopee_toko',
+                's.live as shopee_live',
+                't.manual as tokped_manual',
+                't.auto_meta as tokped_auto_meta',
+                't.toko as tokped_toko',
+                'tk.live_shopping as tiktok_live_shopping',
+                'tk.product_shopping as tiktok_product_shopping',
+                'tk.video_shopping as tiktok_video_shopping',
+                'tk.gmv_max as tiktok_gmv_max'
+            )
+            ->where('p.performance_bulanan_id', $performanceBulananId)
+            ->orderBy('p.id', 'asc')
+            ->paginate($perPage);
+
+        // Fetch monthly report related to performance_bulanan_id
+        $laporanBulanan = PerformanceBulanan::find($performanceBulananId);
+
+        // Calculate totals
+        $totalSum = DB::table('performa_harians')
+            ->where('performance_bulanan_id', $performanceBulananId)
+            ->sum('total');
+        $totalOmzet = DB::table('performa_harians')
+            ->where('performance_bulanan_id', $performanceBulananId)
+            ->sum('omzet');
+        $totalRoas = round($totalOmzet / ($totalSum ?: 1), 2);
+
+        // Data compare untuk grafik
+        $data1 = PerformaHarian::whereBetween('hari', [$request->fromDate, $request->toDate])->get();
+        $data2 = PerformaHarian::whereBetween('hari', [$request->fromDate2, $request->toDate2])->get();
+
+        // Fetch data leads terkait dengan performance_bulanan_id
+        $leads = DB::table('leads')
+            ->where('performance_bulanan_id', $performanceBulananId)
+            ->get();
+
+        // Return view with filtered data, monthly report, and leads
+        session(['activeTab' => 'roas', 'activeTabLead' => 'roas']);
+        return view('marketlab.performa-harian.index', compact('data', 'data1', 'data2', 'laporanBulanan', 'totalSum', 'totalOmzet', 'totalRoas', 'performanceBulananId', 'leads'));
+    }
+
+    public function compare(Request $request)
+    {
+        $request->validate([
+            'bulan' => 'required|date_format:Y-m',
+        ]);
+
+        $carbon = \Carbon\Carbon::parse($request->bulan);
+        $startDate = $carbon->startOfMonth()->toDateString();
+        $endDate = $carbon->endOfMonth()->toDateString();
+
+        $data = PerformaHarian::whereBetween('hari', [$startDate, $endDate])
+            ->orderBy('hari')
+            ->get();
+
+        return response()->json([
+            'labels' => $data->map(fn($d) => \Carbon\Carbon::parse($d->hari)->format('j M')),
+            'spent' => $data->pluck('total'),
+            'revenue' => $data->pluck('omzet'),
+            'roas' => $data->pluck('roas'),
+        ]);
     }
 }

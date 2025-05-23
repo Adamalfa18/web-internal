@@ -173,38 +173,56 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Tombol Compare -->
+                    <div class="row mb-3 justify-content-end">
+                        <div class="col-auto">
+                            <button class="btn btn-primary" onclick="toggleCompare()">Compare</button>
+                        </div>
+                    </div>
+
+                    <!-- Form Compare -->
+                    <div class="row justify-content-end" id="compareSection" style="display: none;">
+                        <div class="col-auto">
+                            <form id="compareForm" class="d-flex align-items-end justify-content-end"
+                                style="gap: 10px;">
+                                @csrf
+                                <div class="d-flex flex-column">
+                                    <label for="bulanCompare" class="form-label mb-1">Select Month to Compare:</label>
+                                    <input type="month" id="bulanCompare" name="bulanCompare" class="form-control"
+                                        required>
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-success">View</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <div class="row mb-4">
-                        <div class="col-md-4">
-                            <div class="card border shadow-xs mb-4 border-client">
-                                <div class="card-header border-bottom pb-0 border-client-bottom">
-                                    <h6 class="font-weight-semibold text-lg mb-0">Spent</h6>
-                                    <p class="text-sm">Spent this month</p>
-                                </div>
-                                <div class="card-body">
-                                    <canvas id="chartSpent" height="100"></canvas>
-                                </div>
+                        <div class="card border shadow-xs mb-4 border-client">
+                            <div class="card-header border-bottom pb-0 border-client-bottom">
+                                <h6 class="font-weight-semibold text-lg mb-0">Spent</h6>
+                                <p class="text-sm">Spent this month</p>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chartSpent" height="100"></canvas>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card border shadow-xs mb-4 border-client">
-                                <div class="card-header border-bottom pb-0 border-client-bottom">
-                                    <h6 class="font-weight-semibold text-lg mb-0">Revenue</h6>
-                                    <p class="text-sm">Omzet this month</p>
-                                </div>
-                                <div class="card-body">
-                                    <canvas id="chartRevenue" height="100"></canvas>
-                                </div>
+                        <div class="card border shadow-xs mb-4 border-client">
+                            <div class="card-header border-bottom pb-0 border-client-bottom">
+                                <h6 class="font-weight-semibold text-lg mb-0">Revenue</h6>
+                                <p class="text-sm">Omzet this month</p>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chartRevenue" height="100"></canvas>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card border shadow-xs mb-4 border-client">
-                                <div class="card-header border-bottom pb-0 border-client-bottom">
-                                    <h6 class="font-weight-semibold text-lg mb-0">ROAS</h6>
-                                    <p class="text-sm">ROAS this month</p>
-                                </div>
-                                <div class="card-body">
-                                    <canvas id="chartRoas" height="100"></canvas>
-                                </div>
+                        <div class="card border shadow-xs mb-4 border-client">
+                            <div class="card-header border-bottom pb-0 border-client-bottom">
+                                <h6 class="font-weight-semibold text-lg mb-0">ROAS</h6>
+                                <p class="text-sm">ROAS this month</p>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="chartRoas" height="100"></canvas>
                             </div>
                         </div>
                     </div>
@@ -1081,6 +1099,10 @@
         </div>
     </main>
     <script>
+        function toggleCompare() {
+        const compareSection = document.getElementById('compareSection');
+        compareSection.style.display = compareSection.style.display === 'none' ? 'block' : 'none';
+    }
         // Fungsi untuk mengatur tab aktif
         function setActiveTab(tab) {
             sessionStorage.setItem('activeTab', tab); // Simpan tab aktif di sessionStorage
@@ -1101,43 +1123,119 @@
             setActiveTab(activeTab); // Atur tab aktif
         });
     </script>
+    @php
+    $shortLabels = [];
+    $fullLabels = [];
+    if (isset($data)) {
+    foreach ($data as $item) {
+    $shortLabels[] = \Carbon\Carbon::parse($item->hari)->format('j'); // hanya tanggal
+    $fullLabels[] = \Carbon\Carbon::parse($item->hari)->format('j M'); // untuk tooltip
+    }
+    }
+    @endphp
     <script>
-        @php
-            $labels = [];
-            $spent = [];
-            $revenue = [];
-            $roas = [];
+        let chartSpent, chartRevenue, chartRoas;
+        let compareLabels = [];
 
-            $i = 1;
-            foreach ($data as $item) {
-                $labels[] = $i++;
-                $spent[] = $item->total;
-                $revenue[] = $item->omzet;
-                $roas[] = $item->roas;
-            }
-        @endphp
+        const shortLabels = {!! json_encode($shortLabels) !!};
+const fullLabels = {!! json_encode($fullLabels) !!};
 
-        document.addEventListener('DOMContentLoaded', function () {
-        const labels = {!! json_encode($labels) !!};
 
-        const configChart = (label, data, color) => ({
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: label,
-                    data: data,
+
+    function createChart(id, label1, data1, label2 = null, data2 = [], color1, color2) {
+    const ctx = document.getElementById(id).getContext('2d');
+
+    const config = {
+        type: 'line',
+        data: {
+            labels: shortLabels,
+            datasets: [
+                {
+                    label: label1,
+                    data: data1,
+                    borderColor: color1,
                     fill: false,
-                    borderColor: color,
                     tension: 0.1
-                }]
-            }
-        });
+                }
+            ]
+        },
+        options: {
+            plugins: {
+                tooltip: {
+    callbacks: {
+        title: function (tooltipItems) {
+            const index = tooltipItems[0].dataIndex;
+            const datasetIndex = tooltipItems[0].datasetIndex;
 
-        new Chart(document.getElementById('chartSpent'), configChart('Spent', {!! json_encode($spent) !!}, 'rgb(255, 99, 132)'));
-        new Chart(document.getElementById('chartRevenue'), configChart('Revenue', {!! json_encode($revenue) !!}, 'rgb(54, 162, 235)'));
-        new Chart(document.getElementById('chartRoas'), configChart('ROAS', {!! json_encode($roas) !!}, 'rgb(75, 192, 192)'));
+            // datasetIndex 0 → data utama
+            // datasetIndex 1 → data compare
+            if (datasetIndex === 0) {
+                return fullLabels[index];
+            } else if (datasetIndex === 1) {
+                return compareLabels[index] ?? shortLabels[index]; // fallback
+            } else {
+                return shortLabels[index];
+            }
+        }
+    }
+}
+
+            }
+        }
+    };
+
+    if (label2 && data2.length) {
+        config.data.datasets.push({
+            label: label2,
+            data: data2,
+            borderColor: color2,
+            fill: false,
+            tension: 0.1
+        });
+    }
+
+    return new Chart(ctx, config);
+}
+
+
+    function updateCharts(dataCompare) {
+        // Hancurkan chart sebelumnya jika ada
+        if (chartSpent) chartSpent.destroy();
+        if (chartRevenue) chartRevenue.destroy();
+        if (chartRoas) chartRoas.destroy();
+
+        // Data original dari backend (data bulan ini)
+        const spent = {!! json_encode($data->pluck('total')) !!};
+        const revenue = {!! json_encode($data->pluck('omzet')) !!};
+        const roas = {!! json_encode($data->pluck('roas')) !!};
+
+        // Buat ulang chart dengan data perbandingan
+        chartSpent = createChart('chartSpent', 'Spent', spent, 'Compare Spent', dataCompare.spent, 'rgb(255, 99, 132)', 'rgb(255, 205, 86)');
+        chartRevenue = createChart('chartRevenue', 'Revenue', revenue, 'Compare Revenue', dataCompare.revenue, 'rgb(54, 162, 235)', 'rgb(153, 102, 255)');
+        chartRoas = createChart('chartRoas', 'ROAS', roas, 'Compare ROAS', dataCompare.roas, 'rgb(75, 192, 192)', 'rgb(201, 203, 207)');
+    }
+
+    document.getElementById('compareForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const bulan = document.getElementById('bulanCompare').value;
+
+        fetch(`/performa-harian/compare?bulan=${bulan}`)
+            .then(response => response.json())
+            .then(data => {
+    compareLabels = data.labels; // simpan label tooltip untuk compare
+    updateCharts(data);
+})
+
+            .catch(error => {
+                console.error('Gagal ambil data compare:', error);
+            });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Inisialisasi chart awal dengan data bulan ini
+        chartSpent = createChart('chartSpent', 'Spent', {!! json_encode($data->pluck('total')) !!}, null, [], 'rgb(255, 99, 132)', '');
+        chartRevenue = createChart('chartRevenue', 'Revenue', {!! json_encode($data->pluck('omzet')) !!}, null, [], 'rgb(54, 162, 235)', '');
+        chartRoas = createChart('chartRoas', 'ROAS', {!! json_encode($data->pluck('roas')) !!}, null, [], 'rgb(75, 192, 192)', '');
     });
     </script>
-
 </x-app-layout>

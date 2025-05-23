@@ -9,6 +9,7 @@ use App\Models\Tiktok;
 use App\Models\PostMedia;
 use App\Models\SocialMedia;
 use App\Models\ProfileTiktok;
+use App\Models\PerformaHarian;
 use Illuminate\Http\Request;
 use App\Models\PerformanceBulanan;
 use Illuminate\Support\Facades\DB;
@@ -61,7 +62,9 @@ class ClientInformationController extends Controller
 
         // Ambil data laporan bulanan berdasarkan client_id dengan pagination
         $dataCount = request()->get('count', 10); // Mengambil jumlah data dari request, default 10
-        $reports = PerformanceBulanan::where('client_id', $client_id)->paginate($dataCount);
+        $reports = PerformanceBulanan::where('client_id', $client_id)
+            ->orderBy('report_date', 'asc')
+            ->paginate($dataCount);
 
         // Tambahkan logika untuk menghitung selisih antara tanggal_aktif dan tanggal_berakhir
         $client = Client::findOrFail($client_id);
@@ -177,7 +180,7 @@ class ClientInformationController extends Controller
                 'tk.gmv_max as tiktok_gmv_max'
             )
             ->where('p.performance_bulanan_id', $performanceBulananId)
-            ->orderBy('p.id', 'asc')
+            ->orderBy('p.hari', 'asc')
             ->paginate($perPage);
 
         // Fetch monthly report related to performance_bulanan_id
@@ -362,5 +365,27 @@ class ClientInformationController extends Controller
         }
 
         return redirect()->back()->with('success', 'Post TikTok berhasil diperbarui.');
+    }
+
+    public function compare(Request $request)
+    {
+        $request->validate([
+            'bulan' => 'required|date_format:Y-m',
+        ]);
+
+        $carbon = \Carbon\Carbon::parse($request->bulan);
+        $startDate = $carbon->startOfMonth()->toDateString();
+        $endDate = $carbon->endOfMonth()->toDateString();
+
+        $data = PerformaHarian::whereBetween('hari', [$startDate, $endDate])
+            ->orderBy('hari')
+            ->get();
+
+        return response()->json([
+            'labels' => $data->map(fn($d) => \Carbon\Carbon::parse($d->hari)->format('j M')),
+            'spent' => $data->pluck('total'),
+            'revenue' => $data->pluck('omzet'),
+            'roas' => $data->pluck('roas'),
+        ]);
     }
 }

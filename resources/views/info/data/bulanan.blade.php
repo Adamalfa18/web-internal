@@ -105,8 +105,42 @@
                 </div>
             </div>
 
-
             <div class="row">
+                <div class="row mb-4">
+                    <div class="col-12 col-md-4">
+                        <div class="card border shadow-xs mb-4 border-client">
+                            <div class="card-header border-bottom pb-0 border-client-bottom">
+                                <h6 class="font-weight-semibold text-lg mb-0">Spent</h6>
+                                <p class="text-sm">Monthly Spent</p>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="spentChart" height="100"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card border shadow-xs mb-4 border-client">
+                            <div class="card-header border-bottom pb-0 border-client-bottom">
+                                <h6 class="font-weight-semibold text-lg mb-0">Revenue</h6>
+                                <p class="text-sm">Monthly Revenue</p>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="revenueChart" height="100"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card border shadow-xs mb-4 border-client">
+                            <div class="card-header border-bottom pb-0 border-client-bottom">
+                                <h6 class="font-weight-semibold text-lg mb-0">ROAS</h6>
+                                <p class="text-sm">Monthly ROAS</p>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="roasChart" height="100"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4">
                         <div class="card-header border-bottom pb-0">
@@ -361,53 +395,206 @@
         </script>
 
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @php
+    $labels = [];
+    $spent = [];
+    $revenue = [];
+    $roas = [];
+
+    foreach ($reports as $report) {
+    $labels[] = \Carbon\Carbon::parse($report->report_date)->format('M Y');
+    $spent[] = $report->target_spent;
+    $revenue[] = $report->target_revenue;
+    $roas[] = $report->target_roas;
+    }
+
+    $compareLabels = $compareSpent = $compareRevenue = $compareRoas = [];
+
+    if (!empty($compareReports)) {
+    foreach ($compareReports as $compareReport) {
+    $compareLabels[] = \Carbon\Carbon::parse($compareReport->report_date)->format('D M');
+    $compareSpent[] = $compareReport->target_spent;
+    $compareRevenue[] = $compareReport->target_revenue;
+    $compareRoas[] = $compareReport->target_roas;
+    }
+    }
+    @endphp
+
+    <script>
+        function toggleCompare() {
+                const compareSection = document.getElementById('compareSection');
+                compareSection.style.display = compareSection.style.display === 'none' ? 'block' : 'none';
+            }
+            let spentChart, revenueChart, roasChart;
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const labels = {!! json_encode($labels) !!};
+                const spent = {!! json_encode($spent) !!};
+                const revenue = {!! json_encode($revenue) !!};
+                const roas = {!! json_encode($roas) !!};
+
+                const compareLabels = {!! json_encode($compareLabels) !!};
+                const compareSpent = {!! json_encode($compareSpent) !!};
+                const compareRevenue = {!! json_encode($compareRevenue) !!};
+                const compareRoas = {!! json_encode($compareRoas) !!};
+
+                // SPENT CHART
+                spentChart = new Chart(document.getElementById('spentChart'), {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Spent',
+                                data: spent,
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                fill: false,
+                                tension: 0.3
+                            }
+                        ]
+                    }
+                });
+
+                // REVENUE CHART
+                revenueChart = new Chart(document.getElementById('revenueChart'), {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Revenue',
+                                data: revenue,
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                fill: false,
+                                tension: 0.3
+                            }
+                        ]
+                    }
+                });
+
+                // ROAS CHART
+                roasChart = new Chart(document.getElementById('roasChart'), {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'ROAS',
+                                data: roas,
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                fill: false,
+                                tension: 0.3
+                            }
+                        ]
+                    }
+                });
+
+                // Handle form compare
+                document.getElementById('compareForm').addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const form = e.target;
+                    const formData = new FormData(form);
+
+                    fetch("{{ route('laporan-bulanan.compare') }}", {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        updateCharts(data);
+                    })
+                    .catch(error => {
+                        console.error('AJAX Error:', error);
+                    });
+                });
+
+                // Fungsi update chart
+                function updateCharts(data) {
+    // Clear data labels dan datasets dulu supaya tidak conflict
+    spentChart.data.labels = [];
+    revenueChart.data.labels = [];
+    roasChart.data.labels = [];
+
+    spentChart.data.datasets = [];
+    revenueChart.data.datasets = [];
+    roasChart.data.datasets = [];
+
+    // Set labels base
+    spentChart.data.labels = data.baseLabels;
+    revenueChart.data.labels = data.baseLabels;
+    roasChart.data.labels = data.baseLabels;
+
+    // Set dataset base
+    spentChart.data.datasets.push({
+        label: 'Spent',
+        data: data.baseSpent,
+        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        fill: false,
+        tension: 0.3
+    });
+    revenueChart.data.datasets.push({
+        label: 'Revenue',
+        data: data.baseRevenue,
+        borderColor: 'rgba(54, 162, 235, 1)',
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        fill: false,
+        tension: 0.3
+    });
+    roasChart.data.datasets.push({
+        label: 'ROAS',
+        data: data.baseRoas,
+        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        fill: false,
+        tension: 0.3
+    });
+
+    // Tambah dataset compare
+    spentChart.data.datasets.push({
+        label: 'Compare Spent',
+        data: data.compareSpent,
+        borderColor: 'rgba(255, 99, 132, 0.6)',
+        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+        fill: false,
+        tension: 0.3,
+        borderDash: [5, 5]
+    });
+    revenueChart.data.datasets.push({
+        label: 'Compare Revenue',
+        data: data.compareRevenue,
+        borderColor: 'rgba(54, 162, 235, 0.6)',
+        backgroundColor: 'rgba(54, 162, 235, 0.1)',
+        fill: false,
+        tension: 0.3,
+        borderDash: [5, 5]
+    });
+    roasChart.data.datasets.push({
+        label: 'Compare ROAS',
+        data: data.compareRoas,
+        borderColor: 'rgba(75, 192, 192, 0.6)',
+        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+        fill: false,
+        tension: 0.3,
+        borderDash: [5, 5]
+    });
+
+    // Update semua chart
+    spentChart.update();
+    revenueChart.update();
+    roasChart.update();
+}
+
+            });
+    </script>
 
     </x-app-layout>
-
-
-
-    {{-- <x-app-layout>
-
-        <main class="main-content position-relative max-height-vh-100 h-100 bor
-    er-radius-lg ">
-            <x-app.navbar />
-            <div class="container-fluid py-4 px-5">
-
-                <h1>Laporan Bulanan</h1>
-                <h2>Client: {{ $client->nama_client }}</h2> <!-- Menampilkan nama client yang dipilih -->
-
-
-                @if ($reports->isEmpty())
-                <p>Tidak ada laporan bulanan untuk client ini.</p>
-                @else
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Client ID</th>
-                            <th>Target Spent</th>
-                            <th>Target Revenue</th>
-                            <th>Report Date</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($reports as $report)
-                        <tr>
-                            <td>{{ $report->id }}</td>
-                            <td>{{ $report->client_id }}</td>
-                            <td>{{ $report->target_spent }}</td>
-                            <td>{{ $report->target_revenue }}</td>
-                            <td>{{ $report->report_date }}</td>
-
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                @endif
-
-            </div>
-
-        </main>
-
-    </x-app-layout> --}}

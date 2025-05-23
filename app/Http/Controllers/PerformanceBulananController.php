@@ -7,6 +7,7 @@ use App\Models\PerformanceBulanan;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Pegawai;
+use App\Models\PerformaHarian;
 use Carbon\Carbon;
 
 class PerformanceBulananController extends Controller
@@ -51,6 +52,7 @@ class PerformanceBulananController extends Controller
         // Return view with monthly reports, client data, and months and days count
         return view('marketlab.laporan-bulanan.index', compact('reports', 'client', 'months', 'days', 'perPage', 'currentPage', 'totalPages'));
     }
+
     public function create(Request $request)
     {
         $request->validate([
@@ -158,5 +160,48 @@ class PerformanceBulananController extends Controller
         } else {
             return redirect()->back()->with('error', 'Laporan bulanan gagal diperbarui!');
         }
+    }
+
+    public function compareView(Request $request)
+    {
+        $request->validate([
+            'client_id' => 'required|exists:clients,id',
+            'bulan1' => 'required|date_format:Y-m',
+            'bulan2' => 'required|date_format:Y-m',
+        ]);
+
+        $fromDate1 = \Carbon\Carbon::createFromFormat('Y-m', $request->bulan1)->startOfMonth()->toDateString();
+        $toDate1 = \Carbon\Carbon::createFromFormat('Y-m', $request->bulan1)->endOfMonth()->toDateString();
+
+        $fromDate2 = \Carbon\Carbon::createFromFormat('Y-m', $request->bulan2)->startOfMonth()->toDateString();
+        $toDate2 = \Carbon\Carbon::createFromFormat('Y-m', $request->bulan2)->endOfMonth()->toDateString();
+
+        $reports1 = PerformaHarian::where('client_id', $request->client_id)
+            ->whereBetween('report_date', [$fromDate1, $toDate1])
+            ->orderBy('report_date')
+            ->get();
+
+        $reports2 = PerformaHarian::where('client_id', $request->client_id)
+            ->whereBetween('report_date', [$fromDate2, $toDate2])
+            ->orderBy('report_date')
+            ->get();
+
+        if ($request->ajax()) {
+            return response()->json([
+                // Data pertama (base)
+                'baseLabels' => $reports1->pluck('report_date')->map(fn($date) => \Carbon\Carbon::parse($date)->format('D M')),
+                'baseSpent' => $reports1->pluck('target_spent'),
+                'baseRevenue' => $reports1->pluck('target_revenue'),
+                'baseRoas' => $reports1->pluck('target_roas'),
+
+                // Data kedua (compare)
+                'compareLabels' => $reports2->pluck('report_date')->map(fn($date) => \Carbon\Carbon::parse($date)->format('D M')),
+                'compareSpent' => $reports2->pluck('target_spent'),
+                'compareRevenue' => $reports2->pluck('target_revenue'),
+                'compareRoas' => $reports2->pluck('target_roas'),
+            ]);
+        }
+
+        return view(...);
     }
 }

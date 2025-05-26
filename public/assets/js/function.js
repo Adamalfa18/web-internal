@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const fileInput = document.getElementById("content_media");
     const coverInput = document.getElementById("cover");
     const previewContainer = document.getElementById("preview-container");
-    const form = document.querySelector(".form-marketing");
+    const form = document.querySelector(".form-marketing-instagram");
 
     let filesToUpload = [];
     let coverFile = null;
@@ -650,12 +650,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (alertError) alertError.remove();
 
                 fetch(action, {
-                        method: method === "PUT" ? "POST" : method,
-                        body: formData,
-                        headers: {
-                            "X-CSRF-TOKEN": token,
-                        },
-                    })
+                    method: method === "PUT" ? "POST" : method,
+                    body: formData,
+                    headers: {
+                        "X-CSRF-TOKEN": token,
+                    },
+                })
                     .then(async (response) => {
                         if (response.redirected) {
                             window.location.href = response.url;
@@ -710,12 +710,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (alertError) alertError.remove();
 
                 fetch(action, {
-                        method: method === "PUT" ? "POST" : method,
-                        body: formData,
-                        headers: {
-                            "X-CSRF-TOKEN": token,
-                        },
-                    })
+                    method: method === "PUT" ? "POST" : method,
+                    body: formData,
+                    headers: {
+                        "X-CSRF-TOKEN": token,
+                    },
+                })
                     .then(async (response) => {
                         if (response.redirected) {
                             window.location.href = response.url;
@@ -871,7 +871,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const inputsContainer = document.getElementById("ads-inputs");
             if (this.checked) {
                 // inputsContainer.innerHTML += tables[this.value];
-                inputsContainer.insertAdjacentHTML("beforeend", tables[this.value]);
+                inputsContainer.insertAdjacentHTML(
+                    "beforeend",
+                    tables[this.value]
+                );
             } else {
                 const rows = inputsContainer.querySelectorAll(
                     `[data-table="${this.value}"]`

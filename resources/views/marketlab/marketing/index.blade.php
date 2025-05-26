@@ -18,8 +18,9 @@
                                             <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
                                                 data-toggle="modal" data-target="#addServiceModal">
                                                 <span class="btn-inner--icon">
-                                                    <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
+                                                    <svg width="16" height="16"
+                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                        fill="currentColor" class="d-block me-2">
                                                         <path
                                                             d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z" />
                                                     </svg>
@@ -39,10 +40,10 @@
                                         <select name="clientFilter" class="form-select me-2">
                                             <option value="">Select Service</option>
                                             @foreach ($layanans as $layanan)
-                                            <option value="{{ $layanan->id }}" {{ request('clientFilter')==$layanan->id
-                                                ? 'selected' : '' }}>
-                                                {{ $layanan->nama_layanan }}
-                                            </option>
+                                                <option value="{{ $layanan->id }}"
+                                                    {{ request('clientFilter') == $layanan->id ? 'selected' : '' }}>
+                                                    {{ $layanan->nama_layanan }}
+                                                </option>
                                             @endforeach
                                         </select>
 
@@ -71,9 +72,9 @@
                                 <div class="card-body px-0 py-0">
                                     <div class="table-responsive p-0">
                                         @if (session('success') || session('error'))
-                                        <script>
-                                            alert("{{ session('success') ?: session('error') }}")
-                                        </script>
+                                            <script>
+                                                alert("{{ session('success') ?: session('error') }}")
+                                            </script>
                                         @endif
 
                                         <!-- Tabel Data Layanan -->
@@ -99,89 +100,87 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($client_layanans as $cl)
-                                                <tr data-client-id="{{ $cl->client->id ?? '' }}"
-                                                    data-landing-date="{{ $cl->created_at ? $cl->created_at->format('Y-m-d') : '' }}">
-                                                    <td class="align-middle text-center">
-                                                        {{ $loop->iteration }}
-                                                    </td>
+                                                    <tr data-client-id="{{ $cl->client->id ?? '' }}"
+                                                        data-landing-date="{{ $cl->created_at ? $cl->created_at->format('Y-m-d') : '' }}">
+                                                        <td class="align-middle text-center">
+                                                            {{ $loop->iteration }}
+                                                        </td>
 
-                                                    <td class="align-middle">
-                                                        <span class="text-sm text-dark font-weight-semibold mb-0">
-                                                            {{ $cl->layanan->nama_layanan ?? '-' }}
-                                                        </span>
-                                                    </td>
+                                                        <td class="align-middle">
+                                                            <span class="text-sm text-dark font-weight-semibold mb-0">
+                                                                {{ $cl->layanan->nama_layanan ?? '-' }}
+                                                            </span>
+                                                        </td>
 
-                                                    <td class="align-middle text-center text-sm">
-                                                        <span class="text-secondary text-sm font-weight-normal">
-                                                            {{ $cl->created_at ? $cl->created_at->format('d M Y') : '-'
-                                                            }}
-                                                        </span>
-                                                    </td>
+                                                        <td class="align-middle text-center text-sm">
+                                                            <span class="text-secondary text-sm font-weight-normal">
+                                                                {{ $cl->created_at ? $cl->created_at->format('d M Y') : '-' }}
+                                                            </span>
+                                                        </td>
 
-                                                    <td class="client-name-style">
-                                                        <p class="text-sm text-dark font-weight-semibold mb-0">
-                                                            {{ $cl->client->nama_client ?? '-' }}
-                                                        </p>
-                                                    </td>
+                                                        <td class="client-name-style">
+                                                            <p class="text-sm text-dark font-weight-semibold mb-0">
+                                                                {{ $cl->client->nama_client ?? '-' }}
+                                                            </p>
+                                                        </td>
 
-                                                    <td class="client-name-style">
-                                                        <div class="d-flex px-2 py-1">
-                                                            <div class="d-flex flex-column justify-content-center ms-1">
-                                                                <h6 class="mb-0 text-sm font-weight-semibold">
-                                                                    {{ $cl->client->nama_brand ?? '-' }}
-                                                                </h6>
+                                                        <td class="client-name-style">
+                                                            <div class="d-flex px-2 py-1">
+                                                                <div
+                                                                    class="d-flex flex-column justify-content-center ms-1">
+                                                                    <h6 class="mb-0 text-sm font-weight-semibold">
+                                                                        {{ $cl->client->nama_brand ?? '-' }}
+                                                                    </h6>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
+                                                        </td>
 
-                                                    <td class="align-middle text-center text-sm">
-                                                        @switch($cl->status)
-                                                        @case(1)
-                                                        <span
-                                                            class="badge badge-sm border border-success text-success badge-aktif">
-                                                            Aktif
-                                                        </span>
-                                                        @break
+                                                        <td class="align-middle text-center text-sm">
+                                                            @switch($cl->status)
+                                                                @case(1)
+                                                                    <span
+                                                                        class="badge badge-sm border border-success text-success badge-aktif">
+                                                                        Aktif
+                                                                    </span>
+                                                                @break
 
-                                                        @case(2)
-                                                        <span
-                                                            class="badge badge-sm border border-warning text-warning badge-warning">
-                                                            Pending
-                                                        </span>
-                                                        @break
+                                                                @case(2)
+                                                                    <span
+                                                                        class="badge badge-sm border border-warning text-warning badge-warning">
+                                                                        Pending
+                                                                    </span>
+                                                                @break
 
-                                                        @case(3)
-                                                        <span
-                                                            class="badge badge-sm border border-danger text-danger badge-paid">
-                                                            Tidak Aktif
-                                                        </span>
-                                                        @break
-                                                        @endswitch
-                                                    </td>
+                                                                @case(3)
+                                                                    <span
+                                                                        class="badge badge-sm border border-danger text-danger badge-paid">
+                                                                        Tidak Aktif
+                                                                    </span>
+                                                                @break
+                                                            @endswitch
+                                                        </td>
 
-                                                    <td class="align-middle">
-                                                        <a href="{{ route('marketing.edit', $cl->id) }}"
-                                                            class="btn btn-primary text-secondary font-weight-bold text-xs active-client"
-                                                            data-bs-toggle="tooltip" data-bs-title="Edit layanan">
-                                                            <svg width="20" height="20"
-                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" strokeWidth={1.5}
-                                                                stroke="currentColor">
-                                                                <path strokeLinecap="round" strokeLinejoin="round"
-                                                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                                            </svg>
-                                                        </a>
-                                                    </td>
-                                                </tr>
+                                                        <td class="align-middle">
+                                                            <a href="{{ route('marketing.edit', $cl->id) }}"
+                                                                class="btn btn-primary text-secondary font-weight-bold text-xs active-client"
+                                                                data-bs-toggle="tooltip" data-bs-title="Edit layanan">
+                                                                <svg width="20" height="20"
+                                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" strokeWidth={1.5}
+                                                                    stroke="currentColor">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                                </svg>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
 
                                         <!-- Pagination -->
                                         <div class="d-flex justify-content-center mt-4">
-                                            {{
-                                            $client_layanans->appends(request()->except('page'))->links('vendor.pagination.custom')
-                                            }}
+                                            {{ $client_layanans->appends(request()->except('page'))->links('vendor.pagination.custom') }}
                                         </div>
                                     </div>
                                 </div>
@@ -195,16 +194,18 @@
                         aria-labelledby="addServiceModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="addServiceModalLabel">Tambah Layanan</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form class="form-marketing" action="{{ route('client_layanan.store') }}" method="POST"
-                                    enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="modal-body">
+                                <div class="modal-body">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="addServiceModalLabel">Tambah Layanan</h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form class="form-marketing" action="{{ route('client_layanan.store') }}"
+                                        method="POST" enctype="multipart/form-data">
+                                        @csrf
+
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="mb-3">
@@ -213,11 +214,11 @@
                                                         required>
                                                         <option value="">Pilih Client</option>
                                                         @foreach ($clients->filter(function ($client) {
-                                                        return $client->status_client == 1;
-                                                        }) as $client)
-                                                        <option value="{{ $client->id }}">
-                                                            {{ $client->nama_client }} - {{ $client->nama_brand }}
-                                                        </option>
+        return $client->status_client == 1;
+    }) as $client)
+                                                            <option value="{{ $client->id }}">
+                                                                {{ $client->nama_client }} - {{ $client->nama_brand }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -232,13 +233,13 @@
                                                         required>
                                                         <option value="">Pilih Layanan</option>
                                                         @foreach ($layanans as $layanan)
-                                                        <option value="{{ $layanan->id }}">
-                                                            {{ $layanan->nama_layanan }}
-                                                        </option>
+                                                            <option value="{{ $layanan->id }}">
+                                                                {{ $layanan->nama_layanan }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                     @error('layanan_id')
-                                                    <div class="text-danger mt-2">{{ $message }}</div>
+                                                        <div class="text-danger mt-2">{{ $message }}</div>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -253,13 +254,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Save</button>
-                                    </div>
-                                </form>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

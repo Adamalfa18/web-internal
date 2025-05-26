@@ -58,8 +58,6 @@ class ClientInformationController extends Controller
 
     public function prosesLayananA($client_id)
     {
-        // ... existing code ...
-
         // Ambil data laporan bulanan berdasarkan client_id dengan pagination
         $dataCount = request()->get('count', 10); // Mengambil jumlah data dari request, default 10
         $reports = PerformanceBulanan::where('client_id', $client_id)

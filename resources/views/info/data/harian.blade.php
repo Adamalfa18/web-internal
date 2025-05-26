@@ -182,13 +182,13 @@
                             <button class="btn btn-primary" onclick="toggleCompare()">Compare</button>
                         </div>
                     </div>
-
                     <!-- Form Compare -->
                     <div class="row justify-content-end" id="compareSection" style="display: none;">
                         <div class="col-auto">
                             <form id="compareForm" class="d-flex align-items-end justify-content-end"
                                 style="gap: 10px;">
                                 @csrf
+                                <input type="hidden" name="performance_bulanan_id" value="{{ $performanceBulananId }}">
                                 <div class="d-flex flex-column">
                                     <label for="bulanCompare" class="form-label mb-1">Select Month to Compare:</label>
                                     <input type="month" id="bulanCompare" name="bulanCompare" class="form-control"
@@ -1162,22 +1162,29 @@ const fullLabels = {!! json_encode($fullLabels) !!};
         chartRevenue = createChart('chartRevenue', 'Revenue', revenue, 'Compare Revenue', dataCompare.revenue, 'rgb(54, 162, 235)', 'rgb(153, 102, 255)');
         chartRoas = createChart('chartRoas', 'ROAS', roas, 'Compare ROAS', dataCompare.roas, 'rgb(75, 192, 192)', 'rgb(201, 203, 207)');
     }
+    
 
     document.getElementById('compareForm').addEventListener('submit', function (e) {
-        e.preventDefault();
-        const bulan = document.getElementById('bulanCompare').value;
+    e.preventDefault();
+    
+    const bulan = document.getElementById('bulanCompare').value;
+    const performanceId = document.querySelector('input[name="performance_bulanan_id"]').value;
 
-        fetch(`/data-client/performa-harian/compare?bulan=${bulan}`)
-            .then(response => response.json())
-            .then(data => {
-    compareLabels = data.labels; // simpan label tooltip untuk compare
-    updateCharts(data);
-})
-
-            .catch(error => {
-                console.error('Gagal ambil data compare:', error);
-            });
+    fetch(`/data-client/performa-harian/compare?bulan=${bulan}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        compareLabels = data.labels;
+        updateCharts(data);
+    })
+    .catch(error => {
+        console.error('Gagal ambil data compare:', error);
     });
+});
 
     document.addEventListener('DOMContentLoaded', function () {
         // Inisialisasi chart awal dengan data bulan ini

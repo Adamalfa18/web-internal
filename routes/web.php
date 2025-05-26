@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [DasboardAdminController::class, 'index'])->name('dashboard');
         Route::resource('/clients', ClientController::class);
         Route::resource('/laporan-bulanan', PerformanceBulananController::class);
-        Route::post('/laporan-bulanan/compare', [PerformanceBulananController::class, 'compareView'])->name('laporan-bulanan.compare');
+        Route::post('/laporan-bulanan/compare', [PerformanceBulananController::class, 'compareView'])->name('laporan-bulanan.compare'); //bukan ini
         Route::resource('/laporan-harian', PerformaHarianController::class);
         Route::post('/laporan-harian/store-lead', [PerformaHarianController::class, 'store_lead'])->name('laporan-harian.store-lead');
         Route::put('/laporan-harian/update-lead/{id}', [PerformaHarianController::class, 'updateLead'])->name('laporan-harian.update_lead');
@@ -112,6 +112,7 @@ Route::middleware('auth')->group(function () {
     //  Client (6)
     Route::middleware(['checkUserRole:6', 'encryptDecrypt'])->group(function () {
         Log::info('User with role_id 6 accessed the route.');
+        Route::get('data-client/performa-harian/compare', [ClientInformationController::class, 'compare']);
         Route::get('/data-client', [ClientInformationController::class, 'index'])->name('data-client.index');
         Route::get('/data-client/{client_id}/{layanan}', [ClientInformationController::class, 'bulanan'])->name('data-client.laporan-bulanan');
         Route::get('/data-client/laporan-bulan', [ClientInformationController::class, 'prosesLayananA'])->name('data-client.laporan-bulan');
@@ -120,7 +121,6 @@ Route::middleware('auth')->group(function () {
         Route::put('/data-client/laporan-harian/update-lead/{id}', [ClientInformationController::class, 'updateLead'])->name('data-client.laporan-harian.update-lead');
         Route::put('/data-client/{client_id}/divisi-sa/{post_id}', [ClientInformationController::class, 'update'])->name('data-client.update-sa');
         Route::put('/data-client/{client_id}/tiktok/{post_id}', [ClientInformationController::class, 'updateTiktok'])->name('data-client.update-tiktok');
-        Route::get('/data-client/performa-harian/compare', [ClientInformationController::class, 'compare'])->name('performa-harian.compare');
     });
 });
 

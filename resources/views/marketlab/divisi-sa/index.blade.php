@@ -69,8 +69,8 @@
                                         <div class="mb-3">
                                             <label for="content" class="form-label">Upload Media</label>
                                             <p class="text-muted small mb-2">
-                                                * Format media harus berupa gambar <strong>.webp</strong> atau video
-                                                <strong>.webm</strong>
+                                                * Media format must be <strong>.webp</strong> for image or
+                                                <strong>.webm</strong> for video
                                             </p>
                                             <input type="file" class="form-control d-none" id="content_media"
                                                 name="content_media[]" accept=".webp, .webm" multiple>
@@ -534,8 +534,8 @@
                                     <div class="mb-3">
                                         <label for="content" class="form-label">Upload Media</label>
                                         <p class="text-muted small mb-2">
-                                            * Format media harus berupa gambar <strong>.webp</strong> atau video
-                                            <strong>.webm</strong>
+                                            * Media format must be <strong>.webp</strong> for image or
+                                            <strong>.webm</strong> for video
                                         </p>
                                         <input type="file" class="form-control d-none" id="tiktok_media"
                                             name="tiktok_media[]" accept=".webp, .webm" multiple>

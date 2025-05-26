@@ -138,14 +138,16 @@
     <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form id="editUserForm" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit User</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
+                <div class="modal-body">
+                    <form id="editUserForm" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit User</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+
                         <div class="mb-3">
                             <label>ID</label>
                             <input type="text" class="form-control" id="editUserId" name="id" readonly>
@@ -173,8 +175,8 @@
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Update</button>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -184,14 +186,15 @@
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form id="editPasswordForm" method="POST">
-                    @csrf
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit Password</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
+                <div class="modal-body">
+                    <form id="editPasswordForm" method="POST">
+                        @csrf
+                        <div class="modal-header mb-2">
+                            <h5 class="modal-title">Edit Password</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+
                         <input type="hidden" id="editPasswordId" name="id">
                         <div class="mb-3">
                             <label>Name</label>
@@ -216,8 +219,8 @@
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Update</button>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

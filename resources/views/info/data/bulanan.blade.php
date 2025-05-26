@@ -28,33 +28,31 @@
                             <div class="col-12">
                                 <div>
                                     @switch($client->status_client)
-                                    @case(1)
-                                    <span
-                                        class="badge badge-sm border border-success text-success bg-success status-client-style">Aktif</span>
-                                    @break
+                                        @case(1)
+                                            <span
+                                                class="badge badge-sm border border-success text-success bg-success status-client-style">Aktif</span>
+                                        @break
 
-                                    @case(2)
-                                    <span
-                                        class="badge badge-sm border border-warning text-warning bg-warning status-client-style">Pending</span>
-                                    @break
+                                        @case(2)
+                                            <span
+                                                class="badge badge-sm border border-warning text-warning bg-warning status-client-style">Pending</span>
+                                        @break
 
-                                    @case(3)
-                                    <span
-                                        class="badge badge-sm border border-danger text-danger bg-danger status-client-style">Paid</span>
-                                    @break
+                                        @case(3)
+                                            <span
+                                                class="badge badge-sm border border-danger text-danger bg-danger status-client-style">Paid</span>
+                                        @break
                                     @endswitch
                                 </div>
                                 <div class="mt-2">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <span
-                                                class="badge badge-sm border border-success text-success bg-marketlab status-client-style">{{
-                                                $client->pj }}</span>
+                                                class="badge badge-sm border border-success text-success bg-marketlab status-client-style">{{ $client->pj }}</span>
                                         </div>
                                         <div class="col-md-6">
                                             <span
-                                                class="badge badge-sm border border-success text-success bg-marketlab status-client-style">{{
-                                                $client->pegawai->nama }}</span>
+                                                class="badge badge-sm border border-success text-success bg-marketlab status-client-style">{{ $client->pegawai->nama }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -76,8 +74,8 @@
                             <div class="row col-10">
                                 <div class="col-4">
                                     <label for="name">Client Name</label>
-                                    <input type="text" name="name" id="name" value="{{ $client->nama_client }}"
-                                        class="form-control" disabled>
+                                    <input type="text" name="name" id="name"
+                                        value="{{ $client->nama_client }}" class="form-control" disabled>
                                 </div>
                                 <div class="col-4">
                                     <label for="email">Email</label>
@@ -91,13 +89,11 @@
                             <div class="row mt-2 col-11">
                                 <div class="col-6">
                                     <label for="alamat">Address</label>
-                                    <textarea name="alamat" id="alamat" rows="3" class="form-control"
-                                        disabled>{{ $client->alamat }}</textarea>
+                                    <textarea name="alamat" id="alamat" rows="3" class="form-control" disabled>{{ $client->alamat }}</textarea>
                                 </div>
                                 <div class="col-6">
                                     <label for="informasi_tambahan	">Notes</label>
-                                    <textarea name="informasi_tambahan" id="informasi_tambahan" rows="3"
-                                        class="form-control" disabled>{{ $client->informasi_tambahan }}</textarea>
+                                    <textarea name="informasi_tambahan" id="informasi_tambahan" rows="3" class="form-control" disabled>{{ $client->informasi_tambahan }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -155,8 +151,9 @@
                             <div class="border-bottom py-3 px-3 d-sm-flex align-items-center">
                                 <div class="input-group w-sm-25 ms-auto">
                                     <span class="input-group-text text-body">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="none"
-                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                            fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                            stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z">
                                             </path>
@@ -169,198 +166,210 @@
                             </div>
                             <div class="table-responsive p-0">
                                 @if ($reports->isEmpty())
-                                <p class="ntp">No monthly report available.</p>
+                                    <p class="ntp">No monthly report available.</p>
                                 @else
-                                <table class="table align-items-center mb-0">
-                                    <thead class="bg-gray-100">
-                                        <tr>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                No</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Target Spent</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Target Revenue</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Target Roas</th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Month</th>
-                                            <th class="text-secondary opacity-7"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($reports as $index => $report)
-                                        <tr>
-                                            <td class="align-middle text-center">
-                                                {{ $reports->firstItem() + $index }}</td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">
-                                                    Rp {{ number_format($report->target_spent, 0, ',', '.') }}
-                                                </span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">
-                                                    Rp {{ number_format($report->target_revenue, 0, ',', '.') }}
-                                                </span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">{{
-                                                    $report->target_roas }}</span>
-                                            </td>
-                                            <td class="align-middle text-center report-date">
-                                                <span class="text-secondary text-sm font-weight-normal">{{
-                                                    \Carbon\Carbon::parse($report->report_date)->format('F Y') }}</span>
-                                            </td>
-                                            <td class="align-middle">
-                                                <button type="button"
-                                                    class="btn-style btn btn-info text-secondary font-weight-bold text-xs"
-                                                    data-bs-toggle="modal" data-bs-toggle="tooltip"
-                                                    data-bs-title="Detail"
-                                                    data-bs-target="#reportDetailModal{{ $report->id }}">
-                                                    <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                                        stroke="currentColor" class="size-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                    </svg>
-                                                </button>
-                                                <a href="{{ route('data-client.laporan-harian', ['performance_bulanan_id' => $report->id]) }}"
-                                                    type="button"
-                                                    class="btn btn-info text-secondary font-weight-bold text-xs active-client"
-                                                    data-bs-toggle="tooltip" data-bs-title="Laporan Harian">
-                                                    <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                                                        stroke="currentColor" className="size-6">
-                                                        <path strokeLinecap="round" strokeLinejoin="round"
-                                                            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                                    </svg>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                    <table class="table align-items-center mb-0">
+                                        <thead class="bg-gray-100">
+                                            <tr>
+                                                <th
+                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                    No</th>
+                                                <th
+                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                    Target Spent</th>
+                                                <th
+                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                    Target Revenue</th>
+                                                <th
+                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                    Target Roas</th>
+                                                <th
+                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                    Month</th>
+                                                <th class="text-secondary opacity-7"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($reports as $index => $report)
+                                                <tr>
+                                                    <td class="align-middle text-center">
+                                                        {{ $reports->firstItem() + $index }}</td>
+                                                    <td class="align-middle text-center">
+                                                        <span class="text-secondary text-sm font-weight-normal">
+                                                            Rp {{ number_format($report->target_spent, 0, ',', '.') }}
+                                                        </span>
+                                                    </td>
+                                                    <td class="align-middle text-center">
+                                                        <span class="text-secondary text-sm font-weight-normal">
+                                                            Rp
+                                                            {{ number_format($report->target_revenue, 0, ',', '.') }}
+                                                        </span>
+                                                    </td>
+                                                    <td class="align-middle text-center">
+                                                        <span
+                                                            class="text-secondary text-sm font-weight-normal">{{ $report->target_roas }}</span>
+                                                    </td>
+                                                    <td class="align-middle text-center report-date">
+                                                        <span
+                                                            class="text-secondary text-sm font-weight-normal">{{ \Carbon\Carbon::parse($report->report_date)->format('F Y') }}</span>
+                                                    </td>
+                                                    <td class="align-middle">
+                                                        <button type="button"
+                                                            class="btn-style btn btn-info text-secondary font-weight-bold text-xs"
+                                                            data-bs-toggle="modal" data-bs-toggle="tooltip"
+                                                            data-bs-title="Detail"
+                                                            data-bs-target="#reportDetailModal{{ $report->id }}">
+                                                            <svg width="20" height="20"
+                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                viewBox="0 0 24 24" stroke-width="1.5"
+                                                                stroke="currentColor" class="size-6">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                            </svg>
+                                                        </button>
+                                                        <a href="{{ route('data-client.laporan-harian', ['performance_bulanan_id' => $report->id]) }}"
+                                                            type="button"
+                                                            class="btn btn-info text-secondary font-weight-bold text-xs active-client"
+                                                            data-bs-toggle="tooltip" data-bs-title="Laporan Harian">
+                                                            <svg width="20" height="20"
+                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                viewBox="0 0 24 24" strokeWidth={1.5}
+                                                                stroke="currentColor" className="size-6">
+                                                                <path strokeLinecap="round" strokeLinejoin="round"
+                                                                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                                            </svg>
+                                                        </a>
+                                                    </td>
+                                                </tr>
 
-                                        <div class="modal fade" id="reportDetailModal{{ $report->id }}" tabindex="-1"
-                                            aria-labelledby="reportDetailModalLabel{{ $report->id }}"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title"
-                                                            id="reportDetailModalLabel{{ $report->id }}">
-                                                            Monthly Report Details
-                                                            {{-- {{
-                                                            \Carbon\Carbon::parse($report->report_date)->format('d F
-                                                            Y') }} --}}
-                                                        </h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="pt-0 card-body">
+                                                <div class="modal fade" id="reportDetailModal{{ $report->id }}"
+                                                    tabindex="-1"
+                                                    aria-labelledby="reportDetailModalLabel{{ $report->id }}"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title"
+                                                                        id="reportDetailModalLabel{{ $report->id }}">
+                                                                        Monthly Report Details
+                                                                    </h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
 
-                                                            <div class="row">
-                                                                <div class="col-4">
-                                                                    <label for="target_spant">Target
-                                                                        Spent</label>
-                                                                    <input type="text" name="name" id="name"
-                                                                        value="{{ $report->target_spent }}"
-                                                                        class="form-control" disabled>
-                                                                </div>
-                                                                <div class="col-4">
-                                                                    <label for="target_revenue">Target
-                                                                        Revenue</label>
-                                                                    <input value="{{ $report->target_revenue }}"
-                                                                        class="form-control" disabled>
-                                                                </div>
-                                                                <div class="col-4">
-                                                                    <label for="target_roas">Target
-                                                                        Roas</label>
-                                                                    <input value="{{ $report->target_roas }}"
-                                                                        class="form-control" disabled>
-                                                                </div>
-                                                            </div>
+                                                                <div class="pt-0">
 
-                                                            <div class="row mt-2">
-                                                                <div class="col-12">
-                                                                    <label for="informasi_tambahan">Note</label>
-                                                                    <textarea name="informasi_tambahan"
-                                                                        id="informasi_tambahan" rows="3"
-                                                                        class="form-control"
-                                                                        disabled>{{ $report->note }}</textarea>
+                                                                    <div class="row">
+                                                                        <div class="col-4">
+                                                                            <label for="target_spant">Target
+                                                                                Spent</label>
+                                                                            <input type="text" name="name"
+                                                                                id="name"
+                                                                                value="{{ $report->target_spent }}"
+                                                                                class="form-control" disabled>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <label for="target_revenue">Target
+                                                                                Revenue</label>
+                                                                            <input
+                                                                                value="{{ $report->target_revenue }}"
+                                                                                class="form-control" disabled>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <label for="target_roas">Target
+                                                                                Roas</label>
+                                                                            <input value="{{ $report->target_roas }}"
+                                                                                class="form-control" disabled>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row mt-2">
+                                                                        <div class="col-12">
+                                                                            <label
+                                                                                for="informasi_tambahan">Note</label>
+                                                                            <textarea name="informasi_tambahan" id="informasi_tambahan" rows="3" class="form-control" disabled>{{ $report->note }}</textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row mt-2">
+                                                                        <div class="col-4">
+                                                                            <label
+                                                                                for="informasi_tambahan	">Month</label>
+                                                                            <input
+                                                                                value=" {{ \Carbon\Carbon::parse($report->report_date)->format('F Y') }}"
+                                                                                class="form-control" disabled>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row mt-2">
-                                                                <div class="col-4">
-                                                                    <label for="informasi_tambahan	">Month</label>
-                                                                    <input
-                                                                        value=" {{ \Carbon\Carbon::parse($report->report_date)->format('F Y') }}"
-                                                                        class="form-control" disabled>
+
+
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Close</button>
                                                                 </div>
                                                             </div>
                                                         </div>
-
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close</button>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
 
-                                <div class="d-flex justify-content-center">
-                                    <ul class="pagination">
-                                        @if ($reports->onFirstPage())
-                                        <li class="page-item disabled"><span class="page-link">&laquo;</span>
-                                        </li>
-                                        @else
-                                        <li class="page-item"><a class="page-link"
-                                                href="{{ $reports->previousPageUrl() }}">&laquo;</a></li>
-                                        @endif
-
-                                        @for ($i = 1; $i <= $reports->lastPage(); $i++)
-                                            @if ($i == $reports->currentPage())
-                                            <li class="page-item active"><span class="page-link">{{ $i }}</span></li>
+                                    <div class="d-flex justify-content-center">
+                                        <ul class="pagination">
+                                            @if ($reports->onFirstPage())
+                                                <li class="page-item disabled"><span class="page-link">&laquo;</span>
+                                                </li>
                                             @else
-                                            <li class="page-item"><a class="page-link" href="{{ $reports->url($i) }}">{{
-                                                    $i }}</a>
-                                            </li>
+                                                <li class="page-item"><a class="page-link"
+                                                        href="{{ $reports->previousPageUrl() }}">&laquo;</a></li>
                                             @endif
+
+                                            @for ($i = 1; $i <= $reports->lastPage(); $i++)
+                                                @if ($i == $reports->currentPage())
+                                                    <li class="page-item active"><span
+                                                            class="page-link">{{ $i }}</span></li>
+                                                @else
+                                                    <li class="page-item"><a class="page-link"
+                                                            href="{{ $reports->url($i) }}">{{ $i }}</a>
+                                                    </li>
+                                                @endif
                                             @endfor
 
                                             @if ($reports->hasMorePages())
-                                            <li class="page-item"><a class="page-link"
-                                                    href="{{ $reports->nextPageUrl() }}">&raquo;</a></li>
+                                                <li class="page-item"><a class="page-link"
+                                                        href="{{ $reports->nextPageUrl() }}">&raquo;</a></li>
                                             @else
-                                            <li class="page-item disabled"><span class="page-link">&raquo;</span>
-                                            </li>
+                                                <li class="page-item disabled"><span class="page-link">&raquo;</span>
+                                                </li>
                                             @endif
-                                    </ul>
-                                </div>
+                                        </ul>
+                                    </div>
                                 @endif
                             </div>
                             <div class="border-top py-3 px-3 d-flex align-items-center">
                                 <label for="dataCount" class="me-2">Show:</label>
                                 <select id="dataCount" class="form-select" onchange="changeDataCount()">
-                                    <option value="10" {{ isset($dataCount) && $dataCount==10 ? 'selected' : '' }}>10
+                                    <option value="10"
+                                        {{ isset($dataCount) && $dataCount == 10 ? 'selected' : '' }}>10
                                     </option>
-                                    <option value="20" {{ isset($dataCount) && $dataCount==20 ? 'selected' : '' }}>20
+                                    <option value="20"
+                                        {{ isset($dataCount) && $dataCount == 20 ? 'selected' : '' }}>20
                                     </option>
-                                    <option value="50" {{ isset($dataCount) && $dataCount==50 ? 'selected' : '' }}>50
+                                    <option value="50"
+                                        {{ isset($dataCount) && $dataCount == 50 ? 'selected' : '' }}>50
                                     </option>
-                                    <option value="60" {{ isset($dataCount) && $dataCount==60 ? 'selected' : '' }}>60
+                                    <option value="60"
+                                        {{ isset($dataCount) && $dataCount == 60 ? 'selected' : '' }}>60
                                     </option>
-                                    <option value="80" {{ isset($dataCount) && $dataCount==80 ? 'selected' : '' }}>80
+                                    <option value="80"
+                                        {{ isset($dataCount) && $dataCount == 80 ? 'selected' : '' }}>80
                                     </option>
-                                    <option value="100" {{ isset($dataCount) && $dataCount==100 ? 'selected' : '' }}>100
+                                    <option value="100"
+                                        {{ isset($dataCount) && $dataCount == 100 ? 'selected' : '' }}>100
                                     </option>
                                 </select>
                             </div>
@@ -397,110 +406,104 @@
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @php
-    $labels = [];
-    $spent = [];
-    $revenue = [];
-    $roas = [];
+        $labels = [];
+        $spent = [];
+        $revenue = [];
+        $roas = [];
 
-    foreach ($reports as $report) {
-    $labels[] = \Carbon\Carbon::parse($report->report_date)->format('M Y');
-    $spent[] = $report->target_spent;
-    $revenue[] = $report->target_revenue;
-    $roas[] = $report->target_roas;
-    }
+        foreach ($reports as $report) {
+            $labels[] = \Carbon\Carbon::parse($report->report_date)->format('M Y');
+            $spent[] = $report->target_spent;
+            $revenue[] = $report->target_revenue;
+            $roas[] = $report->target_roas;
+        }
 
-    $compareLabels = $compareSpent = $compareRevenue = $compareRoas = [];
+        $compareLabels = $compareSpent = $compareRevenue = $compareRoas = [];
 
-    if (!empty($compareReports)) {
-    foreach ($compareReports as $compareReport) {
-    $compareLabels[] = \Carbon\Carbon::parse($compareReport->report_date)->format('D M');
-    $compareSpent[] = $compareReport->target_spent;
-    $compareRevenue[] = $compareReport->target_revenue;
-    $compareRoas[] = $compareReport->target_roas;
-    }
-    }
+        if (!empty($compareReports)) {
+            foreach ($compareReports as $compareReport) {
+                $compareLabels[] = \Carbon\Carbon::parse($compareReport->report_date)->format('D M');
+                $compareSpent[] = $compareReport->target_spent;
+                $compareRevenue[] = $compareReport->target_revenue;
+                $compareRoas[] = $compareReport->target_roas;
+            }
+        }
     @endphp
 
     <script>
         function toggleCompare() {
-                const compareSection = document.getElementById('compareSection');
-                compareSection.style.display = compareSection.style.display === 'none' ? 'block' : 'none';
-            }
-            let spentChart, revenueChart, roasChart;
+            const compareSection = document.getElementById('compareSection');
+            compareSection.style.display = compareSection.style.display === 'none' ? 'block' : 'none';
+        }
+        let spentChart, revenueChart, roasChart;
 
-            document.addEventListener('DOMContentLoaded', function () {
-                const labels = {!! json_encode($labels) !!};
-                const spent = {!! json_encode($spent) !!};
-                const revenue = {!! json_encode($revenue) !!};
-                const roas = {!! json_encode($roas) !!};
+        document.addEventListener('DOMContentLoaded', function() {
+            const labels = {!! json_encode($labels) !!};
+            const spent = {!! json_encode($spent) !!};
+            const revenue = {!! json_encode($revenue) !!};
+            const roas = {!! json_encode($roas) !!};
 
-                const compareLabels = {!! json_encode($compareLabels) !!};
-                const compareSpent = {!! json_encode($compareSpent) !!};
-                const compareRevenue = {!! json_encode($compareRevenue) !!};
-                const compareRoas = {!! json_encode($compareRoas) !!};
+            const compareLabels = {!! json_encode($compareLabels) !!};
+            const compareSpent = {!! json_encode($compareSpent) !!};
+            const compareRevenue = {!! json_encode($compareRevenue) !!};
+            const compareRoas = {!! json_encode($compareRoas) !!};
 
-                // SPENT CHART
-                spentChart = new Chart(document.getElementById('spentChart'), {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [
-                            {
-                                label: 'Spent',
-                                data: spent,
-                                borderColor: 'rgba(255, 99, 132, 1)',
-                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                fill: false,
-                                tension: 0.3
-                            }
-                        ]
-                    }
-                });
+            // SPENT CHART
+            spentChart = new Chart(document.getElementById('spentChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Spent',
+                        data: spent,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        fill: false,
+                        tension: 0.3
+                    }]
+                }
+            });
 
-                // REVENUE CHART
-                revenueChart = new Chart(document.getElementById('revenueChart'), {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [
-                            {
-                                label: 'Revenue',
-                                data: revenue,
-                                borderColor: 'rgba(54, 162, 235, 1)',
-                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                fill: false,
-                                tension: 0.3
-                            }
-                        ]
-                    }
-                });
+            // REVENUE CHART
+            revenueChart = new Chart(document.getElementById('revenueChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Revenue',
+                        data: revenue,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        fill: false,
+                        tension: 0.3
+                    }]
+                }
+            });
 
-                // ROAS CHART
-                roasChart = new Chart(document.getElementById('roasChart'), {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [
-                            {
-                                label: 'ROAS',
-                                data: roas,
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                fill: false,
-                                tension: 0.3
-                            }
-                        ]
-                    }
-                });
+            // ROAS CHART
+            roasChart = new Chart(document.getElementById('roasChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'ROAS',
+                        data: roas,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: false,
+                        tension: 0.3
+                    }]
+                }
+            });
 
-                // Handle form compare
-                document.getElementById('compareForm').addEventListener('submit', function (e) {
-                    e.preventDefault();
+            // Handle form compare
+            document.getElementById('compareForm').addEventListener('submit', function(e) {
+                e.preventDefault();
 
-                    const form = e.target;
-                    const formData = new FormData(form);
+                const form = e.target;
+                const formData = new FormData(form);
 
-                    fetch("{{ route('laporan-bulanan.compare') }}", {
+                fetch("{{ route('laporan-bulanan.compare') }}", {
                         method: 'POST',
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',
@@ -515,86 +518,86 @@
                     .catch(error => {
                         console.error('AJAX Error:', error);
                     });
+            });
+
+            // Fungsi update chart
+            function updateCharts(data) {
+                // Clear data labels dan datasets dulu supaya tidak conflict
+                spentChart.data.labels = [];
+                revenueChart.data.labels = [];
+                roasChart.data.labels = [];
+
+                spentChart.data.datasets = [];
+                revenueChart.data.datasets = [];
+                roasChart.data.datasets = [];
+
+                // Set labels base
+                spentChart.data.labels = data.baseLabels;
+                revenueChart.data.labels = data.baseLabels;
+                roasChart.data.labels = data.baseLabels;
+
+                // Set dataset base
+                spentChart.data.datasets.push({
+                    label: 'Spent',
+                    data: data.baseSpent,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    fill: false,
+                    tension: 0.3
+                });
+                revenueChart.data.datasets.push({
+                    label: 'Revenue',
+                    data: data.baseRevenue,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    fill: false,
+                    tension: 0.3
+                });
+                roasChart.data.datasets.push({
+                    label: 'ROAS',
+                    data: data.baseRoas,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: false,
+                    tension: 0.3
                 });
 
-                // Fungsi update chart
-                function updateCharts(data) {
-    // Clear data labels dan datasets dulu supaya tidak conflict
-    spentChart.data.labels = [];
-    revenueChart.data.labels = [];
-    roasChart.data.labels = [];
+                // Tambah dataset compare
+                spentChart.data.datasets.push({
+                    label: 'Compare Spent',
+                    data: data.compareSpent,
+                    borderColor: 'rgba(255, 99, 132, 0.6)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                    fill: false,
+                    tension: 0.3,
+                    borderDash: [5, 5]
+                });
+                revenueChart.data.datasets.push({
+                    label: 'Compare Revenue',
+                    data: data.compareRevenue,
+                    borderColor: 'rgba(54, 162, 235, 0.6)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    fill: false,
+                    tension: 0.3,
+                    borderDash: [5, 5]
+                });
+                roasChart.data.datasets.push({
+                    label: 'Compare ROAS',
+                    data: data.compareRoas,
+                    borderColor: 'rgba(75, 192, 192, 0.6)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    fill: false,
+                    tension: 0.3,
+                    borderDash: [5, 5]
+                });
 
-    spentChart.data.datasets = [];
-    revenueChart.data.datasets = [];
-    roasChart.data.datasets = [];
+                // Update semua chart
+                spentChart.update();
+                revenueChart.update();
+                roasChart.update();
+            }
 
-    // Set labels base
-    spentChart.data.labels = data.baseLabels;
-    revenueChart.data.labels = data.baseLabels;
-    roasChart.data.labels = data.baseLabels;
-
-    // Set dataset base
-    spentChart.data.datasets.push({
-        label: 'Spent',
-        data: data.baseSpent,
-        borderColor: 'rgba(255, 99, 132, 1)',
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        fill: false,
-        tension: 0.3
-    });
-    revenueChart.data.datasets.push({
-        label: 'Revenue',
-        data: data.baseRevenue,
-        borderColor: 'rgba(54, 162, 235, 1)',
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        fill: false,
-        tension: 0.3
-    });
-    roasChart.data.datasets.push({
-        label: 'ROAS',
-        data: data.baseRoas,
-        borderColor: 'rgba(75, 192, 192, 1)',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        fill: false,
-        tension: 0.3
-    });
-
-    // Tambah dataset compare
-    spentChart.data.datasets.push({
-        label: 'Compare Spent',
-        data: data.compareSpent,
-        borderColor: 'rgba(255, 99, 132, 0.6)',
-        backgroundColor: 'rgba(255, 99, 132, 0.1)',
-        fill: false,
-        tension: 0.3,
-        borderDash: [5, 5]
-    });
-    revenueChart.data.datasets.push({
-        label: 'Compare Revenue',
-        data: data.compareRevenue,
-        borderColor: 'rgba(54, 162, 235, 0.6)',
-        backgroundColor: 'rgba(54, 162, 235, 0.1)',
-        fill: false,
-        tension: 0.3,
-        borderDash: [5, 5]
-    });
-    roasChart.data.datasets.push({
-        label: 'Compare ROAS',
-        data: data.compareRoas,
-        borderColor: 'rgba(75, 192, 192, 0.6)',
-        backgroundColor: 'rgba(75, 192, 192, 0.1)',
-        fill: false,
-        tension: 0.3,
-        borderDash: [5, 5]
-    });
-
-    // Update semua chart
-    spentChart.update();
-    revenueChart.update();
-    roasChart.update();
-}
-
-            });
+        });
     </script>
 
     </x-app-layout>

@@ -48,7 +48,7 @@ class ClientLayananController extends Controller
         // Cek apakah layanan sudah dimiliki oleh client
         if ($client->layanans->contains($layanan)) {
             // Redirect dengan pesan error
-            return redirect()->route('marketing.index')->with('error', 'Layanan yang dipilih sudah dimiliki oleh client.');
+            return redirect()->route('marketing.index')->with('error', 'The service chosen is already owned by the client.');
         }
 
         // Jika belum dimiliki, simpan data client_layanan
@@ -59,7 +59,7 @@ class ClientLayananController extends Controller
         ]);
 
         // Redirect dengan pesan sukses
-        return redirect()->route('marketing.index')->with('success', 'Layanan berhasil ditambahkan.');
+        return redirect()->route('marketing.index')->with('success', 'Service successfully added.');
     }
 
     /**

@@ -192,7 +192,7 @@ class UserController extends Controller
         $user->save();
 
         // Redirect atau kirim pesan sukses
-        return redirect()->route('acount.index')->with('success', 'Password berhasil direset!');
+        return redirect()->route('acount.index')->with('success', 'The password was successfully reset!');
     
 
     }
@@ -203,7 +203,7 @@ class UserController extends Controller
 
         // Cek role sebelum menghapus user
         if ($userRole != 1) {
-            return redirect()->route('acount.index')->with('error', 'Anda tidak memiliki akses untuk menghapus akun.');
+            return redirect()->route('acount.index')->with('error', 'You dont have access to delete an account.');
         }
 
         // Cari user berdasarkan ID
@@ -223,7 +223,7 @@ class UserController extends Controller
         // Mengatur ulang auto-increment setelah menghapus
         DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;'); // Atur ulang auto-increment ke 1
 
-        return redirect()->route('acount.index')->with('success', 'Akun berhasil dihapus!');
+        return redirect()->route('acount.index')->with('success', 'The account was successfully deleted!');
     }
 
     

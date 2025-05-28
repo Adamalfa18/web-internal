@@ -106,7 +106,7 @@ class ClientController extends Controller
         $client->user_id = $user->id;
         $client->save();
 
-        return redirect()->route('clients.index')->with('success', 'Client dan akun berhasil dibuat.');
+        return redirect()->route('clients.index')->with('success', 'Client and account created successfully.');
     }
 
 
@@ -161,14 +161,14 @@ class ClientController extends Controller
             // Hapus gambar lama jika ada
             if ($client->gambar_client && Storage::exists('public/' . $client->gambar_client)) {
                 if (!Storage::delete('public/' . $client->gambar_client)) {
-                    return redirect()->back()->with('error', 'Gagal menghapus gambar lama.');
+                    return redirect()->back()->with('error', 'Failed to delete old images.');
                 }
             }
 
             // Simpan gambar baru
             $path = $request->file('gambar_client')->store('client_images', 'public');
             if (!$path) {
-                return redirect()->back()->with('error', 'Gagal menyimpan gambar baru.');
+                return redirect()->back()->with('error', 'Failed to save a new image');
             }
             $client->gambar_client = $path;
 
@@ -187,7 +187,7 @@ class ClientController extends Controller
         // Simpan perubahan data client, termasuk gambar
         $client->save();
 
-        return redirect()->route('clients.index')->with('success', 'Data client berhasil diperbarui.');
+        return redirect()->route('clients.index')->with('success', 'Client data is successfully updated.');
     }
 
     /**

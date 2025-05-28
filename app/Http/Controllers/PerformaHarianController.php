@@ -137,7 +137,7 @@ class PerformaHarianController extends Controller
         // Redirect atau kembali dengan pesan sukses
         session(['activeTab' => 'lead', 'activeTabLead' => 'lead']);
         return redirect()->route('laporan-harian.index', ['performance_bulanan_id' => $validatedData['performance_bulanan_id']])
-            ->with('success', 'Data lead berhasil disimpan.');
+            ->with('success', 'Data Lead was successfully saved.');
     }
     /**
      * Store a newly created resource in storage.
@@ -216,7 +216,7 @@ class PerformaHarianController extends Controller
 
         // Cek jika $performa berhasil dibuat dan memiliki ID
         if (!$performa || !$performa->id) {
-            return redirect()->back()->withErrors('Gagal menyimpan data performa harian.');
+            return redirect()->back()->withErrors('Failed to store daily performance data.');
         }
 
 
@@ -308,7 +308,7 @@ class PerformaHarianController extends Controller
         }
         session(['activeTab' => 'roas', 'activeTabLead' => 'roas']);
         return redirect()->route('laporan-harian.index', ['performance_bulanan_id' => $laporanBulanan->id])
-            ->with('success', 'Data performa harian berhasil disimpan.');
+            ->with('success', 'Daily performance data is successfully stored.');
     }
 
 
@@ -403,7 +403,7 @@ class PerformaHarianController extends Controller
         // Redirect kembali dengan format yang diinginkan
         session(['activeTab' => 'lead', 'activeTabLead' => 'lead']);
         return redirect()->route('laporan-harian.index', ['performance_bulanan_id' => $lead->performance_bulanan_id])
-            ->with('success', 'Data lead berhasil diperbarui.');
+            ->with('success', 'The data lead was successfully updated.');
     }
 
 
@@ -511,7 +511,7 @@ class PerformaHarianController extends Controller
         );
         session(['activeTab' => 'roas', 'activeTabLead' => 'roas']);
         return redirect()->route('laporan-harian.index', ['performance_bulanan_id' => $validatedData['performance_bulanan_id']])
-            ->with('success', 'Data performa harian berhasil diperbarui.');
+            ->with('success', 'Daily performance data was successfully updated.');
     }
 
 
@@ -531,7 +531,7 @@ class PerformaHarianController extends Controller
         // Redirect kembali dengan pesan sukses
         session(['activeTab' => 'lead', 'activeTabLead' => 'lead']);
         return redirect()->route('laporan-harian.index')
-            ->with('success', 'Lead berhasil dihapus.');
+            ->with('success', 'Lead was successfully deleted.');
     }
 
     public function destroy($id)
@@ -554,7 +554,7 @@ class PerformaHarianController extends Controller
 
         session(['activeTab' => 'roas', 'activeTabLead' => 'roas']);
         return redirect()->route('laporan-harian.index', ['performance_bulanan_id' => $performa->performance_bulanan_id])
-            ->with('success', 'Data performa harian dan data iklan terkait berhasil dihapus.');
+            ->with('success', 'Daily performance data and related advertising data were successfully deleted.');
     }
 
     // public function compareData(Request $request)

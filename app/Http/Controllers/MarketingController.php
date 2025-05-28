@@ -77,7 +77,7 @@ class MarketingController extends Controller
         $client_layanan->status = $validatedData['status'];
         $client_layanan->save();
 
-        return redirect()->route('marketing.index')->with('success', 'Status layanan berhasil diperbarui.');
+        return redirect()->route('marketing.index')->with('success', 'The service status is successfully updated.');
     }
 
     public function getAvailableLayanan($clientId)

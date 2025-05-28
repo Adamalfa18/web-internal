@@ -93,7 +93,7 @@ class PerformanceBulananController extends Controller
             return redirect()->route('laporan-bulanan.index', ['client_id' => $client->id])
                 ->with('success', 'Laporan bulanan berhasil dibuat!');
         } else {
-            return redirect()->back()->with('error', 'Laporan bulanan gagal dibuat!');
+            return redirect()->back()->with('error', 'The monthly report failed to be made!');
         }
         // return response()->json([
         //     'message' => 'Laporan bulanan berhasil dibuat!',
@@ -158,7 +158,7 @@ class PerformanceBulananController extends Controller
             return redirect()->route('laporan-bulanan.index', ['client_id' => $client->id])
                 ->with('success', 'Laporan bulanan berhasil diperbarui!'); // Optional success message
         } else {
-            return redirect()->back()->with('error', 'Laporan bulanan gagal diperbarui!');
+            return redirect()->back()->with('error', 'Monthly report failed to be updated!');
         }
     }
 

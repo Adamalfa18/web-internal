@@ -230,7 +230,7 @@ class ClientInformationController extends Controller
         // Redirect atau kembali dengan pesan sukses
         session(['activeTabLead' => 'lead']);
         return redirect()->route('data-client.laporan-harian', ['activeTabLead' => 'lead'])
-            ->with('success', 'Data lead berhasil disimpan.');
+            ->with('success', 'Data Lead was successfully saved.');
     }
 
     public function updateLead(Request $request, $id)
@@ -264,7 +264,7 @@ class ClientInformationController extends Controller
 
         // Redirect kembali dengan format yang diinginkan
         return redirect()->route('data-client.laporan-harian', ['activeTabLead' => 'lead'])
-            ->with('success', 'Data lead berhasil disimpan.');
+            ->with('success', 'Data Lead was successfully saved.');
     }
 
     public function update(Request $request, $client_id, $post_id)
@@ -320,7 +320,7 @@ class ClientInformationController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Post berhasil diperbarui'
+                'message' => 'The post was successfully updated'
             ]);
         } catch (\Exception $e) {
             \Log::error('Error updating post', [
@@ -330,7 +330,7 @@ class ClientInformationController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+                'message' => 'There is an error: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -358,11 +358,11 @@ class ClientInformationController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Post TikTok berhasil diperbarui.'
+                'message' => 'Tiktok post was successfully updated.'
             ]);
         }
 
-        return redirect()->back()->with('success', 'Post TikTok berhasil diperbarui.');
+        return redirect()->back()->with('success', 'Tiktok post was successfully updated.');
     }
 
     public function compare(Request $request)

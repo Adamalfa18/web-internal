@@ -154,17 +154,17 @@ class SaController extends Controller
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Profile berhasil diperbarui.',
+                    'message' => 'Profile was successfully updated.',
                     'profile' => $profile->load('links')
                 ]);
             }
 
-            return redirect()->back()->with('success', 'Profile berhasil diperbarui.');
+            return redirect()->back()->with('success', 'Profile was successfully updated.');
         } catch (\Illuminate\Validation\ValidationException $e) {
             if ($request->ajax()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Validasi gagal',
+                    'message' => 'Validation fails',
                     'errors' => $e->errors()
                 ], 422);
             }
@@ -174,10 +174,10 @@ class SaController extends Controller
             if ($request->ajax()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+                    'message' => 'There is an error: ' . $e->getMessage()
                 ], 500);
             }
-            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'There is an error: ' . $e->getMessage());
         }
     }
 
@@ -232,7 +232,7 @@ class SaController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Data berhasil disimpan!');
+        return redirect()->back()->with('success', 'The data is successfully saved!');
     }
 
     public function update(Request $request, $client_id, $post_id)
@@ -293,7 +293,7 @@ class SaController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Post berhasil diperbarui.');
+        return redirect()->back()->with('success', 'The post was successfully updated.');
     }
 
     public function showProfile()
@@ -377,10 +377,10 @@ class SaController extends Controller
                 'media_count' => $tiktok->tiktok_media->count()
             ]);
 
-            return redirect()->back()->with('success', 'Post TikTok berhasil disimpan!');
+            return redirect()->back()->with('success', 'Tiktok post successfully saved!');
         } catch (\Exception $e) {
             Log::error('TikTok Store Error: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'There is an error: ' . $e->getMessage());
         }
     }
 
@@ -442,14 +442,14 @@ class SaController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Post berhasil diperbarui.');
+        return redirect()->back()->with('success', 'The post was successfully updated.');
     }
 
     public function storeProfile(Request $request, $client_id)
     {
         $existingProfile = ProfileSa::where('client_id', $client_id)->first();
         if ($existingProfile) {
-            return redirect()->back()->with('error', 'Profile sudah diisi.');
+            return redirect()->back()->with('error', 'Profile has been filled.');
         }
         $request->validate([
             'username' => 'required|string',
@@ -467,7 +467,7 @@ class SaController extends Controller
             $existingProfile = ProfileSa::where('client_id', $client_id)->first();
 
             if ($existingProfile) {
-                return redirect()->back()->with('error', 'Profile untuk client ini sudah ada. Gunakan Edit Profile untuk mengubah data.');
+                return redirect()->back()->with('error', 'Profile for this client already exists. Use Edit Profile to change data.');
             }
 
             // Create new profile
@@ -491,9 +491,9 @@ class SaController extends Controller
                 }
             }
 
-            return redirect()->back()->with('success', 'Profile berhasil dibuat.');
+            return redirect()->back()->with('success', 'Profile successfully created.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'There is an error: ' . $e->getMessage());
         }
     }
 
@@ -515,7 +515,7 @@ class SaController extends Controller
     {
         $existingProfile = ProfileTiktok::where('client_id', $client_id)->first();
         if ($existingProfile) {
-            return redirect()->back()->with('error', 'Profile sudah diisi.');
+            return redirect()->back()->with('error', 'Profile has been filled.');
         }
         $request->validate([
             'username' => 'required|string|max:255',
@@ -534,7 +534,7 @@ class SaController extends Controller
             $existingProfile = ProfileTiktok::where('client_id', $client_id)->first();
 
             if ($existingProfile) {
-                return redirect()->back()->with('error', 'Profile untuk client ini sudah ada. Gunakan Edit Profile untuk mengubah data.');
+                return redirect()->back()->with('error', 'Profile for this client already exists. Use Edit Profile to change data.');
             }
 
             // Create new profile
@@ -559,7 +559,7 @@ class SaController extends Controller
                 }
             }
 
-            return redirect()->back()->with('success', 'Profile berhasil dibuat.');
+            return redirect()->back()->with('success', 'Profile successfully created..');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
@@ -604,12 +604,12 @@ class SaController extends Controller
                     ]);
                 }
             }
-            return redirect()->back()->with('success', 'Profile berhasil diperbarui.');
+            return redirect()->back()->with('success', 'Profile was successfully updated.');
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
             \Log::error('Error updating TikTok profile: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'There is an error: ' . $e->getMessage());
         }
     }
 

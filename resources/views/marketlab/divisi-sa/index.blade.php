@@ -661,10 +661,14 @@
                                             onclick="$('#mediaModal{{ $post->id }}').modal('hide'); setTimeout(function(){$('#editSAModal{{ $post->id }}').modal('show');}, 500);">
                                             Edit Post
                                         </button>
-                                        <button type="button" class="btn btn-primary"
-                                            onclick="deletePost({{ $post->id }})">
-                                            Delete Post
-                                        </button>
+                                        <a href="javascript:void(0);" class="btn btn-secondary"
+                                            onclick="deletePost({{ $post->id }})" title="Hapus Post">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z" />
+                                            </svg>
+                                        </a>
                                     </div>
                                 </form>
                             </div>
@@ -864,10 +868,14 @@
                                         onclick="$('#mediaModal{{ $tkpost->id }}').modal('hide'); setTimeout(function(){$('#editSATiktokModal{{ $tkpost->id }}').modal('show');}, 500);">
                                         Edit Post
                                     </button>
-                                    <button type="button" class="btn btn-primary"
-                                        onclick="deletePostTiktok({{ $tkpost->id }})">
-                                        Delete Post
-                                    </button>
+                                    <a href="javascript:void(0);" class="btn btn-secondary"
+                                        onclick="deletePostTiktok({{ $tkpost->id }})" title="Hapus Post">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z" />
+                                        </svg>
+                                    </a>
                                 </div>
                             </form>
                         </div>

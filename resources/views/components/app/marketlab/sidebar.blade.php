@@ -3,8 +3,7 @@
     <div class="sidenav-header mt-5">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand d-flex align-items-center m-0"
-            href=" https://demos.creative-tim.com/corporate-ui-dashboard/pages/dashboard.html " target="_blank">
+        <a class="navbar-brand d-flex align-items-center m-0" href="{{ route('dashboard') }}" target="_blank">
             <div class="dasboad-marketlab">
                 <span class="font-weight-bold text-lg">Internal Hub</span>
                 <span class="style-marketlab">By Marketlab</span>
@@ -184,11 +183,10 @@
     <div class="sidenav-header mt-5">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand d-flex align-items-center m-0"
-            href=" https://demos.creative-tim.com/corporate-ui-dashboard/pages/dashboard.html " target="_blank">
+        <a class="navbar-brand d-flex align-items-center m-0" href="#" target="_blank">
             <div class="dasboad-marketlab">
                 <img class="width-logo" src="{{ asset('assets/img/marketlab.png') }}" alt="">
-                <span>V 1.0</span>
+                <span>V 2.0</span>
             </div>
         </a>
     </div>

@@ -1,11 +1,11 @@
-<aside class="sidenav navbar-style navbar navbar-vertical navbar-expand-xs border-0 bg-slate-900 fixed-start " id="sidenav-main">
+<aside class="sidenav navbar-style navbar navbar-vertical navbar-expand-xs border-0 bg-slate-900 fixed-start "
+    id="sidenav-main">
     <div class="sidenav-header mt-5">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand d-flex align-items-center m-0"
-            href=" https://demos.creative-tim.com/corporate-ui-dashboard/pages/dashboard.html " target="_blank">
+        <a class="navbar-brand d-flex align-items-center m-0" href="#" target="_blank">
             <div class="dasboad-marketlab">
-                <span class="font-weight-bold text-lg">Internal Hub</span>
+                <span class="font-weight-bold text-lg">Marketlab Hub</span>
                 <span class="style-marketlab">By Marketlab</span>
             </div>
         </a>
@@ -14,7 +14,8 @@
         <ul class="navbar-nav">
 
             <li class="nav-item">
-                <a class="nav-link  {{ in_array(Route::currentRouteName(), ['data-client.index','data-client.laporan-harian','data-client.laporan-bulanan']) ? 'active' : '' }}" href="{{ route('data-client.index') }}">
+                <a class="nav-link  {{ in_array(Route::currentRouteName(), ['data-client.index', 'data-client.laporan-harian', 'data-client.laporan-bulanan']) ? 'active' : '' }}"
+                    href="{{ route('data-client.index') }}">
                     <div
                         class="icon icon-shape icon-sm px-0 text-center d-flex align-items-center justify-content-center">
                         <svg width="30px" height="30px" viewBox="0 0 48 48" version="1.1"
@@ -30,7 +31,7 @@
                             </g>
                         </svg>
                     </div>
-                        <span class="font-weight-normal text-md ms-2">Client</span>
+                    <span class="font-weight-normal text-md ms-2">Client</span>
                 </a>
             </li>
 
@@ -40,11 +41,10 @@
     <div class="sidenav-header mt-5">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand d-flex align-items-center m-0"
-            href=" https://demos.creative-tim.com/corporate-ui-dashboard/pages/dashboard.html " target="_blank">
+        <a class="navbar-brand d-flex align-items-center m-0" href="#" target="_blank">
             <div class="dasboad-marketlab">
-                <img class="width-logo" src="{{ asset('assets/img/marketlab.png')}}" alt="">
-                <span>V 1.0</span>
+                <img class="width-logo" src="{{ asset('assets/img/marketlab.png') }}" alt="">
+                <span>V 2.0</span>
             </div>
         </a>
     </div>

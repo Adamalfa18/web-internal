@@ -1175,6 +1175,7 @@ button.btn.btn-danger.btn-sm.position-absolute.top-0.end-0.remove-existing-media
     order: 2;
 }
 #profileWrapper.mobile-view .bio {
+    text-align: justify;
     order: 3;
 }
 #profileWrapper.mobile-view .link {

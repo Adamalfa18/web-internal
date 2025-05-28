@@ -59,7 +59,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/laporan-harian', PerformaHarianController::class);
         Route::post('/laporan-harian/store-lead', [PerformaHarianController::class, 'store_lead'])->name('laporan-harian.store-lead');
         Route::put('/laporan-harian/update-lead/{id}', [PerformaHarianController::class, 'updateLead'])->name('laporan-harian.update_lead');
-        Route::delete('/laporan-harian/{id}', [PerformaHarianController::class, 'destroy_lead'])->name('laporan-harian.destroy_lead');
+        Route::delete('/laporan-harian/delete_lead/{id}', [PerformaHarianController::class, 'destroy_lead'])->name('laporan-harian.destroy_lead');
         Route::get('/dashboard-marketing', [DasboardAdminController::class, 'dasboar_marketing'])->name('dashboard.marketing');
         Route::get('/performa-harian/compare', [PerformaHarianController::class, 'compare'])->name('performa-harian.compare');
     });

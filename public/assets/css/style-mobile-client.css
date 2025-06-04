@@ -1,0 +1,101 @@
+@media (max-width: 768px) {
+    .mx-5 {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+
+    .ms-md-auto.pe-md-3.d-flex.align-items-center {
+        display: none !important;
+    }
+    .mb-0.font-weight-bold.breadcrumb-text.text-white {
+        width: 50%;
+    }
+    .navbar-collapse .navbar-nav {
+        width: 50%;
+    }
+    .container-fluid.py-4.px-5 {
+        padding-top: 0px !important;
+        padding-right: 0.3rem !important;
+        padding-left: 0.3rem !important;
+    }
+    button.btn.btn-style-sa {
+        display: none;
+    }
+    .sidenav-style {
+        margin: 10px;
+    }
+    .row.top-info {
+        width: 100%;
+    }
+    .col-md-3.style-ig {
+        width: 20%;
+    }
+    .col-md-9.ig-style,
+    .col-md-9.tiktok-style {
+        width: 80%;
+        font-size: 10px;
+    }
+    .stats span {
+        font-size: 10px;
+    }
+    .profile-pic {
+        width: 80px;
+        height: 80px;
+    }
+    .nama-brand h2 {
+        font-size: 14px;
+    }
+    .stats {
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+    .top-info {
+        align-items: flex-start;
+    }
+    .tabs {
+        font-size: 12px;
+    }
+    .sidenav .navbar-brand {
+        padding: 1.5rem 0.7rem;
+    }
+    .text-secondary {
+        color: #ffffff !important;
+    }
+    .navbar-collapse .navbar-nav {
+        width: 100% !important;
+    }
+    .navbar-vertical.navbar-expand-xs {
+        max-width: 10rem !important;
+    }
+    .profile-container {
+        padding: 10px 0px;
+    }
+    .profile-header {
+        padding: 0px 20px;
+    }
+    svg.bi.bi-instagram,
+    svg.bi.bi-tiktok {
+        width: 10px;
+    }
+
+    .style-clien-header.mt-3 .text-danger {
+        font-size: 10px;
+    }
+    .btn-sm {
+        font-size: 10px !important;
+        --bs-btn-padding-y: 0.2rem;
+    }
+    ol.breadcrumb.bg-transparent.mb-1.pb-0.pt-1.px-0.me-sm-6.me-5 {
+        display: flex;
+        align-items: center;
+    }
+    h6,
+    a.opacity-5.text-dark,
+    li.breadcrumb-item.text-sm.text-dark.active {
+        font-size: 12px !important;
+    }
+}
+
+a.btn.btn-sm.btn-primary.btn-icon.d-flex.align-items-center.me-2 {
+    display: none !important;
+}

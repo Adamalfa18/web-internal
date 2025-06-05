@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\ClientLayanan;
+use App\Models\PerformaHarian;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DasboardAdminController extends Controller
 {
@@ -57,9 +60,9 @@ class DasboardAdminController extends Controller
             'clientsPerMonth',
         ));
     }
+
     public function dasboar_mb()
     {
-
         $mb_aktip = Client::where('status_client', 1)
             ->whereHas('client_layanan', function ($query) {
                 $query->where('layanan_id', 1)
@@ -78,6 +81,14 @@ class DasboardAdminController extends Controller
                     ->where('status', 3);
             })
             ->count();
+
+        $clientMbAktif = Client::where('status_client', 1)
+            ->whereHas('client_layanan', function ($query) {
+                $query->where('layanan_id', 1)
+                    ->where('status', 1);
+            })
+            ->get();
+
 
 
         // Menghitung jumlah klien per bulan berdasarkan status
@@ -114,9 +125,40 @@ class DasboardAdminController extends Controller
             'mb_aktip',
             'mb_pending',
             'mb_nonaktip',
-            'mbClientsPerMonth'
+            'mbClientsPerMonth',
+            'clientMbAktif'
         ));
     }
+
+    public function getChartData(Request $request)
+    {
+        $request->validate([
+            'client_id' => 'required|integer|exists:clients,id',
+            'grafikDashboardBulan' => 'required|date_format:Y-m',
+        ]);
+
+        $clientId = $request->client_id;
+        $bulan = $request->grafikDashboardBulan;
+
+        $tanggal = Carbon::createFromFormat('Y-m', $bulan);
+        $startOfMonth = $tanggal->startOfMonth()->toDateString();
+        $endOfMonth = $tanggal->endOfMonth()->toDateString();
+
+        $data = PerformaHarian::join('performance_bulanans', 'performa_harians.performance_bulanan_id', '=', 'performance_bulanans.id')
+            ->where('performance_bulanans.client_id', $clientId)
+            ->whereBetween('performa_harians.hari', [$startOfMonth, $endOfMonth])
+            ->orderBy('performa_harians.hari')
+            ->select('performa_harians.*')
+            ->get();
+
+        return response()->json([
+            'labels' => $data->map(fn($d) => Carbon::parse($d->hari)->format('j M')),
+            'spent' => $data->pluck('total'), // sesuai kolom total yang kamu punya
+            'omzet' => $data->pluck('omzet'),
+            'roas' => $data->pluck('roas'),
+        ]);
+    }
+
     public function dasboar_sa()
     {
         $sa_aktip = Client::where('status_client', 1)

@@ -71,6 +71,62 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-12 col-md-auto mb-3">
+                <form id="filterForm" class="row g-2 align-items-end" method="GET">
+                    @csrf
+                    <!-- Select Client -->
+                    <div class="col-12 col-md-auto">
+                        <label for="clientSelect" class="form-label">Pilih Client MB:</label>
+                        <select name="client_id" id="clientSelect" class="form-select" required>
+                            <option value="">-- Pilih Client --</option>
+                            @foreach($clientMbAktif as $client)
+                            <option value="{{ $client->id }}">{{ $client->nama_brand }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <!-- Select Month -->
+                    <div class="col-12 col-md-auto">
+                        <label for="grafikDashboardBulan" class="form-label">Pilih Bulan:</label>
+                        <input type="month" id="grafikDashboardBulan" name="grafikDashboardBulan" class="form-control"
+                            required>
+                    </div>
+                    <!-- Submit Button -->
+                    <div class="col-12 col-md-auto">
+                        <button type="submit" class="btn btn-success w-100">View</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="row mb-4">
+                <div class="card border shadow-xs mb-4 border-client">
+                    <div class="card-header border-bottom pb-0 border-client-bottom">
+                        <h6 class="font-weight-semibold text-lg mb-0">Spent</h6>
+                        <p class="text-sm">Spent this month</p>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chartSpent" height="100"></canvas>
+                    </div>
+                </div>
+                <div class="card border shadow-xs mb-4 border-client">
+                    <div class="card-header border-bottom pb-0 border-client-bottom">
+                        <h6 class="font-weight-semibold text-lg mb-0">Revenue</h6>
+                        <p class="text-sm">Omzet this month</p>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chartRevenue" height="100"></canvas>
+                    </div>
+                </div>
+                <div class="card border shadow-xs mb-4 border-client">
+                    <div class="card-header border-bottom pb-0 border-client-bottom">
+                        <h6 class="font-weight-semibold text-lg mb-0">ROAS</h6>
+                        <p class="text-sm">ROAS this month</p>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chartRoas" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -126,5 +182,87 @@
                 }
             }
         });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('filterForm');
+
+    const chartSpent = new Chart(document.getElementById('chartSpent'), {
+        type: 'line',
+        data: {
+            labels: ['Spent'],
+            datasets: [{
+                label: 'Spent',
+                data: [0],
+                backgroundColor: '#4e73df'
+            }]
+        }
+    });
+
+    const chartRevenue = new Chart(document.getElementById('chartRevenue'), {
+        type: 'line',
+        data: {
+            labels: ['Omzet'],
+            datasets: [{
+                label: 'Omzet',
+                data: [0],
+                backgroundColor: '#1cc88a'
+            }]
+        }
+    });
+
+    const chartRoas = new Chart(document.getElementById('chartRoas'), {
+        type: 'line',
+        data: {
+            labels: ['ROAS'],
+            datasets: [{
+                label: 'ROAS',
+                data: [0],
+                backgroundColor: '#f6c23e'
+            }]
+        }
+    });
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+
+        fetch("{{ route('dashboard.mb.chart-data') }}", {
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value
+            },
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();  // Parse response JSON
+        })
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+
+            // Update labels dan data masing-masing chart
+            chartSpent.data.labels = data.labels;
+            chartSpent.data.datasets[0].data = data.spent;
+            chartSpent.update();
+
+            chartRevenue.data.labels = data.labels;
+            chartRevenue.data.datasets[0].data = data.omzet;
+            chartRevenue.update();
+
+            chartRoas.data.labels = data.labels;
+            chartRoas.data.datasets[0].data = data.roas;
+            chartRoas.update();
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Terjadi kesalahan saat memuat data grafik.");
+        });
+    });
+});
     </script>
 </x-app-layout>

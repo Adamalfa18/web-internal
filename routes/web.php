@@ -101,6 +101,7 @@ Route::middleware('auth')->group(function () {
     // Head-MB (7)
     Route::middleware(['checkUserRole:1,2,3,7'])->group(function () {
         Route::get('/dashboard-mb', [DasboardAdminController::class, 'dasboar_mb'])->name('dashboard.mb');
+        Route::post('/dashboard-mb/chart-data', [DasboardAdminController::class, 'getChartData'])->name('dashboard.mb.chart-data');
     });
     // PIC-MB (8)
     Route::middleware(['checkUserRole:1,2,3,7,8'])->group(function () {

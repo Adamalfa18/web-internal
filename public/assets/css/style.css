@@ -73,12 +73,6 @@ html {
     cursor: pointer;
 }
 
-.stats {
-    display: flex;
-    gap: 25px;
-    margin-bottom: 10px;
-}
-
 .real-name {
     font-weight: bold;
 }
@@ -750,6 +744,7 @@ li.nav-item.drop {
     display: flex;
     gap: 15px;
     margin-top: 10px;
+    margin-bottom: 10px;
     font-size: 14px;
 }
 
@@ -1277,4 +1272,7 @@ button.close {
 }
 .input-group .form-control:not(:first-child) {
     border-left: 1px solid #dde0e5;
+}
+.ms-md-auto.pe-md-3.d-flex.align-items-center .input-group {
+    display: none;
 }

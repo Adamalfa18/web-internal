@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     // Admin (1): semua route
     Route::middleware(['checkUserRole:1'])->group(function () {
         Route::resource('/acount', UserController::class);
+        Route::get('/version', [UserController::class, 'version'])->name('marketlab.version');
         Route::post('/acount/reset-password/{id}', [UserController::class, 'resetPassword'])->name('acount.reset-password.reset');
     });
 

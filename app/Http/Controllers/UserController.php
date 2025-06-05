@@ -16,7 +16,7 @@ class UserController extends Controller
     //     // Tambahkan middleware untuk memeriksa user role
     //     $this->middleware(function ($request, $next) {
     //         $userRole = auth()->user()->user_role_id; // Ambil user role dari user yang sedang login
-            
+
     //         // Cek akses untuk role 3, 4, dan 5, kecuali role 1
     //         if (in_array($userRole, [3, 4, 5]) && $userRole != 1) {
     //             return redirect()->route('acount.index')->with('error', 'Anda tidak memiliki akses ke halaman ini.'); // Redirect jika role 3, 4, atau 5
@@ -31,21 +31,21 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $query = User::query()->with('user_role');
-    
+
         if ($request->filled('name')) {
             $query->where('name', 'like', '%' . $request->name . '%');
         }
-    
+
         if ($request->filled('role')) {
             $query->where('user_role_id', $request->role);
         }
-    
+
         $users = $query->paginate(10);
         $rool = UserRole::all();
-    
+
         return view('marketlab.users.index', compact('users', 'rool'));
     }
-    
+
 
 
     public function create()
@@ -116,7 +116,7 @@ class UserController extends Controller
     {
         $users = User::find($id);
         $rool = UserRole::all();
-        return view('marketlab.users.update-acount', compact('rool','users'));
+        return view('marketlab.users.update-acount', compact('rool', 'users'));
     }
 
     public function update(Request $request, $id)
@@ -143,7 +143,7 @@ class UserController extends Controller
             DB::table('users')
                 ->where('id', $user->id)
                 ->update(['id' => $request->input('id')]);
-            
+
             // Setelah ID diubah, perlu untuk memperbarui instance user dengan ID yang baru
             $user = User::find($request->input('id'));
         }
@@ -193,8 +193,6 @@ class UserController extends Controller
 
         // Redirect atau kirim pesan sukses
         return redirect()->route('acount.index')->with('success', 'The password was successfully reset!');
-    
-
     }
     public function destroy($id)
     {
@@ -226,5 +224,8 @@ class UserController extends Controller
         return redirect()->route('acount.index')->with('success', 'The account was successfully deleted!');
     }
 
-    
+    public function version()
+    {
+        return view('marketlab.version');
+    }
 }

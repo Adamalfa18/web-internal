@@ -14,4 +14,8 @@ class Pegawai extends Model
     {
         return $this->belongsTo(Client::class);
     }
+    public function client_layanan()
+    {
+        return $this->belongsTo(Client::class);
+    }
 }

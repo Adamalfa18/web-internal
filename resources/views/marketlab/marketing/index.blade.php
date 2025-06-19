@@ -94,6 +94,10 @@
                                                         Brand Name</th>
                                                     <th
                                                         class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                        Penaggung Jawab</th>
+
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                         Status</th>
                                                     <th class="text-secondary opacity-7"></th>
                                                 </tr>
@@ -130,6 +134,16 @@
                                                                     class="d-flex flex-column justify-content-center ms-1">
                                                                     <h6 class="mb-0 text-sm font-weight-semibold">
                                                                         {{ $cl->client->nama_brand ?? '-' }}
+                                                                    </h6>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="client-name-style">
+                                                            <div class="d-flex px-2 py-1">
+                                                                <div
+                                                                    class="d-flex flex-column justify-content-center ms-1">
+                                                                    <h6 class="mb-0 text-sm font-weight-semibold">
+                                                                        {{ $cl->pegawai->nama ?? '-' }}
                                                                     </h6>
                                                                 </div>
                                                             </div>
@@ -224,6 +238,24 @@
                                                 @foreach ($layanans as $layanan)
                                                     <option value="{{ $layanan->id }}">{{ $layanan->nama_layanan }}
                                                     </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="pegawai_id" class="form-label">Penaggung Jawab</label>
+                                            <select data-live-search="true"
+                                                class="form-select ukuran-select  @error('pegawai_id') is-invalid @enderror"
+                                                name="pegawai_id">
+                                                @foreach ($pegawai as $peg)
+                                                    @if (old('pegawai_id') == $peg->id)
+                                                        <option value="{{ $peg->id }}" selected>
+                                                            {{ $peg->nama }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $peg->id }}">
+                                                            {{ $peg->nama }}
+                                                        </option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>

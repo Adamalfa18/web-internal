@@ -42,6 +42,27 @@
                                     <input type="hidden" name="layanan_id" value="{{ $client_layanan->layanan->id }}">
                                 </div>
 
+                                {{-- Penaggung Jawab --}}
+                                <div class="mb-4">
+                                    <label for="pegawai_id" class="form-label">Pengagung
+                                        Jawab</label>
+                                    <select data-live-search="true"
+                                        class="form-select ukuran-select  @error('pegawai_id') is-invalid @enderror"
+                                        name="pegawai_id">
+                                        @foreach ($pegawai as $peg)
+                                            @if (old('pegawai_id', $client->pegawai_id) == $peg->id)
+                                                <option value="{{ $peg->id }}" selected>
+                                                    {{ $peg->nama }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $peg->id }}">
+                                                    {{ $peg->nama }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 <!-- Status -->
                                 <div class="mb-4">
                                     <label class="form-label fw-bold">Status:</label>

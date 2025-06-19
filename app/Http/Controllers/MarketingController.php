@@ -11,6 +11,8 @@ use App\Http\Controllers\Controller;
 
 class MarketingController extends Controller
 {
+
+    
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -39,7 +41,7 @@ class MarketingController extends Controller
             ->paginate(10);
 
         $layanans = Layanan::all();
-        $pegawai = Pegawai::all();
+        $pegawai = Pegawai::where('divisi', '2')->get();
         $clients = Client::all();
 
         return view('marketlab.marketing.index', compact(
@@ -62,23 +64,28 @@ class MarketingController extends Controller
         $client = $client_layanan->client;
         // Ambil semua layanan (jika ingin tampilkan pilihan)
         $availableLayanans = Layanan::all();
-        return view('marketlab.marketing.update', compact('client', 'availableLayanans', 'client_layanan'));
+         $pegawai = Pegawai::where('divisi', '2')->get();
+        return view('marketlab.marketing.update', compact('client', 'pegawai', 'availableLayanans', 'client_layanan'));
     }
 
     public function update(Request $request, $id)
-    {
-        // Cari data client_layanan berdasarkan ID
-        $client_layanan = ClientLayanan::findOrFail($id);
-        // Validasi input
-        $validatedData = $request->validate([
-            'status' => 'required|in:1,2,3',
-        ]);
-        // Update status
-        $client_layanan->status = $validatedData['status'];
-        $client_layanan->save();
+{
+    // Cari data client_layanan berdasarkan ID
+    $client_layanan = ClientLayanan::findOrFail($id);
 
-        return redirect()->route('marketing.index')->with('success', 'The service status is successfully updated.');
-    }
+    // Validasi input
+    $validatedData = $request->validate([
+        'status'     => 'required|in:1,2,3',
+        'pegawai_id' => 'required|int|exists:pegawais,id',
+    ]);
+
+    // Update data
+    $client_layanan->status     = $validatedData['status'];
+    $client_layanan->pegawai_id = $validatedData['pegawai_id'];
+    $client_layanan->save();
+
+    return redirect()->route('marketing.index')->with('success', 'The service status is successfully updated.');
+}
 
     public function getAvailableLayanan($clientId)
     {

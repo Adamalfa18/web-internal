@@ -190,13 +190,14 @@
                     </div>
 
                     <!-- Modal Add Service -->
+                    <!-- Modal Tambah Service -->
                     <div class="modal fade" id="addServiceModal" tabindex="-1" role="dialog"
                         aria-labelledby="addServiceModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="addServiceModalLabel">Tambah Layanan</h5>
+                                        <h5 class="modal-title" id="addServiceModalLabel">Add Layanan</h5>
                                         <button type="button" class="close" data-dismiss="modal"
                                             aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -205,54 +206,32 @@
                                     <form class="form-marketing" action="{{ route('client_layanan.store') }}"
                                         method="POST" enctype="multipart/form-data">
                                         @csrf
-
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label for="client_id" class="form-label">Nama Client</label>
-                                                    <select class="form-select" name="client_id" id="client_id"
-                                                        required>
-                                                        <option value="">Pilih Client</option>
-                                                        @foreach ($clients->filter(function ($client) {
-        return $client->status_client == 1;
-    }) as $client)
-                                                            <option value="{{ $client->id }}">
-                                                                {{ $client->nama_client }} - {{ $client->nama_brand }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
+                                        <div class="mb-3">
+                                            <label for="client_id" class="form-label">Nama Brand</label>
+                                            <select class="form-select" name="client_id" id="client_id" required>
+                                                <option value="">Pilih Brand</option>
+                                                @foreach ($clients->filter(fn($client) => $client->status_client == 1) as $client)
+                                                    <option value="{{ $client->id }}">{{ $client->nama_brand }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label for="layanan_id" class="form-label">Nama Layanan</label>
-                                                    <select class="form-select" name="layanan_id" id="layanan_id"
-                                                        required>
-                                                        <option value="">Pilih Layanan</option>
-                                                        @foreach ($layanans as $layanan)
-                                                            <option value="{{ $layanan->id }}">
-                                                                {{ $layanan->nama_layanan }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    @error('layanan_id')
-                                                        <div class="text-danger mt-2">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                            </div>
+                                        <div class="mb-3">
+                                            <label for="layanan_id" class="form-label">Nama Layanan</label>
+                                            <select class="form-select" name="layanan_id" id="layanan_id" required>
+                                                <option value="">Pilih Layanan</option>
+                                                @foreach ($layanans as $layanan)
+                                                    <option value="{{ $layanan->id }}">{{ $layanan->nama_layanan }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label for="created_at" class="form-label">Tanggal Assign</label>
-                                                    <input type="date" class="form-control" name="created_at"
-                                                        id="created_at" required>
-                                                </div>
-                                            </div>
+                                        <div class="mb-3">
+                                            <label for="created_at" class="form-label">Tanggal Assign</label>
+                                            <input type="date" class="form-control" name="created_at"
+                                                id="created_at" required>
                                         </div>
 
                                         <div class="modal-footer">
@@ -265,6 +244,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- End Modal -->
                     <!-- End Modal Add Service -->
 
                 </div>
@@ -272,7 +252,6 @@
         </div>
 
     </main>
-    <!-- Include jQuery dan Bootstrap JS -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const clientFilter = document.getElementById('clientFilter');

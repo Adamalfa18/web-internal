@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('telepon_finance');
             $table->string('status_client');
             $table->string('pegawai_id')->constrained()->onDelete('cascade');
-            $table->string('pj');
             $table->date('date_in');
             $table->string('gambar_client')->nullable();
             $table->timestamps();

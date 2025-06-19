@@ -70,6 +70,8 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets/css/corporate-ui-dashboard.css?v=1.0.0') }}" rel="stylesheet" />
     <link id="pagestyle" href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
+    <!-- CSS Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -176,6 +178,21 @@
             </div>
         </div>
         <!--   Core JS Files   -->
+        <!-- JS Select2 dan jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- Select2 CSS dan JS -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        <!-- Inisialisasi Select2 -->
+        <script>
+            $('#client_id').select2({
+                dropdownParent: $('#addServiceModalLabel'),
+                placeholder: 'Pilih Brand',
+                width: '100%'
+            });
+        </script>
         <script src="{{ asset('assets/js/style.js') }}"></script>
         <script src="{{ asset('assets/js/function.js') }}"></script>
         <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
@@ -447,7 +464,6 @@
                 Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
             }
         </script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <!-- Github buttons -->

@@ -33,7 +33,7 @@ class ClientController extends Controller
             ->paginate(10)
             ->withQueryString(); // Pertahankan semua parameter
 
-        $pegawai = Pegawai::all();
+        $pegawai = Pegawai::where('divisi', '1')->get(); // Ambil pegawai dengan divisi 1 (Marketing)
         $layanans = Layanan::all();
 
         return view('marketlab.client.index', compact('clients', 'pegawai', 'layanans', 'status'));
@@ -63,7 +63,6 @@ class ClientController extends Controller
             'alamat' => 'required|string',
             'email' => 'required|email|unique:clients,email|unique:users,email', // email unik di 2 tabel
             'nama_finance' => 'nullable|string',
-            'pj' => 'required|string',
             'pegawai_id' => 'required|string',
             'telepon_finance' => 'nullable|string',
             'status_client' => 'required|string',
@@ -85,7 +84,6 @@ class ClientController extends Controller
             'alamat' => $validatedData['alamat'],
             'email' => $validatedData['email'],
             'nama_finance' => $validatedData['nama_finance'] ?? null,
-            'pj' => $validatedData['pj'],
             'pegawai_id' => $validatedData['pegawai_id'],
             'telepon_finance' => $validatedData['telepon_finance'] ?? null,
             'status_client' => $validatedData['status_client'],
@@ -147,14 +145,13 @@ class ClientController extends Controller
             'nama_finance' => 'nullable|string|max:255',
             'telepon_finance' => 'nullable|string|max:15',
             'status_client' => 'required|string|max:50',
-            'pj' => 'required|string|max:50',
             'pegawai_id' => 'required|string|max:20',
             'date_in' => 'required|date',
             'gambar_client' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
         ]);
 
         // Update data client tanpa memperbarui gambar terlebih dahulu
-        $client->update($request->only('nama_client', 'nama_brand', 'informasi_tambahan', 'alamat', 'email', 'nama_finance', 'telepon_finance', 'status_client', 'date_in', 'pj', 'pegawai_id'));
+        $client->update($request->only('nama_client', 'nama_brand', 'informasi_tambahan', 'alamat', 'email', 'nama_finance', 'telepon_finance', 'status_client', 'date_in', 'pegawai_id'));
 
         // Cek apakah ada gambar yang diupload
         if ($request->hasFile('gambar_client')) {

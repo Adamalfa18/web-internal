@@ -551,7 +551,7 @@ button.btm-delet {
 }
 
 .style-logo {
-    max-width: 150px !important;
+    max-width: 100% !important;
 }
 
 .btn-client {
@@ -1275,4 +1275,18 @@ button.close {
 }
 .ms-md-auto.pe-md-3.d-flex.align-items-center .input-group {
     display: none;
+}
+@media (min-width: 576px) {
+    img.style-logo.img-preview.img-fluid.mb-3.col-sm-5.d-block {
+        width: 100%;
+        height: auto;
+    }
+}
+/* Optional: Mempercantik tampilan */
+.select2-container .select2-selection--single {
+    height: 100% !important;
+}
+span.select2-results {
+    font-size: 14px;
+    font-weight: 500;
 }

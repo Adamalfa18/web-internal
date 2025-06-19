@@ -34,7 +34,7 @@
                             <div class="modal-content">
                                 <div class="modal-body">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="addClientModalLabel">Tambah Data Client</h5>
+                                        <h5 class="modal-title" id="addClientModalLabel">Add Client Data</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -43,7 +43,7 @@
                                     <form class="form-marketing" action="{{ route('clients.store') }}" method="POST"
                                         onsubmit="return validateCheckboxes()" enctype="multipart/form-data">
                                         @csrf
-                                        <div class="row">
+                                        <div class="row mt-4 mb-2">
                                             <div class="col-md-6" style="display: none;">
                                                 <div class="mb-3">
                                                     <div>
@@ -71,31 +71,29 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="mb-3">
-                                                    <label for="nama_client" class="form-label">Nama Client</label>
-                                                    <input type="text" class="form-control" name="nama_client"
-                                                        id="nama_client" placeholder="Marketlab....." required>
+                                        <div class="row mb-2">
+                                            <div class="col-md-9">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="nama_client" class="form-label">Nama
+                                                                Client</label>
+                                                            <input type="text" class="form-control"
+                                                                name="nama_client" id="nama_client"
+                                                                placeholder="Marketlab....." required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="nama_brand" class="form-label">Nama
+                                                                Brand</label>
+                                                            <input type="text" class="form-control" name="nama_brand"
+                                                                id="nama_brand" placeholder="Marketlab......" required>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-3">
-                                                    <label for="nama_brand" class="form-label">Nama Brand</label>
-                                                    <input type="text" class="form-control" name="nama_brand"
-                                                        id="nama_brand" placeholder="Marketlab......" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-3">
-                                                    <label for="nama_finance" class="form-label">Nama Finance</label>
-                                                    <input type="text" class="form-control" name="nama_finance"
-                                                        id="nama_finance" placeholder="Nama Finance" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="mb-3">
                                                     <div class="mb-3">
                                                         <label for="date_in" class="form-label">Date In</label>
@@ -104,53 +102,62 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-3">
-                                                    <label for="email" class="form-label">Email Client</label>
-                                                    <input type="email" class="form-control" name="email"
-                                                        id="email" placeholder="Marketlab@gmail.com" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-3">
-                                                    <label for="telepon_finance" class="form-label">No Telpon</label>
-                                                    <input type="number" class="form-control" name="telepon_finance"
-                                                        id="telepon_finance" placeholder="08975454..." required>
-                                                </div>
-                                            </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
+                                        <div class="row mb-2">
+                                            <div class="col-md-3">
                                                 <div class="mb-3">
-                                                    <label for="pj" class="form-label">Penagung Jawab</label>
-                                                    <select class="form-select" name="pj" id="pj"
-                                                        aria-label="Default select example" required>
-                                                        <option value="Insan">Insan</option>
-                                                        <option value="Feby">Feby</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-3">
-                                                    <label for="pegawai_id" class="form-label">Pegawai</label>
+                                                    <label for="pegawai_id" class="form-label">Penaggung Jawab</label>
                                                     <select data-live-search="true"
                                                         class="form-select ukuran-select  @error('pegawai_id') is-invalid @enderror"
                                                         name="pegawai_id">
                                                         @foreach ($pegawai as $peg)
                                                             @if (old('pegawai_id') == $peg->id)
                                                                 <option value="{{ $peg->id }}" selected>
-                                                                    {{ $peg->id }}-{{ $peg->nama }}
+                                                                    {{ $peg->nama }}
                                                                 </option>
                                                             @else
                                                                 <option value="{{ $peg->id }}">
-                                                                    {{ $peg->id }}-{{ $peg->nama }}
+                                                                    {{ $peg->nama }}
                                                                 </option>
                                                             @endif
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-9">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="mb-3">
+                                                            <label for="nama_finance" class="form-label">Nama
+                                                                Finance</label>
+                                                            <input type="text" class="form-control"
+                                                                name="nama_finance" id="nama_finance"
+                                                                placeholder="Nama Finance" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="telepon_finance" class="form-label">No
+                                                                Telpon</label>
+                                                            <input type="number" class="form-control"
+                                                                name="telepon_finance" id="telepon_finance"
+                                                                placeholder="08975454..." required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="email" class="form-label">Email
+                                                        Client</label>
+                                                    <input type="email" class="form-control" name="email"
+                                                        id="email" placeholder="Marketlab@gmail.com" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label for="gambar_client" class="form-label">Logo Brand</label>
                                                     <input type="file" class="form-control" name="gambar_client"
@@ -176,7 +183,8 @@
                                         </div>
                                         <div class="border-top py-3 px-3 d-flex align-items-center">
                                             <div class="ms-auto">
-                                                <button type="submit" class="btn btn-sm btn-white mb-0">Save</button>
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-primary mb-0">Save</button>
                                             </div>
                                         </div>
                                     </form>
@@ -284,8 +292,6 @@
                                                                 {{ $client->telepon_finance }}</p>
                                                         </td>
                                                         <td class="client-tab-style">
-                                                            <p class="text-sm text-dark font-weight-semibold mb-0">
-                                                                {{ $client->pj }}</p>
                                                             <p class="text-sm text-secondary mb-0">
                                                                 {{ $client->pegawai->nama }}</p>
                                                         </td>
@@ -352,8 +358,7 @@
                         <div class="modal-body">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="editClientModalLabel{{ $client->id }}">
-                                    Edit Data
-                                    Client</h5>
+                                    Edit Client Data</h5>
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -364,64 +369,200 @@
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="id" value="{{ $client->id }}">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="nama_client">Nama
-                                                Client</label>
-                                            <input type="text"
-                                                class="form-control @error('nama_client') is-invalid @enderror"
-                                                id="nama_client" name="nama_client"
-                                                value="{{ old('nama_client', $client->nama_client) }}" required>
-                                            @error('nama_client')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
+                                <div class="row mt-4">
+                                    <div class="col-md-8">
+                                        <div class="row mb-2">
+                                            <div class="col-md-3">
+                                                <div class="col-md">
+                                                    <div class="mb-3">
+                                                        <div class="form-group">
+                                                            <label for="date_in">Date
+                                                                In</label>
+                                                            <input type="date"
+                                                                class="form-control @error('date_in') is-invalid @enderror"
+                                                                id="date_in" name="date_in"
+                                                                value="{{ old('date_in', $client->date_in) }}"
+                                                                required>
+                                                            @error('date_in')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            @enderror
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="nama_client">Nama
+                                                                Client</label>
+                                                            <input type="text"
+                                                                class="form-control @error('nama_client') is-invalid @enderror"
+                                                                id="nama_client" name="nama_client"
+                                                                value="{{ old('nama_client', $client->nama_client) }}"
+                                                                required>
+                                                            @error('nama_client')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="nama_brand">Nama
+                                                                Brand</label>
+                                                            <input type="text"
+                                                                class="form-control @error('nama_brand') is-invalid @enderror"
+                                                                id="nama_brand" name="nama_brand"
+                                                                value="{{ old('nama_brand', $client->nama_brand) }}">
+                                                            @error('nama_brand')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="nama_finance">Nama
+                                                        Finance</label>
+                                                    <input type="text"
+                                                        class="form-control @error('nama_finance') is-invalid @enderror"
+                                                        id="nama_finance" name="nama_finance"
+                                                        value="{{ old('nama_finance', $client->nama_finance) }}">
+                                                    @error('nama_finance')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="email">Email</label>
+                                                    <input type="email"
+                                                        class="form-control @error('email') is-invalid @enderror"
+                                                        id="email" name="email"
+                                                        value="{{ old('email', $client->email) }}" required>
+                                                    @error('email')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-9">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="telepon_finance">Telepon
+                                                                Finance</label>
+                                                            <input type="text"
+                                                                class="form-control @error('telepon_finance') is-invalid @enderror"
+                                                                id="telepon_finance" name="telepon_finance"
+                                                                value="{{ old('telepon_finance', $client->telepon_finance) }}">
+                                                            @error('telepon_finance')
+                                                                <div class="invalid-feedback">
+                                                                    {{ $message }}
+                                                                </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="pegawai_id" class="form-label">Pengagung
+                                                                Jawab</label>
+                                                            <select data-live-search="true"
+                                                                class="form-select ukuran-select  @error('pegawai_id') is-invalid @enderror"
+                                                                name="pegawai_id">
+                                                                @foreach ($pegawai as $peg)
+                                                                    @if (old('pegawai_id', $client->pegawai_id) == $peg->id)
+                                                                        <option value="{{ $peg->id }}" selected>
+                                                                            {{ $peg->nama }}
+                                                                        </option>
+                                                                    @else
+                                                                        <option value="{{ $peg->id }}">
+                                                                            {{ $peg->nama }}
+                                                                        </option>
+                                                                    @endif
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="mb-3">
+                                                    <label for="status_client">Status
+                                                        Client</label>
+                                                    <select class="form-select" name="status_client"
+                                                        id="status_client" aria-label="Default select example"
+                                                        required>
+                                                        <option value="1"
+                                                            {{ $client->status_client == 1 ? 'selected' : '' }}>Aktif
+                                                        </option>
+                                                        <option value="3"
+                                                            {{ $client->status_client == 3 ? 'selected' : '' }}>Tidak
+                                                            Aktif
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="informasi_tambahan">Informasi
+                                                        Tambahan</label>
+                                                    <textarea class="form-control @error('informasi_tambahan') is-invalid @enderror" id="informasi_tambahan"
+                                                        name="informasi_tambahan">{{ old('informasi_tambahan', $client->informasi_tambahan) }}</textarea>
+                                                    @error('informasi_tambahan')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="alamat">Alamat</label>
+                                                    <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat">{{ old('alamat', $client->alamat) }}</textarea>
+                                                    @error('alamat')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="nama_brand">Nama
-                                                Brand</label>
-                                            <input type="text"
-                                                class="form-control @error('nama_brand') is-invalid @enderror"
-                                                id="nama_brand" name="nama_brand"
-                                                value="{{ old('nama_brand', $client->nama_brand) }}">
-                                            @error('nama_brand')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="nama_finance">Nama
-                                                Finance</label>
-                                            <input type="text"
-                                                class="form-control @error('nama_finance') is-invalid @enderror"
-                                                id="nama_finance" name="nama_finance"
-                                                value="{{ old('nama_finance', $client->nama_finance) }}">
-                                            @error('nama_finance')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
+
+                                    <div class="col-md-4 mb-3">
+                                        <div class="col-md">
                                             <div class="form-group">
-                                                <label for="date_in">Date
-                                                    In</label>
-                                                <input type="date"
-                                                    class="form-control @error('date_in') is-invalid @enderror"
-                                                    id="date_in" name="date_in"
-                                                    value="{{ old('date_in', $client->date_in) }}" required>
-                                                @error('date_in')
+                                                <label for="gambar_client" class="form-label">Logo Client</label>
+                                                @if ($client->gambar_client)
+                                                    <img src="{{ asset('storage/' . $client->gambar_client) }}"
+                                                        class="style-logo img-preview img-fluid mb-3 col-sm-5 d-block">
+                                                @else
+                                                    <img class="img-preview img-fluid mb-3 col-sm-5"
+                                                        style="display:none;">
+                                                @endif
+                                                <input
+                                                    class="form-control @error('gambar_client') is-invalid @enderror"
+                                                    type="file" id="gambar_client" name="gambar_client"
+                                                    onchange="previewImage()">
+                                                @error('gambar_client')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
@@ -429,137 +570,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="email">Email</label>
-                                            <input type="email"
-                                                class="form-control @error('email') is-invalid @enderror"
-                                                id="email" name="email"
-                                                value="{{ old('email', $client->email) }}" required>
-                                            @error('email')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="telepon_finance">Telepon
-                                                Finance</label>
-                                            <input type="text"
-                                                class="form-control @error('telepon_finance') is-invalid @enderror"
-                                                id="telepon_finance" name="telepon_finance"
-                                                value="{{ old('telepon_finance', $client->telepon_finance) }}">
-                                            @error('telepon_finance')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="pj" class="form-label">PJ</label>
-                                            <select class="form-select" name="pj" id="pj"
-                                                aria-label="Default select example" required>
-                                                <option value="Insan" {{ $client->pj == 'Insan' ? 'selected' : '' }}>
-                                                    Insan</option>
-                                                <option value="Feby" {{ $client->pj == 'Feby' ? 'selected' : '' }}>
-                                                    Feby
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="pegawai_id" class="form-label">Id
-                                                Pegawai</label>
-                                            <select data-live-search="true"
-                                                class="form-select ukuran-select  @error('pegawai_id') is-invalid @enderror"
-                                                name="pegawai_id">
-                                                @foreach ($pegawai as $peg)
-                                                    @if (old('pegawai_id', $client->pegawai_id) == $peg->id)
-                                                        <option value="{{ $peg->id }}" selected>
-                                                            {{ $peg->id }}-{{ $peg->nama }}
-                                                        </option>
-                                                    @else
-                                                        <option value="{{ $peg->id }}">
-                                                            {{ $peg->id }}-{{ $peg->nama }}
-                                                        </option>
-                                                    @endif
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <label for="status_client">Status
-                                                Client</label>
-                                            <select class="form-select" name="status_client" id="status_client"
-                                                aria-label="Default select example" required>
-                                                <option value="1"
-                                                    {{ $client->status_client == 1 ? 'selected' : '' }}>Aktif
-                                                </option>
-                                                <option value="3"
-                                                    {{ $client->status_client == 3 ? 'selected' : '' }}>Tidak
-                                                    Aktif
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="informasi_tambahan">Informasi
-                                                Tambahan</label>
-                                            <textarea class="form-control @error('informasi_tambahan') is-invalid @enderror" id="informasi_tambahan"
-                                                name="informasi_tambahan">{{ old('informasi_tambahan', $client->informasi_tambahan) }}</textarea>
-                                            @error('informasi_tambahan')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="alamat">Alamat</label>
-                                            <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat">{{ old('alamat', $client->alamat) }}</textarea>
-                                            @error('alamat')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="gambar_client" class="form-label">Gambar
-                                                Client</label>
-                                            @if ($client->gambar_client)
-                                                <img src="{{ asset('storage/' . $client->gambar_client) }}"
-                                                    class="style-logo img-preview img-fluid mb-3 col-sm-5 d-block">
-                                            @else
-                                                <img class="img-preview img-fluid mb-3 col-sm-5"
-                                                    style="display:none;">
-                                            @endif
-                                            <input class="form-control @error('gambar_client') is-invalid @enderror"
-                                                type="file" id="gambar_client" name="gambar_client"
-                                                onchange="previewImage()">
-                                            @error('gambar_client')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
+
+
+
 
                                 <div class="mb-3" style="display: none;">
                                     <div>

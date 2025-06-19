@@ -72,11 +72,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Pegawai::create([
-            'nama' => 'dadang'
+            'nama' => 'dadang',
+            'divisi' => '1'
         ]);
 
         Pegawai::create([
-            'nama' => 'ika'
+            'nama' => 'ika',
+            'divisi' => '2'
+        ]);
+        Pegawai::create([
+            'nama' => 'Adam',
+            'divisi' => '1'
         ]);
 
         // Client::create([

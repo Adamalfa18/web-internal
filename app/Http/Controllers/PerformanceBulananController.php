@@ -65,40 +65,94 @@ class PerformanceBulananController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi data yang diterima
-        // dd($request);
+        // Validasi dasar
         $request->validate([
             'client_id' => 'required|exists:clients,id',
-            'target_spent' => 'required|string',
-            'target_revenue' => 'required|string',
-            'target_roas' => 'required|string',
-            'report_date' => 'required|string', // {{ edit_1 }} Menambahkan format tanggal
+            'report_date' => 'required|string',
             'note' => 'required|string',
+            'layanan_mb' => 'required|in:Leads,Marketplace',
         ]);
 
-        // Ambil data client berdasarkan client_id
-        $client = Client::find($request->client_id); // {{ edit_1 }}
+        // Validasi tambahan berdasarkan jenis layanan
+        if ($request->layanan_mb === 'Marketplace') {
+            $request->validate([
+                'target_spent' => 'required|numeric',
+                'target_revenue' => 'required|numeric',
+                'target_roas' => 'required|string',
+            ]);
+        }
 
-        // Buat laporan bulanan baru
-        $report = PerformanceBulanan::create([
-            'client_id' => $request->client_id,
-            'target_spent' => $request->target_spent,
-            'target_revenue' => $request->target_revenue,
-            'target_roas' => $request->target_roas,
-            'report_date' => $request->report_date,
-            'note' => $request->note,
-        ]);
+        if ($request->layanan_mb === 'Leads') {
+            $request->validate([
+                'jenis_leads' => 'required|in:F to F,Roas Revenue,Total Closing,Site Visits',
+            ]);
+        }
 
+        // Inisialisasi data dasar
+        $data = [
+            'client_id'         => $request->client_id,
+            'report_date'       => $request->report_date,
+            'note'              => $request->note,
+            'jenis_layanan_mb'  => $request->layanan_mb,
+            'jenis_leads'       => $request->jenis_leads ?? null,
+        ];
+
+        // Isi field berdasarkan jenis layanan
+        if ($request->layanan_mb === 'Marketplace') {
+            $data['target_spent']   = $request->target_spent;
+            $data['target_revenue'] = $request->target_revenue;
+            $data['target_roas']    = $request->target_roas;
+        }
+
+        // Isi field berdasarkan jenis leads
+        if ($request->layanan_mb === 'Leads') {
+            switch ($request->jenis_leads) {
+                case 'F to F':
+                    $data['target_spent']   = $request->spent_ff;
+                    $data['target_leads']   = $request->leads_ff;
+                    $data['chat']           = $request->chat_ff;
+                    $data['greeting']       = $request->greeting_ff;
+                    $data['pricelist']      = $request->pricelist_ff;
+                    $data['discuss']        = $request->discuss_ff;
+                    break;
+
+                case 'Roas Revenue':
+                    $data['target_spent']   = $request->spent_roas;
+                    $data['target_revenue'] = $request->revenue_roas;
+                    $data['target_roas']    = $request->roas_roas;
+                    $data['chat']           = $request->chat_roas;
+                    $data['respond']        = $request->chat_respond_roas;
+                    $data['closing']        = $request->closing_roas;
+                    break;
+
+                case 'Total Closing':
+                    $data['target_spent']   = $request->spent_closing;
+                    $data['target_leads']   = $request->leads_closing;
+                    $data['chat']           = $request->chat_closing;
+                    $data['respond']        = $request->chat_respond_closing;
+                    $data['closing']        = $request->closing_closing;
+                    break;
+
+                case 'Site Visits':
+                    $data['target_spent']   = $request->spent_site_visit;
+                    $data['target_leads']   = $request->leads_site_visit_value;
+                    $data['chat']           = $request->chat_site_visit;
+                    $data['respond']        = $request->respond_site_visit;
+                    $data['closing']        = $request->closing_site_visit;
+                    break;
+            }
+        }
+
+        // Simpan data
+        $report = PerformanceBulanan::create($data);
+
+        // Redirect
         if ($report) {
-            return redirect()->route('laporan-bulanan.index', ['client_id' => $client->id])
+            return redirect()->route('laporan-bulanan.index', ['client_id' => $request->client_id])
                 ->with('success', 'Laporan bulanan berhasil dibuat!');
         } else {
-            return redirect()->back()->with('error', 'The monthly report failed to be made!');
+            return redirect()->back()->with('error', 'Laporan bulanan gagal dibuat!');
         }
-        // return response()->json([
-        //     'message' => 'Laporan bulanan berhasil dibuat!',
-        //     // 'data' => $report,
-        // ], 201);
     }
 
     public function show($id)

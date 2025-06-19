@@ -14,10 +14,19 @@ return new class extends Migration
         Schema::create('performance_bulanans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('client_id')->constrained()->onDelete('cascade');
-            $table->string('target_spent');
-            $table->string('target_revenue');
-            $table->string('target_roas');
-            $table->string('report_date');
+            $table->string('jenis_layanan_mb');
+            $table->string('jenis_leads');
+            $table->string('target_spent')->nullable();
+            $table->string('target_revenue')->nullable();
+            $table->string('target_roas')->nullable();
+            $table->string('target_leads')->nullable();
+            $table->string('report_date')->nullable();
+            $table->string('chat')->nullable();
+            $table->string('respond')->nullable();
+            $table->string('greeting')->nullable();
+            $table->string('pricelist')->nullable();
+            $table->string('discuss')->nullable();
+            $table->string('closing')->nullable();
             $table->text('note');
             $table->timestamps();
         });

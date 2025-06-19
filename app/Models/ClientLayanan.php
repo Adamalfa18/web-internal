@@ -27,4 +27,8 @@ class ClientLayanan extends Model
     {
         return $this->hasMany(PerformanceBulanan::class);
     }
+    public function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'pegawai_id');
+    }
 }

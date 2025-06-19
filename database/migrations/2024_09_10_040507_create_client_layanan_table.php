@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('client_id')->constrained()->onDelete('cascade');
             $table->foreignId('layanan_id')->constrained()->onDelete('cascade');
+            $table->string('pegawai_id')->constrained()->onDelete('cascade');
             $table->boolean('status')->default(1);
             $table->timestamps();
         });

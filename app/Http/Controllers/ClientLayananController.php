@@ -32,35 +32,38 @@ class ClientLayananController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+   public function store(Request $request)
     {
         // Validasi input
         $validatedData = $request->validate([
-            'client_id' => 'required|int|exists:clients,id',
-            'layanan_id' => 'required|int|exists:layanans,id',
-            'created_at' => 'nullable|date'
+            'client_id'   => 'required|int|exists:clients,id',
+            'layanan_id'  => 'required|int|exists:layanans,id',
+            'pegawai_id'  => 'required|int|exists:pegawais,id', // perbaikan: pegawais, bukan layanans
+            'created_at'  => 'nullable|date'
         ]);
 
         // Ambil data client dan layanan
-        $client = Client::find($validatedData['client_id']);
+        $client  = Client::find($validatedData['client_id']);
         $layanan = Layanan::find($validatedData['layanan_id']);
 
         // Cek apakah layanan sudah dimiliki oleh client
         if ($client->layanans->contains($layanan)) {
-            // Redirect dengan pesan error
-            return redirect()->route('marketing.index')->with('error', 'The service chosen is already owned by the client.');
+            return redirect()->route('marketing.index')
+                            ->with('error', 'The service chosen is already owned by the client.');
         }
 
-        // Jika belum dimiliki, simpan data client_layanan
+        // Simpan ke tabel client_layanan (sertakan pegawai_id)
         ClientLayanan::create([
-            'client_id' => $validatedData['client_id'],
-            'layanan_id' => $validatedData['layanan_id'],
-            'created_at' => $validatedData['created_at'] ?? now()
+            'client_id'   => $validatedData['client_id'],
+            'layanan_id'  => $validatedData['layanan_id'],
+            'pegawai_id'  => $validatedData['pegawai_id'], // tambahkan ini
+            'created_at'  => $validatedData['created_at'] ?? now()
         ]);
 
-        // Redirect dengan pesan sukses
-        return redirect()->route('marketing.index')->with('success', 'Service successfully added.');
+        return redirect()->route('marketing.index')
+                        ->with('success', 'Service successfully added.');
     }
+
 
     /**
      * Display the specified resource.

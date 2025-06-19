@@ -44,18 +44,35 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label for="target_roas" class="form-label">Target Roas</label>
-                                                    <input type="text" class="form-control" name="target_roas"
-                                                        id="targetRoasBulananMB" placeholder="Target Roas" required>
+                                                    <label for="report_date" class="form-label">Month</label>
+                                                    <input type="month" class="form-control" name="report_date"
+                                                        id="report_date" required pattern="\d{4}-\d{2}">
+                                                    <!-- Menambahkan pola untuk format M -->
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label d-block">Jenis Layanan MB</label>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="layanan_mb"
+                                                        id="layanan_mb_leads" value="Leads">
+                                                    <label class="form-check-label" for="layanan_mb_leads">Leads</label>
+                                                </div>
+
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="layanan_mb"
+                                                        id="layanan_mb_marketplace" value="Marketplace">
+                                                    <label class="form-check-label"
+                                                        for="layanan_mb_marketplace">Marketplace</label>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row marketplace-only">
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label for="target_spent" class="form-label">Target Spant</label>
                                                     <input type="number" class="form-control" name="target_spent"
-                                                        id="targetSpentnBulananMB" placeholder="Target Spant" required>
+                                                        id="targetSpentnBulananMB" placeholder="Target Spant">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -63,8 +80,39 @@
                                                     <label for="targetRevenueBulananMB" class="form-label">Target
                                                         Revenue</label>
                                                     <input type="number" class="form-control" name="target_revenue"
-                                                        id="targetRevenueBulananMB" placeholder="Target Revenue"
-                                                        required>
+                                                        id="targetRevenueBulananMB" placeholder="Target Revenue">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="target_roas" class="form-label">Target Roas</label>
+                                                    <input type="text" class="form-control" name="target_roas"
+                                                        id="targetRoasBulananMB" placeholder="Target Roas">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row leads-only">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="target_spent" class="form-label">Target Spant</label>
+                                                    <input type="number" class="form-control" name="target_spent_leads"
+                                                        id="targetSpentnBulananMB" placeholder="Target Spant">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="targetRevenueBulananMB" class="form-label">Target
+                                                        Revenue</label>
+                                                    <input type="number" class="form-control"
+                                                        name="target_revenue_leads" id="targetRevenueBulananMB"
+                                                        placeholder="Target Revenue">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="target_roas" class="form-label">Target Leads</label>
+                                                    <input type="text" class="form-control" name="target_leads"
+                                                        id="targetRoasBulananMB" placeholder="Target Roas">
                                                 </div>
                                             </div>
                                         </div>
@@ -80,14 +128,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="report_date" class="form-label">Month</label>
-                                                    <input type="month" class="form-control" name="report_date"
-                                                        id="report_date" required pattern="\d{4}-\d{2}">
-                                                    <!-- Menambahkan pola untuk format M -->
-                                                </div>
-                                            </div>
+
                                         </div>
 
 
@@ -105,37 +146,35 @@
             </div>
         </div>
 
-        {{-- <script>
-            // Fungsi hitung dan update ROAS Bulanan MB
-            function calculateRoasBulananMB() {
-                const spanInput = document.getElementById('targetSpentnBulananMB');
-                const revenueInput = document.getElementById('targetRevenueBulananMB');
-                const roasInput = document.getElementById('targetRoasBulananMB');
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+        const leadsRadio = document.getElementById('layanan_mb_leads');
+        const marketplaceRadio = document.getElementById('layanan_mb_marketplace');
+        const marketplaceFields = document.querySelectorAll('.marketplace-only');
+        const leadsFields = document.querySelectorAll('.leads-only');
 
-                const spanValue = parseFloat(spanInput.value) || 0;
-                const revenueValue = parseFloat(revenueInput.value) || 0;
-                let roasValue = 0;
-
-                if (revenueValue !== 0) {
-                    roasValue = spanValue / revenueValue;
-                }
-
-                // Update hasil ke input Target Roas
-                if (roasInput) {
-                    roasInput.value = roasValue.toFixed(2);
-                }
+        function toggleFields() {
+            if (marketplaceRadio.checked) {
+                marketplaceFields.forEach(el => el.style.display = 'block');
+                leadsFields.forEach(el => el.style.display = 'none');
+            } else if (leadsRadio.checked) {
+                marketplaceFields.forEach(el => el.style.display = 'none');
+                leadsFields.forEach(el => el.style.display = 'block');
+            } else {
+                marketplaceFields.forEach(el => el.style.display = 'none');
+                leadsFields.forEach(el => el.style.display = 'none');
             }
+        }
 
-            // Menambahkan event listener untuk update ROAS Bulanan MB
-            document.addEventListener('DOMContentLoaded', function() {
-                const spanInputMB = document.getElementById('targetSpentnBulananMB');
-                const revenueInputMB = document.getElementById('targetRevenueBulananMB');
+        // Run on load
+        toggleFields();
 
-                if (spanInputMB && revenueInputMB) {
-                    spanInputMB.addEventListener('input', calculateRoasBulananMB);
-                    revenueInputMB.addEventListener('input', calculateRoasBulananMB);
-                }
-            });
-        </script> --}}
+        // Run when radio changes
+        leadsRadio.addEventListener('change', toggleFields);
+        marketplaceRadio.addEventListener('change', toggleFields);
+    });
+        </script>
+
+
 
 </x-app-layout>

@@ -65,6 +65,7 @@ class PerformanceBulananController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         // Validasi dasar
         $request->validate([
             'client_id' => 'required|exists:clients,id',

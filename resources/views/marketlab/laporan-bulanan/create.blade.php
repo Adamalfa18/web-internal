@@ -11,13 +11,13 @@
                     <div class="card border shadow-xs mb-4">
                         <div class="row">
                             @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             @endif
                             <div class="col-md-12">
                                 <div class="card-header border-bottom pb-0">
@@ -102,7 +102,7 @@
                                                 </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="jenis_leads"
-                                                        id="leads_roas_rev" value="Leads">
+                                                        id="leads_roas_rev" value="Roas Revenue">
                                                     <label class="form-check-label" for="leads_roas_rev">Roas
                                                         Revenue</label>
                                                 </div>
@@ -125,8 +125,9 @@
                                                 <div class="mb-3">
                                                     <label for="spent_site_visit" class="form-label">
                                                         Spent</label>
-                                                    <input type="number" class="form-control" name="spent_site_visit"
-                                                        id="spent_site_visit" placeholder="Target Spent">
+                                                    <input type="number" class="form-control"
+                                                        name="spent_site_visit" id="spent_site_visit"
+                                                        placeholder="Target Spent">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -150,17 +151,20 @@
                                                 <div class="mb-3">
                                                     <label for="respond_site_visit" class="form-label">
                                                         Respond</label>
-                                                    <input type="number" class="form-control" name="respond_site_visit"
-                                                        id="respond_site_visit" placeholder="Respond">
+                                                    <input type="number" class="form-control"
+                                                        name="respond_site_visit" id="respond_site_visit"
+                                                        placeholder="Respond">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label for="closing_site_visit" class="form-label">Target Site Visit
+                                                    <label for="closing_site_visit" class="form-label">Target Site
+                                                        Visit
                                                         / Closing</label>
-                                                    <input type="number" class="form-control" name="closing_site_visit"
-                                                        id="closing_site_visit" placeholder="Site Visit / Closing">
+                                                    <input type="number" class="form-control"
+                                                        name="closing_site_visit" id="closing_site_visit"
+                                                        placeholder="Site Visit / Closing">
                                                 </div>
                                             </div>
                                         </div>
@@ -170,8 +174,8 @@
                                                     name="spent_ff" class="form-control"></div>
                                             <div class="col-md-6"><label>Leads</label><input type="number"
                                                     name="leads_ff" class="form-control"></div>
-                                            <div class="col-md-6"><label>Chat</label><input type="number" name="chat_ff"
-                                                    class="form-control"></div>
+                                            <div class="col-md-6"><label>Chat</label><input type="number"
+                                                    name="chat_ff" class="form-control"></div>
                                             <div class="col-md-6"><label>Greeting</label><input type="number"
                                                     name="greeting_ff" class="form-control"></div>
                                             <div class="col-md-6"><label>Pricelist</label><input type="number"
@@ -214,8 +218,7 @@
                                                 <div class="mb-3">
                                                     <div class="mb-3">
                                                         <label for="note" class="form-label">Note</label>
-                                                        <textarea class="form-control" name="note" id="note"
-                                                            placeholder="Note....." rows="3" required></textarea>
+                                                        <textarea class="form-control" name="note" id="note" placeholder="Note....." rows="3" required></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -240,69 +243,69 @@
         </div>
 
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-    const layananLeads = document.getElementById('layanan_mb_leads');
-    const layananMarketplace = document.getElementById('layanan_mb_marketplace');
-    const marketplaceFields = document.querySelectorAll('.marketplace-only');
-    const leadsFields = document.querySelectorAll('.leads-only');
+            document.addEventListener('DOMContentLoaded', function() {
+                const layananLeads = document.getElementById('layanan_mb_leads');
+                const layananMarketplace = document.getElementById('layanan_mb_marketplace');
+                const marketplaceFields = document.querySelectorAll('.marketplace-only');
+                const leadsFields = document.querySelectorAll('.leads-only');
 
-    const jenisLeadsRadios = document.querySelectorAll('input[name="jenis_leads"]');
-    const siteVisitFields = document.querySelectorAll('.leads-site-visit-only');
-    const f2fFields = document.querySelectorAll('.leads-ff-only');
-    const roasFields = document.querySelectorAll('.leads-roas-only');
-    const closingFields = document.querySelectorAll('.leads-closing-only');
+                const jenisLeadsRadios = document.querySelectorAll('input[name="jenis_leads"]');
+                const siteVisitFields = document.querySelectorAll('.leads-site-visit-only');
+                const f2fFields = document.querySelectorAll('.leads-ff-only');
+                const roasFields = document.querySelectorAll('.leads-roas-only');
+                const closingFields = document.querySelectorAll('.leads-closing-only');
 
-    function hideAllJenisLeadsFields() {
-        siteVisitFields.forEach(el => el.style.display = 'none');
-        f2fFields.forEach(el => el.style.display = 'none');
-        roasFields.forEach(el => el.style.display = 'none');
-        closingFields.forEach(el => el.style.display = 'none');
-    }
-
-    function toggleFields() {
-        if (layananMarketplace.checked) {
-            marketplaceFields.forEach(el => el.style.display = 'block');
-            leadsFields.forEach(el => el.style.display = 'none');
-            hideAllJenisLeadsFields();
-        } else if (layananLeads.checked) {
-            marketplaceFields.forEach(el => el.style.display = 'none');
-            leadsFields.forEach(el => el.style.display = 'block');
-            // default: hide semua
-            hideAllJenisLeadsFields();
-
-            // cek jenis leads yang aktif
-            const selected = document.querySelector('input[name="jenis_leads"]:checked');
-            if (selected) {
-                switch (selected.id) {
-                    case 'leads_site_visit':
-                        siteVisitFields.forEach(el => el.style.display = 'block');
-                        break;
-                    case 'leads_ff':
-                        f2fFields.forEach(el => el.style.display = 'block');
-                        break;
-                    case 'leads_roas_rev':
-                        roasFields.forEach(el => el.style.display = 'block');
-                        break;
-                    case 'leads_total_closing':
-                        closingFields.forEach(el => el.style.display = 'block');
-                        break;
+                function hideAllJenisLeadsFields() {
+                    siteVisitFields.forEach(el => el.style.display = 'none');
+                    f2fFields.forEach(el => el.style.display = 'none');
+                    roasFields.forEach(el => el.style.display = 'none');
+                    closingFields.forEach(el => el.style.display = 'none');
                 }
-            }
-        } else {
-            marketplaceFields.forEach(el => el.style.display = 'none');
-            leadsFields.forEach(el => el.style.display = 'none');
-            hideAllJenisLeadsFields();
-        }
-    }
 
-    // listener utama
-    layananLeads.addEventListener('change', toggleFields);
-    layananMarketplace.addEventListener('change', toggleFields);
-    jenisLeadsRadios.forEach(radio => radio.addEventListener('change', toggleFields));
+                function toggleFields() {
+                    if (layananMarketplace.checked) {
+                        marketplaceFields.forEach(el => el.style.display = 'block');
+                        leadsFields.forEach(el => el.style.display = 'none');
+                        hideAllJenisLeadsFields();
+                    } else if (layananLeads.checked) {
+                        marketplaceFields.forEach(el => el.style.display = 'none');
+                        leadsFields.forEach(el => el.style.display = 'block');
+                        // default: hide semua
+                        hideAllJenisLeadsFields();
 
-    // jalankan saat load
-    toggleFields();
-});
+                        // cek jenis leads yang aktif
+                        const selected = document.querySelector('input[name="jenis_leads"]:checked');
+                        if (selected) {
+                            switch (selected.id) {
+                                case 'leads_site_visit':
+                                    siteVisitFields.forEach(el => el.style.display = 'block');
+                                    break;
+                                case 'leads_ff':
+                                    f2fFields.forEach(el => el.style.display = 'block');
+                                    break;
+                                case 'leads_roas_rev':
+                                    roasFields.forEach(el => el.style.display = 'block');
+                                    break;
+                                case 'leads_total_closing':
+                                    closingFields.forEach(el => el.style.display = 'block');
+                                    break;
+                            }
+                        }
+                    } else {
+                        marketplaceFields.forEach(el => el.style.display = 'none');
+                        leadsFields.forEach(el => el.style.display = 'none');
+                        hideAllJenisLeadsFields();
+                    }
+                }
+
+                // listener utama
+                layananLeads.addEventListener('change', toggleFields);
+                layananMarketplace.addEventListener('change', toggleFields);
+                jenisLeadsRadios.forEach(radio => radio.addEventListener('change', toggleFields));
+
+                // jalankan saat load
+                toggleFields();
+            });
         </script>
 
 

@@ -15,12 +15,18 @@ return new class extends Migration
             $table->id();
             $table->string('performance_bulanan_id')->constrained()->onDelete('cascade');
             $table->date('hari');
-            $table->integer('leads');
-            $table->integer('chat');
-            $table->integer('chat_respon');
-            $table->integer('chat_no_respon');
-            $table->integer('closing');
-            $table->integer('revenue');
+            $table->string('spent')->nullable();
+            $table->string('revenue')->nullable();
+            $table->string('roas')->nullable();
+            $table->string('leads')->nullable();
+            $table->string('report_date')->nullable();
+            $table->string('chat')->nullable();
+            $table->string('respond')->nullable();
+            $table->string('greeting')->nullable();
+            $table->string('pricelist')->nullable();
+            $table->string('discuss')->nullable();
+            $table->string('closing')->nullable();
+            $table->text('note');
             $table->timestamps();
         });
     }

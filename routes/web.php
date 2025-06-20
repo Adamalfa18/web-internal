@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\PerformaHarian;
+use App\Models\PerformanceBulanan;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SaController;
@@ -15,10 +16,10 @@ use App\Http\Controllers\ClientLayananController;
 use App\Http\Controllers\DasboardAdminController;
 use App\Http\Controllers\PerformaHarianController;
 use App\Http\Controllers\ClientInformationController;
+use App\Http\Controllers\LaporanHarianLeadController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\PerformanceBulananController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Models\PerformanceBulanan;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,12 @@ use App\Models\PerformanceBulanan;
 Route::get('/', function () {
     return redirect('/sign-in');
 });
+
+Route::get('/laporan-harian/leads', [LaporanHarianLeadController::class, 'index'])->name('laporan-harian.index-lead');
+Route::post('/lead/store', [LaporanHarianLeadController::class, 'store'])->name('lead.store');
+
+
+
 
 // Rute Login
 Route::middleware('guest')->group(function () {

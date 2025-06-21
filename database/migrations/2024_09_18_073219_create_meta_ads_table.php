@@ -15,7 +15,9 @@ class CreateMetaAdsTable extends Migration
             $table->id();
             $table->foreignId('performa_harian_id')->constrained()->onDelete('cascade');
             $table->decimal('regular', 15, 2)->nullable();
+            $table->decimal('regular_revenue', 15, 2)->nullable();
             $table->decimal('cpas', 15, 2)->nullable();
+            $table->decimal('cpas_revenue', 15, 2)->nullable();
             $table->timestamps();
         });
     }

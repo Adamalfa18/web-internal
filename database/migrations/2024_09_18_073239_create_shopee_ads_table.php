@@ -14,11 +14,12 @@ class CreateShopeeAdsTable extends Migration
         Schema::create('shopee_ads', function (Blueprint $table) {
             $table->id();
             $table->foreignId('performa_harian_id')->constrained()->onDelete('cascade');
-            $table->decimal('manual', 15, 2)->nullable();
-            $table->decimal('auto_meta', 15, 2)->nullable();
-            $table->decimal('gmv', 15, 2)->nullable();
+            $table->decimal('produk', 15, 2)->nullable();
+            $table->decimal('produk_revenue', 15, 2)->nullable();
             $table->decimal('toko', 15, 2)->nullable();
+            $table->decimal('toko_revenue', 15, 2)->nullable();
             $table->decimal('live', 15, 2)->nullable();
+            $table->decimal('live_revenue', 15, 2)->nullable();
             $table->timestamps();
         });
     }

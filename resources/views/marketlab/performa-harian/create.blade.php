@@ -55,16 +55,18 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label for="omzet" class="form-label">Omzet</label>
-                                                    <input type="number" class="form-control" name="omzet" id="omzet"
-                                                        placeholder="Omzet Obtained" required>
+                                                    <label for="omzet_display" class="form-label">Omzet</label>
+                                                    <input type="text" class="form-control" id="omzet_display"
+                                                        placeholder="Omzet" readonly>
+                                                    <input type="hidden" name="omzet" id="omzet">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label for="total" class="form-label">Total Topup</label>
-                                                    <input type="text" class="form-control" name="total" id="total"
-                                                        placeholder="Total Topup" required readonly>
+                                                    <label for="total_display" class="form-label">Total Topup</label>
+                                                    <input type="text" class="form-control" id="total_display"
+                                                        placeholder="Total Topup" readonly>
+                                                    <input type="hidden" name="total" id="total">
                                                 </div>
                                             </div>
                                         </div>
@@ -94,10 +96,6 @@
                                                     <label class="padding-check form-check-label">
                                                         <input class="form-label jarak-check" type="checkbox"
                                                             name="tables[]" value="shopee_ads"> Shopee Ads
-                                                    </label>
-                                                    <label class="padding-check form-check-label">
-                                                        <input class="form-label jarak-check" type="checkbox"
-                                                            name="tables[]" value="tokped_ads"> Tokopedia Ads
                                                     </label>
                                                     <label class="padding-check form-check-label">
                                                         <input class="form-label jarak-check" type="checkbox"

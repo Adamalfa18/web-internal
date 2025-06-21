@@ -15,9 +15,9 @@ class CreateGoogleAdsTable extends Migration
             $table->id();
             $table->foreignId('performa_harian_id')->constrained()->onDelete('cascade');
             $table->decimal('search', 15, 2)->nullable();
-            $table->decimal('gtm', 15, 2)->nullable();
-            $table->decimal('youtube', 15, 2)->nullable();
+            $table->decimal('search_revenue', 15, 2)->nullable();
             $table->decimal('performance_max', 15, 2)->nullable();
+            $table->decimal('performance_max_revenue', 15, 2)->nullable();
             $table->timestamps();
         });
     }

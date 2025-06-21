@@ -755,8 +755,15 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 });
 
+function formatRupiah(angka) {
+    return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0,
+    }).format(angka);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
-    // ... existing code ...
     const tables = {
         meta_ads: `
         <div class="row" data-table="meta_ads">
@@ -768,8 +775,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 <input class="form-control ads-input" type="number" name="meta_regular" id="meta_regular" placeholder="Meta Regular" value="0">
             </div>
             <div class="col-md-6">
+                <label for="meta_regular_revenue" class="form-label">Revenue:</label>
+                <input class="form-control ads-input" type="number" name="meta_regular_revenue" id="meta_regular_revenue" placeholder="Meta Regular Revenue" value="0">
+            </div>
+            <div class="col-md-6">
                 <label for="meta_cpas" class="form-label">CPAS:</label>
                 <input class="form-control ads-input" type="number" name="meta_cpas" id="meta_cpas" placeholder="Meta CPAS" value="0">
+            </div>
+            <div class="col-md-6">
+                <label for="meta_cpas_revenue" class="form-label">Revenue:</label>
+                <input class="form-control ads-input" type="number" name="meta_cpas_revenue" id="meta_cpas_revenue" placeholder="Meta CPAS Revenue" value="0">
             </div>
         </div>
     `,
@@ -778,21 +793,21 @@ document.addEventListener("DOMContentLoaded", function () {
             <div>
                 <label class="form-check-label"><h5>Google</h5></label>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <label for="google_search" class="form-label">Search:</label>
                 <input class="form-control ads-input" type="number" name="google_search" id="google_search" placeholder="Google Search" value="0">
             </div>
-            <div class="col-md-3">
-                <label for="google_youtube" class="form-label">YouTube:</label>
-                <input class="form-control ads-input" type="number" name="google_youtube" id="google_youtube" placeholder="Google YouTube" value="0">
+            <div class="col-md-6">
+                <label for="google_search_revenue" class="form-label">Revenue:</label>
+                <input class="form-control ads-input" type="number" name="google_search_revenue" id="google_search_revenue" placeholder="Google Search Revenue" value="0">
             </div>
-            <div class="col-md-3">
-                <label for="google_gtm" class="form-label">GTM:</label>
-                <input class="form-control ads-input" type="number" name="google_gtm" id="google_gtm" placeholder="Google GTM" value="0">
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <label for="google_performance_max" class="form-label">Performance Max:</label>
                 <input class="form-control ads-input" type="number" name="google_performance_max" id="google_performance_max" placeholder="Performance Max" value="0">
+            </div>
+            <div class="col-md-6">
+                <label for="google_performance_max_revenue" class="form-label">Revenue:</label>
+                <input class="form-control ads-input" type="number" name="google_performance_max_revenue" id="google_performance_max_revenue" placeholder="Performance Max Revenue" value="0">
             </div>
         </div>
     `,
@@ -801,44 +816,29 @@ document.addEventListener("DOMContentLoaded", function () {
             <div>
                 <label class="form-check-label"><h5>Shopee</h5></label>
             </div>
-            <div class="col-md-4">
-                <label for="shopee_manual" class="form-label">Manual:</label>
-                <input class="form-control ads-input" type="number" name="shopee_manual" id="shopee_manual" placeholder="Manual" value="0">
+            <div class="col-md-6">
+                <label for="shopee_produk" class="form-label">Produk:</label>
+                <input class="form-control ads-input" type="number" name="shopee_produk" id="shopee_produk" placeholder="Manual" value="0">
             </div>
-            <div class="col-md-4">
-                <label for="shopee_auto_meta" class="form-label">Auto Meta:</label>
-                <input class="form-control ads-input" type="number" name="shopee_auto_meta" id="shopee_auto_meta" placeholder="Auto Meta" value="0">
-            </div>
-            <div class="col-md-4">
-                <label for="shopee_gmv" class="form-label">GMV:</label>
-                <input class="form-control ads-input" type="number" name="shopee_gmv" id="shopee_gmv" placeholder="GMV" value="0">
+            <div class="col-md-6">
+                <label for="shopee_produk_revenue" class="form-label">Revenue:</label>
+                <input class="form-control ads-input" type="number" name="shopee_produk_revenue" id="shopee_produk_revenue" placeholder="Manual" value="0">
             </div>
             <div class="col-md-6">
                 <label for="shopee_toko" class="form-label">Toko:</label>
                 <input class="form-control ads-input" type="number" name="shopee_toko" id="shopee_toko" placeholder="Toko" value="0">
             </div>
             <div class="col-md-6">
+                <label for="shopee_toko_revenue" class="form-label">Revenue:</label>
+                <input class="form-control ads-input" type="number" name="shopee_toko_revenue" id="shopee_toko_revenue" placeholder="Toko" value="0">
+            </div>
+            <div class="col-md-6">
                 <label for="shopee_live" class="form-label">Live:</label>
                 <input class="form-control ads-input" type="number" name="shopee_live" id="shopee_live" placeholder="Live" value="0">
             </div>
-        </div>
-    `,
-        tokped_ads: `
-        <div class="row" data-table="tokped_ads">
-            <div>
-                <label class="form-check-label"><h5>Tokopedia</h5></label>
-            </div>
-            <div class="col-md-4">
-                <label for="tokped_manual" class="form-label">Manual:</label>
-                <input class="form-control ads-input" type="number" name="tokped_manual" id="tokped_manual" placeholder="Manual" value="0">
-            </div>
-            <div class="col-md-4">
-                <label for="tokped_auto_meta" class="form-label">Auto Meta:</label>
-                <input class="form-control ads-input" type="number" name="tokped_auto_meta" id="tokped_auto_meta" placeholder="Auto Meta" value="0">
-            </div>
-            <div class="col-md-4">
-                <label for="tokped_toko" class="form-label">Toko:</label>
-                <input class="form-control ads-input" type="number" name="tokped_toko" id="tokped_toko" placeholder="Toko" value="0">
+            <div class="col-md-6">
+                <label for="shopee_live_revenue" class="form-label">Revenue:</label>
+                <input class="form-control ads-input" type="number" name="shopee_live_revenue" id="shopee_live_revenue" placeholder="Live" value="0">
             </div>
         </div>
     `,
@@ -847,21 +847,37 @@ document.addEventListener("DOMContentLoaded", function () {
             <div>
                 <label class="form-check-label"><h5>TikTok</h5></label>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <label for="tiktok_gmv_max" class="form-label">GMV Max:</label>
                 <input class="form-control ads-input" type="number" name="tiktok_gmv_max" id="tiktok_gmv_max" placeholder="GMV Max" value="0">
             </div>
-            <div class="col-md-3">
-                <label for="tiktok_live_shopping" class="form-label">Live Shopping:</label>
+            <div class="col-md-6">
+                <label for="tiktok_gmv_max_revenue" class="form-label">Revenue:</label>
+                <input class="form-control ads-input" type="number" name="tiktok_gmv_max_revenue" id="tiktok_gmv_max_revenue" placeholder="GMV Max" value="0">
+            </div>
+            <div class="col-md-6">
+                <label for="tiktok_live_shopping" class="form-label">Live Shopping Ads:</label>
                 <input class="form-control ads-input" type="number" name="tiktok_live_shopping" id="tiktok_live_shopping" placeholder="Live Shopping" value="0">
             </div>
-            <div class="col-md-3">
-                <label for="tiktok_product_shopping" class="form-label">Product Shopping:</label>
+            <div class="col-md-6">
+                <label for="tiktok_live_shopping_revenue" class="form-label">Revenue:</label>
+                <input class="form-control ads-input" type="number" name="tiktok_live_shopping_revenue" id="tiktok_live_shopping_revenue" placeholder="Live Shopping" value="0">
+            </div>
+            <div class="col-md-6">
+                <label for="tiktok_product_shopping" class="form-label">Product Shopping Ads:</label>
                 <input class="form-control ads-input" type="number" name="tiktok_product_shopping" id="tiktok_product_shopping" placeholder="Product Shopping" value="0">
             </div>
-            <div class="col-md-3">
-                <label for="tiktok_video_shopping" class="form-label">Video Shopping:</label>
+            <div class="col-md-6">
+                <label for="tiktok_product_shopping_revenue" class="form-label">Revenue:</label>
+                <input class="form-control ads-input" type="number" name="tiktok_product_shopping_revenue" id="tiktok_product_shopping_revenue" placeholder="Product Shopping" value="0">
+            </div>
+            <div class="col-md-6">
+                <label for="tiktok_video_shopping" class="form-label">Video Shopping Ads:</label>
                 <input class="form-control ads-input" type="number" name="tiktok_video_shopping" id="tiktok_video_shopping" placeholder="Video Shopping" value="0">
+            </div>
+            <div class="col-md-6">
+                <label for="tiktok_video_shopping_revenue" class="form-label">Revenue:</label>
+                <input class="form-control ads-input" type="number" name="tiktok_video_shopping_revenue" id="tiktok_video_shopping_revenue" placeholder="Video Shopping" value="0">
             </div>
         </div>
     `,
@@ -892,18 +908,31 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("total").addEventListener("input", calculateRoas);
 
     function calculateTotalTopup() {
-        let total = 0;
+        let totalTopup = 0;
+
         document.querySelectorAll(".ads-input").forEach((input) => {
-            total += parseFloat(input.value) || 0;
+            const name = input.name.toLowerCase();
+            if (!name.includes("revenue")) {
+                const value = parseFloat(input.value) || 0;
+                totalTopup += value;
+            }
         });
-        document.getElementById("total").value = total || 0;
+
+        // Tampilkan dengan format rupiah
+        document.getElementById("total_display").value =
+            formatRupiah(totalTopup);
+
+        // Simpan value aslinya di hidden input untuk dikirim ke server
+        document.getElementById("total").value = totalTopup.toFixed(2);
+
         calculateRoas();
     }
 
     function calculateRoas() {
         const omzet = parseFloat(document.getElementById("omzet").value) || 0;
-        const total = parseFloat(document.getElementById("total").value) || 0;
-        const roas = total ? (omzet / total).toFixed(2) : 0;
+        const totalTopup =
+            parseFloat(document.getElementById("total").value) || 0;
+        const roas = totalTopup > 0 ? (omzet / totalTopup).toFixed(2) : "0.00";
         document.getElementById("roas").value = roas;
     }
 
@@ -939,94 +968,25 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-function calculateTotal() {
-    const metaRegular =
-        parseFloat(document.getElementById("meta_regular").value) || 0;
-    const metaCpas =
-        parseFloat(document.getElementById("meta_cpas").value) || 0;
-    const googleGtm =
-        parseFloat(document.getElementById("google_gtm").value) || 0;
-    const googleSearch =
-        parseFloat(document.getElementById("google_search").value) || 0;
-    const googleYoutube =
-        parseFloat(document.getElementById("google_youtube").value) || 0;
-    const googlePerformanceMax =
-        parseFloat(document.getElementById("google_performance_max").value) ||
-        0;
-    const shopeeManual =
-        parseFloat(document.getElementById("shopee_manual").value) || 0;
-    const shopeAutoMeta =
-        parseFloat(document.getElementById("shopee_auto_meta").value) || 0;
-    const shopeeGmv =
-        parseFloat(document.getElementById("shopee_gmv").value) || 0;
-    const shopeeToko =
-        parseFloat(document.getElementById("shopee_toko").value) || 0;
-    const shopeeLive =
-        parseFloat(document.getElementById("shopee_live").value) || 0;
-    const tokpedManual =
-        parseFloat(document.getElementById("tokped_manual").value) || 0;
-    const tokpedAutoMeta =
-        parseFloat(document.getElementById("tokped_auto_meta").value) || 0;
-    const tokpedToko =
-        parseFloat(document.getElementById("tokped_toko").value) || 0;
-    const tiktokLiveShopping =
-        parseFloat(document.getElementById("tiktok_live_shopping").value) || 0;
-    const tiktokProductShopping =
-        parseFloat(document.getElementById("tiktok_product_shopping").value) ||
-        0;
-    const tiktokVideoShopping =
-        parseFloat(document.getElementById("tiktok_video_shopping").value) || 0;
-    const tiktokGmvMax =
-        parseFloat(document.getElementById("tiktok_gmv_max").value) || 0;
+function calculateOmzetFromRevenue() {
+    let totalRevenue = 0;
+    document.querySelectorAll('input[type="number"]').forEach((input) => {
+        if (input.name.includes("revenue")) {
+            totalRevenue += parseFloat(input.value) || 0;
+        }
+    });
 
-    const total =
-        metaRegular +
-        metaCpas +
-        googleGtm +
-        googleSearch +
-        googleYoutube +
-        googlePerformanceMax +
-        shopeeManual +
-        shopeAutoMeta +
-        shopeeGmv +
-        shopeeToko +
-        shopeeLive +
-        tokpedManual +
-        tokpedAutoMeta +
-        tokpedToko +
-        tiktokLiveShopping +
-        tiktokProductShopping +
-        tiktokVideoShopping +
-        tiktokGmvMax;
-    document.getElementById("total").value = total.toFixed(2);
-
-    // Update ROAS based on omzet and total
-    const omzet = parseFloat(document.getElementById("omzet").value) || 0;
-    const roasValue = total > 0 ? omzet / total : 0;
-    document.getElementById("roas").value = roasValue.toFixed(2);
+    document.getElementById("omzet_display").value = formatRupiah(totalRevenue);
+    document.getElementById("omzet").value = totalRevenue.toFixed(2);
+    calculateRoas();
 }
 
-document.querySelectorAll('input[type="number"]').forEach((input) => {
-    input.addEventListener("input", calculateTotal);
+// Jalankan ketika ada perubahan input revenue
+document.getElementById("ads-inputs").addEventListener("input", function (e) {
+    if (e.target.name.includes("revenue")) {
+        calculateOmzetFromRevenue();
+    }
 });
 
-// Initial calculation
-calculateTotal();
-
-// function toggleCollapse(showId, hideId, activeButton) {
-//     var showElement = document.getElementById(showId);
-//     var hideElement = document.getElementById(hideId);
-
-//     // Mengubah warna tombol aktif
-//     document.querySelectorAll('.btn-style-client').forEach(function (btn) {
-//         btn.classList.remove('active'); // Menghapus kelas aktif dari semua tombol
-//     });
-//     activeButton.classList.add('active'); // Menambahkan kelas aktif pada tombol yang ditekan
-
-//     if (showElement.classList.contains('show')) {
-//         showElement.classList.remove('show');
-//     } else {
-//         showElement.classList.add('show');
-//     }
-//     hideElement.classList.remove('show');
-// }
+// Jalankan juga saat awal load form
+calculateOmzetFromRevenue();

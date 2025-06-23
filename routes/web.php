@@ -38,6 +38,8 @@ Route::get('/', function () {
 
 Route::get('/laporan-harian/leads', [LaporanHarianLeadController::class, 'index'])->name('laporan-harian.index-lead');
 Route::post('/lead/store', [LaporanHarianLeadController::class, 'store'])->name('lead.store');
+Route::put('/lead/{id}', [LaporanHarianLeadController::class, 'update'])->name('lead.update');
+
 
 
 

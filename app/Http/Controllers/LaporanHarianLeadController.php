@@ -9,7 +9,7 @@ use App\Models\Lead;
 
 class LaporanHarianLeadController extends Controller
 {
-    public function index(Request $request)
+   public function index(Request $request)
     {
         $performance_bulanan_id = $request->performance_bulanan_id;
         $report = PerformanceBulanan::findOrFail($performance_bulanan_id);
@@ -31,10 +31,21 @@ class LaporanHarianLeadController extends Controller
             default => ['hari', 'spent', 'leads', 'chat', 'respond'],
         };
 
+        // Ambil semua leads
         $leads = Lead::where('performance_bulanan_id', $performance_bulanan_id)->get();
 
-        return view('marketlab.performa-harian.index-lead', compact('report', 'leads', 'fields'));
+        // Total untuk chart funnel (khusus jenis_leads F to F)
+        $totals = [
+            'Leads'     => $leads->sum('leads'),
+            'Chat'      => $leads->sum('chat'),
+            'Greeting'  => $leads->sum('greeting'),
+            'Pricelist' => $leads->sum('pricelist'),
+            'Discuss'   => $leads->sum('discuss'),
+        ];
+
+        return view('marketlab.performa-harian.index-lead', compact('report', 'leads', 'fields', 'totals'));
     }
+
 
     public function store(Request $request)
     {
@@ -47,5 +58,19 @@ class LaporanHarianLeadController extends Controller
 
         return redirect()->back()->with('success', 'Data berhasil ditambahkan.');
     }
+
+    public function update(Request $request, $id)
+    {
+        $data = $request->only([
+            'performance_bulanan_id', 'hari', 'spent', 'revenue', 'roas', 'leads',
+            'chat', 'respond', 'greeting', 'pricelist', 'discuss', 'closing'
+        ]);
+
+        $lead = Lead::findOrFail($id);
+        $lead->update($data);
+
+        return redirect()->back()->with('success', 'Data berhasil diupdate.');
+    }
+
 
 }

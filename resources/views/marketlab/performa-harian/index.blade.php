@@ -136,7 +136,7 @@
                                                         </td>
                                                         <td class="align-middle">
                                                             <div class="real-omzet real-style"
-                                                                style="background: {{ $totalOmzet < $laporanBulanan->target_spent ? 'green' : 'red' }};">
+                                                                style="background: {{ $totalOmzet < $laporanBulanan->target_revenue ? 'red' : 'green' }};">
                                                                 <span class="text-sm font-weight-normal">
                                                                     Rp {{ number_format($totalOmzet, 0, ',', '.') }}
                                                                 </span>

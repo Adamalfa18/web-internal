@@ -113,7 +113,7 @@
                     @endif
                 </div>
             </div>
-            <div class="row mb-4">
+            {{-- <div class="row mb-4">
                 <div class="col-12 col-md-4">
                     <div class="card border shadow-xs mb-4 border-client">
                         <div class="card-header border-bottom pb-0 border-client-bottom">
@@ -147,7 +147,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="row">
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4 border-client">
@@ -232,14 +232,6 @@
                                             </th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Target Revenue
-                                            </th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Target Roas
-                                            </th>
-                                            <th
-                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                 Month
                                             </th>
                                             <th class="text-secondary opacity-7"></th>
@@ -262,17 +254,6 @@
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-sm font-weight-normal">
                                                     Rp {{ number_format($report->target_spent, 0, ',', '.') }}
-                                                </span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">
-                                                    Rp
-                                                    {{ number_format($report->target_revenue, 0, ',', '.') }}
-                                                </span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-sm font-weight-normal">
-                                                    {{ $report->target_roas }}
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center report-date">

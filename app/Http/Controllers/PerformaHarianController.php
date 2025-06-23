@@ -285,28 +285,39 @@ class PerformaHarianController extends Controller
             ->leftJoin('meta_ads as m', 'p.id', '=', 'm.performa_harian_id')
             ->leftJoin('google_ads as g', 'p.id', '=', 'g.performa_harian_id')
             ->leftJoin('shopee_ads as s', 'p.id', '=', 's.performa_harian_id')
-            ->leftJoin('tokped_ads as t', 'p.id', '=', 't.performa_harian_id')
             ->leftJoin('tiktok_ads as tk', 'p.id', '=', 'tk.performa_harian_id')
             ->select(
                 'p.*',
+
+                // Meta Ads
                 'm.regular as meta_regular',
+                'm.regular_revenue as meta_regular_revenue',
                 'm.cpas as meta_cpas',
+                'm.cpas_revenue as meta_cpas_revenue',
+
+                // Google Ads
                 'g.search as google_search',
-                'g.gtm as google_gtm',
-                'g.youtube as google_youtube',
+                'g.search_revenue as google_search_revenue',
                 'g.performance_max as google_performance_max',
-                's.manual as shopee_manual',
-                's.auto_meta as shopee_auto_meta',
-                's.gmv as shopee_gmv',
+                'g.performance_max_revenue as google_performance_max_revenue',
+
+                // Shopee Ads
+                's.produk as shopee_produk',
+                's.produk_revenue as shopee_produk_revenue',
                 's.toko as shopee_toko',
+                's.toko_revenue as shopee_toko_revenue',
                 's.live as shopee_live',
-                't.manual as tokped_manual',
-                't.auto_meta as tokped_auto_meta',
-                't.toko as tokped_toko',
+                's.live_revenue as shopee_live_revenue',
+
+                // TikTok Ads
+                'tk.gmv_max as tiktok_gmv_max',
+                'tk.gmv_max_revenue as tiktok_gmv_max_revenue',
                 'tk.live_shopping as tiktok_live_shopping',
+                'tk.live_shopping_revenue as tiktok_live_shopping_revenue',
                 'tk.product_shopping as tiktok_product_shopping',
+                'tk.product_shopping_revenue as tiktok_product_shopping_revenue',
                 'tk.video_shopping as tiktok_video_shopping',
-                'tk.gmv_max as tiktok_gmv_max'
+                'tk.video_shopping_revenue as tiktok_video_shopping_revenue'
             ) // Pastikan untuk mengambil kolom 'tables'
             ->where('p.id', $id) // Filter berdasarkan id performa_harian
             ->get();
@@ -359,49 +370,50 @@ class PerformaHarianController extends Controller
             ->with('success', 'The data lead was successfully updated.');
     }
 
-
-    // ... existing code ...
-
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
     {
-        // Validasi input
         $validatedData = $request->validate([
             'performance_bulanan_id' => 'required|exists:performance_bulanans,id',
             'hari' => 'required|date',
             'roas' => 'required|numeric',
             'total' => 'required|numeric',
             'omzet' => 'required|numeric',
+
             // Meta Ads
             'meta_regular' => 'numeric|nullable',
+            'meta_regular_revenue' => 'numeric|nullable',
             'meta_cpas' => 'numeric|nullable',
+            'meta_cpas_revenue' => 'numeric|nullable',
+
             // Google Ads
             'google_search' => 'numeric|nullable',
-            'google_gtm' => 'numeric|nullable',
-            'google_youtube' => 'numeric|nullable',
+            'google_search_revenue' => 'numeric|nullable',
             'google_performance_max' => 'numeric|nullable',
+            'google_performance_max_revenue' => 'numeric|nullable',
+
             // Shopee Ads
-            'shopee_manual' => 'numeric|nullable',
-            'shopee_auto_meta' => 'numeric|nullable',
-            'shopee_gmv' => 'numeric|nullable',
+            'shopee_produk' => 'numeric|nullable',
+            'shopee_produk_revenue' => 'numeric|nullable',
             'shopee_toko' => 'numeric|nullable',
+            'shopee_toko_revenue' => 'numeric|nullable',
             'shopee_live' => 'numeric|nullable',
-            // Tokped Ads
-            'tokped_manual' => 'numeric|nullable',
-            'tokped_auto_meta' => 'numeric|nullable',
-            'tokped_toko' => 'numeric|nullable',
-            // Tiktok Ads
-            'tiktok_live_shopping' => 'numeric|nullable',
-            'tiktok_product_shopping' => 'numeric|nullable',
-            'tiktok_video_shopping' => 'numeric|nullable',
+            'shopee_live_revenue' => 'numeric|nullable',
+
+            // TikTok Ads
             'tiktok_gmv_max' => 'numeric|nullable',
+            'tiktok_gmv_max_revenue' => 'numeric|nullable',
+            'tiktok_live_shopping' => 'numeric|nullable',
+            'tiktok_live_shopping_revenue' => 'numeric|nullable',
+            'tiktok_product_shopping' => 'numeric|nullable',
+            'tiktok_product_shopping_revenue' => 'numeric|nullable',
+            'tiktok_video_shopping' => 'numeric|nullable',
+            'tiktok_video_shopping_revenue' => 'numeric|nullable',
         ]);
 
         $performa = PerformaHarian::findOrFail($id);
-
-        // Update data performa harian
         $performa->update([
             'performance_bulanan_id' => $validatedData['performance_bulanan_id'],
             'hari' => $validatedData['hari'],
@@ -410,62 +422,52 @@ class PerformaHarianController extends Controller
             'omzet' => $validatedData['omzet'],
         ]);
 
-        // Update Meta Ads
-        MetaAds::updateOrCreate(
-            ['performa_harian_id' => $performa->id],
-            [
-                'regular' => $validatedData['meta_regular'] ?? 0,
-                'cpas' => $validatedData['meta_cpas'] ?? 0,
-            ]
-        );
+        MetaAds::updateOrCreate([
+            'performa_harian_id' => $performa->id,
+        ], [
+            'regular' => $validatedData['meta_regular'] ?? 0,
+            'regular_revenue' => $validatedData['meta_regular_revenue'] ?? 0,
+            'cpas' => $validatedData['meta_cpas'] ?? 0,
+            'cpas_revenue' => $validatedData['meta_cpas_revenue'] ?? 0,
+        ]);
 
-        // Update Google Ads
-        GoogleAds::updateOrCreate(
-            ['performa_harian_id' => $performa->id],
-            [
-                'search' => $validatedData['google_search'] ?? 0,
-                'gtm' => $validatedData['google_gtm'] ?? 0,
-                'youtube' => $validatedData['google_youtube'] ?? 0,
-                'performance_max' => $validatedData['google_performance_max'] ?? 0,
-            ]
-        );
+        GoogleAds::updateOrCreate([
+            'performa_harian_id' => $performa->id,
+        ], [
+            'search' => $validatedData['google_search'] ?? 0,
+            'search_revenue' => $validatedData['google_search_revenue'] ?? 0,
+            'performance_max' => $validatedData['google_performance_max'] ?? 0,
+            'performance_max_revenue' => $validatedData['google_performance_max_revenue'] ?? 0,
+        ]);
 
-        // Update Shopee Ads
-        ShopeeAds::updateOrCreate(
-            ['performa_harian_id' => $performa->id],
-            [
-                'manual' => $validatedData['shopee_manual'] ?? 0,
-                'auto_meta' => $validatedData['shopee_auto_meta'] ?? 0,
-                'gmv' => $validatedData['shopee_gmv'] ?? 0,
-                'toko' => $validatedData['shopee_toko'] ?? 0,
-                'live' => $validatedData['shopee_live'] ?? 0,
-            ]
-        );
+        ShopeeAds::updateOrCreate([
+            'performa_harian_id' => $performa->id,
+        ], [
+            'produk' => $validatedData['shopee_produk'] ?? 0,
+            'produk_revenue' => $validatedData['shopee_produk_revenue'] ?? 0,
+            'toko' => $validatedData['shopee_toko'] ?? 0,
+            'toko_revenue' => $validatedData['shopee_toko_revenue'] ?? 0,
+            'live' => $validatedData['shopee_live'] ?? 0,
+            'live_revenue' => $validatedData['shopee_live_revenue'] ?? 0,
+        ]);
 
-        // Update Tokped Ads
-        TokpedAds::updateOrCreate(
-            ['performa_harian_id' => $performa->id],
-            [
-                'manual' => $validatedData['tokped_manual'] ?? 0,
-                'auto_meta' => $validatedData['tokped_auto_meta'] ?? 0,
-                'toko' => $validatedData['tokped_toko'] ?? 0,
-            ]
-        );
+        TiktokAds::updateOrCreate([
+            'performa_harian_id' => $performa->id,
+        ], [
+            'gmv_max' => $validatedData['tiktok_gmv_max'] ?? 0,
+            'gmv_max_revenue' => $validatedData['tiktok_gmv_max_revenue'] ?? 0,
+            'live_shopping' => $validatedData['tiktok_live_shopping'] ?? 0,
+            'live_shopping_revenue' => $validatedData['tiktok_live_shopping_revenue'] ?? 0,
+            'product_shopping' => $validatedData['tiktok_product_shopping'] ?? 0,
+            'product_shopping_revenue' => $validatedData['tiktok_product_shopping_revenue'] ?? 0,
+            'video_shopping' => $validatedData['tiktok_video_shopping'] ?? 0,
+            'video_shopping_revenue' => $validatedData['tiktok_video_shopping_revenue'] ?? 0,
+        ]);
 
-        // Update Tiktok Ads
-        TiktokAds::updateOrCreate(
-            ['performa_harian_id' => $performa->id],
-            [
-                'live_shopping' => $validatedData['tiktok_live_shopping'] ?? 0,
-                'product_shopping' => $validatedData['tiktok_product_shopping'] ?? 0,
-                'video_shopping' => $validatedData['tiktok_video_shopping'] ?? 0,
-                'gmv_max' => $validatedData['tiktok_gmv_max'] ?? 0,
-            ]
-        );
-        session(['activeTab' => 'roas', 'activeTabLead' => 'roas']);
         return redirect()->route('laporan-harian.index', ['performance_bulanan_id' => $validatedData['performance_bulanan_id']])
-            ->with('success', 'Daily performance data was successfully updated.');
+            ->with('success', 'Data berhasil diperbarui');
     }
+
 
 
 
@@ -509,82 +511,6 @@ class PerformaHarianController extends Controller
         return redirect()->route('laporan-harian.index', ['performance_bulanan_id' => $performa->performance_bulanan_id])
             ->with('success', 'Daily performance data and related advertising data were successfully deleted.');
     }
-
-    // public function compareData(Request $request)
-    // {
-    //     // Validate request
-    //     $request->validate([
-    //         'fromDate' => 'required|date',
-    //         'toDate' => 'required|date|after_or_equal:fromDate',
-    //         'fromDate2' => 'required|date',
-    //         'toDate2' => 'required|date|after_or_equal:fromDate2',
-    //         'performance_bulanan_id' => 'required|exists:performance_bulanans,id',
-    //     ]);
-
-    //     // Get performance_bulanan_id from the request
-    //     $performanceBulananId = $request->performance_bulanan_id;
-
-    //     // Ambil jumlah data per halaman dari request, default 10
-    //     $perPage = $request->input('perPage', 10);
-
-    //     // Fetch data with pagination
-    //     $data = DB::table('performa_harians as p')
-    //         ->leftJoin('meta_ads as m', 'p.id', '=', 'm.performa_harian_id')
-    //         ->leftJoin('google_ads as g', 'p.id', '=', 'g.performa_harian_id')
-    //         ->leftJoin('shopee_ads as s', 'p.id', '=', 's.performa_harian_id')
-    //         ->leftJoin('tokped_ads as t', 'p.id', '=', 't.performa_harian_id')
-    //         ->leftJoin('tiktok_ads as tk', 'p.id', '=', 'tk.performa_harian_id')
-    //         ->select(
-    //             'p.*',
-    //             'm.regular as meta_regular',
-    //             'm.cpas as meta_cpas',
-    //             'g.search as google_search',
-    //             'g.gtm as google_gtm',
-    //             'g.youtube as google_youtube',
-    //             'g.performance_max as google_performance_max',
-    //             's.manual as shopee_manual',
-    //             's.auto_meta as shopee_auto_meta',
-    //             's.gmv as shopee_gmv',
-    //             's.toko as shopee_toko',
-    //             's.live as shopee_live',
-    //             't.manual as tokped_manual',
-    //             't.auto_meta as tokped_auto_meta',
-    //             't.toko as tokped_toko',
-    //             'tk.live_shopping as tiktok_live_shopping',
-    //             'tk.product_shopping as tiktok_product_shopping',
-    //             'tk.video_shopping as tiktok_video_shopping',
-    //             'tk.gmv_max as tiktok_gmv_max'
-    //         )
-    //         ->where('p.performance_bulanan_id', $performanceBulananId)
-    //         ->orderBy('p.id', 'asc')
-    //         ->paginate($perPage);
-
-    //     // Fetch monthly report related to performance_bulanan_id
-    //     $laporanBulanan = PerformanceBulanan::find($performanceBulananId);
-    //     // Calculate totals
-    //     $totalSum = DB::table('performa_harians')
-    //         ->where('performance_bulanan_id', $performanceBulananId)
-    //         ->sum('total');
-    //     $totalOmzet = DB::table('performa_harians')
-    //         ->where('performance_bulanan_id', $performanceBulananId)
-    //         ->sum('omzet');
-    //     $totalRoas = round($totalOmzet / ($totalSum ?: 1), 2);
-
-    //     // Data compare untuk grafik
-    //     $data1 = PerformaHarian::whereBetween('hari', [$request->fromDate, $request->toDate])->get();
-    //     $data2 = PerformaHarian::whereBetween('hari', [$request->fromDate2, $request->toDate2])->get();
-
-    //     // Fetch data leads terkait dengan performance_bulanan_id
-    //     $leads = DB::table('leads')
-    //         ->where('performance_bulanan_id', $performanceBulananId)
-    //         ->get();
-
-    //     session(['activeTab' => 'roas', 'activeTabLead' => 'roas']);
-
-    //     // Return view with filtered data, monthly report, and leads
-    //     session(['activeTab' => 'roas', 'activeTabLead' => 'roas']);
-    //     return view('marketlab.performa-harian.index', compact('data', 'data1', 'data2', 'laporanBulanan', 'totalSum', 'totalOmzet', 'totalRoas', 'performanceBulananId', 'leads'));
-    // }
 
     public function compareData(Request $request)
     {

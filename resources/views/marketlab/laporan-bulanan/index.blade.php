@@ -347,75 +347,205 @@
                                                         <div class="modal-header mb-3">
                                                             <h5 class="modal-title"
                                                                 id="reportDetailModalLabel{{ $report->id }}">
-                                                                Monthly Report Details</h5>
+                                                                Monthly Report Details
+                                                            </h5>
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
 
                                                         @if($report->jenis_layanan_mb === 'Leads')
-                                                        <p><strong>Jenis Leads: </strong> {{ $report->jenis_leads }}</p>
+                                                        <h6 class="mb-3">
+                                                            Layanan:
+                                                            <span class="badge bg-success text-white"
+                                                                style="background-color: #198754 !important;">
+                                                                {{ $report->jenis_layanan_mb }}
+                                                            </span>
+                                                        </h6>
+                                                        <h6 class="mb-3">
+                                                            Jenis Leads:
+                                                            <span class="badge bg-success text-white"
+                                                                style="background-color: #198754 !important;">
+                                                                {{ $report->jenis_leads }}
+                                                            </span>
+                                                        </h6>
 
-                                                        @if($report->jenis_leads === 'Total Closing')
-                                                        <p><strong>Target Spent: </strong> {{ $report->target_spent }}
-                                                        </p>
-                                                        <p><strong>Target Leads: </strong> {{ $report->target_leads }}
-                                                        </p>
-                                                        <p><strong>Report Date: </strong> {{
-                                                            \Carbon\Carbon::parse($report->report_date)->format('d F Y')
-                                                            }}</p>
-                                                        <p><strong>Chat: </strong> {{ $report->chat }}</p>
-                                                        <p><strong>Respond: </strong> {{ $report->respond }}</p>
-                                                        <p><strong>Total Closing: </strong> {{ $report->total_closing }}
-                                                        </p>
-                                                        <p><strong>Notes: </strong> {{ $report->note }}</p>
+                                                        <div class="row">
+                                                            @if($report->jenis_leads === 'Total Closing')
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Spent</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_spent }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Leads</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_leads }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Chat</label>
+                                                                <input class="form-control" value="{{ $report->chat }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Respond</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->respond }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Closing</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->total_closing }}" readonly>
+                                                            </div>
 
-                                                        @elseif($report->jenis_leads === 'F to F')
-                                                        <p><strong>Spent: </strong> {{ $report->target_spent }}</p>
-                                                        <p><strong>Leads: </strong> {{ $report->target_leads }}</p>
-                                                        <p><strong>Chat: </strong> {{ $report->chat }}</p>
-                                                        <p><strong>Greeting: </strong> {{ $report->greeting }}</p>
-                                                        <p><strong>Pricelist: </strong> {{ $report->pricelist }}</p>
-                                                        <p><strong>Discuss: </strong> {{ $report->discuss }}</p>
-                                                        <p><strong>Notes: </strong> {{ $report->note }}</p>
+                                                            @elseif($report->jenis_leads === 'F to F')
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Spent</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_spent }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Leads</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_leads }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Chat</label>
+                                                                <input class="form-control" value="{{ $report->chat }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Greeting</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->greeting }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Pricelist</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->pricelist }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Discuss</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->discuss }}" readonly>
+                                                            </div>
 
-                                                        @elseif($report->jenis_leads === 'Roas Revenue')
-                                                        <p><strong>Spent: </strong> {{ $report->target_spent }}</p>
-                                                        <p><strong>Revenue: </strong> {{ $report->target_revenue }}</p>
-                                                        <p><strong>ROAS: </strong> {{ $report->target_roas }}</p>
-                                                        <p><strong>Chat: </strong> {{ $report->chat }}</p>
-                                                        <p><strong>Respond: </strong> {{ $report->respond }}</p>
-                                                        <p><strong>Closing: </strong> {{ $report->closing }}</p>
-                                                        <p><strong>Notes: </strong> {{ $report->note }}</p>
+                                                            @elseif($report->jenis_leads === 'Roas Revenue')
+                                                            <div class="col-md-4 mb-3">
+                                                                <label>Target Spent</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_spent }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-4 mb-3">
+                                                                <label>Target Revenue</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_revenue }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-4 mb-3">
+                                                                <label>Target ROAS</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_roas }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Chat</label>
+                                                                <input class="form-control" value="{{ $report->chat }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Respond</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->respond }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Closing</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->closing }}" readonly>
+                                                            </div>
 
-                                                        @elseif($report->jenis_leads === 'Site Visit')
-                                                        <p><strong>Spent: </strong> {{ $report->spent }}</p>
-                                                        <p><strong>Leads: </strong> {{ $report->target_leads }}</p>
-                                                        <p><strong>Chat: </strong> {{ $report->chat }}</p>
-                                                        <p><strong>Respond: </strong> {{ $report->respond }}</p>
-                                                        <p><strong>Target Site Visits / Closing: </strong> {{
-                                                            $report->target_site_visit_closing }}</p>
-                                                        <p><strong>Notes: </strong> {{ $report->note }}</p>
+                                                            @elseif($report->jenis_leads === 'Site Visit')
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Spent</label>
+                                                                <input class="form-control" value="{{ $report->spent }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Leads</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_leads }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Chat</label>
+                                                                <input class="form-control" value="{{ $report->chat }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Respond</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->respond }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Site Visit / Closing</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_site_visit_closing }}"
+                                                                    readonly>
+                                                            </div>
+                                                            @endif
+
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Report Date</label>
+                                                                <input class="form-control"
+                                                                    value="{{ \Carbon\Carbon::parse($report->report_date)->format('d F Y') }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="col-md-12 mb-3">
+                                                                <label>Notes</label>
+                                                                <textarea class="form-control" rows="3"
+                                                                    readonly>{{ $report->note }}</textarea>
+                                                            </div>
+                                                        </div>
 
                                                         @else
-                                                        <p><em>Jenis leads tidak dikenali.</em></p>
+                                                        <h6 class="mb-3">
+                                                            Layanan:
+                                                            <span class="badge bg-success text-white"
+                                                                style="background-color: #198754 !important;">
+                                                                {{ $report->jenis_layanan_mb }}
+                                                            </span>
+                                                        </h6>
+                                                        <div class="row">
+                                                            <div class="col-md-4 mb-3">
+                                                                <label>Target Spent</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_spent }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-4 mb-3">
+                                                                <label>Target Revenue</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_revenue }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-4 mb-3">
+                                                                <label>Target ROAS</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_roas }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Report Date</label>
+                                                                <input class="form-control"
+                                                                    value="{{ \Carbon\Carbon::parse($report->report_date)->format('d F Y') }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="col-md-12 mb-3">
+                                                                <label>Notes</label>
+                                                                <textarea class="form-control" rows="3"
+                                                                    readonly>{{ $report->note }}</textarea>
+                                                            </div>
+                                                        </div>
                                                         @endif
 
-                                                        @else
-                                                        <p><strong>Target Spent: </strong> {{ $report->target_spent }}
-                                                        </p>
-                                                        <p><strong>Target Revenue: </strong> {{ $report->target_revenue
-                                                            }}</p>
-                                                        <p><strong>Target ROAS: </strong> {{ $report->target_roas }}</p>
-                                                        <p><strong>Report Date: </strong> {{
-                                                            \Carbon\Carbon::parse($report->report_date)->format('d F Y')
-                                                            }}</p>
-                                                        <p><strong>Notes: </strong> {{ $report->note }}</p>
-                                                        @endif
-
-                                                        <div class="modal-footer">
+                                                        <div class="modal-footer mt-2">
                                                             <button type="button" class="btn btn-secondary"
                                                                 data-bs-dismiss="modal">Close</button>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             </div>

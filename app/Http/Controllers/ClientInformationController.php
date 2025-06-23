@@ -154,28 +154,39 @@ class ClientInformationController extends Controller
             ->leftJoin('meta_ads as m', 'p.id', '=', 'm.performa_harian_id')
             ->leftJoin('google_ads as g', 'p.id', '=', 'g.performa_harian_id')
             ->leftJoin('shopee_ads as s', 'p.id', '=', 's.performa_harian_id')
-            ->leftJoin('tokped_ads as t', 'p.id', '=', 't.performa_harian_id')
             ->leftJoin('tiktok_ads as tk', 'p.id', '=', 'tk.performa_harian_id')
             ->select(
                 'p.*',
+
+                // Meta Ads
                 'm.regular as meta_regular',
+                'm.regular_revenue as meta_regular_revenue',
                 'm.cpas as meta_cpas',
+                'm.cpas_revenue as meta_cpas_revenue',
+
+                // Google Ads
                 'g.search as google_search',
-                'g.gtm as google_gtm',
-                'g.youtube as google_youtube',
+                'g.search_revenue as google_search_revenue',
                 'g.performance_max as google_performance_max',
-                's.manual as shopee_manual',
-                's.auto_meta as shopee_auto_meta',
-                's.gmv as shopee_gmv',
+                'g.performance_max_revenue as google_performance_max_revenue',
+
+                // Shopee Ads
+                's.produk as shopee_produk',
+                's.produk_revenue as shopee_produk_revenue',
                 's.toko as shopee_toko',
+                's.toko_revenue as shopee_toko_revenue',
                 's.live as shopee_live',
-                't.manual as tokped_manual',
-                't.auto_meta as tokped_auto_meta',
-                't.toko as tokped_toko',
+                's.live_revenue as shopee_live_revenue',
+
+                // TikTok Ads
+                'tk.gmv_max as tiktok_gmv_max',
+                'tk.gmv_max_revenue as tiktok_gmv_max_revenue',
                 'tk.live_shopping as tiktok_live_shopping',
+                'tk.live_shopping_revenue as tiktok_live_shopping_revenue',
                 'tk.product_shopping as tiktok_product_shopping',
+                'tk.product_shopping_revenue as tiktok_product_shopping_revenue',
                 'tk.video_shopping as tiktok_video_shopping',
-                'tk.gmv_max as tiktok_gmv_max'
+                'tk.video_shopping_revenue as tiktok_video_shopping_revenue'
             )
             ->where('p.performance_bulanan_id', $performanceBulananId)
             ->orderBy('p.hari', 'asc')
@@ -183,6 +194,8 @@ class ClientInformationController extends Controller
 
         // Fetch monthly report related to performance_bulanan_id
         $laporanBulanan = PerformanceBulanan::find($performanceBulananId);
+        $spent_harian = $laporanBulanan->target_spent / 30;
+        $revenue_harian = $laporanBulanan->target_revenue / 30;
 
         // Calculate totals
         $totalSum = DB::table('performa_harians')
@@ -198,7 +211,7 @@ class ClientInformationController extends Controller
             ->get();
         // Return view with filtered data and monthly report
         session(['activeTab' => 'roas']);
-        return view('info.data.harian', compact('data', 'laporanBulanan', 'totalSum', 'totalOmzet', 'totalRoas', 'performanceBulananId', 'leads'));
+        return view('info.data.harian', compact('spent_harian', 'revenue_harian', 'data', 'laporanBulanan', 'totalSum', 'totalOmzet', 'totalRoas', 'performanceBulananId', 'leads'));
     }
 
     public function store_lead(Request $request)

@@ -38,7 +38,7 @@
                                 <div class="card-header border-bottom">
                                     <div class="row">
                                         <div>
-                                            <h6 class="font-weight-semibold text-lg mb-3 text-center">Target Bulanan
+                                            <h6 class="font-weight-semibold text-lg mb-3 text-center">Monthly Target
                                             </h6>
                                         </div>
                                         <div class="col-md-6">
@@ -136,7 +136,7 @@
                                                         </td>
                                                         <td class="align-middle">
                                                             <div class="real-omzet real-style"
-                                                                style="background: {{ $totalOmzet < $laporanBulanan->target_spent ? 'red' : 'green' }};">
+                                                                style="background: {{ $totalOmzet < $laporanBulanan->target_spent ? 'green' : 'red' }};">
                                                                 <span class="text-sm font-weight-normal">
                                                                     Rp {{ number_format($totalOmzet, 0, ',', '.') }}
                                                                 </span>
@@ -200,25 +200,31 @@
                         </div>
                     </div>
                     <div class="row mb-4">
-                        <div class="card border shadow-xs mb-4 border-client">
-                            <div class="card-header border-bottom pb-0 border-client-bottom">
-                                <h6 class="font-weight-semibold text-lg mb-0">Spent</h6>
-                                <p class="text-sm">Spent this month</p>
-                            </div>
-                            <div class="card-body">
-                                <canvas id="chartSpent" height="100"></canvas>
-                            </div>
-                        </div>
-                        <div class="card border shadow-xs mb-4 border-client">
-                            <div class="card-header border-bottom pb-0 border-client-bottom">
-                                <h6 class="font-weight-semibold text-lg mb-0">Revenue</h6>
-                                <p class="text-sm">Omzet this month</p>
-                            </div>
-                            <div class="card-body">
-                                <canvas id="chartRevenue" height="100"></canvas>
+                        {{-- Card Spent --}}
+                        <div class="col-md-6">
+                            <div class="card border shadow-xs mb-4 border-client">
+                                <div class="card-header border-bottom pb-0 border-client-bottom">
+                                    <h6 class="font-weight-semibold text-lg mb-0">Spent</h6>
+                                    <p class="text-sm">Spent this month</p>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="chartSpent" height="100"></canvas>
+                                </div>
                             </div>
                         </div>
-                        <div class="card border shadow-xs mb-4 border-client">
+                        {{-- Card Revenue --}}
+                        <div class="col-md-6">
+                            <div class="card border shadow-xs mb-4 border-client">
+                                <div class="card-header border-bottom pb-0 border-client-bottom">
+                                    <h6 class="font-weight-semibold text-lg mb-0">Revenue</h6>
+                                    <p class="text-sm">Revenue this month</p>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="chartRevenue" height="100"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- <div class="card border shadow-xs mb-4 border-client">
                             <div class="card-header border-bottom pb-0 border-client-bottom">
                                 <h6 class="font-weight-semibold text-lg mb-0">ROAS</h6>
                                 <p class="text-sm">ROAS this month</p>
@@ -226,7 +232,7 @@
                             <div class="card-body">
                                 <canvas id="chartRoas" height="100"></canvas>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="row">
@@ -293,8 +299,9 @@
                                                 <tr>
                                                     <th class="text-center text-xs font-weight-semibold opacity-7">No
                                                     </th>
-                                                    <th class="text-xs font-weight-semibold opacity-7">Total</th>
-                                                    <th class="text-xs font-weight-semibold opacity-7">Omzet</th>
+                                                    <th class="text-xs font-weight-semibold opacity-7">Total Spent</th>
+                                                    <th class="text-xs font-weight-semibold opacity-7">Total Revenue
+                                                    </th>
                                                     <th class="text-center text-xs font-weight-semibold opacity-7">Roas
                                                     </th>
                                                     <th class="text-center text-xs font-weight-semibold opacity-7">Date
@@ -377,6 +384,26 @@
                                             </tbody>
                                         </table>
                                         @endif
+                                    </div>
+                                    <div class="border-top py-3 px-3 d-flex align-items-center">
+                                        <p class="font-weight-semibold mb-0 text-dark text-sm">
+                                            Page {{ $data->currentPage() }} of {{ $data->lastPage() }}
+                                        </p>
+                                        <div class="ms-auto">
+                                            @if ($data->onFirstPage())
+                                            <button class="btn btn-sm btn-white mb-0" disabled>Previous</button>
+                                            @else
+                                            <a href="{{ $data->previousPageUrl() . '&performance_bulanan_id=' . $performanceBulananId }}"
+                                                class="btn btn-sm btn-white mb-0">Previous</a>
+                                            @endif
+
+                                            @if ($data->hasMorePages())
+                                            <a href="{{ $data->nextPageUrl() . '&performance_bulanan_id=' . $performanceBulananId }}"
+                                                class="btn btn-sm btn-white mb-0">Next</a>
+                                            @else
+                                            <button class="btn btn-sm btn-white mb-0" disabled>Next</button>
+                                            @endif
+                                        </div>
                                     </div>
 
                                     {{-- MODALS --}}
@@ -540,13 +567,6 @@
                                                                 <p class="text-sm note-style">{{
                                                                     $laporanBulanan->note }}</p>
                                                             </div>
-                                                        </div>
-
-                                                        {{-- Note --}}
-                                                        <div class="col-12 mt-3">
-                                                            <h6 class="font-weight-semibold text-lg mb-3">Note</h6>
-                                                            <p class="text-sm note-style">{{ $laporanBulanan->note
-                                                                }}</p>
                                                         </div>
                                                     </div>
 
@@ -769,11 +789,8 @@
                                                         </div>
                                                         @endif
                                                     </form>
-
-
                                                 </div>
                                             </div>
-
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
                                                     data-bs-dismiss="modal">Tutup</button>
@@ -782,31 +799,6 @@
                                     </div>
                                 </div>
                                 @endforeach
-
-
-                                <div class="border-top py-3 px-3 d-flex align-items-center">
-                                    <p class="font-weight-semibold mb-0 text-dark text-sm">
-                                        Page {{ $data->currentPage() }} of {{ $data->lastPage() }}
-                                    </p>
-                                    <div class="ms-auto">
-                                        @if ($data->onFirstPage())
-                                        <button class="btn btn-sm btn-white mb-0" disabled>Previous</button>
-                                        @else
-                                        <a href="{{ $data->previousPageUrl() . '&performance_bulanan_id=' . $performanceBulananId }}"
-                                            class="btn btn-sm btn-white mb-0">Previous</a>
-                                        @endif
-
-                                        @if ($data->hasMorePages())
-                                        <a href="{{ $data->nextPageUrl() . '&performance_bulanan_id=' . $performanceBulananId }}"
-                                            class="btn btn-sm btn-white mb-0">Next</a>
-                                        @else
-                                        <button class="btn btn-sm btn-white mb-0" disabled>Next</button>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <!-- Pagination links -->
-                                {{-- {{ $data->links() }} --}}
                             </div>
                         </div>
                     </div>

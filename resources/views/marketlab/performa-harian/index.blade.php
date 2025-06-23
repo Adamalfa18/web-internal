@@ -37,9 +37,14 @@
                             <div class="card border shadow-xs mb-4">
                                 <div class="card-header border-bottom">
                                     <div class="row">
+                                        <div>
+                                            <h6 class="font-weight-semibold text-lg mb-3 text-center">Target Bulanan
+                                            </h6>
+                                        </div>
                                         <div class="col-md-6">
                                             <div>
-                                                <h6 class="font-weight-semibold text-lg mb-3">Data Target</h6>
+                                                <h6 class="font-weight-semibold text-lg mb-3 text-center">Data Target
+                                                </h6>
                                             </div>
                                             <table class="table align-items-center mb-0">
                                                 <tbody>
@@ -100,7 +105,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div>
-                                                <h6 class="font-weight-semibold text-lg mb-3">Data Real</h6>
+                                                <h6 class="font-weight-semibold text-lg mb-3 text-center">Data Real</h6>
                                             </div>
                                             <table class="table align- mb-0">
                                                 <tbody>
@@ -157,10 +162,6 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                        </div>
-                                        <div class="mt-3">
-                                            <h6 class="font-weight-semibold text-lg mb-3">Note</h6>
-                                            <p class="text-sm note-style">{{ $laporanBulanan->note }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -337,9 +338,8 @@
                                                         <button type="button"
                                                             class="btn-style btn btn-info text-secondary font-weight-bold text-xs"
                                                             data-bs-toggle="modal" data-bs-toggle="tooltip"
-                                                            data-bs-title="Detail"
                                                             data-bs-target="#reportDetailModal{{ $item->id }}">
-                                                            View
+                                                            Lihat Detail Harian
                                                         </button>
                                                     </td>
 
@@ -376,296 +376,401 @@
                                                         </form>
                                                     </td>
                                                 </tr>
-                                                <div class="modal fade" id="reportDetailModal{{ $item->id }}"
-                                                    tabindex="-1"
-                                                    aria-labelledby="reportDetailModalLabel{{ $item->id }}"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog modal-lg">
-                                                        <div class="modal-content">
-                                                            <div class="modal-body"
-                                                                style="max-height: 80vh; overflow-y: auto;">
-                                                                <div class="modal-heade mb-2">
-                                                                    <h5 class="modal-title"
-                                                                        id="reportDetailModalLabel{{ $item->id }}">
-                                                                        Daily Topup Details</h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-
-                                                                <div class="container">
-                                                                    <form>
-                                                                        {{-- META --}}
-                                                                        @if ($item->meta_regular > 0 || $item->meta_cpas
-                                                                        > 0)
-                                                                        <div class="row topup-style">
-                                                                            <div class="title-harian">
-                                                                                <h5>Topup Meta</h5>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Meta Regular</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->meta_regular,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Meta Regular Revenue</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->meta_regular_revenue,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Meta CPAS</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->meta_cpas,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Meta CPAS Revenue</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->meta_cpas_revenue,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        @endif
-
-                                                                        {{-- GOOGLE --}}
-                                                                        @if ($item->google_search > 0 ||
-                                                                        $item->google_performance_max > 0)
-                                                                        <div class="row topup-style">
-                                                                            <div class="title-harian">
-                                                                                <h5>Topup Google</h5>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Google Search</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->google_search,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Search Revenue</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->google_search_revenue,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Performance Max</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->google_performance_max,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Performance Max
-                                                                                        Revenue</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->google_performance_max_revenue,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        @endif
-
-                                                                        {{-- SHOPEE --}}
-                                                                        @if ($item->shopee_produk > 0 ||
-                                                                        $item->shopee_toko > 0 || $item->shopee_live >
-                                                                        0)
-                                                                        <div class="row topup-style">
-                                                                            <div class="title-harian">
-                                                                                <h5>Topup Shopee</h5>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Produk</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->shopee_produk,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Produk Revenue</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->shopee_produk_revenue,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Toko</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->shopee_toko,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Toko Revenue</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->shopee_toko_revenue,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Live</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->shopee_live,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Live Revenue</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->shopee_live_revenue,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        @endif
-
-                                                                        {{-- TOKPED --}}
-                                                                        @if ($item->tokped_manual > 0 ||
-                                                                        $item->tokped_auto_meta > 0 ||
-                                                                        $item->tokped_toko > 0)
-                                                                        <div class="row topup-style">
-                                                                            <div class="title-harian">
-                                                                                <h5>Topup Tokopedia</h5>
-                                                                            </div>
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group">
-                                                                                    <label>Manual</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->tokped_manual,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group">
-                                                                                    <label>Auto Meta</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->tokped_auto_meta,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-4">
-                                                                                <div class="form-group">
-                                                                                    <label>Toko</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->tokped_toko,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        @endif
-
-                                                                        {{-- TIKTOK --}}
-                                                                        @if ($item->tiktok_live_shopping > 0 ||
-                                                                        $item->tiktok_product_shopping > 0 ||
-                                                                        $item->tiktok_video_shopping > 0 ||
-                                                                        $item->tiktok_gmv_max > 0)
-                                                                        <div class="row topup-style">
-                                                                            <div class="title-harian">
-                                                                                <h5>Topup TikTok</h5>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Live Shopping</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->tiktok_live_shopping,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Live Shopping Revenue</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->tiktok_live_shopping_revenue,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Product Shopping</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->tiktok_product_shopping,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Product Shopping
-                                                                                        Revenue</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->tiktok_product_shopping_revenue,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Video Shopping</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->tiktok_video_shopping,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>Video Shopping
-                                                                                        Revenue</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->tiktok_video_shopping_revenue,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>GMV Max</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->tiktok_gmv_max,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label>GMV Max Revenue</label>
-                                                                                    <div class="readonly-input">Rp {{
-                                                                                        number_format($item->tiktok_gmv_max_revenue,
-                                                                                        0, ',', '.') }}</div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        @endif
-                                                                    </form>
-                                                                </div>
-
-
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">Close</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @endforeach
                                             </tbody>
                                         </table>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="reportDetailModal{{ $item->id }}" tabindex="-1"
+                                            aria-labelledby="reportDetailModalLabel{{ $item->id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title"
+                                                            id="reportDetailModalLabel{{ $item->id }}">
+                                                            Daily Topup & Target Harian Details
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Tutup"></button>
+                                                    </div>
+
+                                                    <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
+                                                        <div class="container">
+                                                            {{-- SECTION: TARGET HARIAN --}}
+                                                            <div class="row mt-4">
+                                                                <div class="col-12">
+                                                                    <h6
+                                                                        class="font-weight-semibold text-lg mb-3 text-center">
+                                                                        Target Harian</h6>
+                                                                </div>
+
+                                                                {{-- Data Target --}}
+                                                                <div class="col-md-6">
+                                                                    <h6
+                                                                        class="font-weight-semibold text-lg mb-3 text-center">
+                                                                        Data Target</h6>
+                                                                    <table class="table align-items-center mb-0">
+                                                                        <tbody>
+                                                                            <tr class="border-target">
+                                                                                <td class="align-middle">
+                                                                                    <div class="title-target-style">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">Target
+                                                                                            Spent</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="align-middle">
+                                                                                    <div class="target-style"><span
+                                                                                            class="text-sm font-weight-normal">Rp
+                                                                                            {{
+                                                                                            number_format($spent_harian,
+                                                                                            0, ',', '.') }}</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="border-target">
+                                                                                <td class="align-middle">
+                                                                                    <div class="title-target-style">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">Target
+                                                                                            Revenue</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="align-middle">
+                                                                                    <div class="target-style"><span
+                                                                                            class="text-sm font-weight-normal">Rp
+                                                                                            {{
+                                                                                            number_format($revenue_harian,
+                                                                                            0, ',', '.') }}</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="border-target">
+                                                                                <td class="align-middle">
+                                                                                    <div class="title-target-style">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">Target
+                                                                                            Roas</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="align-middle">
+                                                                                    <div class="target-style"><span
+                                                                                            class="text-sm font-weight-normal">{{
+                                                                                            $laporanBulanan->target_roas
+                                                                                            }}</span></div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+
+                                                                {{-- Data Real --}}
+                                                                <div class="col-md-6">
+                                                                    <h6
+                                                                        class="font-weight-semibold text-lg mb-3 text-center">
+                                                                        Data Real</h6>
+                                                                    <table class="table align-items-center mb-0">
+                                                                        <tbody>
+                                                                            <tr class="border-target">
+                                                                                <td class="align-middle">
+                                                                                    <div class="title-target-style">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">
+                                                                                            Spent Achieved</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="align-middle">
+                                                                                    <div class="real-spent real-style"
+                                                                                        style="background: {{ $spent_harian > $item->total ? 'green' : 'red' }};">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">
+                                                                                            Rp {{
+                                                                                            number_format($item->total,
+                                                                                            0,
+                                                                                            ',', '.') }}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="border-target">
+                                                                                <td class="align-middle">
+                                                                                    <div class="title-target-style">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">
+                                                                                            Revenue Achieved</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="align-middle">
+                                                                                    <div class="real-omzet real-style"
+                                                                                        style="background: {{ $revenue_harian < $item->omzet ? 'green' : 'red' }};">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">
+                                                                                            Rp {{
+                                                                                            number_format($item->omzet,
+                                                                                            0, ',', '.') }}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="border-target">
+                                                                                <td class="align-middle">
+                                                                                    <div class="title-target-style">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">
+                                                                                            Roas Achieved</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="align-middle">
+                                                                                    <div class="real-roas real-style"
+                                                                                        style="background: {{ $totalRoas < $item->roas ? 'green' : 'red' }};">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">{{
+                                                                                            $item->roas
+                                                                                            }}</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+
+                                                                {{-- Note --}}
+                                                                <div class="col-12 mt-3">
+                                                                    <h6 class="font-weight-semibold text-lg mb-3">Note
+                                                                    </h6>
+                                                                    <p class="text-sm note-style">{{
+                                                                        $laporanBulanan->note }}</p>
+                                                                </div>
+                                                            </div>
+                                                            <form>
+                                                                {{-- SECTION: META --}}
+                                                                @if ($item->meta_regular > 0 || $item->meta_cpas > 0)
+                                                                <div class="row topup-style">
+                                                                    <div class="title-harian">
+                                                                        <h5>Topup Meta</h5>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Meta Regular</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->meta_regular, 0,
+                                                                                ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Meta Regular Revenue</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->meta_regular_revenue,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Meta CPAS</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->meta_cpas, 0,
+                                                                                ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Meta CPAS Revenue</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->meta_cpas_revenue,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @endif
+                                                                {{-- GOOGLE --}}
+                                                                @if ($item->google_search > 0 ||
+                                                                $item->google_performance_max > 0)
+                                                                <div class="row topup-style">
+                                                                    <div class="title-harian">
+                                                                        <h5>Topup Google</h5>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Google Search</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->google_search,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Search Revenue</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->google_search_revenue,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Performance Max</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->google_performance_max,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Performance Max
+                                                                                Revenue</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->google_performance_max_revenue,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @endif
+                                                                {{-- SHOPEE --}}
+                                                                @if ($item->shopee_produk > 0 ||
+                                                                $item->shopee_toko > 0 || $item->shopee_live >
+                                                                0)
+                                                                <div class="row topup-style">
+                                                                    <div class="title-harian">
+                                                                        <h5>Topup Shopee</h5>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Produk</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->shopee_produk,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Produk Revenue</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->shopee_produk_revenue,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Toko</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->shopee_toko,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Toko Revenue</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->shopee_toko_revenue,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Live</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->shopee_live,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Live Revenue</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->shopee_live_revenue,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @endif
+                                                                {{-- TIKTOK --}}
+                                                                @if ($item->tiktok_live_shopping > 0 ||
+                                                                $item->tiktok_product_shopping > 0 ||
+                                                                $item->tiktok_video_shopping > 0 ||
+                                                                $item->tiktok_gmv_max > 0)
+                                                                <div class="row topup-style">
+                                                                    <div class="title-harian">
+                                                                        <h5>Topup TikTok</h5>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Live Shopping</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->tiktok_live_shopping,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Live Shopping Revenue</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->tiktok_live_shopping_revenue,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Product Shopping</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->tiktok_product_shopping,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Product Shopping
+                                                                                Revenue</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->tiktok_product_shopping_revenue,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Video Shopping</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->tiktok_video_shopping,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Video Shopping
+                                                                                Revenue</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->tiktok_video_shopping_revenue,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>GMV Max</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->tiktok_gmv_max,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>GMV Max Revenue</label>
+                                                                            <div class="readonly-input">Rp {{
+                                                                                number_format($item->tiktok_gmv_max_revenue,
+                                                                                0, ',', '.') }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @endif
+                                                            </form>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Tutup</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
                                         @endif
                                     </div>
                                     <div class="border-top py-3 px-3 d-flex align-items-center">
@@ -697,6 +802,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="collapse multi-collapse {{ $activeTabLead === 'lead' ? 'show' : '' }}"
                 id="multiCollapseExample2">
                 <div class="card card-body">

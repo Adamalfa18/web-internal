@@ -36,7 +36,6 @@ class PerformaHarianController extends Controller
             ->leftJoin('meta_ads as m', 'p.id', '=', 'm.performa_harian_id')
             ->leftJoin('google_ads as g', 'p.id', '=', 'g.performa_harian_id')
             ->leftJoin('shopee_ads as s', 'p.id', '=', 's.performa_harian_id')
-            ->leftJoin('tokped_ads as t', 'p.id', '=', 't.performa_harian_id')
             ->leftJoin('tiktok_ads as tk', 'p.id', '=', 'tk.performa_harian_id')
             ->select(
                 'p.*',
@@ -61,11 +60,6 @@ class PerformaHarianController extends Controller
                 's.live as shopee_live',
                 's.live_revenue as shopee_live_revenue',
 
-                // Tokped Ads (tidak pakai revenue, tetap)
-                't.manual as tokped_manual',
-                't.auto_meta as tokped_auto_meta',
-                't.toko as tokped_toko',
-
                 // TikTok Ads
                 'tk.gmv_max as tiktok_gmv_max',
                 'tk.gmv_max_revenue as tiktok_gmv_max_revenue',
@@ -81,6 +75,8 @@ class PerformaHarianController extends Controller
             ->paginate($perPage);
 
         $laporanBulanan = PerformanceBulanan::find($performanceBulananId);
+        $spent_harian = $laporanBulanan->target_spent / 30;
+        $revenue_harian = $laporanBulanan->target_revenue / 30;
 
         $totalSum = DB::table('performa_harians')
             ->where('performance_bulanan_id', $performanceBulananId)
@@ -103,6 +99,8 @@ class PerformaHarianController extends Controller
 
         session(['activeTab' => 'roas', 'activeTabLead' => 'roas']);
         return view('marketlab.performa-harian.index', compact(
+            'revenue_harian',
+            'spent_harian',
             'data',
             'data1',
             'data2',

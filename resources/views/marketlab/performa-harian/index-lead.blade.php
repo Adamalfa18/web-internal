@@ -9,12 +9,123 @@
                         <div class="card border shadow-xs mb-4 border-client">
                             <div class="card-header border-bottom pb-0 border-client-bottom">
                                 <h5 class="font-weight-semibold text-lg mb-0">Informasi Laporan Bulanan</h5>
-                                <ul class="mb-4 text-sm">
-                                    <li><strong>Client:</strong> {{ $report->client->nama_brand ?? '-' }}</li>
-                                    <li><strong>Tanggal Laporan:</strong> {{ $report->report_date ?? '-' }}</li>
-                                    <li><strong>Jenis Layanan:</strong> {{ $report->jenis_layanan_mb ?? '-' }}</li>
-                                    <li><strong>Jenis Leads:</strong> {{ $report->jenis_leads ?? '-' }}</li>
-                                </ul>
+                                <div class="row mt-2">
+                                    <div class="col-xl-3 col-md-3 mb-xl-0">
+                                        <div class="card border shadow-xs mb-4">
+                                            <div class="style-day card-body text-start p-3 w-100">
+                                                <div
+                                                    class="icon icon-shape icon-sm bg-dark text-white text-center border-radius-sm d-flex align-items-center justify-content-center mb-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-person-circle"
+                                                        viewBox="0 0 16 16">
+                                                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                                        <path fill-rule="evenodd"
+                                                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                                    </svg>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="w-100">
+                                                            <p class="text-sm text-secondary mb-1 text-center">Nama
+                                                                Brand</p>
+                                                            <h6 class="mb-2 font-weight-bold text-center">
+                                                                {{ $report->client->nama_brand ?? '-' }}
+                                                            </h6>
+                                                            <div class="d-flex align-items-center">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-3 mb-xl-0">
+                                        <div class="card border shadow-xs mb-4">
+                                            <div class="style-day card-body text-start p-3 w-100">
+                                                <div
+                                                    class="icon icon-shape icon-sm bg-dark text-white text-center border-radius-sm d-flex align-items-center justify-content-center mb-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-calendar-date"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M6.445 11.688V6.354h-.633A13 13 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23" />
+                                                        <path
+                                                            d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                                                    </svg>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="w-100">
+                                                            <p class="text-sm text-secondary mb-1 text-center">Tanggal
+                                                                Laporan</p>
+                                                            <h6 class="mb-2 font-weight-bold text-center">
+                                                                {{ \Carbon\Carbon::parse($report->report_date)->translatedFormat('F Y') ?? '-' }}
+                                                            </h6>
+                                                            <div class="d-flex align-items-center">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-3 mb-xl-0">
+                                        <div class="card border shadow-xs mb-4">
+                                            <div class="style-day card-body text-start p-3 w-100">
+                                                <div
+                                                    class="icon icon-shape icon-sm bg-dark text-white text-center border-radius-sm d-flex align-items-center justify-content-center mb-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-briefcase"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v8A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5m1.886 6.914L15 7.151V12.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5V7.15l6.614 1.764a1.5 1.5 0 0 0 .772 0M1.5 4h13a.5.5 0 0 1 .5.5v1.616L8.129 7.948a.5.5 0 0 1-.258 0L1 6.116V4.5a.5.5 0 0 1 .5-.5" />
+                                                    </svg>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="w-100">
+                                                            <p class="text-sm text-secondary mb-1 text-center">Jenis
+                                                                Layanan</p>
+                                                            <h6 class="mb-2 font-weight-bold text-center">
+                                                                {{ $report->jenis_layanan_mb ?? '-' }}
+                                                            </h6>
+                                                            <div class="d-flex align-items-center">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-3 mb-xl-0">
+                                        <div class="card border shadow-xs mb-4">
+                                            <div class="style-day card-body text-start p-3 w-100">
+                                                <div
+                                                    class="icon icon-shape icon-sm bg-dark text-white text-center border-radius-sm d-flex align-items-center justify-content-center mb-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="currentColor" class="bi bi-graph-up"
+                                                        viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd"
+                                                            d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07" />
+                                                    </svg>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="w-100">
+                                                            <p class="text-sm text-secondary mb-1 text-center">Jenis
+                                                                Leads</p>
+                                                            <h6 class="mb-2 font-weight-bold text-center">
+                                                                {{ $report->jenis_leads ?? '-' }}
+                                                            </h6>
+                                                            <div class="d-flex align-items-center">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -23,8 +134,76 @@
                     <div class="col-12">
                         <div class="card border shadow-xs mb-4 border-client">
                             <div class="card-header border-bottom pb-0 border-client-bottom">
-                                <h5 class="font-weight-semibold text-lg mb-0">Informasi Laporan Bulanan</h5>
-                                <div id="chartContainer" style="height: 300px; width: 100%"></div>
+                                <h5 class="font-weight-semibold text-lg mb-4">Informasi Grafik Layanan
+                                    {{ $report->jenis_layanan_mb ?? '-' }} dengan Jenis
+                                    Lead: {{ $report->jenis_leads ?? '-' }} pada Bulan
+                                    {{ \Carbon\Carbon::parse($report->report_date)->translatedFormat('F Y') ?? '-' }}
+                                </h5>
+                                @if ($report->jenis_leads == 'F to F')
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
+                                            </h5>
+                                            <canvas id="chartSpent" height="200"></canvas>
+                                            <div id="customLegendSpent" class="mt-3 text-center"></div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
+                                            </h5>
+                                            <div id="chartContainer" style="height: 200px; width: 100%"></div>
+                                        </div>
+                                    </div>
+                                @elseif ($report->jenis_leads == 'Roas Revenue')
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
+                                            </h5>
+                                            <canvas id="chartSpent" height="200"></canvas>
+                                            <div id="customLegendSpent" class="customSpent mt-4 mb-4"></div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
+                                            </h5>
+                                            <canvas id="chartOther" height="200"></canvas>
+                                            <div id="customLegendOther" class="customOther mt-4 amb-4"></div>
+                                        </div>
+                                    </div>
+                                @elseif ($report->jenis_leads == 'Total Closing')
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
+                                            </h5>
+                                            <canvas id="chartSpent" height="200"></canvas>
+                                            <div id="customLegendSpent" class="mt-3 text-center"></div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
+                                            </h5>
+                                            <canvas id="chartOther" height="200"></canvas>
+                                            <div id="customLegendOther" class="mt-3 text-center"></div>
+                                        </div>
+                                    </div>
+                                @elseif ($report->jenis_leads == 'Site Visits')
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
+                                            </h5>
+                                            <canvas id="chartSpent" height="200"></canvas>
+                                            <div id="customLegendSpent" class="mt-3 text-center"></div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
+                                            </h5>
+                                            <canvas id="chartOther" height="200"></canvas>
+                                            <div id="customLegendOther" class="mt-3 text-center"></div>
+                                        </div>
+                                    </div>
+                                @else
+                                    <p>Tidak ada grafik untuk jenis leads ini.</p>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -62,40 +241,45 @@
                                                 <input type="hidden" name="performance_bulanan_id"
                                                     value="{{ $report->id }}">
 
-                                                <div class="modal-header">
+                                                <div class="modal-header mx-3 mt-3 ">
                                                     <h5 class="modal-title">Tambah Data Harian</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Tutup"></button>
                                                 </div>
-
                                                 <div class="modal-body row">
-                                                    @foreach ($fields as $field)
-                                                        @if ($field == 'hari')
-                                                            @continue
-                                                        @endif
-                                                        <div class="mb-3 col-md-6">
-                                                            <label>{{ ucfirst($field) }}</label>
-                                                            <input type="text" name="{{ $field }}"
-                                                                class="form-control">
+                                                    <div class="row">
+                                                        <div class="mb-3 col-md-3">
+                                                            <label>Hari</label>
+                                                            <input type="date" name="hari" class="form-control"
+                                                                required>
                                                         </div>
-                                                    @endforeach
-
-                                                    <div class="mb-3 col-md-6">
-                                                        <label>Hari</label>
-                                                        <input type="date" name="hari" class="form-control"
-                                                            required>
                                                     </div>
-                                                    <div class="mb-3 col-md-6">
-                                                        <label>Note</label>
-                                                        <input type="text" name="note" class="form-control"
-                                                            required>
+                                                    <div class="row">
+                                                        @foreach ($fields as $field)
+                                                            @if ($field == 'hari' || $field == 'note')
+                                                                @continue
+                                                            @endif
+                                                            <div class="mb-3 col-md-4">
+                                                                <label>{{ ucfirst($field) }}</label>
+                                                                <input type="text"
+                                                                    placeholder="Data {{ $field }}"
+                                                                    name="{{ $field }}" class="form-control">
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="mb-3 col-md-12">
+                                                            <label>Note</label>
+                                                            <textarea type="text" rows="3" name="note" class="form-control" required> </textarea>
+
+                                                        </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-success">Simpan</button>
+                                                    <button type="submit" class="btn btn-primary">Simpan</button>
                                                     <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Batal</button>
+                                                        data-bs-dismiss="modal">Close</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -119,6 +303,9 @@
                                         <thead class="bg-gray-100">
                                             <tr class="tabel-style">
                                                 @foreach ($fields as $field)
+                                                    @if ($field == 'note')
+                                                        @continue
+                                                    @endif
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
                                                         {{ ucfirst($field) }}
                                                     </th>
@@ -133,6 +320,9 @@
                                             @foreach ($leads as $lead)
                                                 <tr class="client-row-mb">
                                                     @foreach ($fields as $field)
+                                                        @if ($field == 'note')
+                                                            @continue
+                                                        @endif
                                                         <td class="client-name-style">
                                                             <div class="d-flex px-2 py-1">
                                                                 <div
@@ -158,22 +348,48 @@
                                                             aria-hidden="true">
                                                             <div class="modal-dialog modal-lg">
                                                                 <div class="modal-content">
-                                                                    <div class="modal-header">
+                                                                    <div class="modal-header mx-3 mt-3">
                                                                         <h5 class="modal-title">Detail Harian -
-                                                                            {{ $lead->hari }}</h5>
+                                                                            {{ \Carbon\Carbon::parse($lead->hari)->translatedFormat('l, d F Y') ?? '-' }}
+                                                                        </h5>
                                                                         <button type="button" class="btn-close"
                                                                             data-bs-dismiss="modal"
                                                                             aria-label="Tutup"></button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                        <div class="row">
-                                                                            @foreach ($fields as $field)
-                                                                                <div class="col-md-6 mb-3">
-                                                                                    <strong>{{ ucfirst($field) }}</strong><br>
-                                                                                    {{ $lead->$field ?? '-' }}
+                                                                        <form>
+                                                                            <div class="row">
+                                                                                @foreach ($fields as $field)
+                                                                                    @if ($field == 'hari' || $field == 'note')
+                                                                                        @continue
+                                                                                    @endif
+                                                                                    <div class="col-md-4">
+                                                                                        <div class="form-group">
+                                                                                            <label
+                                                                                                class="text-start">{{ ucfirst($field) }}</label>
+                                                                                            <div
+                                                                                                class="readonly-input text-start">
+                                                                                                {{ $lead->$field ?? '-' }}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    {{-- <div class="col-md-6 mb-3">
+                                                                                        <strong>{{ ucfirst($field) }}</strong><br>
+                                                                                        {{ $lead->$field ?? '-' }}
+                                                                                    </div> --}}
+                                                                                @endforeach
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group">
+                                                                                        <label
+                                                                                            class="text-start">Note</label>
+                                                                                        <div
+                                                                                            class="readonly-textarea text-start">
+                                                                                            {{ $lead->note ?? '-' }}
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
-                                                                            @endforeach
-                                                                        </div>
+                                                                            </div>
+                                                                        </form>
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <button type="button"
@@ -225,7 +441,7 @@
                                                                             name="performance_bulanan_id"
                                                                             value="{{ $report->id }}">
 
-                                                                        <div class="modal-header">
+                                                                        <div class="modal-header mx-3 mt-3">
                                                                             <h5 class="modal-title"
                                                                                 id="editLeadModalLabel{{ $lead->id }}">
                                                                                 Edit Data
@@ -237,27 +453,37 @@
 
                                                                         <div class="modal-body row">
                                                                             {{-- Hari manual tetap di sini --}}
-                                                                            <div class="mb-3 col-md-6">
-                                                                                <label>Hari</label>
-                                                                                <input type="date" name="hari"
-                                                                                    class="form-control"
-                                                                                    value="{{ $lead->hari }}"
-                                                                                    required>
-                                                                            </div>
-
-                                                                            {{-- Loop field kecuali 'hari' --}}
-                                                                            @foreach ($fields as $field)
-                                                                                @if ($field == 'hari')
-                                                                                    @continue
-                                                                                @endif
-                                                                                <div class="mb-3 col-md-6">
-                                                                                    <label>{{ ucfirst($field) }}</label>
-                                                                                    <input type="text"
-                                                                                        name="{{ $field }}"
+                                                                            <div class="row">
+                                                                                <div class="mb-3 col-md-3">
+                                                                                    <label>Hari</label>
+                                                                                    <input type="date"
+                                                                                        name="hari"
                                                                                         class="form-control"
-                                                                                        value="{{ $lead->$field }}">
+                                                                                        value="{{ $lead->hari }}"
+                                                                                        required>
                                                                                 </div>
-                                                                            @endforeach
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                {{-- Loop field kecuali 'hari' --}}
+                                                                                @foreach ($fields as $field)
+                                                                                    @if ($field == 'hari' || $field == 'note')
+                                                                                        @continue
+                                                                                    @endif
+                                                                                    <div class="mb-3 col-md-4">
+                                                                                        <label>{{ ucfirst($field) }}</label>
+                                                                                        <input type="text"
+                                                                                            name="{{ $field }}"
+                                                                                            class="form-control"
+                                                                                            value="{{ $lead->$field }}">
+                                                                                    </div>
+                                                                                @endforeach
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="mb-3 col-md-12">
+                                                                                    <label for="note">Note</label>
+                                                                                    <textarea name="note" id="note" class="form-control text-start" rows="3">{{ $lead->note }}</textarea>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
 
                                                                         <div class="modal-footer">
@@ -285,6 +511,7 @@
             </div>
         </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script>
         window.onload = function() {
@@ -326,6 +553,273 @@
             }
         };
     </script>
+
+    <script>
+        let chartSpent, chartOther;
+
+        const labels = {!! json_encode($leads->pluck('hari')) !!};
+
+        @php $jenis = $report->jenis_leads; @endphp
+
+        @if ($jenis == 'F to F')
+            const datasetsSpent = [{
+                label: 'Spent',
+                data: {!! json_encode($leads->pluck('spent')) !!},
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                fill: false,
+                tension: 0.1,
+            }];
+
+            const datasetsOther = [{
+                    label: 'Leads',
+                    data: {!! json_encode($leads->pluck('leads')) !!},
+                    borderColor: 'rgb(255, 205, 86)',
+                    backgroundColor: 'rgba(255, 205, 86, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                },
+                {
+                    label: 'Chat',
+                    data: {!! json_encode($leads->pluck('chat')) !!},
+                    borderColor: 'rgb(255, 159, 64)',
+                    backgroundColor: 'rgba(255, 159, 64, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                },
+                {
+                    label: 'Greeting',
+                    data: {!! json_encode($leads->pluck('greeting')) !!},
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                },
+                {
+                    label: 'Pricelist',
+                    data: {!! json_encode($leads->pluck('pricelist')) !!},
+                    borderColor: 'rgb(153, 102, 255)',
+                    backgroundColor: 'rgba(153, 102, 255, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                },
+                {
+                    label: 'Discuss',
+                    data: {!! json_encode($leads->pluck('discuss')) !!},
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                },
+                {
+                    label: 'Note',
+                    data: {!! json_encode($leads->pluck('note')) !!},
+                    borderColor: 'rgb(201, 203, 207)',
+                    backgroundColor: 'rgba(201, 203, 207, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                }
+            ];
+        @elseif ($jenis == 'Roas Revenue')
+            const datasetsSpent = [{
+                label: 'Spent',
+                data: {!! json_encode($leads->pluck('spent')) !!},
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                fill: false,
+                tension: 0.1,
+            }];
+
+            const datasetsOther = [{
+                    label: 'Revenue',
+                    data: {!! json_encode($leads->pluck('revenue')) !!},
+                    borderColor: 'rgb(255, 205, 86)',
+                    backgroundColor: 'rgba(255, 205, 86, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                },
+                {
+                    label: 'ROAS',
+                    data: {!! json_encode($leads->pluck('roas')) !!},
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                },
+                {
+                    label: 'Chat',
+                    data: {!! json_encode($leads->pluck('chat')) !!},
+                    borderColor: 'rgb(255, 159, 64)',
+                    backgroundColor: 'rgba(255, 159, 64, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                },
+                {
+                    label: 'Respond',
+                    data: {!! json_encode($leads->pluck('respond')) !!},
+                    borderColor: 'rgb(153, 102, 255)',
+                    backgroundColor: 'rgba(153, 102, 255, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                },
+                {
+                    label: 'Closing',
+                    data: {!! json_encode($leads->pluck('closing')) !!},
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                }
+            ];
+        @elseif ($jenis == 'Total Closing')
+            const datasetsSpent = [{
+                label: 'Spent',
+                data: {!! json_encode($leads->pluck('spent')) !!},
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                fill: false,
+                tension: 0.1,
+            }];
+
+            const datasetsOther = [{
+                    label: 'Leads',
+                    data: {!! json_encode($leads->pluck('leads')) !!},
+                    borderColor: 'rgb(255, 205, 86)',
+                    backgroundColor: 'rgba(255, 205, 86, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                },
+                {
+                    label: 'Chat',
+                    data: {!! json_encode($leads->pluck('chat')) !!},
+                    borderColor: 'rgb(255, 159, 64)',
+                    backgroundColor: 'rgba(255, 159, 64, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                },
+                {
+                    label: 'Respond',
+                    data: {!! json_encode($leads->pluck('respond')) !!},
+                    borderColor: 'rgb(153, 102, 255)',
+                    backgroundColor: 'rgba(153, 102, 255, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                },
+                {
+                    label: 'Closing',
+                    data: {!! json_encode($leads->pluck('closing')) !!},
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                }
+            ];
+        @elseif ($jenis == 'Site Visits')
+            const datasetsSpent = [{
+                label: 'Spent',
+                data: {!! json_encode($leads->pluck('spent')) !!},
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                fill: false,
+                tension: 0.1,
+            }];
+
+            const datasetsOther = [{
+                    label: 'Leads',
+                    data: {!! json_encode($leads->pluck('leads')) !!},
+                    borderColor: 'rgb(255, 205, 86)',
+                    backgroundColor: 'rgba(255, 205, 86, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                },
+                {
+                    label: 'Respond',
+                    data: {!! json_encode($leads->pluck('respond')) !!},
+                    borderColor: 'rgb(153, 102, 255)',
+                    backgroundColor: 'rgba(153, 102, 255, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                },
+                {
+                    label: 'Closing',
+                    data: {!! json_encode($leads->pluck('closing')) !!},
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    fill: false,
+                    tension: 0.1,
+                }
+            ];
+        @endif
+
+        // Fungsi chart & legend tetap sama
+        function createChart(ctxId, dataSets, legendContainerId) {
+            const ctx = document.getElementById(ctxId).getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: dataSets
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            setTimeout(() => generateCustomLegend(chart, legendContainerId), 100);
+            return chart;
+        }
+
+        function generateCustomLegend(chart, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            chart.data.datasets.forEach((ds, index) => {
+                const box = document.createElement('span');
+                box.textContent = ds.label;
+
+                box.style.backgroundColor = ds.hidden ? '#ccc' : ds.borderColor;
+                box.style.color = '#fff';
+                box.style.padding = '6px 12px';
+                box.style.borderRadius = '8px';
+                box.style.fontSize = '12px';
+                box.style.fontWeight = '600';
+                box.style.display = 'inline-block';
+                box.style.lineHeight = '1';
+                box.style.marginRight = '8px';
+                box.style.cursor = 'pointer';
+
+                box.addEventListener('click', function() {
+                    const meta = chart.getDatasetMeta(index);
+                    meta.hidden = meta.hidden === null ? !chart.data.datasets[index].hidden : null;
+                    chart.update();
+                    generateCustomLegend(chart, containerId);
+                });
+
+                container.appendChild(box);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            chartSpent = createChart('chartSpent', datasetsSpent, 'customLegendSpent');
+            chartOther = createChart('chartOther', datasetsOther, 'customLegendOther');
+        });
+    </script>
+
+
 
 
 </x-app-layout>

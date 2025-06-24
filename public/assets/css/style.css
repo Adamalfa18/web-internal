@@ -601,7 +601,8 @@ label {
     margin-bottom: 5px;
 }
 
-.readonly-input {
+.readonly-input,
+.readonly-textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -1295,4 +1296,15 @@ span.select2-results {
 }
 .select2-search--dropdown .select2-search__field {
     padding: initial !important;
+}
+.customSpent,
+.customOther {
+    display: flex;
+    justify-content: center;
+}
+
+.style-day.card-body.text-start.p-3.w-100 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

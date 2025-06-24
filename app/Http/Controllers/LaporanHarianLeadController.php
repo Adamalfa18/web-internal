@@ -24,11 +24,11 @@ class LaporanHarianLeadController extends Controller
         };
 
         $fields = match($jenis_lead) {
-            '1' => ['hari', 'spent', 'leads', 'chat', 'greeting', 'pricelist', 'discuss'],
-            '2' => ['hari', 'spent', 'revenue', 'roas', 'chat', 'respond', 'closing'],
+            '1' => ['hari', 'spent', 'leads', 'chat', 'greeting', 'pricelist', 'discuss', 'note'],
+            '2' => ['hari', 'spent', 'revenue', 'roas', 'chat', 'respond', 'closing', 'note'],
             '3' => ['hari', 'spent', 'leads', 'chat', 'respond', 'closing'],
-            '4' => ['hari', 'spent', 'leads', 'respond', 'closing'],
-            default => ['hari', 'spent', 'leads', 'chat', 'respond'],
+            '4' => ['hari', 'spent', 'leads', 'respond', 'closing', 'note'],
+            default => ['hari', 'spent', 'leads', 'chat', 'respond','note'],
         };
 
         // Ambil semua leads
@@ -63,7 +63,7 @@ class LaporanHarianLeadController extends Controller
     {
         $data = $request->only([
             'performance_bulanan_id', 'hari', 'spent', 'revenue', 'roas', 'leads',
-            'chat', 'respond', 'greeting', 'pricelist', 'discuss', 'closing'
+            'chat', 'respond', 'greeting', 'pricelist', 'discuss', 'closing', 'note'
         ]);
 
         $lead = Lead::findOrFail($id);

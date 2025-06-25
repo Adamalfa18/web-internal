@@ -145,12 +145,12 @@
                                             <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
                                             </h5>
                                             <canvas id="chartSpent" height="200"></canvas>
-                                            <div id="customLegendSpent" class="mt-3 text-center"></div>
+                                            <div id="customLegendSpent" class="mt-3 mb-4 text-center"></div>
                                         </div>
                                         <div class="col-md-6">
                                             <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
                                             </h5>
-                                            <div id="chartContainer" style="height: 200px; width: 100%"></div>
+                                            <div id="chartContainer" class="mt-4 mb-4" style="height: 270px;"></div>
                                         </div>
                                     </div>
                                 @elseif ($report->jenis_leads == 'Roas Revenue')
@@ -166,7 +166,7 @@
                                             <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
                                             </h5>
                                             <canvas id="chartOther" height="200"></canvas>
-                                            <div id="customLegendOther" class="customOther mt-4 amb-4"></div>
+                                            <div id="customLegendOther" class="customOther mt-4 mb-4"></div>
                                         </div>
                                     </div>
                                 @elseif ($report->jenis_leads == 'Total Closing')
@@ -175,14 +175,14 @@
                                             <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
                                             </h5>
                                             <canvas id="chartSpent" height="200"></canvas>
-                                            <div id="customLegendSpent" class="mt-3 text-center"></div>
+                                            <div id="customLegendSpent" class="mt-3 mb-3 text-center"></div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
                                             </h5>
                                             <canvas id="chartOther" height="200"></canvas>
-                                            <div id="customLegendOther" class="mt-3 text-center"></div>
+                                            <div id="customLegendOther" class="mt-3 mb-3 text-center"></div>
                                         </div>
                                     </div>
                                 @elseif ($report->jenis_leads == 'Site Visits')
@@ -191,14 +191,14 @@
                                             <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
                                             </h5>
                                             <canvas id="chartSpent" height="200"></canvas>
-                                            <div id="customLegendSpent" class="mt-3 text-center"></div>
+                                            <div id="customLegendSpent" class="mt-3 mb-3 text-center"></div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
                                             </h5>
                                             <canvas id="chartOther" height="200"></canvas>
-                                            <div id="customLegendOther" class="mt-3 text-center"></div>
+                                            <div id="customLegendOther" class="mt-3 mb-3 text-center"></div>
                                         </div>
                                     </div>
                                 @else

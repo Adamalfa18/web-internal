@@ -424,17 +424,14 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Tutup"></button>
                                                 </div>
-
                                                 <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
                                                     <div class="container">
-
                                                         <div class="row">
                                                             <div class="col-12">
                                                                 <h6
                                                                     class="font-weight-semibold text-lg mb-3 text-center">
                                                                     Target Harian</h6>
                                                             </div>
-
                                                             {{-- Data Target --}}
                                                             <div class="col-md-6">
                                                                 <h6
@@ -494,7 +491,6 @@
                                                                     </tbody>
                                                                 </table>
                                                             </div>
-
                                                             {{-- Data Real --}}
                                                             <div class="col-md-6">
                                                                 <h6
@@ -552,27 +548,14 @@
                                                                             $percent = $revenue_harian > 0 ?
                                                                             round(($item->omzet / $revenue_harian) *
                                                                             100, 2) : 0;
-                                                                            $status = '';
 
-                                                                            if ($percent < 50) { $status='Underperform'
-                                                                                ; } elseif ($percent==100) {
-                                                                                $status='Achieve' ; } elseif ($percent>
-                                                                                100) {
-                                                                                $status = 'Excellent';
-                                                                                } else {
-                                                                                $status = 'In Progress';
-                                                                                }
-                                                                                @endphp
-
-                                                                                <td class="align-middle">
-                                                                                    <span
-                                                                                        class="text-sm font-weight-normal">
-                                                                                        {{ $percent }}%
-                                                                                    </span><br>
-                                                                                    <small class="text-muted">{{ $status
-                                                                                        }}</small>
-                                                                                </td>
-
+                                                                            @endphp
+                                                                            <td class="align-middle">
+                                                                                <span
+                                                                                    class="text-sm font-weight-normal">
+                                                                                    {{ $percent }}%
+                                                                                </span><br>
+                                                                            </td>
                                                                         </tr>
                                                                         <tr class="border-target">
                                                                             <td class="align-middle">
@@ -594,14 +577,38 @@
                                                                     </tbody>
                                                                 </table>
                                                             </div>
+                                                            {{-- Status Revenue --}}
+                                                            @php
+                                                            $percent = $revenue_harian > 0 ? round(($item->omzet /
+                                                            $revenue_harian) * 100, 2) : 0;
+                                                            if ($percent < 50) { $status='Underperform' ;
+                                                                $bgColor='#dc3545' ; } elseif ($percent==100) {
+                                                                $status='Achieve' ; $bgColor='#198754' ; } elseif
+                                                                ($percent> 100) {
+                                                                $status = 'Excellent';
+                                                                $bgColor = '#198754';
+                                                                } else {
+                                                                $status = 'In Progress';
+                                                                $bgColor = '#6c757d';
+                                                                }
+                                                                @endphp
 
-                                                            {{-- Note --}}
-                                                            <div class="col-12 mt-3">
-                                                                <h6 class="font-weight-semibold text-lg mb-3">Note
-                                                                </h6>
-                                                                <p class="text-sm note-style">
-                                                                    {{ $laporanBulanan->note }}</p>
-                                                            </div>
+                                                                <div class="col-12 mt-4 text-center">
+                                                                    <h6 class="font-weight-semibold text-lg mb-2">Status
+                                                                        Revenue:</h6>
+                                                                    <span class="badge text-white"
+                                                                        style="background-color: {{ $bgColor }} !important; padding: 8px 16px; border-radius: 50px;">
+                                                                        {{ $percent }}% ({{ $status }})
+                                                                    </span>
+                                                                </div>
+
+                                                                {{-- Note --}}
+                                                                <div class="col-12 mt-3">
+                                                                    <h6 class="font-weight-semibold text-lg mb-3">Note
+                                                                    </h6>
+                                                                    <p class="text-sm note-style">
+                                                                        {{ $laporanBulanan->note }}</p>
+                                                                </div>
                                                         </div>
                                                     </div>
                                                     <div class="container">

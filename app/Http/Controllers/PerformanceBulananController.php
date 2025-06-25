@@ -183,38 +183,70 @@ class PerformanceBulananController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validate the incoming request data
-        // dd($request);
-        $validatedData = $request->validate([
-            'client_id' => 'required|exists:clients,id',
-            'target_spent' => 'required|string',
-            'target_revenue' => 'required|string',
-            'target_roas' => 'required|string',
-            'report_date' => 'required|string', // Adding date format
-            'note' => 'required|string',
-        ]);
-        // dd($validatedData);
-        // Retrieve the Performa instance by ID
-        $client = Client::find($request->client_id);
         $reports = PerformanceBulanan::findOrFail($id);
 
-        // Update the Performa instance with validated data
-        $reports->update([
-            'client_id' => $validatedData['client_id'],
-            'target_spent' => $validatedData['target_spent'],
-            'target_revenue' => $validatedData['target_revenue'],
-            'target_roas' => $validatedData['target_roas'],
-            'report_date' => $validatedData['report_date'], // Adding date format
-            'note' => $validatedData['note'],
+        $validatedData = $request->validate([
+            'report_date' => 'required|date_format:Y-m',
+            'note' => 'required|string',
         ]);
 
-        // Redirect based on whether the update was successful
-        if ($reports) {
-            return redirect()->route('laporan-bulanan.index', ['client_id' => $client->id])
-                ->with('success', 'Laporan bulanan berhasil diperbarui!'); // Optional success message
-        } else {
-            return redirect()->back()->with('error', 'Monthly report failed to be updated!');
+        $data = [
+            'report_date' => $validatedData['report_date'],
+            'note' => $validatedData['note'],
+        ];
+
+        if ($reports->jenis_layanan_mb === 'Marketplace') {
+            $request->validate([
+                'target_spent' => 'required|numeric',
+                'target_revenue' => 'required|numeric',
+                'target_roas' => 'required|numeric',
+            ]);
+
+            $data['target_spent'] = $request->target_spent;
+            $data['target_revenue'] = $request->target_revenue;
+            $data['target_roas'] = $request->target_roas;
+        } elseif ($reports->jenis_layanan_mb === 'Leads') {
+            switch ($reports->jenis_leads) {
+                case 'F to F':
+                    $data['target_spent'] = $request->spent_ff;
+                    $data['target_leads'] = $request->leads_ff;
+                    $data['chat'] = $request->chat_ff;
+                    $data['greeting'] = $request->greeting_ff;
+                    $data['pricelist'] = $request->pricelist_ff;
+                    $data['discuss'] = $request->discuss_ff;
+                    break;
+
+                case 'Roas Revenue':
+                    $data['target_spent'] = $request->spent_roas;
+                    $data['target_revenue'] = $request->revenue_roas;
+                    $data['target_roas'] = $request->roas_roas;
+                    $data['chat'] = $request->chat_roas;
+                    $data['respond'] = $request->chat_respond_roas;
+                    $data['closing'] = $request->closing_roas;
+                    break;
+
+                case 'Total Closing':
+                    $data['target_spent'] = $request->spent_total;
+                    $data['target_leads'] = $request->leads_total;
+                    $data['chat'] = $request->chat_total;
+                    $data['respond'] = $request->respond_total;
+                    $data['closing'] = $request->closing_total;
+                    break;
+
+                case 'Site Visits':
+                    $data['target_spent'] = $request->spent_site;
+                    $data['target_leads'] = $request->leads_site;
+                    $data['chat'] = $request->chat_site;
+                    $data['respond'] = $request->respond_site;
+                    $data['closing'] = $request->closing_site;
+                    break;
+            }
         }
+
+        $reports->update($data);
+
+        return redirect()->route('laporan-bulanan.index', ['client_id' => $reports->client_id])
+            ->with('success', 'Laporan bulanan berhasil diperbarui!');
     }
 
     public function compareView(Request $request)

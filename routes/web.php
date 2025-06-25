@@ -36,9 +36,8 @@ Route::get('/', function () {
     return redirect('/sign-in');
 });
 
-Route::get('/laporan-harian/leads', [LaporanHarianLeadController::class, 'index'])->name('laporan-harian.index-lead');
-Route::post('/lead/store', [LaporanHarianLeadController::class, 'store'])->name('lead.store');
-Route::put('/lead/{id}', [LaporanHarianLeadController::class, 'update'])->name('lead.update');
+
+
 
 
 
@@ -58,6 +57,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/acount', UserController::class);
         Route::get('/version', [UserController::class, 'version'])->name('marketlab.version');
         Route::post('/acount/reset-password/{id}', [UserController::class, 'resetPassword'])->name('acount.reset-password.reset');
+       
     });
 
     // Admin, C-Level, Marketing (1,2,3): semua route kecuali akun
@@ -118,6 +118,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/clients-mb', [ClientMBController::class, 'index'])->name('clients-mb.index');
         Route::resource('/laporan-bulanan', PerformanceBulananController::class);
         Route::resource('/laporan-harian', PerformaHarianController::class);
+        Route::get('/laporan-harian/leads', [LaporanHarianLeadController::class, 'index'])->name('laporan-harian.index-lead');
+        Route::post('/lead/store', [LaporanHarianLeadController::class, 'store'])->name('lead.store');
+        Route::put('/lead/{id}', [LaporanHarianLeadController::class, 'update'])->name('lead.update');
+         Route::delete('/laporan-harian-lead/{id}', [LaporanHarianLeadController::class, 'destroy'])->name('laporan-harian-lead.destroy');
+
     });
 
     //  Client (6)

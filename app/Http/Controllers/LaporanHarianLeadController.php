@@ -71,6 +71,12 @@ class LaporanHarianLeadController extends Controller
 
         return redirect()->back()->with('success', 'Data berhasil diupdate.');
     }
+    public function destroy($id)
+    {
+        $lead = Lead::findOrFail($id);
+        $lead->delete();
 
+        return redirect()->back()->with('success', 'Data berhasil dihapus.');
+    }
 
 }

@@ -83,7 +83,7 @@
                                                 <tr class="tabel-style">
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">No
                                                     </th>
-                                                    <th class="text-secondary font-weight-semibold opacity-7">
+                                                    <th class="text-secondary text-xs font-weight-semibold opacity-7">
                                                         Service</th>
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
                                                         Landing Date</th>

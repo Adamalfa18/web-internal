@@ -248,11 +248,14 @@
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
                                                         No
                                                     </th>
-                                                    <th class="text-secondary font-weight-semibold opacity-7">
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                         Brand Name</th>
-                                                    <th class="text-secondary font-weight-semibold opacity-7">
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                         Client Name</th>
-                                                    <th class="text-secondary font-weight-semibold opacity-7">
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">
                                                         PIC</th>
                                                     <th
                                                         class="text-center text-secondary text-xs font-weight-semibold opacity-7">

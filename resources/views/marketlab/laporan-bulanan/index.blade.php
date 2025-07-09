@@ -26,31 +26,33 @@
                             <div class="col-12">
                                 <div>
                                     @switch($client->status_client)
-                                        @case(1)
-                                            <span
-                                                class="badge badge-sm border border-success text-success bg-success status-client-style">Aktif</span>
-                                        @break
+                                    @case(1)
+                                    <span
+                                        class="badge badge-sm border border-success text-success bg-success status-client-style">Aktif</span>
+                                    @break
 
-                                        @case(2)
-                                            <span
-                                                class="badge badge-sm border border-warning text-warning bg-warning status-client-style">Pending</span>
-                                        @break
+                                    @case(2)
+                                    <span
+                                        class="badge badge-sm border border-warning text-warning bg-warning status-client-style">Pending</span>
+                                    @break
 
-                                        @case(3)
-                                            <span
-                                                class="badge badge-sm border border-danger text-danger bg-danger status-client-style">Paid</span>
-                                        @break
+                                    @case(3)
+                                    <span
+                                        class="badge badge-sm border border-danger text-danger bg-danger status-client-style">Paid</span>
+                                    @break
                                     @endswitch
                                 </div>
                                 <div class="mt-2">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <span
-                                                class="badge badge-sm border border-success text-success bg-marketlab status-client-style">{{ $client->pj }}</span>
+                                                class="badge badge-sm border border-success text-success bg-marketlab status-client-style">{{
+                                                $client->pj }}</span>
                                         </div>
                                         <div class="col-md-6">
                                             <span
-                                                class="badge badge-sm border border-success text-success bg-marketlab status-client-style">{{ $client->pegawai->nama }}</span>
+                                                class="badge badge-sm border border-success text-success bg-marketlab status-client-style">{{
+                                                $client->pegawai->nama }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -69,8 +71,8 @@
                             <div class="row col-12 mt-4">
                                 <div class="col-4">
                                     <label for="name">Client Name</label>
-                                    <input type="text" name="name" id="name"
-                                        value="{{ $client->nama_client }}" class="form-control" disabled>
+                                    <input type="text" name="name" id="name" value="{{ $client->nama_client }}"
+                                        class="form-control" disabled>
                                 </div>
                                 <div class="col-4">
                                     <label for="email">Email</label>
@@ -84,11 +86,13 @@
                             <div class="row mt-2 col-12">
                                 <div class="col-6">
                                     <label for="alamat">Address</label>
-                                    <textarea name="alamat" id="alamat" rows="3" class="form-control" disabled>{{ $client->alamat }}</textarea>
+                                    <textarea name="alamat" id="alamat" rows="3" class="form-control"
+                                        disabled>{{ $client->alamat }}</textarea>
                                 </div>
                                 <div class="col-6">
                                     <label for="informasi_tambahan	">Notes</label>
-                                    <textarea name="informasi_tambahan" id="informasi_tambahan" rows="3" class="form-control" disabled>{{ $client->informasi_tambahan }}</textarea>
+                                    <textarea name="informasi_tambahan" id="informasi_tambahan" rows="3"
+                                        class="form-control" disabled>{{ $client->informasi_tambahan }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -99,13 +103,13 @@
                 <div class="col-md-12">
                     {{-- Notifikasi untuk data berhasil atau gagal --}}
                     @if (session('success'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('success') }}
-                        </div>
+                    <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
+                    </div>
                     @elseif (session('error'))
-                        <div class="alert alert-danger" role="alert">
-                            {{ session('error') }}
-                        </div>
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('error') }}
+                    </div>
                     @endif
                 </div>
             </div>
@@ -179,25 +183,24 @@
 
                                     <select name="perPage" onchange="this.form.submit();"
                                         class="form-select form-lots lost-style">
-                                        <option value="10" {{ request('perPage', 10) == 10 ? 'selected' : '' }}>10
+                                        <option value="10" {{ request('perPage', 10)==10 ? 'selected' : '' }}>10
                                         </option>
-                                        <option value="20" {{ request('perPage', 10) == 20 ? 'selected' : '' }}>20
+                                        <option value="20" {{ request('perPage', 10)==20 ? 'selected' : '' }}>20
                                         </option>
-                                        <option value="40" {{ request('perPage', 10) == 40 ? 'selected' : '' }}>40
+                                        <option value="40" {{ request('perPage', 10)==40 ? 'selected' : '' }}>40
                                         </option>
-                                        <option value="60" {{ request('perPage', 10) == 60 ? 'selected' : '' }}>60
+                                        <option value="60" {{ request('perPage', 10)==60 ? 'selected' : '' }}>60
                                         </option>
-                                        <option value="80" {{ request('perPage', 10) == 80 ? 'selected' : '' }}>80
+                                        <option value="80" {{ request('perPage', 10)==80 ? 'selected' : '' }}>80
                                         </option>
-                                        <option value="100" {{ request('perPage', 10) == 100 ? 'selected' : '' }}>
+                                        <option value="100" {{ request('perPage', 10)==100 ? 'selected' : '' }}>
                                             100</option>
                                     </select>
                                 </form>
                                 <div class="input-group w-sm-25 ms-auto">
                                     <span class="input-group-text text-body">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                            fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                            stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="none"
+                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z">
                                             </path>
@@ -210,120 +213,125 @@
                             </div>
                             <div class="table-responsive p-0">
                                 @if ($reports->isEmpty())
-                                    <p class="ntp">No data available.</p>
+                                <p class="ntp">No data available.</p>
                                 @else
-                                    <table class="table align-items-center mb-0">
-                                        <thead class="bg-gray-100">
-                                            <tr>
-                                                <th
-                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                    No
-                                                </th>
-                                                <th
-                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                    Jenis Layanan MB
-                                                </th>
-                                                <th
-                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                    Target Spent
-                                                </th>
-                                                <th
-                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                    Month
-                                                </th>
-                                                <th class="text-secondary opacity-7"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($reports as $report)
-                                                <tr>
-                                                    <td class="align-middle text-center">
-                                                        <span class="day-style text-sm font-weight-normal">
-                                                            {{ ($reports->currentPage() - 1) * $reports->perPage() + $loop->iteration }}
-                                                        </span>
-                                                    </td>
-                                                    <td class="align-middle text-center">
-                                                        @if ($report->jenis_layanan_mb === 'Leads')
-                                                            <span class="badge bg-success text-white"
-                                                                style="background-color: #198754 !important;">
-                                                                {{ $report->jenis_layanan_mb }} -
-                                                                {{ $report->jenis_leads }}
-                                                            </span>
-                                                        @else
-                                                            <span class="badge bg-success text-white"
-                                                                style="background-color: #198754 !important;">
-                                                                {{ $report->jenis_layanan_mb }}
-                                                            </span>
-                                                        @endif
-                                                    </td>
-                                                    <td class="align-middle text-center">
-                                                        <span class="text-secondary text-sm font-weight-normal">
-                                                            Rp {{ number_format($report->target_spent, 0, ',', '.') }}
-                                                        </span>
-                                                    </td>
-                                                    <td class="align-middle text-center report-date">
-                                                        <!-- Tambahkan kelas report-date di sini -->
-                                                        <span class="text-secondary text-sm font-weight-normal">
-                                                            {{ \Carbon\Carbon::parse($report->report_date)->format('F Y') }}
-                                                        </span>
-                                                    </td>
-                                                    <td class="align-middle">
-                                                        <button type="button"
-                                                            class="btn-style btn btn-info text-secondary font-weight-bold text-xs"
-                                                            data-bs-toggle="modal" data-bs-toggle="tooltip"
-                                                            data-bs-title="Detail"
-                                                            data-bs-target="#reportDetailModal{{ $report->id }}">
-                                                            <svg width="20" height="20"
-                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" stroke-width="1.5"
-                                                                stroke="currentColor" class="size-6">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                            </svg>
-                                                        </button>
-                                                        {{-- Tampilkan data bulanan --}}
-                                                        @php
-                                                            $jenisLayanan = $report->jenis_layanan_mb;
-                                                            $jenisLeads = $report->jenis_leads;
-                                                        @endphp
+                                <table class="table align-items-center mb-0">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                No
+                                            </th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Nama Campaign
+                                            </th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Jenis Layanan MB
+                                            </th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Target Spent
+                                            </th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Month
+                                            </th>
+                                            <th class="text-secondary opacity-7"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($reports as $report)
+                                        <tr>
+                                            <td class="align-middle text-center">
+                                                <span class="day-style text-sm font-weight-normal">
+                                                    {{ ($reports->currentPage() - 1) * $reports->perPage() +
+                                                    $loop->iteration }}
+                                                </span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-sm font-weight-normal">
+                                                    {{ $report->nama_campaign }}
+                                                </span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                @if ($report->jenis_layanan_mb === 'Leads')
+                                                <span class="badge bg-success text-white"
+                                                    style="background-color: #198754 !important;">
+                                                    {{ $report->jenis_layanan_mb }} -
+                                                    {{ $report->jenis_leads }}
+                                                </span>
+                                                @else
+                                                <span class="badge bg-success text-white"
+                                                    style="background-color: #198754 !important;">
+                                                    {{ $report->jenis_layanan_mb }}
+                                                </span>
+                                                @endif
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-sm font-weight-normal">
+                                                    Rp {{ number_format($report->target_spent, 0, ',', '.') }}
+                                                </span>
+                                            </td>
+                                            <td class="align-middle text-center report-date">
+                                                <!-- Tambahkan kelas report-date di sini -->
+                                                <span class="text-secondary text-sm font-weight-normal">
+                                                    {{ \Carbon\Carbon::parse($report->report_date)->format('F Y') }}
+                                                </span>
+                                            </td>
+                                            <td class="align-middle">
+                                                <button type="button"
+                                                    class="btn-style btn btn-info text-secondary font-weight-bold text-xs"
+                                                    data-bs-toggle="modal" data-bs-toggle="tooltip"
+                                                    data-bs-title="Detail"
+                                                    data-bs-target="#reportDetailModal{{ $report->id }}">
+                                                    <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                                        stroke="currentColor" class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                    </svg>
+                                                </button>
+                                                {{-- Tampilkan data bulanan --}}
+                                                @php
+                                                $jenisLayanan = $report->jenis_layanan_mb;
+                                                $jenisLeads = $report->jenis_leads;
+                                                @endphp
 
-                                                        @if ($jenisLayanan === 'Marketplace')
-                                                            {{-- Jika layanan adalah Marketplace --}}
-                                                            <a href="{{ route('laporan-harian.index', ['performance_bulanan_id' => $report->id]) }}"
-                                                                class="btn btn-info text-secondary font-weight-bold text-xs active-client"
-                                                                data-bs-toggle="tooltip"
-                                                                data-bs-title="Laporan Harian">
-                                                                <svg width="20" height="20"
-                                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                    viewBox="0 0 24 24" strokeWidth={1.5}
-                                                                    stroke="currentColor" className="size-6">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round"
-                                                                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                                                </svg>
-                                                            </a>
-                                                        @elseif ($jenisLeads)
-                                                            {{-- Jika layanan adalah Lead --}}
-                                                            <a href="{{ route('laporan-harian.index-lead', ['performance_bulanan_id' => $report->id]) }}"
-                                                                class="btn btn-info text-secondary font-weight-bold text-xs active-client"
-                                                                data-bs-toggle="tooltip"
-                                                                data-bs-title="Laporan Harian">
+                                                @if ($jenisLayanan === 'Marketplace')
+                                                {{-- Jika layanan adalah Marketplace --}}
+                                                <a href="{{ route('laporan-harian.index', ['performance_bulanan_id' => $report->id]) }}"
+                                                    class="btn btn-info text-secondary font-weight-bold text-xs active-client"
+                                                    data-bs-toggle="tooltip" data-bs-title="Laporan Harian">
+                                                    <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                                                        stroke="currentColor" className="size-6">
+                                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                                            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                                    </svg>
+                                                </a>
+                                                @elseif ($jenisLeads)
+                                                {{-- Jika layanan adalah Lead --}}
+                                                <a href="{{ route('laporan-harian.index-lead', ['performance_bulanan_id' => $report->id]) }}"
+                                                    class="btn btn-info text-secondary font-weight-bold text-xs active-client"
+                                                    data-bs-toggle="tooltip" data-bs-title="Laporan Harian">
 
-                                                                {{-- ICON atau TEKS --}}
-                                                                <svg width="20" height="20"
-                                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                    viewBox="0 0 24 24" strokeWidth={1.5}
-                                                                    stroke="currentColor" className="size-6">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round"
-                                                                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                                                </svg>
-                                                            </a>
-                                                        @else
-                                                            {{-- Default atau tidak diketahui --}}
-                                                            <span class="text-muted">Layanan belum ditentukan</span>
-                                                        @endif
-                                                        {{-- <a
+                                                    {{-- ICON atau TEKS --}}
+                                                    <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                                                        stroke="currentColor" className="size-6">
+                                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                                            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                                    </svg>
+                                                </a>
+                                                @else
+                                                {{-- Default atau tidak diketahui --}}
+                                                <span class="text-muted">Layanan belum ditentukan</span>
+                                                @endif
+                                                {{-- <a
                                                     href="{{ route('laporan-harian.index', ['performance_bulanan_id' => $report->id]) }}"
                                                     type="button"
                                                     class="btn btn-info text-secondary font-weight-bold text-xs active-client"
@@ -335,257 +343,231 @@
                                                             d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                                                     </svg>
                                                 </a> --}}
-                                                        {{-- Edit Data --}}
-                                                        <a href="{{ route('laporan-bulanan.edit', $report->id) }}"
-                                                            type="button"
-                                                            class="btn btn-primary text-secondary font-weight-bold text-xs active-client"
-                                                            data-bs-toggle="tooltip" data-bs-title="Edit user">
-                                                            <svg width="20" height="20"
-                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" strokeWidth={1.5}
-                                                                stroke="currentColor" className="size-6">
-                                                                <path strokeLinecap="round" strokeLinejoin="round"
-                                                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                                            </svg>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <div class="modal fade" id="reportDetailModal{{ $report->id }}"
-                                                    tabindex="-1"
-                                                    aria-labelledby="reportDetailModalLabel{{ $report->id }}"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog modal-lg">
-                                                        <div class="modal-content">
-                                                            <div class="modal-body">
-                                                                <div class="modal-header mb-3">
-                                                                    <h5 class="modal-title"
-                                                                        id="reportDetailModalLabel{{ $report->id }}">
-                                                                        Monthly Report Details
-                                                                    </h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
+                                                {{-- Edit Data --}}
+                                                <a href="{{ route('laporan-bulanan.edit', $report->id) }}" type="button"
+                                                    class="btn btn-primary text-secondary font-weight-bold text-xs active-client"
+                                                    data-bs-toggle="tooltip" data-bs-title="Edit user">
+                                                    <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                                                        stroke="currentColor" className="size-6">
+                                                        <path strokeLinecap="round" strokeLinejoin="round"
+                                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                    </svg>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <div class="modal fade" id="reportDetailModal{{ $report->id }}" tabindex="-1"
+                                            aria-labelledby="reportDetailModalLabel{{ $report->id }}"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div class="modal-header mb-3">
+                                                            <h5 class="modal-title"
+                                                                id="reportDetailModalLabel{{ $report->id }}">
+                                                                Monthly Report Details
+                                                            </h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
 
-                                                                @if ($report->jenis_layanan_mb === 'Leads')
-                                                                    <h6 class="mb-3">
-                                                                        Layanan:
-                                                                        <span class="badge bg-success text-white"
-                                                                            style="background-color: #198754 !important;">
-                                                                            {{ $report->jenis_layanan_mb }}
-                                                                        </span>
-                                                                    </h6>
-                                                                    <h6 class="mb-3">
-                                                                        Jenis Leads:
-                                                                        <span class="badge bg-success text-white"
-                                                                            style="background-color: #198754 !important;">
-                                                                            {{ $report->jenis_leads }}
-                                                                        </span>
-                                                                    </h6>
+                                                        @if ($report->jenis_layanan_mb === 'Leads')
+                                                        <h6 class="mb-3">
+                                                            Layanan:
+                                                            <span class="badge bg-success text-white"
+                                                                style="background-color: #198754 !important;">
+                                                                {{ $report->jenis_layanan_mb }}
+                                                            </span>
+                                                        </h6>
+                                                        <h6 class="mb-3">
+                                                            Jenis Leads:
+                                                            <span class="badge bg-success text-white"
+                                                                style="background-color: #198754 !important;">
+                                                                {{ $report->jenis_leads }}
+                                                            </span>
+                                                        </h6>
 
-                                                                    <div class="row">
-                                                                        @if ($report->jenis_leads === 'Total Closing')
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Spent</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->target_spent }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Leads</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->target_leads }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Chat</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->chat }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Respond</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->respond }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Closing</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->total_closing }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                        @elseif($report->jenis_leads === 'F to F')
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Spent</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->target_spent }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Leads</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->target_leads }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Chat</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->chat }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Greeting</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->greeting }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Pricelist</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->pricelist }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Discuss</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->discuss }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                        @elseif($report->jenis_leads === 'Roas Revenue')
-                                                                            <div class="col-md-4 mb-3">
-                                                                                <label>Target Spent</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->target_spent }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-4 mb-3">
-                                                                                <label>Target Revenue</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->target_revenue }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-4 mb-3">
-                                                                                <label>Target ROAS</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->target_roas }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Chat</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->chat }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Respond</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->respond }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Closing</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->closing }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                        @elseif($report->jenis_leads === 'Site Visit')
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Spent</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->spent }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Leads</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->target_leads }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Chat</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->chat }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Respond</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->respond }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label>Target Site Visit /
-                                                                                    Closing</label>
-                                                                                <input class="form-control"
-                                                                                    value="{{ $report->target_site_visit_closing }}"
-                                                                                    readonly>
-                                                                            </div>
-                                                                        @endif
+                                                        <div class="row">
+                                                            @if ($report->jenis_leads === 'Total Closing')
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Spent</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_spent }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Leads</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_leads }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Chat</label>
+                                                                <input class="form-control" value="{{ $report->chat }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Respond</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->respond }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Closing</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->total_closing }}" readonly>
+                                                            </div>
+                                                            @elseif($report->jenis_leads === 'F to F')
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Spent</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_spent }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Leads</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_leads }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Chat</label>
+                                                                <input class="form-control" value="{{ $report->chat }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Greeting</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->greeting }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Pricelist</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->pricelist }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Discuss</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->discuss }}" readonly>
+                                                            </div>
+                                                            @elseif($report->jenis_leads === 'Roas Revenue')
+                                                            <div class="col-md-4 mb-3">
+                                                                <label>Target Spent</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_spent }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-4 mb-3">
+                                                                <label>Target Revenue</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_revenue }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-4 mb-3">
+                                                                <label>Target ROAS</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_roas }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Chat</label>
+                                                                <input class="form-control" value="{{ $report->chat }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Respond</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->respond }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Closing</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->closing }}" readonly>
+                                                            </div>
+                                                            @elseif($report->jenis_leads === 'Site Visit')
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Spent</label>
+                                                                <input class="form-control" value="{{ $report->spent }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Leads</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_leads }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Chat</label>
+                                                                <input class="form-control" value="{{ $report->chat }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Respond</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->respond }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Target Site Visit /
+                                                                    Closing</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_site_visit_closing }}"
+                                                                    readonly>
+                                                            </div>
+                                                            @endif
 
-                                                                        <div class="col-md-6 mb-3">
-                                                                            <label>Report Date</label>
-                                                                            <input class="form-control"
-                                                                                value="{{ \Carbon\Carbon::parse($report->report_date)->format('d F Y') }}"
-                                                                                readonly>
-                                                                        </div>
-                                                                        <div class="col-md-12 mb-3">
-                                                                            <label>Notes</label>
-                                                                            <textarea class="form-control" rows="3" readonly>{{ $report->note }}</textarea>
-                                                                        </div>
-                                                                    </div>
-                                                                @else
-                                                                    <h6 class="mb-3">
-                                                                        Layanan:
-                                                                        <span class="badge bg-success text-white"
-                                                                            style="background-color: #198754 !important;">
-                                                                            {{ $report->jenis_layanan_mb }}
-                                                                        </span>
-                                                                    </h6>
-                                                                    <div class="row">
-                                                                        <div class="col-md-4 mb-3">
-                                                                            <label>Target Spent</label>
-                                                                            <input class="form-control"
-                                                                                value="{{ $report->target_spent }}"
-                                                                                readonly>
-                                                                        </div>
-                                                                        <div class="col-md-4 mb-3">
-                                                                            <label>Target Revenue</label>
-                                                                            <input class="form-control"
-                                                                                value="{{ $report->target_revenue }}"
-                                                                                readonly>
-                                                                        </div>
-                                                                        <div class="col-md-4 mb-3">
-                                                                            <label>Target ROAS</label>
-                                                                            <input class="form-control"
-                                                                                value="{{ $report->target_roas }}"
-                                                                                readonly>
-                                                                        </div>
-                                                                        <div class="col-md-6 mb-3">
-                                                                            <label>Report Date</label>
-                                                                            <input class="form-control"
-                                                                                value="{{ \Carbon\Carbon::parse($report->report_date)->format('d F Y') }}"
-                                                                                readonly>
-                                                                        </div>
-                                                                        <div class="col-md-12 mb-3">
-                                                                            <label>Notes</label>
-                                                                            <textarea class="form-control" rows="3" readonly>{{ $report->note }}</textarea>
-                                                                        </div>
-                                                                    </div>
-                                                                @endif
-
-                                                                <div class="modal-footer mt-2">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">Close</button>
-                                                                </div>
-
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Report Date</label>
+                                                                <input class="form-control"
+                                                                    value="{{ \Carbon\Carbon::parse($report->report_date)->format('d F Y') }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="col-md-12 mb-3">
+                                                                <label>Notes</label>
+                                                                <textarea class="form-control" rows="3"
+                                                                    readonly>{{ $report->note }}</textarea>
                                                             </div>
                                                         </div>
+                                                        @else
+                                                        <h6 class="mb-3">
+                                                            Layanan:
+                                                            <span class="badge bg-success text-white"
+                                                                style="background-color: #198754 !important;">
+                                                                {{ $report->jenis_layanan_mb }}
+                                                            </span>
+                                                        </h6>
+                                                        <div class="row">
+                                                            <div class="col-md-4 mb-3">
+                                                                <label>Target Spent</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_spent }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-4 mb-3">
+                                                                <label>Target Revenue</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_revenue }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-4 mb-3">
+                                                                <label>Target ROAS</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->target_roas }}" readonly>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Report Date</label>
+                                                                <input class="form-control"
+                                                                    value="{{ \Carbon\Carbon::parse($report->report_date)->format('d F Y') }}"
+                                                                    readonly>
+                                                            </div>
+                                                            <div class="col-md-12 mb-3">
+                                                                <label>Notes</label>
+                                                                <textarea class="form-control" rows="3"
+                                                                    readonly>{{ $report->note }}</textarea>
+                                                            </div>
+                                                        </div>
+                                                        @endif
+
+                                                        <div class="modal-footer mt-2">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                        </div>
+
                                                     </div>
                                                 </div>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                                 @endif
                             </div>
                             <div class="border-top py-3 px-3 d-flex align-items-center">
@@ -594,16 +576,16 @@
                                 </p>
                                 <div class="ms-auto">
                                     @if ($reports->onFirstPage())
-                                        <button class="btn btn-sm btn-white mb-0" disabled>Previous</button>
+                                    <button class="btn btn-sm btn-white mb-0" disabled>Previous</button>
                                     @else
-                                        <a href="{{ $reports->previousPageUrl() . '&client_id=' . $client->id }}"
-                                            class="btn btn-sm btn-white mb-0">Previous</a>
+                                    <a href="{{ $reports->previousPageUrl() . '&client_id=' . $client->id }}"
+                                        class="btn btn-sm btn-white mb-0">Previous</a>
                                     @endif
                                     @if ($reports->hasMorePages())
-                                        <a href="{{ $reports->nextPageUrl() . '&client_id=' . $client->id }}"
-                                            class="btn btn-sm btn-white mb-0">Next</a>
+                                    <a href="{{ $reports->nextPageUrl() . '&client_id=' . $client->id }}"
+                                        class="btn btn-sm btn-white mb-0">Next</a>
                                     @else
-                                        <button class="btn btn-sm btn-white mb-0" disabled>Next</button>
+                                    <button class="btn btn-sm btn-white mb-0" disabled>Next</button>
                                     @endif
                                 </div>
                             </div>
@@ -615,28 +597,28 @@
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @php
-        $labels = [];
-        $spent = [];
-        $revenue = [];
-        $roas = [];
+    $labels = [];
+    $spent = [];
+    $revenue = [];
+    $roas = [];
 
-        foreach ($reports as $report) {
-            $labels[] = \Carbon\Carbon::parse($report->report_date)->format('M Y');
-            $spent[] = $report->target_spent;
-            $revenue[] = $report->target_revenue;
-            $roas[] = $report->target_roas;
-        }
+    foreach ($reports as $report) {
+    $labels[] = \Carbon\Carbon::parse($report->report_date)->format('M Y');
+    $spent[] = $report->target_spent;
+    $revenue[] = $report->target_revenue;
+    $roas[] = $report->target_roas;
+    }
 
-        $compareLabels = $compareSpent = $compareRevenue = $compareRoas = [];
+    $compareLabels = $compareSpent = $compareRevenue = $compareRoas = [];
 
-        if (!empty($compareReports)) {
-            foreach ($compareReports as $compareReport) {
-                $compareLabels[] = \Carbon\Carbon::parse($compareReport->report_date)->format('D M');
-                $compareSpent[] = $compareReport->target_spent;
-                $compareRevenue[] = $compareReport->target_revenue;
-                $compareRoas[] = $compareReport->target_roas;
-            }
-        }
+    if (!empty($compareReports)) {
+    foreach ($compareReports as $compareReport) {
+    $compareLabels[] = \Carbon\Carbon::parse($compareReport->report_date)->format('D M');
+    $compareSpent[] = $compareReport->target_spent;
+    $compareRevenue[] = $compareReport->target_revenue;
+    $compareRoas[] = $compareReport->target_roas;
+    }
+    }
     @endphp
 
     <script>

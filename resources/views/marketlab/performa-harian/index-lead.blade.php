@@ -15,8 +15,8 @@
                                             <div class="style-day card-body text-start p-3 w-100">
                                                 <div
                                                     class="icon icon-shape icon-sm bg-dark text-white text-center border-radius-sm d-flex align-items-center justify-content-center mb-3">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                        height="16" fill="currentColor" class="bi bi-person-circle"
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-person-circle"
                                                         viewBox="0 0 16 16">
                                                         <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
                                                         <path fill-rule="evenodd"
@@ -44,8 +44,8 @@
                                             <div class="style-day card-body text-start p-3 w-100">
                                                 <div
                                                     class="icon icon-shape icon-sm bg-dark text-white text-center border-radius-sm d-flex align-items-center justify-content-center mb-3">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                        height="16" fill="currentColor" class="bi bi-calendar-date"
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-calendar-date"
                                                         viewBox="0 0 16 16">
                                                         <path
                                                             d="M6.445 11.688V6.354h-.633A13 13 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23" />
@@ -59,7 +59,9 @@
                                                             <p class="text-sm text-secondary mb-1 text-center">Tanggal
                                                                 Laporan</p>
                                                             <h6 class="mb-2 font-weight-bold text-center">
-                                                                {{ \Carbon\Carbon::parse($report->report_date)->translatedFormat('F Y') ?? '-' }}
+                                                                {{
+                                                                \Carbon\Carbon::parse($report->report_date)->translatedFormat('F
+                                                                Y') ?? '-' }}
                                                             </h6>
                                                             <div class="d-flex align-items-center">
                                                             </div>
@@ -74,9 +76,8 @@
                                             <div class="style-day card-body text-start p-3 w-100">
                                                 <div
                                                     class="icon icon-shape icon-sm bg-dark text-white text-center border-radius-sm d-flex align-items-center justify-content-center mb-3">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                        height="16" fill="currentColor" class="bi bi-briefcase"
-                                                        viewBox="0 0 16 16">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-briefcase" viewBox="0 0 16 16">
                                                         <path
                                                             d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v8A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5m1.886 6.914L15 7.151V12.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5V7.15l6.614 1.764a1.5 1.5 0 0 0 .772 0M1.5 4h13a.5.5 0 0 1 .5.5v1.616L8.129 7.948a.5.5 0 0 1-.258 0L1 6.116V4.5a.5.5 0 0 1 .5-.5" />
                                                     </svg>
@@ -102,9 +103,8 @@
                                             <div class="style-day card-body text-start p-3 w-100">
                                                 <div
                                                     class="icon icon-shape icon-sm bg-dark text-white text-center border-radius-sm d-flex align-items-center justify-content-center mb-3">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                        height="16" fill="currentColor" class="bi bi-graph-up"
-                                                        viewBox="0 0 16 16">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
                                                         <path fill-rule="evenodd"
                                                             d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07" />
                                                     </svg>
@@ -140,69 +140,69 @@
                                     {{ \Carbon\Carbon::parse($report->report_date)->translatedFormat('F Y') ?? '-' }}
                                 </h5>
                                 @if ($report->jenis_leads == 'F to F')
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
-                                            </h5>
-                                            <canvas id="chartSpent" height="200"></canvas>
-                                            <div id="customLegendSpent" class="mt-3 mb-4 text-center"></div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
-                                            </h5>
-                                            <div id="chartContainer" class="mt-4 mb-4" style="height: 270px;"></div>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
+                                        </h5>
+                                        <canvas id="chartSpent" height="200"></canvas>
+                                        <div id="customLegendSpent" class="mt-3 mb-4 text-center"></div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
+                                        </h5>
+                                        <div id="chartContainer" class="mt-4 mb-4" style="height: 270px;"></div>
+                                    </div>
+                                </div>
                                 @elseif ($report->jenis_leads == 'Roas Revenue')
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
-                                            </h5>
-                                            <canvas id="chartSpent" height="200"></canvas>
-                                            <div id="customLegendSpent" class="customSpent mt-4 mb-4"></div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
-                                            </h5>
-                                            <canvas id="chartOther" height="200"></canvas>
-                                            <div id="customLegendOther" class="customOther mt-4 mb-4"></div>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
+                                        </h5>
+                                        <canvas id="chartSpent" height="200"></canvas>
+                                        <div id="customLegendSpent" class="customSpent mt-4 mb-4"></div>
                                     </div>
+
+                                    <div class="col-md-6">
+                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
+                                        </h5>
+                                        <canvas id="chartOther" height="200"></canvas>
+                                        <div id="customLegendOther" class="customOther mt-4 mb-4"></div>
+                                    </div>
+                                </div>
                                 @elseif ($report->jenis_leads == 'Total Closing')
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
-                                            </h5>
-                                            <canvas id="chartSpent" height="200"></canvas>
-                                            <div id="customLegendSpent" class="mt-3 mb-3 text-center"></div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
-                                            </h5>
-                                            <canvas id="chartOther" height="200"></canvas>
-                                            <div id="customLegendOther" class="mt-3 mb-3 text-center"></div>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
+                                        </h5>
+                                        <canvas id="chartSpent" height="200"></canvas>
+                                        <div id="customLegendSpent" class="mt-3 mb-3 text-center"></div>
                                     </div>
+
+                                    <div class="col-md-6">
+                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
+                                        </h5>
+                                        <canvas id="chartOther" height="200"></canvas>
+                                        <div id="customLegendOther" class="mt-3 mb-3 text-center"></div>
+                                    </div>
+                                </div>
                                 @elseif ($report->jenis_leads == 'Site Visits')
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
-                                            </h5>
-                                            <canvas id="chartSpent" height="200"></canvas>
-                                            <div id="customLegendSpent" class="mt-3 mb-3 text-center"></div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
-                                            </h5>
-                                            <canvas id="chartOther" height="200"></canvas>
-                                            <div id="customLegendOther" class="mt-3 mb-3 text-center"></div>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
+                                        </h5>
+                                        <canvas id="chartSpent" height="200"></canvas>
+                                        <div id="customLegendSpent" class="mt-3 mb-3 text-center"></div>
                                     </div>
+
+                                    <div class="col-md-6">
+                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
+                                        </h5>
+                                        <canvas id="chartOther" height="200"></canvas>
+                                        <div id="customLegendOther" class="mt-3 mb-3 text-center"></div>
+                                    </div>
+                                </div>
                                 @else
-                                    <p>Tidak ada grafik untuk jenis leads ini.</p>
+                                <p>Tidak ada grafik untuk jenis leads ini.</p>
                                 @endif
                             </div>
                         </div>
@@ -218,9 +218,8 @@
                                         <p class="text-sm">List of market booster daily report</p>
                                     </div>
                                     <div class="ms-auto d-flex">
-                                        <a class="btn btn-sm btn-clien btn-icon d-flex align-items-center me-2"
-                                            href="#" role="button" data-bs-toggle="modal"
-                                            data-bs-target="#createLeadModal">
+                                        <a class="btn btn-sm btn-clien btn-icon d-flex align-items-center me-2" href="#"
+                                            role="button" data-bs-toggle="modal" data-bs-target="#createLeadModal">
                                             <span class="btn-inner--icon">
                                                 <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
@@ -234,57 +233,137 @@
                                     <!-- Modal untuk Create -->
                                     <div class="modal fade" id="createLeadModal" tabindex="-1"
                                         aria-labelledby="createLeadModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
+                                        <div class="modal-dialog modal-xl">
                                             <form action="{{ route('lead.store') }}" method="POST"
                                                 class="modal-content">
                                                 @csrf
                                                 <input type="hidden" name="performance_bulanan_id"
                                                     value="{{ $report->id }}">
 
-                                                <div class="modal-header mx-3 mt-3 ">
+                                                <div class="modal-header mx-3 mt-3">
                                                     <h5 class="modal-title">Tambah Data Harian</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Tutup"></button>
                                                 </div>
-                                                <div class="modal-body row">
-                                                    <div class="row">
-                                                        <div class="mb-3 col-md-3">
-                                                            <label>Hari</label>
-                                                            <input type="date" name="hari" class="form-control"
+
+                                                <div class="modal-body">
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label">Tanggal</label>
+                                                            <input type="date" class="form-control" name="report_date"
                                                                 required>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        @foreach ($fields as $field)
-                                                            @if ($field == 'hari' || $field == 'note')
-                                                                @continue
-                                                            @endif
-                                                            <div class="mb-3 col-md-4">
-                                                                <label>{{ ucfirst($field) }}</label>
-                                                                <input type="text"
-                                                                    placeholder="Data {{ $field }}"
-                                                                    name="{{ $field }}" class="form-control">
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="mb-3 col-md-12">
-                                                            <label>Note</label>
-                                                            <textarea type="text" rows="3" name="note" class="form-control" required> </textarea>
 
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">Spent</label>
+                                                            <input type="number" class="form-control" name="spent"
+                                                                id="spent" placeholder="Spent">
                                                         </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">Leads</label>
+                                                            <input type="number" class="form-control" name="leads"
+                                                                placeholder="Leads">
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">Chat</label>
+                                                            <input type="number" class="form-control" name="chat"
+                                                                placeholder="Chat">
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">Greeting</label>
+                                                            <input type="number" class="form-control" name="greeting"
+                                                                placeholder="Greeting">
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">Pricelist</label>
+                                                            <input type="number" class="form-control" name="pricelist"
+                                                                placeholder="Pricelist">
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">Discuss</label>
+                                                            <input type="number" class="form-control" name="discuss"
+                                                                placeholder="Discuss">
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">Respond</label>
+                                                            <input type="number" class="form-control" name="respond"
+                                                                placeholder="Respond" readonly>
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">Closing</label>
+                                                            <input type="number" class="form-control" name="closing"
+                                                                placeholder="Closing">
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">Site Visit</label>
+                                                            <input type="number" class="form-control" name="site_visits"
+                                                                placeholder="Site Visits">
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">Revenue</label>
+                                                            <input type="number" class="form-control" name="revenue"
+                                                                id="revenue" placeholder="Revenue">
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">ROAS</label>
+                                                            <input type="number" class="form-control" name="roas"
+                                                                id="roas" placeholder="Roas" readonly>
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">CPL</label>
+                                                            <input type="number" class="form-control" name="cpl"
+                                                                placeholder="CPL">
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">CPC</label>
+                                                            <input type="number" class="form-control" name="cpc"
+                                                                placeholder="CPC">
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">CR Leads > Chat</label>
+                                                            <input type="number" class="form-control"
+                                                                name="cr_leads_chat" placeholder="CR Leads > Chat"
+                                                                readonly>
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">CR Chat > Respond</label>
+                                                            <input type="number" class="form-control"
+                                                                name="cr_chat_respond" placeholder="CR Chat > Respond"
+                                                                readonly>
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">CR Respond > Closing</label>
+                                                            <input type="number" class="form-control"
+                                                                name="cr_respond_closing"
+                                                                placeholder="CR Respond > Closing" readonly>
+                                                        </div>
+                                                        <div class="col-md-3 mb-2">
+                                                            <label class="form-label">CR Respond > Site Visit</label>
+                                                            <input type="number" class="form-control"
+                                                                name="cr_respond_site_visit"
+                                                                placeholder="CR Respond > Site Visit" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Note</label>
+                                                        <textarea class="form-control" name="note" id="note"
+                                                            placeholder="Note....." rows="3" required></textarea>
                                                     </div>
                                                 </div>
 
                                                 <div class="modal-footer">
                                                     <button type="submit" class="btn btn-primary">Simpan</button>
                                                     <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
+                                                        data-bs-dismiss="modal">Tutup</button>
                                                 </div>
                                             </form>
+
+
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -295,233 +374,201 @@
                         <div class="card border shadow-xs mb-4 border-client">
                             <div class="table-responsive p-0">
                                 @if ($leads->isEmpty())
-                                    <div class="alert alert-warning">
-                                        Belum ada data laporan harian untuk bulan ini.
-                                    </div>
+                                <div class="alert alert-warning">
+                                    Belum ada data laporan harian untuk bulan ini.
+                                </div>
                                 @else
-                                    <table class="table align-items-center mb-0" id="clientTableMB">
-                                        <thead class="bg-gray-100">
-                                            <tr class="tabel-style">
-                                                @foreach ($fields as $field)
-                                                    @if ($field == 'note')
-                                                        @continue
-                                                    @endif
-                                                    <th class="text-secondary text-xs font-weight-semibold opacity-7">
-                                                        {{ ucfirst($field) }}
-                                                    </th>
-                                                @endforeach
-                                                <th
-                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                    Topup Details</th>
-                                                <th class="text-secondary opacity-7"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($leads as $lead)
-                                                <tr class="client-row-mb">
-                                                    @foreach ($fields as $field)
-                                                        @if ($field == 'note')
-                                                            @continue
-                                                        @endif
-                                                        <td class="client-name-style">
-                                                            <div class="d-flex px-2 py-1">
-                                                                <div
-                                                                    class="d-flex flex-column justify-content-center ms-1">
-                                                                    <h6 class="mb-0 text-sm font-weight-semibold">
-                                                                        {{ $lead->$field }}
-                                                                    </h6>
+                                <table class="table align-items-center mb-0" id="clientTableMB">
+                                    <thead class="bg-gray-100">
+                                        <tr class="tabel-style">
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Hari</th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Spent</th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Revenue
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">ROAS</th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Leads</th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Chat</th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Respond
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Greeting
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Pricelist
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Discuss
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Closing
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Site Visit
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CPL</th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CPC</th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR Leads
+                                                to Chat</th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR Chat to
+                                                Respond</th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR Respond
+                                                to Closing</th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR Respond
+                                                to Site Visit</th>
+                                            <th
+                                                class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                Topup Details</th>
+                                            <th class="text-secondary opacity-7"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($leads as $lead)
+                                        <tr class="client-row-mb">
+                                            <td>{{ $lead->hari }}</td>
+                                            <td>{{ $lead->spent }}</td>
+                                            <td>{{ $lead->revenue }}</td>
+                                            <td>{{ $lead->roas }}</td>
+                                            <td>{{ $lead->leads }}</td>
+                                            <td>{{ $lead->chat }}</td>
+                                            <td>{{ $lead->respond }}</td>
+                                            <td>{{ $lead->greeting }}</td>
+                                            <td>{{ $lead->pricelist }}</td>
+                                            <td>{{ $lead->discuss }}</td>
+                                            <td>{{ $lead->closing }}</td>
+                                            <td>{{ $lead->site_visit }}</td>
+                                            <td>{{ $lead->cpl }}</td>
+                                            <td>{{ $lead->cpc }}</td>
+                                            <td>{{ $lead->cr_leads_to_chat }}</td>
+                                            <td>{{ $lead->cr_chat_to_respond }}</td>
+                                            <td>{{ $lead->cr_respond_to_closing }}</td>
+                                            <td>{{ $lead->cr_respond_to_site_visit }}</td>
+
+                                            <!-- Kolom aksi -->
+                                            <td class="align-middle text-center">
+                                                <button type="button"
+                                                    class="btn-style btn btn-info text-secondary font-weight-bold text-xs"
+                                                    data-bs-toggle="modal" data-bs-target="#detailModal{{ $lead->id }}">
+                                                    Lihat Detail Harian
+                                                </button>
+
+                                                <!-- Modal Detail -->
+                                                <div class="modal fade" id="detailModal{{ $lead->id }}" tabindex="-1"
+                                                    aria-labelledby="detailModalLabel{{ $lead->id }}"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header mx-3 mt-3">
+                                                                <h5 class="modal-title">
+                                                                    Detail Harian - {{
+                                                                    \Carbon\Carbon::parse($lead->hari)->translatedFormat('l,
+                                                                    d F Y') }}
+                                                                </h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Tutup"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-4 mb-2"><strong>Spent:</strong>
+                                                                        {{ $lead->spent }}</div>
+                                                                    <div class="col-md-4 mb-2"><strong>Revenue:</strong>
+                                                                        {{ $lead->revenue }}</div>
+                                                                    <div class="col-md-4 mb-2"><strong>ROAS:</strong> {{
+                                                                        $lead->roas }}</div>
+                                                                    <div class="col-md-4 mb-2"><strong>Leads:</strong>
+                                                                        {{ $lead->leads }}</div>
+                                                                    <div class="col-md-4 mb-2"><strong>Chat:</strong> {{
+                                                                        $lead->chat }}</div>
+                                                                    <div class="col-md-4 mb-2"><strong>Respond:</strong>
+                                                                        {{ $lead->respond }}</div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <strong>Greeting:</strong> {{ $lead->greeting }}
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <strong>Pricelist:</strong> {{ $lead->pricelist
+                                                                        }}
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2"><strong>Discuss:</strong>
+                                                                        {{ $lead->discuss }}</div>
+                                                                    <div class="col-md-4 mb-2"><strong>Closing:</strong>
+                                                                        {{ $lead->closing }}</div>
+                                                                    <div class="col-md-4 mb-2"><strong>Site
+                                                                            Visit:</strong> {{ $lead->site_visit }}
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2"><strong>CPL:</strong> {{
+                                                                        $lead->cpl }}</div>
+                                                                    <div class="col-md-4 mb-2"><strong>CPC:</strong> {{
+                                                                        $lead->cpc }}</div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <strong>CR Leads to Chat:</strong> {{
+                                                                        $lead->cr_leads_to_chat }}%
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <strong>CR Chat to Respond:</strong> {{
+                                                                        $lead->cr_chat_to_respond }}%
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <strong>CR Respond to Closing:</strong> {{
+                                                                        $lead->cr_respond_to_closing }}%
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <strong>CR Respond to Site Visit:</strong> {{
+                                                                        $lead->cr_respond_to_site_visit }}%
+                                                                    </div>
+
+                                                                    <div class="col-md-12 mt-3">
+                                                                        <strong>Note:</strong><br>{{ $lead->note }}
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </td>
-                                                    @endforeach
-                                                    <td class="align-middle text-center">
-                                                        <button type="button"
-                                                            class="btn-style btn btn-info text-secondary font-weight-bold text-xs"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#detailModal{{ $lead->id }}">
-                                                            Lihat Detail Harian
-                                                        </button>
-                                                        <!-- Modal Detail Harian -->
-                                                        <div class="modal fade" id="detailModal{{ $lead->id }}"
-                                                            tabindex="-1"
-                                                            aria-labelledby="detailModalLabel{{ $lead->id }}"
-                                                            aria-hidden="true">
-                                                            <div class="modal-dialog modal-lg">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header mx-3 mt-3">
-                                                                        <h5 class="modal-title">Detail Harian -
-                                                                            {{ \Carbon\Carbon::parse($lead->hari)->translatedFormat('l, d F Y') ?? '-' }}
-                                                                        </h5>
-                                                                        <button type="button" class="btn-close"
-                                                                            data-bs-dismiss="modal"
-                                                                            aria-label="Tutup"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <form>
-                                                                            <div class="row">
-                                                                                @foreach ($fields as $field)
-                                                                                    @if ($field == 'hari' || $field == 'note')
-                                                                                        @continue
-                                                                                    @endif
-                                                                                    <div class="col-md-4">
-                                                                                        <div class="form-group">
-                                                                                            <label
-                                                                                                class="text-start">{{ ucfirst($field) }}</label>
-                                                                                            <div
-                                                                                                class="readonly-input text-start">
-                                                                                                {{ $lead->$field ?? '-' }}
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    {{-- <div class="col-md-6 mb-3">
-                                                                                        <strong>{{ ucfirst($field) }}</strong><br>
-                                                                                        {{ $lead->$field ?? '-' }}
-                                                                                    </div> --}}
-                                                                                @endforeach
-                                                                                <div class="col-md-12">
-                                                                                    <div class="form-group">
-                                                                                        <label
-                                                                                            class="text-start">Note</label>
-                                                                                        <div
-                                                                                            class="readonly-textarea text-start">
-                                                                                            {{ $lead->note ?? '-' }}
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </form>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button"
-                                                                            class="btn btn-secondary"
-                                                                            data-bs-dismiss="modal">Tutup</button>
-                                                                    </div>
-                                                                </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Tutup</button>
                                                             </div>
                                                         </div>
-                                                    </td>
-                                                    <td class="align-middle">
-                                                        <a href="#"
-                                                            class="btn btn-info text-secondary font-weight-bold text-xs active-client"
-                                                            data-bs-toggle="tooltip" data-bs-title="Laporan Bulanan">
-                                                            <svg width="20" height="20"
-                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" stroke-width="1.5"
-                                                                stroke="currentColor" class="size-6">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                                            </svg>
-                                                        </a>
-                                                        <a href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#editLeadModal{{ $lead->id }}"
-                                                            type="button"
-                                                            class="btn btn-primary text-secondary font-weight-bold text-xs active-client"
-                                                            data-bs-toggle="tooltip" data-bs-title="Edit user">
-                                                            <svg width="20" height="20"
-                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" strokeWidth={1.5}
-                                                                stroke="currentColor" className="size-6">
-                                                                <path strokeLinecap="round" strokeLinejoin="round"
-                                                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                                            </svg>
-                                                        </a>
-                                                        <form
-                                                            action="{{ route('laporan-harian-lead.destroy', $lead->id) }}"
-                                                            method="POST" style="display: inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button ype="submit"
-                                                                class="btn-style btn btn-danger text-secondary font-weight-bold text-xs"
-                                                                data-bs-toggle="tooltip" data-bs-title="Hapus"
-                                                                onclick="return confirm('Apakah Anda yakin ingin menghapus?')">
-                                                                <svg width="20" height="20"
-                                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                    viewBox="0 0 24 24" strokeWidth={1.5}
-                                                                    stroke="currentColor" class="size-6">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round"
-                                                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                                </svg>
-                                                            </button>
-                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
 
-                                                        @foreach ($leads as $lead)
-                                                            <div class="modal fade"
-                                                                id="editLeadModal{{ $lead->id }}" tabindex="-1"
-                                                                aria-labelledby="editLeadModalLabel{{ $lead->id }}"
-                                                                aria-hidden="true">
-                                                                <div class="modal-dialog modal-lg">
-                                                                    <form
-                                                                        action="{{ route('lead.update', $lead->id) }}"
-                                                                        method="POST" class="modal-content">
-                                                                        @csrf
-                                                                        @method('PUT')
+                                            <!-- Kolom aksi edit & hapus -->
+                                            <td class="align-middle">
+                                                <a href="#"
+                                                    class="btn btn-info text-secondary font-weight-bold text-xs active-client"
+                                                    data-bs-toggle="tooltip" data-bs-title="Laporan Bulanan">
+                                                    <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                                        stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                                    </svg>
+                                                </a>
+                                                <a href="#" data-bs-toggle="modal"
+                                                    data-bs-target="#editLeadModal{{ $lead->id }}" type="button"
+                                                    class="btn btn-primary text-secondary font-weight-bold text-xs active-client"
+                                                    data-bs-toggle="tooltip" data-bs-title="Edit user">
+                                                    <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                                        stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                    </svg>
+                                                </a>
+                                                <form action="{{ route('laporan-harian-lead.destroy', $lead->id) }}"
+                                                    method="POST" style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="btn-style btn btn-danger text-secondary font-weight-bold text-xs"
+                                                        data-bs-toggle="tooltip" data-bs-title="Hapus"
+                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus?')">
+                                                        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                                            stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
 
-                                                                        <input type="hidden"
-                                                                            name="performance_bulanan_id"
-                                                                            value="{{ $report->id }}">
-
-                                                                        <div class="modal-header mx-3 mt-3">
-                                                                            <h5 class="modal-title"
-                                                                                id="editLeadModalLabel{{ $lead->id }}">
-                                                                                Edit Data
-                                                                                Harian</h5>
-                                                                            <button type="button" class="btn-close"
-                                                                                data-bs-dismiss="modal"
-                                                                                aria-label="Tutup"></button>
-                                                                        </div>
-
-                                                                        <div class="modal-body row">
-                                                                            {{-- Hari manual tetap di sini --}}
-                                                                            <div class="row">
-                                                                                <div class="mb-3 col-md-3">
-                                                                                    <label>Hari</label>
-                                                                                    <input type="date"
-                                                                                        name="hari"
-                                                                                        class="form-control"
-                                                                                        value="{{ $lead->hari }}"
-                                                                                        required>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                {{-- Loop field kecuali 'hari' --}}
-                                                                                @foreach ($fields as $field)
-                                                                                    @if ($field == 'hari' || $field == 'note')
-                                                                                        @continue
-                                                                                    @endif
-                                                                                    <div class="mb-3 col-md-4">
-                                                                                        <label>{{ ucfirst($field) }}</label>
-                                                                                        <input type="text"
-                                                                                            name="{{ $field }}"
-                                                                                            class="form-control"
-                                                                                            value="{{ $lead->$field }}">
-                                                                                    </div>
-                                                                                @endforeach
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="mb-3 col-md-12">
-                                                                                    <label for="note">Note</label>
-                                                                                    <textarea name="note" id="note" class="form-control text-start" rows="3">{{ $lead->note }}</textarea>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="modal-footer">
-                                                                            <button type="submit"
-                                                                                class="btn btn-primary">Update</button>
-                                                                            <button type="button"
-                                                                                class="btn btn-secondary"
-                                                                                data-bs-dismiss="modal">Batal</button>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        @endforeach
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-
-                                        </tbody>
-                                    </table>
                                 @endif
                             </div>
                         </div>
@@ -837,8 +884,71 @@
             chartOther = createChart('chartOther', datasetsOther, 'customLegendOther');
         });
     </script>
+    <script>
+        function calculateRoas() {
+        let spent = parseFloat(document.getElementById('spent').value) || 0;
+        let revenue = parseFloat(document.getElementById('revenue').value) || 0;
+        let roas = spent > 0 ? (revenue / spent).toFixed(2) : 0;
+        document.getElementById('roas').value = roas;
+    }
 
+    function calculateRespond() {
+        let greeting = parseInt(document.getElementsByName('greeting')[0].value) || 0;
+        let pricelist = parseInt(document.getElementsByName('pricelist')[0].value) || 0;
+        let discuss = parseInt(document.getElementsByName('discuss')[0].value) || 0;
 
+        let respond = greeting + pricelist + discuss;
+        document.getElementsByName('respond')[0].value = respond;
 
+        calculateCRChatRespond(); 
+        calculateCRRespondClosing(); 
+        calculateCRRespondSiteVisit(); 
+    }
+
+    function calculateCRLeadsChat() {
+        let leads = parseInt(document.getElementsByName('leads')[0].value) || 0;
+        let chat = parseInt(document.getElementsByName('chat')[0].value) || 0;
+        let cr = (chat > 0) ? ((chat / leads) * 100).toFixed(2) : 0;
+        document.getElementsByName('cr_leads_chat')[0].value = cr;
+    }
+
+    function calculateCRChatRespond() {
+        let respond = parseInt(document.getElementsByName('respond')[0].value) || 0;
+        let chat = parseInt(document.getElementsByName('chat')[0].value) || 0;
+        let cr = (chat > 0) ? ((respond / chat) * 100).toFixed(2) : 0;
+        document.getElementsByName('cr_chat_respond')[0].value = cr;
+    }
+
+    function calculateCRRespondClosing() {
+        let closing = parseInt(document.getElementsByName('closing')[0].value) || 0;
+        let respond = parseInt(document.getElementsByName('respond')[0].value) || 0;
+        let cr = (respond > 0) ? ((closing / respond) * 100).toFixed(2) : 0;
+        document.getElementsByName('cr_respond_closing')[0].value = cr;
+    }
+
+    function calculateCRRespondSiteVisit() {
+        let siteVisit = parseInt(document.getElementsByName('site_visits')[0].value) || 0;
+        let respond = parseInt(document.getElementsByName('respond')[0].value) || 0;
+        let cr = (respond > 0) ? ((siteVisit / respond) * 100).toFixed(2) : 0;
+        document.getElementsByName('cr_respond_site_visit')[0].value = cr;
+    }
+
+    // Event listeners
+    document.getElementById('spent').addEventListener('input', calculateRoas);
+    document.getElementById('revenue').addEventListener('input', calculateRoas);
+
+    document.getElementsByName('greeting')[0].addEventListener('input', calculateRespond);
+    document.getElementsByName('pricelist')[0].addEventListener('input', calculateRespond);
+    document.getElementsByName('discuss')[0].addEventListener('input', calculateRespond);
+
+    document.getElementsByName('leads')[0].addEventListener('input', calculateCRLeadsChat);
+    document.getElementsByName('chat')[0].addEventListener('input', () => {
+        calculateCRLeadsChat();
+        calculateCRChatRespond();
+    });
+
+    document.getElementsByName('closing')[0].addEventListener('input', calculateCRRespondClosing);
+    document.getElementsByName('site_visits')[0].addEventListener('input', calculateCRRespondSiteVisit);
+    </script>
 
 </x-app-layout>

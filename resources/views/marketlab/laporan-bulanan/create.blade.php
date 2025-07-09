@@ -11,13 +11,13 @@
                     <div class="card border shadow-xs mb-4">
                         <div class="row">
                             @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
                             @endif
                             <div class="col-md-12">
                                 <div class="card-header border-bottom pb-0">
@@ -224,15 +224,15 @@
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">CR Leads > Chat*</label>
-                                                        <input type="number" class="form-control"
-                                                            name="cr_leads_chat" placeholder="CR Leads > Chat">
+                                                        <input type="number" class="form-control" name="cr_leads_chat"
+                                                            placeholder="CR Leads > Chat">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">CR Chat > Respond*</label>
-                                                        <input type="number" class="form-control"
-                                                            name="cr_chat_respond" placeholder="CR Chat > Respond">
+                                                        <input type="number" class="form-control" name="cr_chat_respond"
+                                                            placeholder="CR Chat > Respond">
                                                     </div>
                                                 </div>
                                             </div>
@@ -253,26 +253,21 @@
                                                             placeholder="CR Respond > Site Visit">
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div>
-
-
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="mb-3">
                                                     <div class="mb-3">
                                                         <label for="note" class="form-label">Note</label>
-                                                        <textarea class="form-control" name="note" id="note" placeholder="Note....." rows="3" required></textarea>
+                                                        <textarea class="form-control" name="note" id="note"
+                                                            placeholder="Note....." rows="3" required></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
-
                                         </div>
-
-
                                         <div class="border-top py-3 px-3 d-flex align-items-center">
                                             <div class="ms-auto">
                                                 <button type="submit" class="btn btn-sm btn-white mb-0">Save</button>

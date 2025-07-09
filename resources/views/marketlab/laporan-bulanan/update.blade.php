@@ -29,158 +29,227 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="card-header border-bottom pb-0">
                                     <form action="{{ route('laporan-bulanan.update', $reports->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
-
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="mb-3">
-                                                    <label for="client_id" class="form-label">ID Client</label>
-                                                    <input type="text" class="form-control"
+                                                    <label for="client_id" class="form-label">Id Client</label>
+                                                    <input type="hidden" name="client_id"
+                                                        value="{{ $reports->client_id }}">
+                                                    <input type="text" class="form-control" id="client_id_display"
                                                         value="{{ $reports->client_id }}" readonly>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nama Campaign</label>
+                                                    <input type="text" class="form-control" name="nama_campaign"
+                                                        value="{{ $reports->nama_campaign }}"
+                                                        placeholder="Nama Campaign">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <label for="report_date" class="form-label">Month</label>
                                                     <input type="month" class="form-control" name="report_date"
-                                                        id="report_date" required value="{{ $reports->report_date }}">
+                                                        value="{{ $reports->report_date }}" id="report_date" required>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        {{-- Jenis Layanan & Leads --}}
-                                        @if ($reports->jenis_layanan_mb === 'Leads')
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label for="jenis_layanan_mb" class="form-label">Jenis Layanan</label>
-                                                <input type="text" class="form-control"
-                                                    value="{{ $reports->jenis_layanan_mb }}" readonly>
+                                        <div class="mb-3">
+                                            <label class="form-label d-block">Jenis Layanan MB</label>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="layanan_mb"
+                                                    value="Leads" {{ $reports->jenis_layanan_mb === 'Leads' ? 'checked'
+                                                : '' }}>
+                                                <label class="form-check-label">Leads</label>
                                             </div>
-                                            <div class="col-md-6">
-                                                <label for="jenis_leads" class="form-label">Jenis Leads</label>
-                                                <input type="text" class="form-control"
-                                                    value="{{ $reports->jenis_leads }}" readonly>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="layanan_mb"
+                                                    value="Marketplace" {{ $reports->jenis_layanan_mb === 'Marketplace'
+                                                ? 'checked' : '' }}>
+                                                <label class="form-check-label">Marketplace</label>
                                             </div>
                                         </div>
 
-                                        @if ($reports->jenis_leads === 'F to F')
-                                        {{-- Leads: F to F --}}
-                                        <div class="row mt-4">
-                                            <div class="col-md-4"><label>Spent</label><input type="number"
-                                                    name="spent_ff" class="form-control"
-                                                    value="{{ $reports->target_spent }}"></div>
-                                            <div class="col-md-4"><label>Leads</label><input type="number"
-                                                    name="leads_ff" class="form-control"
-                                                    value="{{ $reports->target_leads }}"></div>
-                                            <div class="col-md-4"><label>Chat</label><input type="number" name="chat_ff"
-                                                    class="form-control" value="{{ $reports->chat }}"></div>
-                                            <div class="col-md-4"><label>Greeting</label><input type="number"
-                                                    name="greeting_ff" class="form-control"
-                                                    value="{{ $reports->greeting }}"></div>
-                                            <div class="col-md-4"><label>Pricelist</label><input type="number"
-                                                    name="pricelist_ff" class="form-control"
-                                                    value="{{ $reports->pricelist }}"></div>
-                                            <div class="col-md-4"><label>Discuss</label><input type="number"
-                                                    name="discuss_ff" class="form-control"
-                                                    value="{{ $reports->discuss }}"></div>
-                                        </div>
-                                        @elseif ($reports->jenis_leads === 'Roas Revenue')
-                                        {{-- Leads: Roas Revenue --}}
-                                        <div class="row mt-4">
-                                            <div class="col-md-4"><label>Spent</label><input type="number"
-                                                    name="spent_roas" class="form-control"
-                                                    value="{{ $reports->target_spent }}"></div>
-                                            <div class="col-md-4"><label>Revenue</label><input type="number"
-                                                    name="revenue_roas" class="form-control"
-                                                    value="{{ $reports->target_revenue }}"></div>
-                                            <div class="col-md-4"><label>ROAS</label><input type="number"
-                                                    name="roas_roas" class="form-control"
-                                                    value="{{ $reports->target_roas }}"></div>
-                                        </div>
-                                        <div class="row mt-4">
-                                            <div class="col-md-4"><label>Chat</label><input type="number"
-                                                    name="chat_roas" class="form-control" value="{{ $reports->chat }}">
+                                        <div class="row marketplace-only mb-3">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Target Spant</label>
+                                                    <input type="number" class="form-control" name="target_spent"
+                                                        value="{{ $reports->target_spent }}" placeholder="Target Spant">
+                                                </div>
                                             </div>
-                                            <div class="col-md-4"><label>Respond</label><input type="number"
-                                                    name="chat_respond_roas" class="form-control"
-                                                    value="{{ $reports->respond }}"></div>
-                                            <div class="col-md-4"><label>Closing</label><input type="number"
-                                                    name="closing_roas" class="form-control"
-                                                    value="{{ $reports->closing }}"></div>
-                                        </div>
-                                        @elseif ($reports->jenis_leads === 'Total Closing')
-                                        {{-- Leads: Total Closing --}}
-                                        <div class="row mt-4">
-                                            <div class="col-md-4"><label>Spent</label><input type="number"
-                                                    name="spent_total" class="form-control"
-                                                    value="{{ $reports->target_spent }}"></div>
-                                            <div class="col-md-4"><label>Leads</label><input type="number"
-                                                    name="leads_total" class="form-control"
-                                                    value="{{ $reports->target_leads }}"></div>
-                                            <div class="col-md-4"><label>Chat</label><input type="number"
-                                                    name="chat_total" class="form-control" value="{{ $reports->chat }}">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Target Revenue</label>
+                                                    <input type="number" class="form-control" name="target_revenue"
+                                                        value="{{ $reports->target_revenue }}"
+                                                        placeholder="Target Revenue">
+                                                </div>
                                             </div>
-                                            <div class="col-md-4"><label>Respond</label><input type="number"
-                                                    name="respond_total" class="form-control"
-                                                    value="{{ $reports->respond }}"></div>
-                                            <div class="col-md-4"><label>Closing</label><input type="number"
-                                                    name="closing_total" class="form-control"
-                                                    value="{{ $reports->closing }}"></div>
-                                        </div>
-                                        @elseif ($reports->jenis_leads === 'Site Visits')
-                                        {{-- Leads: Site Visits --}}
-                                        <div class="row mt-4">
-                                            <div class="col-md-4"><label>Spent</label><input type="number"
-                                                    name="spent_site" class="form-control"
-                                                    value="{{ $reports->target_spent }}"></div>
-                                            <div class="col-md-4"><label>Target Leads</label><input type="number"
-                                                    name="leads_site" class="form-control"
-                                                    value="{{ $reports->target_leads }}"></div>
-                                            <div class="col-md-4"><label>Chat</label><input type="number"
-                                                    name="chat_site" class="form-control" value="{{ $reports->chat }}">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Target Roas</label>
+                                                    <input type="text" class="form-control" name="target_roas"
+                                                        value="{{ $reports->target_roas }}" placeholder="Target Roas">
+                                                </div>
                                             </div>
-                                            <div class="col-md-4"><label>Respond</label><input type="number"
-                                                    name="respond_site" class="form-control"
-                                                    value="{{ $reports->respond }}"></div>
-                                            <div class="col-md-4"><label>Site Visit / Closing</label><input
-                                                    type="number" name="closing_site" class="form-control"
-                                                    value="{{ $reports->closing }}"></div>
                                         </div>
-                                        @endif
 
-                                        @elseif ($reports->jenis_layanan_mb === 'Marketplace')
-                                        {{-- Form untuk Marketplace --}}
-                                        <div class="row mt-4">
-                                            <div class="col-md-6"><label>Target Roas</label><input type="number"
-                                                    name="target_roas" class="form-control"
-                                                    value="{{ $reports->target_roas }}"></div>
-                                            <div class="col-md-6"><label>Target Spent</label><input type="number"
-                                                    name="target_spent" class="form-control"
-                                                    value="{{ $reports->target_spent }}"></div>
-                                            <div class="col-md-6"><label>Target Revenue</label><input type="number"
-                                                    name="target_revenue" class="form-control"
-                                                    value="{{ $reports->target_revenue }}"></div>
-                                        </div>
-                                        @endif
-
-                                        <div class="col-md-12">
+                                        <div class="row leads-only mb-3">
                                             <div class="mb-3">
-                                                <label for="note" class="form-label">Note</label>
-                                                <textarea class="form-control" name="note" id="note"
-                                                    placeholder="Note....." rows="3"
-                                                    required>{{ $reports->note }}</textarea>
+                                                <label class="form-label d-block">Jenis Leads</label>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="jenis_leads"
+                                                        value="Roas Revenue" {{ $reports->jenis_leads === 'Roas Revenue'
+                                                    ? 'checked' : '' }}>
+                                                    <label class="form-check-label">Roas Revenue</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="jenis_leads"
+                                                        value="Total Closing" {{ $reports->jenis_leads === 'Total
+                                                    Closing' ? 'checked' : '' }}>
+                                                    <label class="form-check-label">Total Closing</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="jenis_leads"
+                                                        value="Site Visits" {{ $reports->jenis_leads === 'Site Visits' ?
+                                                    'checked' : '' }}>
+                                                    <label class="form-check-label">Site Visits</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Spant</label>
+                                                        <input type="number" class="form-control" name="spent"
+                                                            value="{{ $reports->target_spent }}"
+                                                            placeholder="Target Spant">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Leads</label>
+                                                        <input type="number" class="form-control" name="leads"
+                                                            value="{{ $reports->target_leads }}"
+                                                            placeholder="Target Leads">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Revenue</label>
+                                                        <input type="text" class="form-control" name="revenue"
+                                                            value="{{ $reports->target_revenue }}"
+                                                            placeholder="Target Revenue">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3"><label>Chat</label><input type="number"
+                                                            class="form-control" name="chat"
+                                                            value="{{ $reports->chat }}"></div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3"><label>Greeting</label><input type="number"
+                                                            class="form-control" name="greeting"
+                                                            value="{{ $reports->greeting }}"></div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3"><label>Pricelist</label><input type="number"
+                                                            class="form-control" name="pricelist"
+                                                            value="{{ $reports->pricelist }}"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3"><label>Discuss</label><input type="number"
+                                                            class="form-control" name="discuss"
+                                                            value="{{ $reports->discuss }}"></div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3"><label>Respond</label><input type="number"
+                                                            class="form-control" name="respond"
+                                                            value="{{ $reports->respond }}"></div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3"><label>Closing</label><input type="number"
+                                                            class="form-control" name="closing"
+                                                            value="{{ $reports->closing }}"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3"><label>Site Visits</label><input type="number"
+                                                            class="form-control" name="site_visits"
+                                                            value="{{ $reports->site_visit }}"></div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3"><label>Roas</label><input type="number"
+                                                            class="form-control" name="roas"
+                                                            value="{{ $reports->target_roas }}"></div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3"><label>CPL</label><input type="number"
+                                                            class="form-control" name="cpl" value="{{ $reports->cpl }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3"><label>CPC</label><input type="number"
+                                                            class="form-control" name="cpc" value="{{ $reports->cpc }}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3"><label>CR Leads > Chat*</label><input
+                                                            type="number" class="form-control" name="cr_leads_chat"
+                                                            value="{{ $reports->cr_leads_to_chat }}"></div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3"><label>CR Chat > Respond*</label><input
+                                                            type="number" class="form-control" name="cr_chat_respond"
+                                                            value="{{ $reports->cr_chat_to_respond }}"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3"><label>CR Respond > Closing*</label><input
+                                                            type="number" class="form-control" name="cr_respond_closing"
+                                                            value="{{ $reports->cr_respond_to_closing }}"></div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3"><label>CR Respond > Site Visit*</label><input
+                                                            type="number" class="form-control"
+                                                            name="cr_respond_site_visit"
+                                                            value="{{ $reports->cr_respond_to_site_visit }}"></div>
+                                                </div>
                                             </div>
                                         </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label for="note" class="form-label">Note</label>
+                                                    <textarea class="form-control" name="note" id="note"
+                                                        placeholder="Note....." rows="3"
+                                                        required>{{ $reports->note }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="border-top py-3 px-3 d-flex align-items-center">
                                             <div class="ms-auto">
                                                 <button type="submit" class="btn btn-sm btn-white mb-0">Save</button>
                                             </div>
                                         </div>
                                     </form>
+
                                 </div>
                             </div>
                         </div>

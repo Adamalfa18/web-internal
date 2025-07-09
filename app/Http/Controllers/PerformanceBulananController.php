@@ -180,69 +180,68 @@ class PerformanceBulananController extends Controller
     {
         $reports = PerformanceBulanan::findOrFail($id);
 
+        // Validasi semua input
         $validatedData = $request->validate([
             'report_date' => 'required|date_format:Y-m',
+            'nama_campaign' => 'required|string',
+            'layanan_mb' => 'required|string|in:Leads,Marketplace',
+            'jenis_leads' => 'nullable|string|in:Roas Revenue,Total Closing,Site Visits',
+            'target_spent' => 'nullable|numeric',
+            'target_revenue' => 'nullable|numeric',
+            'target_roas' => 'nullable|numeric',
+            'target_leads' => 'nullable|numeric',
+            'spent' => 'nullable|numeric',
+            'leads' => 'nullable|numeric',
+            'revenue' => 'nullable|numeric',
+            'chat' => 'nullable|numeric',
+            'greeting' => 'nullable|numeric',
+            'pricelist' => 'nullable|numeric',
+            'discuss' => 'nullable|numeric',
+            'respond' => 'nullable|numeric',
+            'closing' => 'nullable|numeric',
+            'site_visits' => 'nullable|numeric',
+            'roas' => 'nullable|numeric',
+            'cpl' => 'nullable|numeric',
+            'cpc' => 'nullable|numeric',
+            'cr_leads_chat' => 'nullable|numeric',
+            'cr_chat_respond' => 'nullable|numeric',
+            'cr_respond_closing' => 'nullable|numeric',
+            'cr_respond_site_visit' => 'nullable|numeric',
             'note' => 'required|string',
         ]);
 
+        // Masukkan semua ke array update
         $data = [
             'report_date' => $validatedData['report_date'],
+            'nama_campaign' => $validatedData['nama_campaign'],
+            'jenis_layanan_mb' => $validatedData['layanan_mb'],
+            'jenis_leads' => $validatedData['jenis_leads'] ?? null,
+            'target_spent' => $validatedData['target_spent'] ?? $validatedData['spent'] ?? null,
+            'target_revenue' => $validatedData['target_revenue'] ?? $validatedData['revenue'] ?? null,
+            'target_roas' => $validatedData['target_roas'] ?? $validatedData['roas'] ?? null,
+            'target_leads' => $validatedData['target_leads'] ?? $validatedData['leads'] ?? null,
+            'chat' => $validatedData['chat'] ?? null,
+            'greeting' => $validatedData['greeting'] ?? null,
+            'pricelist' => $validatedData['pricelist'] ?? null,
+            'discuss' => $validatedData['discuss'] ?? null,
+            'respond' => $validatedData['respond'] ?? null,
+            'closing' => $validatedData['closing'] ?? null,
+            'site_visit' => $validatedData['site_visits'] ?? null,
+            'cpl' => $validatedData['cpl'] ?? null,
+            'cpc' => $validatedData['cpc'] ?? null,
+            'cr_leads_to_chat' => $validatedData['cr_leads_chat'] ?? null,
+            'cr_chat_to_respond' => $validatedData['cr_chat_respond'] ?? null,
+            'cr_respond_to_closing' => $validatedData['cr_respond_closing'] ?? null,
+            'cr_respond_to_site_visit' => $validatedData['cr_respond_site_visit'] ?? null,
             'note' => $validatedData['note'],
         ];
-
-        if ($reports->jenis_layanan_mb === 'Marketplace') {
-            $request->validate([
-                'target_spent' => 'required|numeric',
-                'target_revenue' => 'required|numeric',
-                'target_roas' => 'required|numeric',
-            ]);
-
-            $data['target_spent'] = $request->target_spent;
-            $data['target_revenue'] = $request->target_revenue;
-            $data['target_roas'] = $request->target_roas;
-        } elseif ($reports->jenis_layanan_mb === 'Leads') {
-            switch ($reports->jenis_leads) {
-                case 'F to F':
-                    $data['target_spent'] = $request->spent_ff;
-                    $data['target_leads'] = $request->leads_ff;
-                    $data['chat'] = $request->chat_ff;
-                    $data['greeting'] = $request->greeting_ff;
-                    $data['pricelist'] = $request->pricelist_ff;
-                    $data['discuss'] = $request->discuss_ff;
-                    break;
-
-                case 'Roas Revenue':
-                    $data['target_spent'] = $request->spent_roas;
-                    $data['target_revenue'] = $request->revenue_roas;
-                    $data['target_roas'] = $request->roas_roas;
-                    $data['chat'] = $request->chat_roas;
-                    $data['respond'] = $request->chat_respond_roas;
-                    $data['closing'] = $request->closing_roas;
-                    break;
-
-                case 'Total Closing':
-                    $data['target_spent'] = $request->spent_total;
-                    $data['target_leads'] = $request->leads_total;
-                    $data['chat'] = $request->chat_total;
-                    $data['respond'] = $request->respond_total;
-                    $data['closing'] = $request->closing_total;
-                    break;
-
-                case 'Site Visits':
-                    $data['target_spent'] = $request->spent_site;
-                    $data['target_leads'] = $request->leads_site;
-                    $data['chat'] = $request->chat_site;
-                    $data['respond'] = $request->respond_site;
-                    $data['closing'] = $request->closing_site;
-                    break;
-            }
-        }
 
         $reports->update($data);
 
         return redirect()->route('laporan-bulanan.index', ['client_id' => $reports->client_id])
             ->with('success', 'Laporan bulanan berhasil diperbarui!');
     }
+
 
     public function compareView(Request $request)
     {

@@ -36,13 +36,6 @@ Route::get('/', function () {
     return redirect('/sign-in');
 });
 
-
-
-
-
-
-
-
 // Rute Login
 Route::middleware('guest')->group(function () {
     Route::get('/sign-in', [LoginController::class, 'create'])->name('sign-in');
@@ -57,24 +50,14 @@ Route::middleware('auth')->group(function () {
         Route::resource('/acount', UserController::class);
         Route::get('/version', [UserController::class, 'version'])->name('marketlab.version');
         Route::post('/acount/reset-password/{id}', [UserController::class, 'resetPassword'])->name('acount.reset-password.reset');
-       
     });
 
     // Admin, C-Level, Marketing (1,2,3): semua route kecuali akun
     Route::middleware(['checkUserRole:1,2,3'])->group(function () {
         Route::get('/dashboard', [DasboardAdminController::class, 'index'])->name('dashboard');
         Route::resource('/clients', ClientController::class);
-        Route::resource('/laporan-bulanan', PerformanceBulananController::class);
-        Route::post('/laporan-bulanan/compare', [PerformanceBulananController::class, 'compareView'])->name('laporan-bulanan.compare'); //bukan ini
-        Route::resource('/laporan-harian', PerformaHarianController::class);
-        Route::post('/laporan-harian/store-lead', [PerformaHarianController::class, 'store_lead'])->name('laporan-harian.store-lead');
-        Route::put('/laporan-harian/update-lead/{id}', [PerformaHarianController::class, 'updateLead'])->name('laporan-harian.update_lead');
-        Route::delete('/laporan-harian/delete_lead/{id}', [PerformaHarianController::class, 'destroy_lead'])->name('laporan-harian.destroy_lead');
         Route::get('/dashboard-marketing', [DasboardAdminController::class, 'dasboar_marketing'])->name('dashboard.marketing');
         Route::get('/performa-harian/compare', [PerformaHarianController::class, 'compare'])->name('performa-harian.compare');
-    });
-
-    Route::middleware(['checkUserRole:1,2,3'])->group(function () {
         Route::get('/marketing', [MarketingController::class, 'index'])->name('marketing.index');
         Route::get('/marketing/layanan/{id}', [MarketingController::class, 'edit'])->name('marketing.edit');
         Route::put('/marketing/layanan/{id}/edit', [MarketingController::class, 'update'])->name('marketing.update');
@@ -82,17 +65,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/get-available-layanan/{clientId}', [MarketingController::class, 'getAvailableLayanan']);
     });
 
-    // Head-SA (4) + PIC-SA (5)
-    Route::middleware(['checkUserRole:1,2,3,4,5'])->group(function () {
-        Route::get('/list-client-sa', [SaController::class, 'indexList'])->name('list-client-sa.index');
-        Route::get('/divisi-sa/{client_id}', [SaController::class, 'index'])->name('divisi-sa.index');
-    });
     // Head-SA (4)
     Route::middleware(['checkUserRole:1,2,3,4'])->group(function () {
         Route::get('/dashboard-sa', [DasboardAdminController::class, 'dasboar_sa'])->name('dashboard.sa');
     });
+
     // PIC-SA (5)
     Route::middleware(['checkUserRole:1,2,3,4,5'])->group(function () {
+        Route::get('/list-client-sa', [SaController::class, 'indexList'])->name('list-client-sa.index');
         Route::get('/divisi-sa/{client_id}', [SaController::class, 'index'])->name('divisi-sa.index');
         Route::put('/divisi-sa/{client_id}/{post_id}', [SaController::class, 'update'])->name('divisi-sa.update');
         Route::post('/divisi-sa/store/{client_id}', [SaController::class, 'store'])->name('divisi-sa.store');
@@ -113,16 +93,20 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard-mb', [DasboardAdminController::class, 'dasboar_mb'])->name('dashboard.mb');
         Route::post('/dashboard-mb/chart-data', [DasboardAdminController::class, 'getChartData'])->name('dashboard.mb.chart-data');
     });
+
     // PIC-MB (8)
     Route::middleware(['checkUserRole:1,2,3,7,8'])->group(function () {
-        Route::get('/clients-mb', [ClientMBController::class, 'index'])->name('clients-mb.index');
-        Route::resource('/laporan-bulanan', PerformanceBulananController::class);
-        Route::resource('/laporan-harian', PerformaHarianController::class);
         Route::get('/laporan-harian/leads', [LaporanHarianLeadController::class, 'index'])->name('laporan-harian.index-lead');
         Route::post('/lead/store', [LaporanHarianLeadController::class, 'store'])->name('lead.store');
         Route::put('/lead/{id}', [LaporanHarianLeadController::class, 'update'])->name('lead.update');
-         Route::delete('/laporan-harian-lead/{id}', [LaporanHarianLeadController::class, 'destroy'])->name('laporan-harian-lead.destroy');
-
+        Route::get('/clients-mb', [ClientMBController::class, 'index'])->name('clients-mb.index');
+        Route::resource('/laporan-bulanan', PerformanceBulananController::class);
+        Route::resource('/laporan-harian', PerformaHarianController::class);
+        Route::delete('/laporan-harian-lead/{id}', [LaporanHarianLeadController::class, 'destroy'])->name('laporan-harian-lead.destroy');
+        Route::post('/laporan-bulanan/compare', [PerformanceBulananController::class, 'compareView'])->name('laporan-bulanan.compare'); //bukan ini
+        Route::post('/laporan-harian/store-lead', [PerformaHarianController::class, 'store_lead'])->name('laporan-harian.store-lead');
+        Route::put('/laporan-harian/update-lead/{id}', [PerformaHarianController::class, 'updateLead'])->name('laporan-harian.update_lead');
+        Route::delete('/laporan-harian/delete_lead/{id}', [PerformaHarianController::class, 'destroy_lead'])->name('laporan-harian.destroy_lead');
     });
 
     //  Client (6)

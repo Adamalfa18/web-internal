@@ -65,16 +65,14 @@ class PerformanceBulananController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
-        // Validasi dasar
         $request->validate([
             'client_id' => 'required|exists:clients,id',
             'report_date' => 'required|string',
             'note' => 'required|string',
             'layanan_mb' => 'required|in:Leads,Marketplace',
+            'nama_campaign' => 'required|string',
         ]);
 
-        // Validasi tambahan berdasarkan jenis layanan
         if ($request->layanan_mb === 'Marketplace') {
             $request->validate([
                 'target_spent' => 'required|numeric',
@@ -86,68 +84,65 @@ class PerformanceBulananController extends Controller
         if ($request->layanan_mb === 'Leads') {
             $request->validate([
                 'jenis_leads' => 'required|in:F to F,Roas Revenue,Total Closing,Site Visits',
+                'spent' => 'nullable|numeric',
+                'leads' => 'nullable|numeric',
+                'revenue' => 'nullable|string',
+                'roas' => 'nullable|string',
+                'chat' => 'nullable|numeric',
+                'respond' => 'nullable|numeric',
+                'greeting' => 'nullable|numeric',
+                'pricelist' => 'nullable|numeric',
+                'discuss' => 'nullable|numeric',
+                'closing' => 'nullable|numeric',
+                'site_visits' => 'nullable|numeric',
+                'cpl' => 'nullable|numeric',
+                'cpc' => 'nullable|numeric',
+                'cr_leads_chat' => 'nullable|numeric',
+                'cr_chat_respond' => 'nullable|numeric',
+                'cr_respond_closing' => 'nullable|numeric',
+                'cr_respond_site_visit' => 'nullable|numeric',
             ]);
         }
 
-        // Inisialisasi data dasar
         $data = [
             'client_id'         => $request->client_id,
             'report_date'       => $request->report_date,
             'note'              => $request->note,
             'jenis_layanan_mb'  => $request->layanan_mb,
             'jenis_leads'       => $request->jenis_leads ?? null,
+            'nama_campaign'     => $request->nama_campaign,
         ];
 
-        // Isi field berdasarkan jenis layanan
         if ($request->layanan_mb === 'Marketplace') {
             $data['target_spent']   = $request->target_spent;
             $data['target_revenue'] = $request->target_revenue;
             $data['target_roas']    = $request->target_roas;
         }
 
-        // Isi field berdasarkan jenis leads
         if ($request->layanan_mb === 'Leads') {
-            switch ($request->jenis_leads) {
-                case 'F to F':
-                    $data['target_spent']   = $request->spent_ff;
-                    $data['target_leads']   = $request->leads_ff;
-                    $data['chat']           = $request->chat_ff;
-                    $data['greeting']       = $request->greeting_ff;
-                    $data['pricelist']      = $request->pricelist_ff;
-                    $data['discuss']        = $request->discuss_ff;
-                    break;
-
-                case 'Roas Revenue':
-                    $data['target_spent']   = $request->spent_roas;
-                    $data['target_revenue'] = $request->revenue_roas;
-                    $data['target_roas']    = $request->roas_roas;
-                    $data['chat']           = $request->chat_roas;
-                    $data['respond']        = $request->chat_respond_roas;
-                    $data['closing']        = $request->closing_roas;
-                    break;
-
-                case 'Total Closing':
-                    $data['target_spent']   = $request->spent_closing;
-                    $data['target_leads']   = $request->leads_closing;
-                    $data['chat']           = $request->chat_closing;
-                    $data['respond']        = $request->chat_respond_closing;
-                    $data['closing']        = $request->closing_closing;
-                    break;
-
-                case 'Site Visits':
-                    $data['target_spent']   = $request->spent_site_visit;
-                    $data['target_leads']   = $request->leads_site_visit_value;
-                    $data['chat']           = $request->chat_site_visit;
-                    $data['respond']        = $request->respond_site_visit;
-                    $data['closing']        = $request->closing_site_visit;
-                    break;
-            }
+            $data += [
+                'target_spent' => $request->spent,
+                'target_leads' => $request->leads,
+                'target_revenue' => $request->revenue,
+                'target_roas' => $request->roas,
+                'chat' => $request->chat,
+                'respond' => $request->respond,
+                'greeting' => $request->greeting,
+                'pricelist' => $request->pricelist,
+                'discuss' => $request->discuss,
+                'closing' => $request->closing,
+                'site_visit' => $request->site_visits,
+                'cpl' => $request->cpl,
+                'cpc' => $request->cpc,
+                'cr_leads_to_chat' => $request->cr_leads_chat,
+                'cr_chat_to_respond' => $request->cr_chat_respond,
+                'cr_respond_to_closing' => $request->cr_respond_closing,
+                'cr_respond_to_site_visit' => $request->cr_respond_site_visit,
+            ];
         }
 
-        // Simpan data
         $report = PerformanceBulanan::create($data);
 
-        // Redirect
         if ($report) {
             return redirect()->route('laporan-bulanan.index', ['client_id' => $request->client_id])
                 ->with('success', 'Laporan bulanan berhasil dibuat!');

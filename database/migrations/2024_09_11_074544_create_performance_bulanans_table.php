@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('client_id')->constrained()->onDelete('cascade');
             $table->string('jenis_layanan_mb');
+            $table->string('nama_campaign');
             $table->string('jenis_leads')->nullable();
             $table->string('target_spent')->nullable();
             $table->string('target_revenue')->nullable();
@@ -27,6 +28,13 @@ return new class extends Migration
             $table->string('pricelist')->nullable();
             $table->string('discuss')->nullable();
             $table->string('closing')->nullable();
+            $table->string('site_visit')->nullable();
+            $table->string('cpl')->nullable();
+            $table->string('cpc')->nullable();
+            $table->string('cr_leads_to_chat')->nullable();
+            $table->string('cr_chat_to_respond')->nullable();
+            $table->string('cr_respond_to_closing')->nullable();
+            $table->string('cr_respond_to_site_visit')->nullable();
             $table->text('note');
             $table->timestamps();
         });

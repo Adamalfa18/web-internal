@@ -32,8 +32,8 @@
                                     <form action="{{ route('laporan-bulanan.store') }}" method="POST">
                                         @csrf
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
                                                     <label for="client_id" class="form-label">Id Client</label>
                                                     <input type="hidden" name="client_id" value="{{ $client->id }}">
                                                     <!-- Menyimpan nilai client_id -->
@@ -42,15 +42,23 @@
                                                     <!-- Menampilkan nilai tanpa bisa diubah -->
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nama
+                                                        Campaign</label>
+                                                    <input type="text" class="form-control" name="nama_campaign"
+                                                        placeholder="nama Campaign">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
                                                     <label for="report_date" class="form-label">Month</label>
                                                     <input type="month" class="form-control" name="report_date"
                                                         id="report_date" required pattern="\d{4}-\d{2}">
                                                     <!-- Menambahkan pola untuk format M -->
                                                 </div>
                                             </div>
-                                            <div class="mt-4">
+                                            <div class="mb-3">
                                                 <label class="form-label d-block">Jenis Layanan MB</label>
 
                                                 <div class="form-check form-check-inline">
@@ -67,7 +75,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row marketplace-only mt-4">
+                                        <div class="row marketplace-only mb-3">
                                             <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <label for="target_spent" class="form-label">Target Spant</label>
@@ -91,15 +99,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row leads-only mt-4">
-                                            <div>
+                                        <div class="row leads-only mb-3">
+                                            <div class="mb-3">
                                                 <label class="form-label d-block">Jenis Leads</label>
-
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="jenis_leads"
-                                                        id="leads_ff" value="F to F">
-                                                    <label class="form-check-label" for="leads_ff">F to F</label>
-                                                </div>
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="jenis_leads"
                                                         id="leads_roas_rev" value="Roas Revenue">
@@ -119,165 +121,145 @@
                                                         Visits</label>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row leads-site-visit-only" style="display: none;">
-                                            <div class="row mt-4">
-                                                <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label for="spent_site_visit" class="form-label">
-                                                            Spent</label>
-                                                        <input type="number" class="form-control"
-                                                            name="spent_site_visit" id="spent_site_visit"
-                                                            placeholder="Target Spent">
+                                                        <label class="form-label">Spant</label>
+                                                        <input type="number" class="form-control" name="spent"
+                                                            placeholder="Target Spant">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label for="leads_site_visit_value" class="form-label">Target
-                                                            Leads</label>
-                                                        <input type="number" class="form-control"
-                                                            name="leads_site_visit_value" id="leads_site_visit_value"
-                                                            placeholder="Target Leads">
+                                                        <label class="form-label">Leads</label>
+                                                        <input type="number" class="form-control" name="leads"
+                                                            placeholder="Target Lead">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Revenue</label>
+                                                        <input type="text" class="form-control" name="revenue"
+                                                            placeholder="Target Revenue">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row mt-4">
+                                            <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label for="chat_site_visit" class="form-label">
-                                                            Chat</label>
-                                                        <input type="number" class="form-control"
-                                                            name="chat_site_visit" id="chat_site_visit"
-                                                            placeholder="Chat">
+                                                        <label class="form-label">Chat</label>
+                                                        <input type="number" class="form-control" name="chat"
+                                                            placeholder="Target chat">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label for="respond_site_visit" class="form-label">
-                                                            Respond</label>
-                                                        <input type="number" class="form-control"
-                                                            name="respond_site_visit" id="respond_site_visit"
+                                                        <label class="form-label">Greeting</label>
+                                                        <input type="number" class="form-control" name="greeting"
+                                                            placeholder="Greeting">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Pricelist</label>
+                                                        <input type="number" class="form-control" name="pricelist"
+                                                            placeholder="Pricelist">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Discuss</label>
+                                                        <input type="number" class="form-control" name="discuss"
+                                                            placeholder="Discuss">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Respond</label>
+                                                        <input type="number" class="form-control" name="respond"
                                                             placeholder="Respond">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label for="closing_site_visit" class="form-label">Target Site
-                                                            Visit
-                                                            / Closing</label>
-                                                        <input type="number" class="form-control"
-                                                            name="closing_site_visit" id="closing_site_visit"
-                                                            placeholder="Site Visit / Closing">
+                                                        <label class="form-label">Closing</label>
+                                                        <input type="number" class="form-control" name="closing"
+                                                            placeholder="Closing">
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        {{-- F to F --}}
-                                        <div class="row leads-ff-only" style="display: none;">
-                                            <div class="col-md-4 mt-4">
-                                                <label>Spent</label>
-                                                <input type="number" name="spent_ff" class="form-control"
-                                                    placeholder="Target Spent">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Site Visits</label>
+                                                        <input type="number" class="form-control" name="site_visits"
+                                                            placeholder="Site Visits">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Roas</label>
+                                                        <input type="number" class="form-control" name="roas"
+                                                            placeholder="Roas">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">CPL</label>
+                                                        <input type="number" class="form-control" name="cpl"
+                                                            placeholder="CPL">
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-4 mt-4">
-                                                <label>Leads</label>
-                                                <input type="number" name="leads_ff" class="form-control"
-                                                    placeholder="Target Leads">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">CPC</label>
+                                                        <input type="number" class="form-control" name="cpc"
+                                                            placeholder="CPC">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">CR Leads > Chat*</label>
+                                                        <input type="number" class="form-control"
+                                                            name="cr_leads_chat" placeholder="CR Leads > Chat">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">CR Chat > Respond*</label>
+                                                        <input type="number" class="form-control"
+                                                            name="cr_chat_respond" placeholder="CR Chat > Respond">
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-4 mt-4">
-                                                <label>Chat</label>
-                                                <input type="number" name="chat_ff" class="form-control"
-                                                    placeholder="Chat">
-                                            </div>
-                                            <div class="col-md-4 mt-4">
-                                                <label>Greeting</label>
-                                                <input type="number" name="greeting_ff" class="form-control"
-                                                    placeholder="Greeting">
-                                            </div>
-                                            <div class="col-md-4 mt-4">
-                                                <label>Pricelist</label>
-                                                <input type="number" name="pricelist_ff" class="form-control"
-                                                    placeholder="Pricelist">
-                                            </div>
-                                            <div class="col-md-4 mt-4">
-                                                <label>Discuss</label>
-                                                <input type="number" name="discuss_ff" class="form-control"
-                                                    placeholder="Discuss">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">CR Respond > Closing*</label>
+                                                        <input type="number" class="form-control"
+                                                            name="cr_respond_closing"
+                                                            placeholder="CR Respond > Closing">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">CR Respond > Site Visit*</label>
+                                                        <input type="number" class="form-control"
+                                                            name="cr_respond_site_visit"
+                                                            placeholder="CR Respond > Site Visit">
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
 
-                                        {{-- Roas Revenue --}}
-                                        <div class="row leads-roas-only" style="display: none;">
-                                            <div class="row mt-4">
-                                                <div class="col-md-4">
-                                                    <label>Spent</label>
-                                                    <input type="number" name="spent_roas" class="form-control"
-                                                        placeholder="Target Spent">
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label>Revenue</label>
-                                                    <input type="number" name="revenue_roas" class="form-control"
-                                                        placeholder="Target Revenue">
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label>ROAS</label>
-                                                    <input type="number" name="roas_roas" class="form-control"
-                                                        placeholder="Target ROAS">
-                                                </div>
-                                            </div>
-                                            <div class="row mt-4">
-                                                <div class="col-md-4">
-                                                    <label>Chat</label>
-                                                    <input type="number" name="chat_roas" class="form-control"
-                                                        placeholder="Chat">
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label>Respond</label>
-                                                    <input type="number" name="chat_respond_roas"
-                                                        class="form-control" placeholder="Respond">
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label>Closing</label>
-                                                    <input type="number" name="closing_roas" class="form-control"
-                                                        placeholder="Closing">
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        {{-- Total Closing --}}
-                                        <div class="row leads-closing-only" style="display: none;">
-                                            <div class="row mt-4">
-                                                <div class="col-md-6">
-                                                    <label>Spent</label>
-                                                    <input type="number" name="spent_closing" class="form-control"
-                                                        placeholder="Target Spent">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label>Leads</label>
-                                                    <input type="number" name="leads_closing" class="form-control"
-                                                        placeholder="Target Leads">
-                                                </div>
-                                            </div>
-                                            <div class="row mt-4">
-                                                <div class="col-md-4">
-                                                    <label>Chat</label>
-                                                    <input type="number" name="chat_closing" class="form-control"
-                                                        placeholder="Chat">
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label> Respond</label>
-                                                    <input type="number" name="chat_respond_closing"
-                                                        class="form-control" placeholder="Respond">
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label>Closing</label>
-                                                    <input type="number" name="closing_closing" class="form-control"
-                                                        placeholder="Closing">
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="row">
-                                            <div class="col-md-12 mt-4">
+                                            <div class="col-md-12">
                                                 <div class="mb-3">
                                                     <div class="mb-3">
                                                         <label for="note" class="form-label">Note</label>

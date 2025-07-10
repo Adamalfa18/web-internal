@@ -250,7 +250,7 @@
                                                     <div class="row mb-3">
                                                         <div class="col-md-3">
                                                             <label class="form-label">Tanggal</label>
-                                                            <input type="date" class="form-control" name="report_date"
+                                                            <input type="date" class="form-control" name="hari"
                                                                 required>
                                                         </div>
                                                     </div>
@@ -574,6 +574,140 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- MODAL EDIT --}}
+                <div class="modal fade" id="editLeadModal{{ $lead->id }}" tabindex="-1"
+                    aria-labelledby="editLeadModalLabel{{ $lead->id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <form action="{{ route('lead.update', $lead->id) }}" method="POST" class="modal-content">
+                            @csrf
+                            @method('PUT')
+
+                            <input type="hidden" name="performance_bulanan_id"
+                                value="{{ $lead->performance_bulanan_id }}">
+                            <div class="modal-header mx-3 mt-3">
+                                <h5 class="modal-title">Edit Data Harian</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Tutup"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-md-3">
+                                    <label class="form-label">Tanggal</label>
+                                    <input type="date" class="form-control" name="report_date" value="{{ $lead->hari }}"
+                                        required>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Spent</label>
+                                        <input type="number" id="spent-edit-{{ $lead->id }}" class="form-control"
+                                            name="spent" value="{{ $lead->spent }}" placeholder="Spent">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Leads</label>
+                                        <input type="number" id="leads-edit-{{ $lead->id }}" class="form-control"
+                                            name="leads" value="{{ $lead->leads }}" placeholder="Leads">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Chat</label>
+                                        <input type="number" id="chat-edit-{{ $lead->id }}" class="form-control"
+                                            name="chat" value="{{ $lead->chat }}" placeholder="Chat">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Greeting</label>
+                                        <input type="number" id="greeting-edit-{{ $lead->id }}" class="form-control"
+                                            name="greeting" value="{{ $lead->greeting }}" placeholder="Greeting">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Pricelist</label>
+                                        <input type="number" id="pricelist-edit-{{ $lead->id }}" class="form-control"
+                                            name="pricelist" value="{{ $lead->pricelist }}" placeholder="Pricelist">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Discuss</label>
+                                        <input type="number" id="discuss-edit-{{ $lead->id }}" class="form-control"
+                                            name="discuss" value="{{ $lead->discuss }}" placeholder="Discuss">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Respond</label>
+                                        <input type="number" id="respond-edit-{{ $lead->id }}" class="form-control"
+                                            name="respond" value="{{ $lead->respond }}" placeholder="Respond" readonly>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Closing</label>
+                                        <input type="number" id="closing-edit-{{ $lead->id }}" class="form-control"
+                                            name="closing" value="{{ $lead->closing }}" placeholder="Closing">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Site Visit</label>
+                                        <input type="number" id="site_visit-edit-{{ $lead->id }}" class="form-control"
+                                            name="site_visit" value="{{ $lead->site_visit }}" placeholder="Site Visit">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Revenue</label>
+                                        <input type="number" id="revenue-edit-{{ $lead->id }}" class="form-control"
+                                            name="revenue" value="{{ $lead->revenue }}" placeholder="Revenue">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">ROAS</label>
+                                        <input type="number" id="roas-edit-{{ $lead->id }}" class="form-control"
+                                            name="roas" value="{{ $lead->roas }}" placeholder="Roas" readonly>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">CPL</label>
+                                        <input type="number" id="cpl-edit-{{ $lead->id }}" class="form-control"
+                                            name="cpl" value="{{ $lead->cpl }}" placeholder="CPL">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">CPC</label>
+                                        <input type="number" id="cpc-edit-{{ $lead->id }}" class="form-control"
+                                            name="cpc" value="{{ $lead->cpc }}" placeholder="CPC">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">CR Leads > Chat</label>
+                                        <input type="number" id="cr_leads_chat-edit-{{ $lead->id }}"
+                                            class="form-control" name="cr_leads_chat"
+                                            value="{{ $lead->cr_leads_to_chat }}" placeholder="CR Leads > Chat"
+                                            readonly>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">CR Chat > Respond</label>
+                                        <input type="number" id="cr_chat_respond-edit-{{ $lead->id }}"
+                                            class="form-control" name="cr_chat_respond"
+                                            value="{{ $lead->cr_chat_to_respond }}" placeholder="CR Chat > Respond"
+                                            readonly>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">CR Respond > Closing</label>
+                                        <input type="number" id="cr_respond_closing-edit-{{ $lead->id }}"
+                                            class="form-control" name="cr_respond_closing"
+                                            value="{{ $lead->cr_respond_to_closing }}"
+                                            placeholder="CR Respond > Closing" readonly>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">CR Respond > Site Visit</label>
+                                        <input type="number" id="cr_respond_site_visit-edit-{{ $lead->id }}"
+                                            class="form-control" name="cr_respond_site_visit"
+                                            value="{{ $lead->cr_respond_to_site_visit }}"
+                                            placeholder="CR Respond > Site Visit" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Note</label>
+                                    <textarea class="form-control" name="note" rows="3"
+                                        required>{{ $lead->note }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </main>
@@ -950,5 +1084,85 @@
     document.getElementsByName('closing')[0].addEventListener('input', calculateCRRespondClosing);
     document.getElementsByName('site_visits')[0].addEventListener('input', calculateCRRespondSiteVisit);
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    const leadId = "{{ $lead->id }}";
+
+    const spent = document.getElementById(`spent-edit-${leadId}`);
+    const revenue = document.getElementById(`revenue-edit-${leadId}`);
+    const greeting = document.getElementById(`greeting-edit-${leadId}`);
+    const pricelist = document.getElementById(`pricelist-edit-${leadId}`);
+    const discuss = document.getElementById(`discuss-edit-${leadId}`);
+    const respond = document.getElementById(`respond-edit-${leadId}`);
+    const leads = document.getElementById(`leads-edit-${leadId}`);
+    const chat = document.getElementById(`chat-edit-${leadId}`);
+    const closing = document.getElementById(`closing-edit-${leadId}`);
+    const siteVisits = document.getElementById(`site_visits-edit-${leadId}`);
+
+    const roas = document.getElementById(`roas-edit-${leadId}`);
+    const crLeadsChat = document.getElementById(`cr_leads_chat-edit-${leadId}`);
+    const crChatRespond = document.getElementById(`cr_chat_respond-edit-${leadId}`);
+    const crRespondClosing = document.getElementById(`cr_respond_closing-edit-${leadId}`);
+    const crRespondSiteVisit = document.getElementById(`cr_respond_site_visit-edit-${leadId}`);
+
+    function editCalculateRoas() {
+        let s = parseFloat(spent.value) || 0;
+        let r = parseFloat(revenue.value) || 0;
+        roas.value = s > 0 ? (r / s).toFixed(2) : 0;
+    }
+
+    function editCalculateRespond() {
+        let g = parseInt(greeting.value) || 0;
+        let p = parseInt(pricelist.value) || 0;
+        let d = parseInt(discuss.value) || 0;
+        respond.value = g + p + d;
+
+        editCalculateCRChatRespond();
+        editCalculateCRRespondClosing();
+        editCalculateCRRespondSiteVisit();
+    }
+
+    function editCalculateCRLeadsChat() {
+        let l = parseInt(leads.value) || 0;
+        let c = parseInt(chat.value) || 0;
+        crLeadsChat.value = l > 0 ? ((c / l) * 100).toFixed(2) : 0;
+    }
+
+    function editCalculateCRChatRespond() {
+        let c = parseInt(chat.value) || 0;
+        let r = parseInt(respond.value) || 0;
+        crChatRespond.value = c > 0 ? ((r / c) * 100).toFixed(2) : 0;
+    }
+
+    function editCalculateCRRespondClosing() {
+        let r = parseInt(respond.value) || 0;
+        let cl = parseInt(closing.value) || 0;
+        crRespondClosing.value = r > 0 ? ((cl / r) * 100).toFixed(2) : 0;
+    }
+
+    function editCalculateCRRespondSiteVisit() {
+        let r = parseInt(respond.value) || 0;
+        let s = parseInt(siteVisits.value) || 0;
+        crRespondSiteVisit.value = r > 0 ? ((s / r) * 100).toFixed(2) : 0;
+    }
+
+    spent.addEventListener('input', editCalculateRoas);
+    revenue.addEventListener('input', editCalculateRoas);
+
+    greeting.addEventListener('input', editCalculateRespond);
+    pricelist.addEventListener('input', editCalculateRespond);
+    discuss.addEventListener('input', editCalculateRespond);
+
+    leads.addEventListener('input', editCalculateCRLeadsChat);
+    chat.addEventListener('input', () => {
+        editCalculateCRLeadsChat();
+        editCalculateCRChatRespond();
+    });
+
+    closing.addEventListener('input', editCalculateCRRespondClosing);
+    siteVisits.addEventListener('input', editCalculateCRRespondSiteVisit);
+});
+    </script>
+
 
 </x-app-layout>

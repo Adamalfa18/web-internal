@@ -106,32 +106,52 @@ class LaporanHarianLeadController extends Controller
 
     public function update(Request $request, $id)
     {
-        $data = $request->only([
-            'performance_bulanan_id',
-            'hari',
-            'spent',
-            'revenue',
-            'roas',
-            'leads',
-            'chat',
-            'respond',
-            'greeting',
-            'pricelist',
-            'discuss',
-            'closing',
-            'note'
+        $request->validate([
+            'report_date' => 'required|date',
+            'spent' => 'nullable|numeric',
+            'revenue' => 'nullable|numeric',
+            'roas' => 'nullable|numeric',
+            'leads' => 'nullable|numeric',
+            'chat' => 'nullable|numeric',
+            'respond' => 'nullable|numeric',
+            'greeting' => 'nullable|numeric',
+            'pricelist' => 'nullable|numeric',
+            'discuss' => 'nullable|numeric',
+            'closing' => 'nullable|numeric',
+            'site_visit' => 'nullable|numeric',
+            'cpl' => 'nullable|numeric',
+            'cpc' => 'nullable|numeric',
+            'cr_leads_to_chat' => 'nullable|numeric',
+            'cr_chat_to_respond' => 'nullable|numeric',
+            'cr_respond_to_closing' => 'nullable|numeric',
+            'cr_respond_to_site_visit' => 'nullable|numeric',
+            'note' => 'nullable|string'
         ]);
 
         $lead = Lead::findOrFail($id);
-        $lead->update($data);
+
+        $lead->update([
+            'hari' => $request->report_date,
+            'spent' => $request->spent,
+            'revenue' => $request->revenue,
+            'roas' => $request->roas,
+            'leads' => $request->leads,
+            'chat' => $request->chat,
+            'respond' => $request->respond,
+            'greeting' => $request->greeting,
+            'pricelist' => $request->pricelist,
+            'discuss' => $request->discuss,
+            'closing' => $request->closing,
+            'site_visit' => $request->site_visit,
+            'cpl' => $request->cpl,
+            'cpc' => $request->cpc,
+            'cr_leads_to_chat' => $request->cr_leads_chat,
+            'cr_chat_to_respond' => $request->cr_chat_respond,
+            'cr_respond_to_closing' => $request->cr_respond_closing,
+            'cr_respond_to_site_visit' => $request->cr_respond_site_visit,
+            'note' => $request->note,
+        ]);
 
         return redirect()->back()->with('success', 'Data berhasil diupdate.');
-    }
-    public function destroy($id)
-    {
-        $lead = Lead::findOrFail($id);
-        $lead->delete();
-
-        return redirect()->back()->with('success', 'Data berhasil dihapus.');
     }
 }

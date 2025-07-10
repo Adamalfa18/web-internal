@@ -250,7 +250,7 @@
                                                     <div class="row mb-3">
                                                         <div class="col-md-3">
                                                             <label class="form-label">Tanggal</label>
-                                                            <input type="date" class="form-control" name="hari"
+                                                            <input type="date" class="form-control" name="report_date"
                                                                 required>
                                                         </div>
                                                     </div>
@@ -360,8 +360,6 @@
                                                         data-bs-dismiss="modal">Tutup</button>
                                                 </div>
                                             </form>
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -568,7 +566,6 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-
                                 @endif
                             </div>
                         </div>
@@ -576,6 +573,7 @@
                 </div>
 
                 {{-- MODAL EDIT --}}
+                @foreach ($leads as $lead)
                 <div class="modal fade" id="editLeadModal{{ $lead->id }}" tabindex="-1"
                     aria-labelledby="editLeadModalLabel{{ $lead->id }}" aria-hidden="true">
                     <div class="modal-dialog modal-xl">
@@ -706,8 +704,7 @@
                         </form>
                     </div>
                 </div>
-
-
+                @endforeach
             </div>
         </div>
     </main>
@@ -1085,84 +1082,87 @@
     document.getElementsByName('site_visits')[0].addEventListener('input', calculateCRRespondSiteVisit);
     </script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-    const leadId = "{{ $lead->id }}";
+        function initEditLeadCalculations(leadId) {
+        const spent = document.getElementById(`spent-edit-${leadId}`);
+        const revenue = document.getElementById(`revenue-edit-${leadId}`);
+        const greeting = document.getElementById(`greeting-edit-${leadId}`);
+        const pricelist = document.getElementById(`pricelist-edit-${leadId}`);
+        const discuss = document.getElementById(`discuss-edit-${leadId}`);
+        const respond = document.getElementById(`respond-edit-${leadId}`);
+        const leads = document.getElementById(`leads-edit-${leadId}`);
+        const chat = document.getElementById(`chat-edit-${leadId}`);
+        const closing = document.getElementById(`closing-edit-${leadId}`);
+        const siteVisits = document.getElementById(`site_visit-edit-${leadId}`);
 
-    const spent = document.getElementById(`spent-edit-${leadId}`);
-    const revenue = document.getElementById(`revenue-edit-${leadId}`);
-    const greeting = document.getElementById(`greeting-edit-${leadId}`);
-    const pricelist = document.getElementById(`pricelist-edit-${leadId}`);
-    const discuss = document.getElementById(`discuss-edit-${leadId}`);
-    const respond = document.getElementById(`respond-edit-${leadId}`);
-    const leads = document.getElementById(`leads-edit-${leadId}`);
-    const chat = document.getElementById(`chat-edit-${leadId}`);
-    const closing = document.getElementById(`closing-edit-${leadId}`);
-    const siteVisits = document.getElementById(`site_visits-edit-${leadId}`);
+        const roas = document.getElementById(`roas-edit-${leadId}`);
+        const crLeadsChat = document.getElementById(`cr_leads_chat-edit-${leadId}`);
+        const crChatRespond = document.getElementById(`cr_chat_respond-edit-${leadId}`);
+        const crRespondClosing = document.getElementById(`cr_respond_closing-edit-${leadId}`);
+        const crRespondSiteVisit = document.getElementById(`cr_respond_site_visit-edit-${leadId}`);
 
-    const roas = document.getElementById(`roas-edit-${leadId}`);
-    const crLeadsChat = document.getElementById(`cr_leads_chat-edit-${leadId}`);
-    const crChatRespond = document.getElementById(`cr_chat_respond-edit-${leadId}`);
-    const crRespondClosing = document.getElementById(`cr_respond_closing-edit-${leadId}`);
-    const crRespondSiteVisit = document.getElementById(`cr_respond_site_visit-edit-${leadId}`);
+        function editCalculateRoas() {
+            let s = parseFloat(spent.value) || 0;
+            let r = parseFloat(revenue.value) || 0;
+            roas.value = s > 0 ? (r / s).toFixed(2) : 0;
+        }
 
-    function editCalculateRoas() {
-        let s = parseFloat(spent.value) || 0;
-        let r = parseFloat(revenue.value) || 0;
-        roas.value = s > 0 ? (r / s).toFixed(2) : 0;
+        function editCalculateRespond() {
+            let g = parseInt(greeting.value) || 0;
+            let p = parseInt(pricelist.value) || 0;
+            let d = parseInt(discuss.value) || 0;
+            respond.value = g + p + d;
+
+            editCalculateCRChatRespond();
+            editCalculateCRRespondClosing();
+            editCalculateCRRespondSiteVisit();
+        }
+
+        function editCalculateCRLeadsChat() {
+            let l = parseInt(leads.value) || 0;
+            let c = parseInt(chat.value) || 0;
+            crLeadsChat.value = l > 0 ? ((c / l) * 100).toFixed(2) : 0;
+        }
+
+        function editCalculateCRChatRespond() {
+            let c = parseInt(chat.value) || 0;
+            let r = parseInt(respond.value) || 0;
+            crChatRespond.value = c > 0 ? ((r / c) * 100).toFixed(2) : 0;
+        }
+
+        function editCalculateCRRespondClosing() {
+            let r = parseInt(respond.value) || 0;
+            let cl = parseInt(closing.value) || 0;
+            crRespondClosing.value = r > 0 ? ((cl / r) * 100).toFixed(2) : 0;
+        }
+
+        function editCalculateCRRespondSiteVisit() {
+            let r = parseInt(respond.value) || 0;
+            let s = parseInt(siteVisits.value) || 0;
+            crRespondSiteVisit.value = r > 0 ? ((s / r) * 100).toFixed(2) : 0;
+        }
+
+        spent.addEventListener('input', editCalculateRoas);
+        revenue.addEventListener('input', editCalculateRoas);
+
+        greeting.addEventListener('input', editCalculateRespond);
+        pricelist.addEventListener('input', editCalculateRespond);
+        discuss.addEventListener('input', editCalculateRespond);
+
+        leads.addEventListener('input', editCalculateCRLeadsChat);
+        chat.addEventListener('input', () => {
+            editCalculateCRLeadsChat();
+            editCalculateCRChatRespond();
+        });
+
+        closing.addEventListener('input', editCalculateCRRespondClosing);
+        siteVisits.addEventListener('input', editCalculateCRRespondSiteVisit);
     }
 
-    function editCalculateRespond() {
-        let g = parseInt(greeting.value) || 0;
-        let p = parseInt(pricelist.value) || 0;
-        let d = parseInt(discuss.value) || 0;
-        respond.value = g + p + d;
-
-        editCalculateCRChatRespond();
-        editCalculateCRRespondClosing();
-        editCalculateCRRespondSiteVisit();
-    }
-
-    function editCalculateCRLeadsChat() {
-        let l = parseInt(leads.value) || 0;
-        let c = parseInt(chat.value) || 0;
-        crLeadsChat.value = l > 0 ? ((c / l) * 100).toFixed(2) : 0;
-    }
-
-    function editCalculateCRChatRespond() {
-        let c = parseInt(chat.value) || 0;
-        let r = parseInt(respond.value) || 0;
-        crChatRespond.value = c > 0 ? ((r / c) * 100).toFixed(2) : 0;
-    }
-
-    function editCalculateCRRespondClosing() {
-        let r = parseInt(respond.value) || 0;
-        let cl = parseInt(closing.value) || 0;
-        crRespondClosing.value = r > 0 ? ((cl / r) * 100).toFixed(2) : 0;
-    }
-
-    function editCalculateCRRespondSiteVisit() {
-        let r = parseInt(respond.value) || 0;
-        let s = parseInt(siteVisits.value) || 0;
-        crRespondSiteVisit.value = r > 0 ? ((s / r) * 100).toFixed(2) : 0;
-    }
-
-    spent.addEventListener('input', editCalculateRoas);
-    revenue.addEventListener('input', editCalculateRoas);
-
-    greeting.addEventListener('input', editCalculateRespond);
-    pricelist.addEventListener('input', editCalculateRespond);
-    discuss.addEventListener('input', editCalculateRespond);
-
-    leads.addEventListener('input', editCalculateCRLeadsChat);
-    chat.addEventListener('input', () => {
-        editCalculateCRLeadsChat();
-        editCalculateCRChatRespond();
+    document.addEventListener("DOMContentLoaded", function() {
+        @foreach ($leads as $lead)
+            initEditLeadCalculations({{ $lead->id }});
+        @endforeach
     });
-
-    closing.addEventListener('input', editCalculateCRRespondClosing);
-    siteVisits.addEventListener('input', editCalculateCRRespondSiteVisit);
-});
     </script>
-
 
 </x-app-layout>

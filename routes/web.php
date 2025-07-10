@@ -117,8 +117,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/data-client/{client_id}/{layanan}', [ClientInformationController::class, 'bulanan'])->name('data-client.laporan-bulanan');
         Route::get('/data-client/laporan-bulan', [ClientInformationController::class, 'prosesLayananA'])->name('data-client.laporan-bulan');
         Route::get('/data-client/laporan-harian', [ClientInformationController::class, 'harian'])->name('data-client.laporan-harian');
-        Route::post('/data-client/laporan-harian/store-lead', [ClientInformationController::class, 'store_lead'])->name('data-client.laporan-harian.store-lead');
-        Route::put('/data-client/laporan-harian/update-lead/{id}', [ClientInformationController::class, 'updateLead'])->name('data-client.laporan-harian.update-lead');
+        Route::get('/data-client/laporan-harian-lead', [ClientInformationController::class, 'harianLead'])->name('data-client.laporan-harian-lead');
+        Route::put('/data-client/laporan-harian/update-lead/{id}', [ClientInformationController::class, 'updateHarianLead'])->name('data-client.update-harian-lead');
         Route::put('/data-client/{client_id}/divisi-sa/{post_id}', [ClientInformationController::class, 'update'])->name('data-client.update-sa');
         Route::put('/data-client/{client_id}/tiktok/{post_id}', [ClientInformationController::class, 'updateTiktok'])->name('data-client.update-tiktok');
     });

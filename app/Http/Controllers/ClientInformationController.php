@@ -71,9 +71,11 @@ class ClientInformationController extends Controller
         $difference = $startDate->diff($endDate);
         $months = $difference->m; // Jumlah bulan
         $days = $difference->d; // Jumlah hari
+        $currentPage = $reports->currentPage();
+        $totalPages = $reports->lastPage();
 
         // Kembalikan view dengan data laporan bulanan dan data client
-        return view('info.data.bulanan', compact('reports', 'client', 'months', 'days', 'dataCount'));
+        return view('info.data.bulanan', compact('reports', 'currentPage', 'totalPages', 'client', 'months', 'days', 'dataCount'));
     }
 
     public function prosesLayananB($client_id)
@@ -214,71 +216,94 @@ class ClientInformationController extends Controller
         return view('info.data.harian', compact('spent_harian', 'revenue_harian', 'data', 'laporanBulanan', 'totalSum', 'totalOmzet', 'totalRoas', 'performanceBulananId', 'leads'));
     }
 
-    public function store_lead(Request $request)
+    public function harianLead(Request $request)
     {
-        // Validasi data yang diterima
-        $validatedData = $request->validate([
-            'performance_bulanan_id' => 'required|string',
-            'hari' => 'required|date',
-            'leads' => 'required|integer',
-            'chat' => 'required|integer',
-            'chat_respon' => 'required|integer',
-            'chat_no_respon' => 'required|integer',
-            'closing' => 'required|integer',
-            'revenue' => 'required|integer',
-        ]);
+        $performance_bulanan_id = $request->performance_bulanan_id;
+        $report = PerformanceBulanan::findOrFail($performance_bulanan_id);
 
-        // Simpan data lead ke dalam tabel leads
-        $lead = new Lead();
-        $lead->performance_bulanan_id = $validatedData['performance_bulanan_id'];
-        $lead->hari = $validatedData['hari'];
-        $lead->leads = $validatedData['leads'];
-        $lead->chat = $validatedData['chat'];
-        $lead->chat_respon = $validatedData['chat_respon'];
-        $lead->chat_no_respon = $validatedData['chat_no_respon'];
-        $lead->closing = $validatedData['closing'];
-        $lead->revenue = $validatedData['revenue'];
-        $lead->save();
+        // Ambil jenis_leads langsung dari database
+        $jenis_lead = match ($report->jenis_leads) {
+            'F to F' => '1',
+            'Roas Revenue' => '2',
+            'Total Closing' => '3',
+            'Site Visits' => '4',
+            default => '0',
+        };
 
-        // Redirect atau kembali dengan pesan sukses
-        session(['activeTabLead' => 'lead']);
-        return redirect()->route('data-client.laporan-harian', ['activeTabLead' => 'lead'])
-            ->with('success', 'Data Lead was successfully saved.');
+        $fields = match ($jenis_lead) {
+            '1' => ['hari', 'spent', 'leads', 'chat', 'greeting', 'pricelist', 'discuss', 'note'],
+            '2' => ['hari', 'spent', 'revenue', 'roas', 'chat', 'respond', 'closing', 'note'],
+            '3' => ['hari', 'spent', 'leads', 'chat', 'respond', 'closing'],
+            '4' => ['hari', 'spent', 'leads', 'respond', 'closing', 'note'],
+            default => ['hari', 'spent', 'leads', 'chat', 'respond', 'note'],
+        };
+
+        // Ambil semua leads
+        $leads = Lead::where('performance_bulanan_id', $performance_bulanan_id)->get();
+
+        // Total untuk chart funnel (khusus jenis_leads F to F)
+        $totals = [
+            'Leads'     => $leads->sum('leads'),
+            'Chat'      => $leads->sum('chat'),
+            'Greeting'  => $leads->sum('greeting'),
+            'Pricelist' => $leads->sum('pricelist'),
+            'Discuss'   => $leads->sum('discuss'),
+        ];
+
+        return view('info.data.harian-lead', compact('report', 'leads', 'fields', 'totals'));
     }
 
-    public function updateLead(Request $request, $id)
+    public function updateHarianLead(Request $request, $id)
     {
-        // Validasi input
-        $request->validate([
-            'hari' => 'required|date',
-            'leads' => 'required|integer',
-            'chat' => 'required|integer',
-            'chat_respon' => 'required|integer',
-            'chat_no_respon' => 'required|integer',
-            'closing' => 'required|integer',
-            'revenue' => 'required|numeric',
-        ]);
-
-        // Temukan lead berdasarkan ID
         $lead = Lead::findOrFail($id);
 
-        // Perbarui data lead
-        $lead->hari = $request->input('hari');
-        $lead->leads = $request->input('leads');
-        $lead->chat = $request->input('chat');
-        $lead->chat_respon = $request->input('chat_respon');
-        $lead->chat_no_respon = $request->input('chat_no_respon');
-        $lead->closing = $request->input('closing');
-        $lead->revenue = $request->input('revenue');
-        $lead->save();
+        $validatedData = $request->validate([
+            'report_date' => 'required|date',
+            'spent' => 'nullable|numeric',
+            'leads' => 'nullable|numeric',
+            'revenue' => 'nullable|numeric',
+            'chat' => 'nullable|numeric',
+            'greeting' => 'nullable|numeric',
+            'pricelist' => 'nullable|numeric',
+            'discuss' => 'nullable|numeric',
+            'respond' => 'nullable|numeric',
+            'closing' => 'nullable|numeric',
+            'site_visit' => 'nullable|numeric',
+            'roas' => 'nullable|numeric',
+            'cpl' => 'nullable|numeric',
+            'cpc' => 'nullable|numeric',
+            'cr_leads_chat' => 'nullable|numeric',
+            'cr_chat_respond' => 'nullable|numeric',
+            'cr_respond_closing' => 'nullable|numeric',
+            'cr_respond_site_visit' => 'nullable|numeric',
+            'note' => 'nullable|string',
+        ]);
 
-        // Debugging: Cek nilai session sebelum redirect
-        session(['activeTabLead' => 'lead']);
+        $lead->update([
+            'hari' => $validatedData['report_date'],
+            'spent' => $validatedData['spent'],
+            'leads' => $validatedData['leads'],
+            'revenue' => $validatedData['revenue'],
+            'chat' => $validatedData['chat'],
+            'greeting' => $validatedData['greeting'],
+            'pricelist' => $validatedData['pricelist'],
+            'discuss' => $validatedData['discuss'],
+            'respond' => $validatedData['respond'],
+            'closing' => $validatedData['closing'],
+            'site_visit' => $validatedData['site_visit'],
+            'roas' => $validatedData['roas'],
+            'cpl' => $validatedData['cpl'],
+            'cpc' => $validatedData['cpc'],
+            'cr_leads_to_chat' => $validatedData['cr_leads_chat'],
+            'cr_chat_to_respond' => $validatedData['cr_chat_respond'],
+            'cr_respond_to_closing' => $validatedData['cr_respond_closing'],
+            'cr_respond_to_site_visit' => $validatedData['cr_respond_site_visit'],
+            'note' => $validatedData['note'],
+        ]);
 
-        // Redirect kembali dengan format yang diinginkan
-        return redirect()->route('data-client.laporan-harian', ['activeTabLead' => 'lead'])
-            ->with('success', 'Data Lead was successfully saved.');
+        return redirect()->back()->with('success', 'Data lead berhasil diupdate');
     }
+
 
     public function update(Request $request, $client_id, $post_id)
     {

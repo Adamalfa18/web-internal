@@ -214,15 +214,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="card border shadow-xs mb-4 border-client">
-                            <div class="card-header border-bottom pb-0 border-client-bottom">
-                                <h6 class="font-weight-semibold text-lg mb-0">ROAS</h6>
-                                <p class="text-sm">ROAS this month</p>
-                            </div>
-                            <div class="card-body">
-                                <canvas id="chartRoas" height="100"></canvas>
-                            </div>
-                        </div> --}}
                     </div>
 
                     <div class="row">
@@ -1477,20 +1468,28 @@
         }
 
         document.getElementById('compareForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const bulan = document.getElementById('bulanCompare').value;
+    e.preventDefault();
+    const bulan = document.getElementById('bulanCompare').value;
 
-            fetch(`/performa-harian/compare?bulan=${bulan}`)
-                .then(response => response.json())
-                .then(data => {
-                    compareLabels = data.labels; // simpan label tooltip untuk compare
-                    updateCharts(data);
-                })
-
-                .catch(error => {
-                    console.error('Gagal ambil data compare:', error);
-                });
+    fetch(`/data-client/performa-harian/compare?bulan=${bulan}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (!data || !data.labels || data.labels.length === 0) {
+                alert('Data compare tidak ditemukan untuk bulan ini');
+                return;
+            }
+            compareLabels = data.labels; // update labels
+            updateCharts(data);
+        })
+        .catch(error => {
+            console.error('Gagal ambil data compare:', error);
         });
+});
 
         document.addEventListener('DOMContentLoaded', function() {
             // Inisialisasi chart awal dengan data bulan ini

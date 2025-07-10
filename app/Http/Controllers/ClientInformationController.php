@@ -418,10 +418,10 @@ class ClientInformationController extends Controller
             ->get();
 
         return response()->json([
-            'labels' => $data->map(fn($d) => \Carbon\Carbon::parse($d->hari)->format('j M')),
-            'spent' => $data->pluck('total'),
-            'revenue' => $data->pluck('omzet'),
-            'roas' => $data->pluck('roas'),
+            'labels' => $data->map(fn($d) => \Carbon\Carbon::parse($d->hari)->format('j M'))->values()->toArray(),
+            'spent' => $data->pluck('total')->values()->toArray(),  // atau ->pluck('spent')
+            'revenue' => $data->pluck('omzet')->values()->toArray(),
+            'roas' => $data->pluck('roas')->values()->toArray(),
         ]);
     }
 }

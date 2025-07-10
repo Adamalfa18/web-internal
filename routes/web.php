@@ -57,7 +57,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [DasboardAdminController::class, 'index'])->name('dashboard');
         Route::resource('/clients', ClientController::class);
         Route::get('/dashboard-marketing', [DasboardAdminController::class, 'dasboar_marketing'])->name('dashboard.marketing');
-        Route::get('/performa-harian/compare', [PerformaHarianController::class, 'compare'])->name('performa-harian.compare');
         Route::get('/marketing', [MarketingController::class, 'index'])->name('marketing.index');
         Route::get('/marketing/layanan/{id}', [MarketingController::class, 'edit'])->name('marketing.edit');
         Route::put('/marketing/layanan/{id}/edit', [MarketingController::class, 'update'])->name('marketing.update');
@@ -104,6 +103,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/laporan-harian', PerformaHarianController::class);
         Route::delete('/laporan-harian-lead/{id}', [LaporanHarianLeadController::class, 'destroy'])->name('laporan-harian-lead.destroy');
         Route::post('/laporan-bulanan/compare', [PerformanceBulananController::class, 'compareView'])->name('laporan-bulanan.compare'); //bukan ini
+        Route::get('/performa-harian/compare', [PerformaHarianController::class, 'compare'])->name('performa-harian.compare');
         Route::post('/laporan-harian/store-lead', [PerformaHarianController::class, 'store_lead'])->name('laporan-harian.store-lead');
         Route::put('/laporan-harian/update-lead/{id}', [PerformaHarianController::class, 'updateLead'])->name('laporan-harian.update_lead');
         Route::delete('/laporan-harian/delete_lead/{id}', [PerformaHarianController::class, 'destroy_lead'])->name('laporan-harian.destroy_lead');
@@ -111,7 +111,7 @@ Route::middleware('auth')->group(function () {
 
     //  Client (6)
     Route::middleware(['checkUserRole:6', 'encryptDecrypt'])->group(function () {
-        Log::info('User with role_id 6 accessed the route.');
+        // Log::info('User with role_id 6 accessed the route.');
         Route::get('data-client/performa-harian/compare', [ClientInformationController::class, 'compare']);
         Route::get('/data-client', [ClientInformationController::class, 'index'])->name('data-client.index');
         Route::get('/data-client/{client_id}/{layanan}', [ClientInformationController::class, 'bulanan'])->name('data-client.laporan-bulanan');

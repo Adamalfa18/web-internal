@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('performance_bulanan_id')->constrained()->onDelete('cascade');
             $table->date('hari');
+            $table->string('platform');
             $table->string('spent')->nullable();
+            $table->string('impresi')->nullable();
+            $table->string('click')->nullable();
             $table->string('revenue')->nullable();
             $table->string('roas')->nullable();
             $table->string('leads')->nullable();

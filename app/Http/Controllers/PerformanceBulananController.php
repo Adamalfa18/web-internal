@@ -63,93 +63,108 @@ class PerformanceBulananController extends Controller
         return view('marketlab.laporan-bulanan.create', compact('client'));
     }
 
-    public function store(Request $request)
-    {
+   public function store(Request $request)
+{
+    // Bersihkan input format Rupiah → angka sebelum validasi
+    $request->merge([
+        'target_spent'   => preg_replace('/[^0-9]/', '', $request->target_spent),
+        'target_revenue' => preg_replace('/[^0-9]/', '', $request->target_revenue),
+        'spent'          => preg_replace('/[^0-9]/', '', $request->spent),
+        'revenue'        => preg_replace('/[^0-9]/', '', $request->revenue),
+    ]);
+
+    // Validasi umum
+    $request->validate([
+        'client_id' => 'required|exists:clients,id',
+        'report_date' => 'required|string',
+        'note' => 'required|string',
+        'layanan_mb' => 'required|in:Leads,Marketplace',
+        'nama_campaign' => 'required|string',
+    ]);
+
+    // Validasi Marketplace
+    if ($request->layanan_mb === 'Marketplace') {
         $request->validate([
-            'client_id' => 'required|exists:clients,id',
-            'report_date' => 'required|string',
-            'note' => 'required|string',
-            'layanan_mb' => 'required|in:Leads,Marketplace',
-            'nama_campaign' => 'required|string',
+            'target_spent' => 'required|numeric',
+            'target_revenue' => 'required|numeric',
+            'target_roas' => 'required|string',
         ]);
-
-        if ($request->layanan_mb === 'Marketplace') {
-            $request->validate([
-                'target_spent' => 'required|numeric',
-                'target_revenue' => 'required|numeric',
-                'target_roas' => 'required|string',
-            ]);
-        }
-
-        if ($request->layanan_mb === 'Leads') {
-            $request->validate([
-                'jenis_leads' => 'required|in:F to F,Roas Revenue,Total Closing,Site Visits',
-                'spent' => 'nullable|numeric',
-                'leads' => 'nullable|numeric',
-                'revenue' => 'nullable|string',
-                'roas' => 'nullable|string',
-                'chat' => 'nullable|numeric',
-                'respond' => 'nullable|numeric',
-                'greeting' => 'nullable|numeric',
-                'pricelist' => 'nullable|numeric',
-                'discuss' => 'nullable|numeric',
-                'closing' => 'nullable|numeric',
-                'site_visits' => 'nullable|numeric',
-                'cpl' => 'nullable|numeric',
-                'cpc' => 'nullable|numeric',
-                'cr_leads_chat' => 'nullable|numeric',
-                'cr_chat_respond' => 'nullable|numeric',
-                'cr_respond_closing' => 'nullable|numeric',
-                'cr_respond_site_visit' => 'nullable|numeric',
-            ]);
-        }
-
-        $data = [
-            'client_id'         => $request->client_id,
-            'report_date'       => $request->report_date,
-            'note'              => $request->note,
-            'jenis_layanan_mb'  => $request->layanan_mb,
-            'jenis_leads'       => $request->jenis_leads ?? null,
-            'nama_campaign'     => $request->nama_campaign,
-        ];
-
-        if ($request->layanan_mb === 'Marketplace') {
-            $data['target_spent']   = $request->target_spent;
-            $data['target_revenue'] = $request->target_revenue;
-            $data['target_roas']    = $request->target_roas;
-        }
-
-        if ($request->layanan_mb === 'Leads') {
-            $data += [
-                'target_spent' => $request->spent,
-                'target_leads' => $request->leads,
-                'target_revenue' => $request->revenue,
-                'target_roas' => $request->roas,
-                'chat' => $request->chat,
-                'respond' => $request->respond,
-                'greeting' => $request->greeting,
-                'pricelist' => $request->pricelist,
-                'discuss' => $request->discuss,
-                'closing' => $request->closing,
-                'site_visit' => $request->site_visits,
-                'cpl' => $request->cpl,
-                'cpc' => $request->cpc,
-                'cr_leads_to_chat' => $request->cr_leads_chat,
-                'cr_chat_to_respond' => $request->cr_chat_respond,
-                'cr_respond_to_closing' => $request->cr_respond_closing,
-                'cr_respond_to_site_visit' => $request->cr_respond_site_visit,
-            ];
-        }
-
-        $report = PerformanceBulanan::create($data);
-
-        if ($report) {
-            return redirect()->route('laporan-bulanan.index', ['client_id' => $request->client_id])
-                ->with('success', 'Laporan bulanan berhasil dibuat!');
-        } else {
-            return redirect()->back()->with('error', 'Laporan bulanan gagal dibuat!');
-        }
     }
+
+    // Validasi Leads
+    if ($request->layanan_mb === 'Leads') {
+        $request->validate([
+            'jenis_leads' => 'required|in:Roas Revenue,Total Closing,Site Visits',
+            'spent' => 'nullable|numeric',
+            'leads' => 'nullable|numeric',
+            'revenue' => 'nullable|numeric',
+            'roas' => 'nullable|string',
+            'chat' => 'nullable|numeric',
+            'respond' => 'nullable|numeric',
+            'greeting' => 'nullable|numeric',
+            'pricelist' => 'nullable|numeric',
+            'discuss' => 'nullable|numeric',
+            'closing' => 'nullable|numeric',
+            'site_visits' => 'nullable|numeric',
+            'cpl' => 'nullable|numeric',
+            'cpc' => 'nullable|numeric',
+            'cr_leads_chat' => 'nullable|numeric',
+            'cr_chat_respond' => 'nullable|numeric',
+            'cr_respond_closing' => 'nullable|numeric',
+            'cr_respond_site_visit' => 'nullable|numeric',
+        ]);
+    }
+
+    // Data umum
+    $data = [
+        'client_id'         => $request->client_id,
+        'report_date'       => $request->report_date,
+        'note'              => $request->note,
+        'jenis_layanan_mb'  => $request->layanan_mb,
+        'jenis_leads'       => $request->jenis_leads ?? null,
+        'nama_campaign'     => $request->nama_campaign,
+    ];
+
+    // Data Marketplace
+    if ($request->layanan_mb === 'Marketplace') {
+        $data['target_spent']   = $request->target_spent;
+        $data['target_revenue'] = $request->target_revenue;
+        $data['target_roas']    = $request->target_roas;
+    }
+
+    // Data Leads
+    if ($request->layanan_mb === 'Leads') {
+        $data += [
+            'target_spent' => $request->spent,
+            'target_leads' => $request->leads,
+            'target_revenue' => $request->revenue,
+            'target_roas' => $request->roas,
+            'chat' => $request->chat,
+            'respond' => $request->respond,
+            'greeting' => $request->greeting,
+            'pricelist' => $request->pricelist,
+            'discuss' => $request->discuss,
+            'closing' => $request->closing,
+            'site_visit' => $request->site_visits,
+            'cpl' => $request->cpl,
+            'cpc' => $request->cpc,
+            'cr_leads_to_chat' => $request->cr_leads_chat,
+            'cr_chat_to_respond' => $request->cr_chat_respond,
+            'cr_respond_to_closing' => $request->cr_respond_closing,
+            'cr_respond_to_site_visit' => $request->cr_respond_site_visit,
+        ];
+    }
+
+    $report = PerformanceBulanan::create($data);
+
+    if ($report) {
+        return redirect()->route('laporan-bulanan.index', ['client_id' => $request->client_id])
+            ->with('success', 'Laporan bulanan berhasil dibuat!');
+    } else {
+        return redirect()->back()->with('error', 'Laporan bulanan gagal dibuat!');
+    }
+}
+
 
     public function show($id)
     {

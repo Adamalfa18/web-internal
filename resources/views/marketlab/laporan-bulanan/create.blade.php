@@ -11,13 +11,13 @@
                     <div class="card border shadow-xs mb-4">
                         <div class="row">
                             @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             @endif
                             <div class="col-md-12">
                                 <div class="card-header border-bottom pb-0">
@@ -32,217 +32,245 @@
                                     <form action="{{ route('laporan-bulanan.store') }}" method="POST">
                                         @csrf
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="row">
                                                 <div class="mb-3">
-                                                    <label for="client_id" class="form-label">Id Client</label>
-                                                    <input type="hidden" name="client_id" value="{{ $client->id }}">
-                                                    <!-- Menyimpan nilai client_id -->
-                                                    <input type="text" class="form-control" id="client_id_display"
-                                                        placeholder="Target Spant" value="{{ $client->id }}" readonly>
-                                                    <!-- Menampilkan nilai tanpa bisa diubah -->
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Nama
-                                                        Campaign</label>
-                                                    <input type="text" class="form-control" name="nama_campaign"
-                                                        placeholder="nama Campaign">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-3">
-                                                    <label for="report_date" class="form-label">Month</label>
-                                                    <input type="month" class="form-control" name="report_date"
-                                                        id="report_date" required pattern="\d{4}-\d{2}">
-                                                    <!-- Menambahkan pola untuk format M -->
-                                                </div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label d-block">Jenis Layanan MB</label>
+                                                    <label class="form-label d-block">Jenis Layanan MB</label>
 
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="layanan_mb"
-                                                        id="layanan_mb_leads" value="Leads">
-                                                    <label class="form-check-label" for="layanan_mb_leads">Leads</label>
-                                                </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="layanan_mb"
+                                                            id="layanan_mb_leads" value="Leads">
+                                                        <label class="form-check-label"
+                                                            for="layanan_mb_leads">Leads</label>
+                                                    </div>
 
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="layanan_mb"
-                                                        id="layanan_mb_marketplace" value="Marketplace">
-                                                    <label class="form-check-label"
-                                                        for="layanan_mb_marketplace">Marketplace</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row marketplace-only mb-3">
-                                            <div class="col-md-4">
-                                                <div class="mb-3">
-                                                    <label for="target_spent" class="form-label">Target Spant</label>
-                                                    <input type="number" class="form-control" name="target_spent"
-                                                        id="targetSpentnBulananMB" placeholder="Target Spant">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-3">
-                                                    <label for="targetRevenueBulananMB" class="form-label">Target
-                                                        Revenue</label>
-                                                    <input type="number" class="form-control" name="target_revenue"
-                                                        id="targetRevenueBulananMB" placeholder="Target Revenue">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-3">
-                                                    <label for="target_roas" class="form-label">Target Roas</label>
-                                                    <input type="text" class="form-control" name="target_roas"
-                                                        id="targetRoasBulananMB" placeholder="Target Roas">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row leads-only mb-3">
-                                            <div class="mb-3">
-                                                <label class="form-label d-block">Jenis Leads</label>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="jenis_leads"
-                                                        id="leads_roas_rev" value="Roas Revenue">
-                                                    <label class="form-check-label" for="leads_roas_rev">Roas
-                                                        Revenue</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="jenis_leads"
-                                                        id="leads_total_closing" value="Total Closing">
-                                                    <label class="form-check-label" for="leads_total_closing">Total
-                                                        Closing</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="jenis_leads"
-                                                        id="leads_site_visit" value="Site Visits">
-                                                    <label class="form-check-label" for="leads_site_visit">Site
-                                                        Visits</label>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="layanan_mb"
+                                                            id="layanan_mb_marketplace" value="Marketplace">
+                                                        <label class="form-check-label"
+                                                            for="layanan_mb_marketplace">Marketplace</label>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Spant</label>
-                                                        <input type="number" class="form-control" name="spent"
-                                                            placeholder="Target Spant">
+                                                        <label for="client_id" class="form-label">Id Client</label>
+                                                        <input type="hidden" name="client_id"
+                                                            value="{{ $client->id }}">
+                                                        <input type="text" class="form-control"
+                                                            id="client_id_display" placeholder="Target Spant"
+                                                            value="{{ $client->id }}" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Nama Campaign</label>
+                                                        <input type="text" class="form-control" name="nama_campaign"
+                                                            placeholder="nama Campaign">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="report_date" class="form-label">Month</label>
+                                                        <input type="month" class="form-control" name="report_date"
+                                                            id="report_date" required pattern="\d{4}-\d{2}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row marketplace-only mb-3">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="target_spent" class="form-label">Target
+                                                            Spant</label>
+                                                        <input type="number" class="form-control" name="target_spent"
+                                                            id="targetSpentnBulananMB" placeholder="Target Spant">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="targetRevenueBulananMB" class="form-label">Target
+                                                            Revenue</label>
+                                                        <input type="number" class="form-control" name="target_revenue"
+                                                            id="targetRevenueBulananMB" placeholder="Target Revenue">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="target_roas" class="form-label">Target Roas</label>
+                                                        <input type="text" class="form-control" name="target_roas"
+                                                            id="targetRoasBulananMB" placeholder="Target Roas">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row leads-only mb-3">
+                                            <div class="row">
+                                                <div class="col-md-12 mb-3">
+                                                    <label class="form-label d-block">Jenis Leads</label>
+                                                    <div class="style-garp">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="jenis_leads" id="leads_roas_rev"
+                                                                value="Roas Revenue">
+                                                            <label class="form-check-label" for="leads_roas_rev">Roas
+                                                                Revenue</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="jenis_leads" id="leads_total_closing"
+                                                                value="Total Closing">
+                                                            <label class="form-check-label"
+                                                                for="leads_total_closing">Total Closing</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                name="jenis_leads" id="leads_site_visit"
+                                                                value="Site Visits">
+                                                            <label class="form-check-label"
+                                                                for="leads_site_visit">Site Visits</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Spent -->
+                                                <div class="col-md-3">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Spent</label>
+                                                        <input type="text" class="form-control" name="spent"
+                                                            id="spent" placeholder="Target Spent">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label class="form-label">Leads</label>
                                                         <input type="number" class="form-control" name="leads"
                                                             placeholder="Target Lead">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Revenue</label>
-                                                        <input type="text" class="form-control" name="revenue"
-                                                            placeholder="Target Revenue">
+                                                        <label class="form-label">CPL</label>
+                                                        <input type="number" class="form-control" name="cpl"
+                                                            placeholder="Coust Per Lead">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">CPC</label>
+                                                        <input type="number" class="form-control" name="cpc"
+                                                            placeholder="Coust Per Closing">
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col-md-12">
+                                                    <label class="form-label">
+                                                        <span style="font-size: 18px">Input Client</span>
+                                                        <p style="font-size: 12px">Formulir yang diisi langsung oleh
+                                                            klien untuk memberikan data yang dibutuhkan.</p>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label class="form-label">Chat</label>
                                                         <input type="number" class="form-control" name="chat"
                                                             placeholder="Target chat">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label class="form-label">Greeting</label>
                                                         <input type="number" class="form-control" name="greeting"
                                                             placeholder="Greeting">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label class="form-label">Pricelist</label>
                                                         <input type="number" class="form-control" name="pricelist"
                                                             placeholder="Pricelist">
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label class="form-label">Discuss</label>
                                                         <input type="number" class="form-control" name="discuss"
                                                             placeholder="Discuss">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">Respond</label>
-                                                        <input type="number" class="form-control" name="respond"
-                                                            placeholder="Respond">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label class="form-label">Closing</label>
                                                         <input type="number" class="form-control" name="closing"
                                                             placeholder="Closing">
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label class="form-label">Site Visits</label>
                                                         <input type="number" class="form-control" name="site_visits"
                                                             placeholder="Site Visits">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <!-- Revenue -->
+                                                <div class="col-md-3">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Roas</label>
-                                                        <input type="number" class="form-control" name="roas"
-                                                            placeholder="Roas">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="mb-3">
-                                                        <label class="form-label">CPL</label>
-                                                        <input type="number" class="form-control" name="cpl"
-                                                            placeholder="CPL">
+                                                        <label class="form-label">Revenue</label>
+                                                        <input type="text" class="form-control" name="revenue"
+                                                            id="revenue" placeholder="Target Revenue">
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="row">
+                                                <div class="col-md-12">
+                                                    <label class="form-label">
+                                                        <span style="font-size: 18px">Form Hasil</span>
+                                                        <p style="font-size: 12px">Terisi otomatis dari data yang telah
+                                                            diinput sebelumnya.</p>
+                                                    </label>
+                                                </div>
+                                                <!-- ROAS -->
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label class="form-label">CPC</label>
-                                                        <input type="number" class="form-control" name="cpc"
-                                                            placeholder="CPC">
+                                                        <label class="form-label">ROAS</label>
+                                                        <input type="number" class="form-control" name="roas"
+                                                            id="roas" placeholder="ROAS" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Respond</label>
+                                                        <input type="number" class="form-control" name="respond"
+                                                            placeholder="Respond" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">CR Leads > Chat*</label>
-                                                        <input type="number" class="form-control" name="cr_leads_chat"
-                                                            placeholder="CR Leads > Chat">
+                                                        <input type="number" class="form-control"
+                                                            name="cr_leads_chat" placeholder="CR Leads > Chat"
+                                                            readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">CR Chat > Respond*</label>
-                                                        <input type="number" class="form-control" name="cr_chat_respond"
-                                                            placeholder="CR Chat > Respond">
+                                                        <input type="number" class="form-control"
+                                                            name="cr_chat_respond" placeholder="CR Chat > Respond"
+                                                            readonly>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">CR Respond > Closing*</label>
                                                         <input type="number" class="form-control"
                                                             name="cr_respond_closing"
-                                                            placeholder="CR Respond > Closing">
+                                                            placeholder="CR Respond > Closing" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -250,30 +278,28 @@
                                                         <label class="form-label">CR Respond > Site Visit*</label>
                                                         <input type="number" class="form-control"
                                                             name="cr_respond_site_visit"
-                                                            placeholder="CR Respond > Site Visit">
+                                                            placeholder="CR Respond > Site Visit" readonly>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="mb-3">
-                                                    <div class="mb-3">
-                                                        <label for="note" class="form-label">Note</label>
-                                                        <textarea class="form-control" name="note" id="note"
-                                                            placeholder="Note....." rows="3" required></textarea>
-                                                    </div>
+                                                    <label for="note" class="form-label">Note</label>
+                                                    <textarea class="form-control" name="note" id="note" placeholder="Note....." rows="3" required></textarea>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                        </div>
+
                                         <div class="border-top py-3 px-3 d-flex align-items-center">
                                             <div class="ms-auto">
                                                 <button type="submit" class="btn btn-sm btn-white mb-0">Save</button>
                                             </div>
                                         </div>
                                     </form>
+
                                 </div>
                             </div>
                         </div>
@@ -346,6 +372,181 @@
                 // jalankan saat load
                 toggleFields();
             });
+        </script>
+        {{-- <script>
+            function calculateRoas() {
+                let spent = parseFloat(document.getElementById('spent').value) || 0;
+                let revenue = parseFloat(document.getElementById('revenue').value) || 0;
+                let roas = spent > 0 ? (revenue / spent).toFixed(2) : 0;
+                document.getElementById('roas').value = roas;
+            }
+
+            function calculateRespond() {
+                let greeting = parseInt(document.getElementsByName('greeting')[0].value) || 0;
+                let pricelist = parseInt(document.getElementsByName('pricelist')[0].value) || 0;
+                let discuss = parseInt(document.getElementsByName('discuss')[0].value) || 0;
+
+                let respond = greeting + pricelist + discuss;
+                document.getElementsByName('respond')[0].value = respond;
+
+                calculateCRChatRespond();
+                calculateCRRespondClosing();
+                calculateCRRespondSiteVisit();
+            }
+
+            function calculateCRLeadsChat() {
+                let leads = parseInt(document.getElementsByName('leads')[0].value) || 0;
+                let chat = parseInt(document.getElementsByName('chat')[0].value) || 0;
+                let cr = (chat > 0) ? ((chat / leads) * 100).toFixed(2) : 0;
+                document.getElementsByName('cr_leads_chat')[0].value = cr;
+            }
+
+            function calculateCRChatRespond() {
+                let respond = parseInt(document.getElementsByName('respond')[0].value) || 0;
+                let chat = parseInt(document.getElementsByName('chat')[0].value) || 0;
+                let cr = (chat > 0) ? ((respond / chat) * 100).toFixed(2) : 0;
+                document.getElementsByName('cr_chat_respond')[0].value = cr;
+            }
+
+            function calculateCRRespondClosing() {
+                let closing = parseInt(document.getElementsByName('closing')[0].value) || 0;
+                let respond = parseInt(document.getElementsByName('respond')[0].value) || 0;
+                let cr = (respond > 0) ? ((closing / respond) * 100).toFixed(2) : 0;
+                document.getElementsByName('cr_respond_closing')[0].value = cr;
+            }
+
+            function calculateCRRespondSiteVisit() {
+                let siteVisit = parseInt(document.getElementsByName('site_visits')[0].value) || 0;
+                let respond = parseInt(document.getElementsByName('respond')[0].value) || 0;
+                let cr = (respond > 0) ? ((siteVisit / respond) * 100).toFixed(2) : 0;
+                document.getElementsByName('cr_respond_site_visit')[0].value = cr;
+            }
+
+            // Event listeners
+            document.getElementById('spent').addEventListener('input', calculateRoas);
+            document.getElementById('revenue').addEventListener('input', calculateRoas);
+
+            document.getElementsByName('greeting')[0].addEventListener('input', calculateRespond);
+            document.getElementsByName('pricelist')[0].addEventListener('input', calculateRespond);
+            document.getElementsByName('discuss')[0].addEventListener('input', calculateRespond);
+
+            document.getElementsByName('leads')[0].addEventListener('input', calculateCRLeadsChat);
+            document.getElementsByName('chat')[0].addEventListener('input', () => {
+                calculateCRLeadsChat();
+                calculateCRChatRespond();
+            });
+
+            document.getElementsByName('closing')[0].addEventListener('input', calculateCRRespondClosing);
+            document.getElementsByName('site_visits')[0].addEventListener('input', calculateCRRespondSiteVisit);
+        </script> --}}
+
+        <script>
+            // Format Rupiah
+            function formatRupiah(angka) {
+                const number_string = angka.replace(/[^,\d]/g, '').toString();
+                const split = number_string.split(',');
+                let sisa = split[0].length % 3;
+                let rupiah = split[0].substr(0, sisa);
+                const ribuan = split[0].substr(sisa).match(/\d{3}/g);
+                if (ribuan) {
+                    rupiah += (sisa ? '.' : '') + ribuan.join('.');
+                }
+                return split[1] !== undefined ? 'Rp ' + rupiah + ',' + split[1] : 'Rp ' + rupiah;
+            }
+
+            // Hilangkan format
+            function unformatRupiah(rupiah) {
+                return rupiah.replace(/[^0-9]/g, '');
+            }
+
+            // Hitung ROAS
+            function calculateRoas() {
+                let spentRaw = unformatRupiah(document.getElementById('spent').value);
+                let revenueRaw = unformatRupiah(document.getElementById('revenue').value);
+
+                let spent = parseFloat(spentRaw) || 0;
+                let revenue = parseFloat(revenueRaw) || 0;
+
+                let roas = spent > 0 ? (revenue / spent).toFixed(2) : 0;
+                document.getElementById('roas').value = roas;
+            }
+
+            // Respon, CR, dsb (fungsi sebelumnya tetap dipakai)
+            function calculateRespond() {
+                let greeting = parseInt(document.getElementsByName('greeting')[0].value) || 0;
+                let pricelist = parseInt(document.getElementsByName('pricelist')[0].value) || 0;
+                let discuss = parseInt(document.getElementsByName('discuss')[0].value) || 0;
+
+                let respond = greeting + pricelist + discuss;
+                document.getElementsByName('respond')[0].value = respond;
+
+                calculateCRChatRespond();
+                calculateCRRespondClosing();
+                calculateCRRespondSiteVisit();
+            }
+
+            function calculateCRLeadsChat() {
+                let leads = parseInt(document.getElementsByName('leads')[0].value) || 0;
+                let chat = parseInt(document.getElementsByName('chat')[0].value) || 0;
+                let cr = (chat > 0) ? ((chat / leads) * 100).toFixed(2) : 0;
+                document.getElementsByName('cr_leads_chat')[0].value = cr;
+            }
+
+            function calculateCRChatRespond() {
+                let respond = parseInt(document.getElementsByName('respond')[0].value) || 0;
+                let chat = parseInt(document.getElementsByName('chat')[0].value) || 0;
+                let cr = (chat > 0) ? ((respond / chat) * 100).toFixed(2) : 0;
+                document.getElementsByName('cr_chat_respond')[0].value = cr;
+            }
+
+            function calculateCRRespondClosing() {
+                let closing = parseInt(document.getElementsByName('closing')[0].value) || 0;
+                let respond = parseInt(document.getElementsByName('respond')[0].value) || 0;
+                let cr = (respond > 0) ? ((closing / respond) * 100).toFixed(2) : 0;
+                document.getElementsByName('cr_respond_closing')[0].value = cr;
+            }
+
+            function calculateCRRespondSiteVisit() {
+                let siteVisit = parseInt(document.getElementsByName('site_visits')[0].value) || 0;
+                let respond = parseInt(document.getElementsByName('respond')[0].value) || 0;
+                let cr = (respond > 0) ? ((siteVisit / respond) * 100).toFixed(2) : 0;
+                document.getElementsByName('cr_respond_site_visit')[0].value = cr;
+            }
+
+            // Event listeners
+            document.getElementById('spent').addEventListener('input', function() {
+                let unformatted = unformatRupiah(this.value);
+                this.value = formatRupiah(unformatted);
+                calculateRoas();
+            });
+
+            document.getElementById('revenue').addEventListener('input', function() {
+                let unformatted = unformatRupiah(this.value);
+                this.value = formatRupiah(unformatted);
+                calculateRoas();
+            });
+
+            // Jika form lainnya sudah ada, aktifkan listener-nya juga
+            const setupListeners = () => {
+                const input = (name, callback) => {
+                    const el = document.getElementsByName(name)[0];
+                    if (el) el.addEventListener('input', callback);
+                };
+
+                input('greeting', calculateRespond);
+                input('pricelist', calculateRespond);
+                input('discuss', calculateRespond);
+                input('leads', calculateCRLeadsChat);
+                input('chat', () => {
+                    calculateCRLeadsChat();
+                    calculateCRChatRespond();
+                });
+                input('closing', calculateCRRespondClosing);
+                input('site_visits', calculateCRRespondSiteVisit);
+            };
+
+            // Jalankan listener tambahan setelah load
+            window.addEventListener('DOMContentLoaded', setupListeners);
         </script>
 
 

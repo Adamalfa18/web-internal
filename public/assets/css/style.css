@@ -1308,3 +1308,8 @@ span.select2-results {
     flex-direction: column;
     align-items: center;
 }
+
+.style-garp {
+    display: flex;
+    gap: 50px;
+}

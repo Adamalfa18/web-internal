@@ -65,7 +65,7 @@ class LaporanHarianLeadController extends Controller
             'discuss' => 'nullable',
             'respond' => 'nullable',
             'closing' => 'nullable',
-            'site_visits' => 'nullable',
+            'site_visit' => 'nullable',
             'roas' => 'nullable',
             'cpl' => 'nullable',
             'cpc' => 'nullable',
@@ -76,13 +76,13 @@ class LaporanHarianLeadController extends Controller
             'note' => 'required|string',
         ]);
 
-         // Bersihkan semua nilai numerik dari karakter selain angka
-    $clean = fn($val) => $val !== null ? (is_numeric($val) ? $val : preg_replace('/[^\d]/', '', $val)) : null;
+        // Bersihkan semua nilai numerik dari karakter selain angka
+        $clean = fn($val) => $val !== null ? (is_numeric($val) ? $val : preg_replace('/[^\d]/', '', $val)) : null;
         // Mapping data sesuai kolom DB
         $data = [
             'performance_bulanan_id' => $validated['performance_bulanan_id'],
             'hari' => $validated['report_date'],
-            'platform' => $clean($validated['platform']),
+            'platform' => $validated['platform'],
             'spent' => $clean($validated['spent']) ?? null,
             'impresi' => $clean($validated['impresi']) ?? null,
             'click' => $clean($validated['click']) ?? null,
@@ -94,7 +94,7 @@ class LaporanHarianLeadController extends Controller
             'discuss' => $clean($validated['discuss']) ?? null,
             'respond' => $clean($validated['respond']) ?? null,
             'closing' => $clean($validated['closing']) ?? null,
-            'site_visit' => $clean($validated['site_visits']) ?? null,
+            'site_visit' => $clean($validated['site_visit']) ?? null,
             'roas' => $clean($validated['roas']) ?? null,
             'cpl' => $clean($validated['cpl']) ?? null,
             'cpc' => $clean($validated['cpc']) ?? null,
@@ -129,7 +129,7 @@ class LaporanHarianLeadController extends Controller
             'discuss' => 'nullable',
             'respond' => 'nullable',
             'closing' => 'nullable',
-            'site_visits' => 'nullable',
+            'site_visit' => 'nullable',
             'roas' => 'nullable',
             'cpl' => 'nullable',
             'cpc' => 'nullable',
@@ -140,12 +140,12 @@ class LaporanHarianLeadController extends Controller
             'note' => 'required|string',
         ]);
 
-         $clean = fn($val) => $val !== null ? (is_numeric($val) ? $val : preg_replace('/[^\d]/', '', $val)) : null;
+        $clean = fn($val) => $val !== null ? (is_numeric($val) ? $val : preg_replace('/[^\d]/', '', $val)) : null;
         $lead = Lead::findOrFail($id);
 
         $lead->update([
             'hari' => $request->report_date,
-            'platform' => $clean($request->platform),
+            'platform' => $request->platform,
             'spent' => $clean($request->spent),
             'impresi' => $clean($request->impresi),
             'click' => $clean($request->click),

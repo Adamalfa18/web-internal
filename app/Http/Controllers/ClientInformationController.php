@@ -241,6 +241,7 @@ class ClientInformationController extends Controller
         // Ambil semua leads
         $leads = Lead::where('performance_bulanan_id', $performance_bulanan_id)->get();
 
+        $scale = [60, 50, 40, 30, 20, 10];
         // Total untuk chart funnel (khusus jenis_leads F to F)
         $totals = [
             'Leads'     => $leads->sum('leads'),
@@ -250,58 +251,80 @@ class ClientInformationController extends Controller
             'Discuss'   => $leads->sum('discuss'),
         ];
 
-        return view('info.data.harian-lead', compact('report', 'leads', 'fields', 'totals'));
+        $totall = [
+            'Impresi'     => $leads->sum('impresi'),
+            'Click'  => $leads->sum('click'),
+            'Chat'      => $leads->sum('chat'),
+            'Respond' => $leads->sum('respond'),
+            'Closing'   => $leads->sum('closing'),
+        ];
+
+        $totals_scaled = [];
+        $keys = array_keys($totall);
+        foreach ($keys as $i => $key) {
+            $totals_scaled[$key] = $scale[$i] ?? 10; // fallback kecil
+        }
+
+        return view('info.data.harian-lead', compact('report', 'leads', 'fields', 'totals', 'totall', 'totals_scaled'));
     }
 
     public function updateHarianLead(Request $request, $id)
     {
+        $request->validate([
+            'performance_bulanan_id' => 'required|exists:performance_bulanans,id',
+            'report_date' => 'required|date',
+            'platform' => 'required|string',
+            'spent' => 'nullable',
+            'impresi' => 'nullable|numeric',
+            'click' => 'nullable|numeric',
+            'leads' => 'nullable',
+            'revenue' => 'nullable',
+            'chat' => 'nullable',
+            'greeting' => 'nullable',
+            'pricelist' => 'nullable',
+            'discuss' => 'nullable',
+            'respond' => 'nullable',
+            'closing' => 'nullable',
+            'site_visit' => 'nullable',
+            'roas' => 'nullable',
+            'cpl' => 'nullable',
+            'cpc' => 'nullable',
+            'cr_leads_chat' => 'nullable',
+            'cr_chat_respond' => 'nullable',
+            'cr_respond_closing' => 'nullable',
+            'cr_respond_site_visit' => 'nullable',
+            'note' => 'required|string',
+        ]);
+
+        $clean = fn($val) => $val !== null ? (is_numeric($val) ? $val : preg_replace('/[^\d]/', '', $val)) : null;
         $lead = Lead::findOrFail($id);
 
-        $validatedData = $request->validate([
-            'report_date' => 'required|date',
-            'spent' => 'nullable|numeric',
-            'leads' => 'nullable|numeric',
-            'revenue' => 'nullable|numeric',
-            'chat' => 'nullable|numeric',
-            'greeting' => 'nullable|numeric',
-            'pricelist' => 'nullable|numeric',
-            'discuss' => 'nullable|numeric',
-            'respond' => 'nullable|numeric',
-            'closing' => 'nullable|numeric',
-            'site_visit' => 'nullable|numeric',
-            'roas' => 'nullable|numeric',
-            'cpl' => 'nullable|numeric',
-            'cpc' => 'nullable|numeric',
-            'cr_leads_chat' => 'nullable|numeric',
-            'cr_chat_respond' => 'nullable|numeric',
-            'cr_respond_closing' => 'nullable|numeric',
-            'cr_respond_site_visit' => 'nullable|numeric',
-            'note' => 'nullable|string',
-        ]);
-
         $lead->update([
-            'hari' => $validatedData['report_date'],
-            'spent' => $validatedData['spent'],
-            'leads' => $validatedData['leads'],
-            'revenue' => $validatedData['revenue'],
-            'chat' => $validatedData['chat'],
-            'greeting' => $validatedData['greeting'],
-            'pricelist' => $validatedData['pricelist'],
-            'discuss' => $validatedData['discuss'],
-            'respond' => $validatedData['respond'],
-            'closing' => $validatedData['closing'],
-            'site_visit' => $validatedData['site_visit'],
-            'roas' => $validatedData['roas'],
-            'cpl' => $validatedData['cpl'],
-            'cpc' => $validatedData['cpc'],
-            'cr_leads_to_chat' => $validatedData['cr_leads_chat'],
-            'cr_chat_to_respond' => $validatedData['cr_chat_respond'],
-            'cr_respond_to_closing' => $validatedData['cr_respond_closing'],
-            'cr_respond_to_site_visit' => $validatedData['cr_respond_site_visit'],
-            'note' => $validatedData['note'],
+            'hari' => $request->report_date,
+            'platform' => $request->platform,
+            'spent' => $clean($request->spent),
+            'impresi' => $clean($request->impresi),
+            'click' => $clean($request->click),
+            'revenue' => $clean($request->revenue),
+            'roas' => $clean($request->roas),
+            'leads' => $clean($request->leads),
+            'chat' => $clean($request->chat),
+            'respond' => $clean($request->respond),
+            'greeting' => $clean($request->greeting),
+            'pricelist' => $clean($request->pricelist),
+            'discuss' => $clean($request->discuss),
+            'closing' => $clean($request->closing),
+            'site_visit' => $clean($request->site_visit),
+            'cpl' => $clean($request->cpl),
+            'cpc' => $clean($request->cpc),
+            'cr_leads_to_chat' => $clean($request->cr_leads_chat),
+            'cr_chat_to_respond' => $clean($request->cr_chat_respond),
+            'cr_respond_to_closing' => $clean($request->cr_respond_closing),
+            'cr_respond_to_site_visit' => $clean($request->cr_respond_site_visit),
+            'note' => $request->note,
         ]);
 
-        return redirect()->back()->with('success', 'Data lead berhasil diupdate');
+        return redirect()->back()->with('success', 'Data berhasil diupdate.');
     }
 
 

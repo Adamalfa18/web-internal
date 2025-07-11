@@ -113,7 +113,7 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="w-100">
-                                                            <p class="text-sm text-secondary mb-1 text-center">Jenis
+                                                            <p class="text-sm text-secondary mb-1 text-center">Target
                                                                 Leads</p>
                                                             <h6 class="mb-2 font-weight-bold text-center">
                                                                 {{ $report->jenis_leads ?? '-' }}
@@ -136,7 +136,7 @@
                         <div class="card border shadow-xs mb-4 border-client">
                             <div class="card-header border-bottom pb-0 border-client-bottom">
                                 <h5 class="font-weight-semibold text-lg mb-4">Informasi Grafik Layanan
-                                    {{ $report->jenis_layanan_mb ?? '-' }} dengan Jenis
+                                    {{ $report->jenis_layanan_mb ?? '-' }} dengan Target
                                     Lead: {{ $report->jenis_leads ?? '-' }} pada Bulan
                                     {{ \Carbon\Carbon::parse($report->report_date)->translatedFormat('F Y') ?? '-' }}
                                 </h5>

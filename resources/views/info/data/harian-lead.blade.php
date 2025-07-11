@@ -112,7 +112,7 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="w-100">
-                                                            <p class="text-sm text-secondary mb-1 text-center">Jenis
+                                                            <p class="text-sm text-secondary mb-1 text-center">Target
                                                                 Leads</p>
                                                             <h6 class="mb-2 font-weight-bold text-center">
                                                                 {{ $report->jenis_leads ?? '-' }}
@@ -135,75 +135,33 @@
                         <div class="card border shadow-xs mb-4 border-client">
                             <div class="card-header border-bottom pb-0 border-client-bottom">
                                 <h5 class="font-weight-semibold text-lg mb-4">Informasi Grafik Layanan
-                                    {{ $report->jenis_layanan_mb ?? '-' }} dengan Jenis
+                                    {{ $report->jenis_layanan_mb ?? '-' }} dengan Target
                                     Lead: {{ $report->jenis_leads ?? '-' }} pada Bulan
                                     {{ \Carbon\Carbon::parse($report->report_date)->translatedFormat('F Y') ?? '-' }}
                                 </h5>
-                                @if ($report->jenis_leads == 'F to F')
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
-                                        </h5>
-                                        <canvas id="chartSpent" height="200"></canvas>
-                                        <div id="customLegendSpent" class="mt-3 mb-4 text-center"></div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
-                                        </h5>
-                                        <div id="chartContainer" class="mt-4 mb-4" style="height: 270px;"></div>
-                                    </div>
-                                </div>
-                                @elseif ($report->jenis_leads == 'Roas Revenue')
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
-                                        </h5>
-                                        <canvas id="chartSpent" height="200"></canvas>
-                                        <div id="customLegendSpent" class="customSpent mt-4 mb-4"></div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
-                                        </h5>
-                                        <canvas id="chartOther" height="200"></canvas>
-                                        <div id="customLegendOther" class="customOther mt-4 mb-4"></div>
-                                    </div>
-                                </div>
-                                @elseif ($report->jenis_leads == 'Total Closing')
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
-                                        </h5>
+                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent</h5>
                                         <canvas id="chartSpent" height="200"></canvas>
                                         <div id="customLegendSpent" class="mt-3 mb-3 text-center"></div>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
-                                        </h5>
+                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian</h5>
                                         <canvas id="chartOther" height="200"></canvas>
                                         <div id="customLegendOther" class="mt-3 mb-3 text-center"></div>
                                     </div>
                                 </div>
-                                @elseif ($report->jenis_leads == 'Site Visits')
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
-                                        </h5>
-                                        <canvas id="chartSpent" height="200"></canvas>
-                                        <div id="customLegendSpent" class="mt-3 mb-3 text-center"></div>
-                                    </div>
 
-                                    <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
-                                        </h5>
-                                        <canvas id="chartOther" height="200"></canvas>
-                                        <div id="customLegendOther" class="mt-3 mb-3 text-center"></div>
+                                {{-- Tambah grafik funnel --}}
+                                <div class="card mt-4">
+                                    <div class="card-header">
+                                        <h5 class="font-weight-semibold text-lg mb-4 text-center">Grafik Funnel</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="funnelChart"></div>
                                     </div>
                                 </div>
-                                @else
-                                <p>Tidak ada grafik untuk jenis leads ini.</p>
-                                @endif
                             </div>
                         </div>
                     </div>
@@ -377,7 +335,7 @@
                                                 </div>
                                             </td>
 
-                                            <!-- Kolom aksi edit & hapus -->
+                                            <!-- Kolom aksi edit -->
                                             <td class="align-middle">
                                                 <a href="#" data-bs-toggle="modal"
                                                     data-bs-target="#editLeadModal{{ $lead->id }}" type="button"
@@ -390,7 +348,6 @@
                                                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                                     </svg>
                                                 </a>
-
                                             </td>
                                         </tr>
                                         @endforeach
@@ -404,127 +361,171 @@
                 </div>
 
                 {{-- MODAL EDIT --}}
+                @foreach ($leads as $lead)
                 <div class="modal fade" id="editLeadModal{{ $lead->id }}" tabindex="-1"
                     aria-labelledby="editLeadModalLabel{{ $lead->id }}" aria-hidden="true">
                     <div class="modal-dialog modal-xl">
                         <form action="{{ route('data-client.update-harian-lead', $lead->id) }}" method="POST"
-                            class="modal-content">
+                            class="lead-form modal-content">
                             @csrf
                             @method('PUT')
-
                             <input type="hidden" name="performance_bulanan_id"
                                 value="{{ $lead->performance_bulanan_id }}">
+
                             <div class="modal-header mx-3 mt-3">
-                                <h5 class="modal-title">Edit Data Harian</h5>
+                                <h5 class="modal-title">Edit Data Lead Harian</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Tutup"></button>
                             </div>
+
                             <div class="modal-body">
-                                <div class="col-md-3">
-                                    <label class="form-label">Tanggal</label>
-                                    <input type="date" class="form-control" name="report_date" value="{{ $lead->hari }}"
-                                        required readonly>
-                                </div>
                                 <div class="row mb-3">
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">Spent</label>
-                                        <input type="number" id="spent-edit-{{ $lead->id }}" class="form-control"
-                                            name="spent" value="{{ $lead->spent }}" placeholder="Spent" readonly>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Tanggal</label>
+                                        <input type="date" class="form-control" name="report_date"
+                                            value="{{ $lead->hari }}" readonly>
                                     </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">Leads</label>
-                                        <input type="number" id="leads-edit-{{ $lead->id }}" class="form-control"
-                                            name="leads" value="{{ $lead->leads }}" placeholder="Leads" readonly>
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">Chat</label>
-                                        <input type="number" id="chat-edit-{{ $lead->id }}" class="form-control"
-                                            name="chat" value="{{ $lead->chat }}" placeholder="Chat">
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">Greeting</label>
-                                        <input type="number" id="greeting-edit-{{ $lead->id }}" class="form-control"
-                                            name="greeting" value="{{ $lead->greeting }}" placeholder="Greeting">
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">Pricelist</label>
-                                        <input type="number" id="pricelist-edit-{{ $lead->id }}" class="form-control"
-                                            name="pricelist" value="{{ $lead->pricelist }}" placeholder="Pricelist">
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">Discuss</label>
-                                        <input type="number" id="discuss-edit-{{ $lead->id }}" class="form-control"
-                                            name="discuss" value="{{ $lead->discuss }}" placeholder="Discuss">
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">Respond</label>
-                                        <input type="number" id="respond-edit-{{ $lead->id }}" class="form-control"
-                                            name="respond" value="{{ $lead->respond }}" placeholder="Respond" readonly>
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">Closing</label>
-                                        <input type="number" id="closing-edit-{{ $lead->id }}" class="form-control"
-                                            name="closing" value="{{ $lead->closing }}" placeholder="Closing">
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">Site Visit</label>
-                                        <input type="number" id="site_visit-edit-{{ $lead->id }}" class="form-control"
-                                            name="site_visit" value="{{ $lead->site_visit }}" placeholder="Site Visit">
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">Revenue</label>
-                                        <input type="number" id="revenue-edit-{{ $lead->id }}" class="form-control"
-                                            name="revenue" value="{{ $lead->revenue }}" placeholder="Revenue">
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">ROAS</label>
-                                        <input type="number" id="roas-edit-{{ $lead->id }}" class="form-control"
-                                            name="roas" value="{{ $lead->roas }}" placeholder="Roas" readonly>
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">CPL</label>
-                                        <input type="number" id="cpl-edit-{{ $lead->id }}" class="form-control"
-                                            name="cpl" value="{{ $lead->cpl }}" placeholder="CPL" readonly>
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">CPC</label>
-                                        <input type="number" id="cpc-edit-{{ $lead->id }}" class="form-control"
-                                            name="cpc" value="{{ $lead->cpc }}" placeholder="CPC" readonly>
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">CR Leads > Chat</label>
-                                        <input type="number" id="cr_leads_chat-edit-{{ $lead->id }}"
-                                            class="form-control" name="cr_leads_chat"
-                                            value="{{ $lead->cr_leads_to_chat }}" placeholder="CR Leads > Chat"
-                                            readonly>
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">CR Chat > Respond</label>
-                                        <input type="number" id="cr_chat_respond-edit-{{ $lead->id }}"
-                                            class="form-control" name="cr_chat_respond"
-                                            value="{{ $lead->cr_chat_to_respond }}" placeholder="CR Chat > Respond"
-                                            readonly>
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">CR Respond > Closing</label>
-                                        <input type="number" id="cr_respond_closing-edit-{{ $lead->id }}"
-                                            class="form-control" name="cr_respond_closing"
-                                            value="{{ $lead->cr_respond_to_closing }}"
-                                            placeholder="CR Respond > Closing" readonly>
-                                    </div>
-                                    <div class="col-md-3 mb-2">
-                                        <label class="form-label">CR Respond > Site Visit</label>
-                                        <input type="number" id="cr_respond_site_visit-edit-{{ $lead->id }}"
-                                            class="form-control" name="cr_respond_site_visit"
-                                            value="{{ $lead->cr_respond_to_site_visit }}"
-                                            placeholder="CR Respond > Site Visit" readonly>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Platform</label>
+                                        <select class="form-control" name="platform" readonly>
+                                            <option value="" disabled>Pilih Platform</option>
+                                            <option value="Meta" {{ $lead->platform == 'Meta' ? 'selected' : '' }}>Meta
+                                            </option>
+                                            <option value="Google" {{ $lead->platform == 'Google' ? 'selected' : ''
+                                                }}>Google</option>
+                                            <option value="Facebook" {{ $lead->platform == 'Facebook' ? 'selected' : ''
+                                                }}>Facebook
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Note</label>
-                                    <textarea class="form-control" name="note" rows="3" required
-                                        readonly>{{ $lead->note }}</textarea>
+                                <div class="row mb-3">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Spent</label>
+                                        <input type="text" class="form-control" name="spent" value="{{ $lead->spent }}"
+                                            placeholder="Target Spent" readonly>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Impresi</label>
+                                        <input type="text" class="form-control" name="impresi"
+                                            value="{{ $lead->impresi }}" placeholder="Jumlah Impresi" readonly>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Click</label>
+                                        <input type="text" class="form-control" name="click" value="{{ $lead->click }}"
+                                            placeholder="Jumlah Click" readonly>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Leads</label>
+                                        <input type="number" class="form-control" name="leads"
+                                            value="{{ $lead->leads }}" placeholder="Target Lead" readonly>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">CPL</label>
+                                        <input type="number" class="form-control" name="cpl" value="{{ $lead->cpl }}"
+                                            placeholder="Cost Per Lead">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">CPC</label>
+                                        <input type="number" class="form-control" name="cpc" value="{{ $lead->cpc }}"
+                                            placeholder="Cost Per Click">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label class="form-label">
+                                            <span style="font-size: 18px">Input Client</span>
+                                            <p style="font-size: 12px">Formulir yang diisi langsung oleh klien
+                                                untuk
+                                                memberikan data yang dibutuhkan.</p>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Chat</label>
+                                        <input type="number" class="form-control" name="chat" value="{{ $lead->chat }}"
+                                            placeholder="Chat">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Greeting</label>
+                                        <input type="number" class="form-control" name="greeting"
+                                            value="{{ $lead->greeting }}" placeholder="Greeting">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Pricelist</label>
+                                        <input type="number" class="form-control" name="pricelist"
+                                            value="{{ $lead->pricelist }}" placeholder="Pricelist">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Discuss</label>
+                                        <input type="number" class="form-control" name="discuss"
+                                            value="{{ $lead->discuss }}" placeholder="Discuss">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Closing</label>
+                                        <input type="number" class="form-control" name="closing"
+                                            value="{{ $lead->closing }}" placeholder="Closing">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Site Visit</label>
+                                        <input type="number" class="form-control" name="site_visit"
+                                            value="{{ $lead->site_visit }}" placeholder="Site Visits">
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <label class="form-label">Revenue</label>
+                                        <input type="text" class="form-control" name="revenue"
+                                            value="{{ $lead->revenue }}" placeholder="Target Revenue">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label class="form-label">
+                                            <span style="font-size: 18px">Form Hasil</span>
+                                            <p style="font-size: 12px">Terisi otomatis dari data yang telah diinput
+                                                sebelumnya.</p>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <label class="form-label">ROAS</label>
+                                        <input type="number" class="form-control" name="roas" value="{{ $lead->roas }}"
+                                            placeholder="Roas" readonly>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <label class="form-label">Respond</label>
+                                        <input type="number" class="form-control" name="respond"
+                                            value="{{ $lead->respond }}" placeholder="Respond" readonly>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <label class="form-label">CR Leads > Chat</label>
+                                        <input type="number" class="form-control" name="cr_leads_chat"
+                                            value="{{ $lead->cr_leads_to_chat }}" placeholder="CR Leads > Chat"
+                                            readonly>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <label class="form-label">CR Chat > Respond</label>
+                                        <input type="number" class="form-control" name="cr_chat_respond"
+                                            value="{{ $lead->cr_chat_to_respond }}" placeholder="CR Chat > Respond"
+                                            readonly>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <label class="form-label">CR Respond > Closing</label>
+                                        <input type="number" class="form-control" name="cr_respond_closing"
+                                            value="{{ $lead->cr_respond_to_closing }}"
+                                            placeholder="CR Respond > Closing" readonly>
+                                    </div>
+                                    <div class="col-md-4 mb-2">
+                                        <label class="form-label">CR Respond > Site Visit</label>
+                                        <input type="number" class="form-control" name="cr_respond_site_visit"
+                                            value="{{ $lead->cr_respond_to_site_visit }}"
+                                            placeholder="CR Respond > Site Visit" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Note</label>
+                                        <textarea class="form-control" name="note" rows="3"
+                                            readonly>{{ $lead->note }}</textarea>
+                                    </div>
                                 </div>
                             </div>
 
@@ -535,12 +536,69 @@
                         </form>
                     </div>
                 </div>
-
+                @endforeach
             </div>
         </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    var funnelData = [
+        @foreach ($totals_scaled as $label => $value)
+            {{ $value }},
+        @endforeach
+    ];
+
+    var funnelLabels = [
+        @foreach ($totals_scaled as $label => $value)
+            "{{ $label }}: {{ $totall[$label] }}",
+        @endforeach
+    ];
+
+    var options = {
+        series: [{
+            name: "Jumlah",
+            data: funnelData
+        }],
+        chart: {
+            type: 'bar',
+            height: 400,
+        },
+        plotOptions: {
+            bar: {
+                horizontal: true,
+                isFunnel: true,
+                barHeight: '80%',
+            },
+        },
+        dataLabels: {
+            enabled: true,
+            formatter: function (val, opt) {
+                return funnelLabels[opt.dataPointIndex];
+            },
+            style: {
+                fontSize: '14px'
+            }
+        },
+        xaxis: {
+            categories: funnelLabels,
+            max: 100
+        },
+        tooltip: {
+            enabled: false
+        },
+        legend: {
+            show: false,
+        },
+    };
+
+    var funnelChart = new ApexCharts(document.querySelector("#funnelChart"), options);
+    funnelChart.render();
+});
+    </script>
+
     <script>
         window.onload = function() {
             var chart = new CanvasJS.Chart("chartContainer", {
@@ -847,150 +905,109 @@
         });
     </script>
     <script>
-        function calculateRoas() {
-        let spent = parseFloat(document.getElementById('spent').value) || 0;
-        let revenue = parseFloat(document.getElementById('revenue').value) || 0;
-        let roas = spent > 0 ? (revenue / spent).toFixed(2) : 0;
-        document.getElementById('roas').value = roas;
-    }
+        // Format Rupiah
+        function formatRupiah(angka) {
+            const number_string = angka.replace(/[^,\d]/g, '').toString();
+            const split = number_string.split(',');
+            let sisa = split[0].length % 3;
+            let rupiah = split[0].substr(0, sisa);
+            const ribuan = split[0].substr(sisa).match(/\d{3}/g);
+            if (ribuan) {
+                rupiah += (sisa ? '.' : '') + ribuan.join('.');
+            }
+            return split[1] !== undefined ? 'Rp ' + rupiah + ',' + split[1] : 'Rp ' + rupiah;
+        }
 
-    function calculateRespond() {
-        let greeting = parseInt(document.getElementsByName('greeting')[0].value) || 0;
-        let pricelist = parseInt(document.getElementsByName('pricelist')[0].value) || 0;
-        let discuss = parseInt(document.getElementsByName('discuss')[0].value) || 0;
+        function unformatRupiah(rupiah) {
+            return rupiah.replace(/[^0-9]/g, '');
+        }
 
-        let respond = greeting + pricelist + discuss;
-        document.getElementsByName('respond')[0].value = respond;
+        function setupLeadFormEvents(form) {
+            const getVal = (name) => parseInt(form.querySelector(`[name="${name}"]`)?.value) || 0;
+            const setVal = (name, val) => {
+                const input = form.querySelector(`[name="${name}"]`);
+                if (input) input.value = val;
+            }
 
-        calculateCRChatRespond(); 
-        calculateCRRespondClosing(); 
-        calculateCRRespondSiteVisit(); 
-    }
+            const formatInputRupiah = (el) => {
+                el.addEventListener('input', function() {
+                    const raw = unformatRupiah(this.value);
+                    this.value = formatRupiah(raw);
+                    calculateRoas();
+                });
+            }
 
-    function calculateCRLeadsChat() {
-        let leads = parseInt(document.getElementsByName('leads')[0].value) || 0;
-        let chat = parseInt(document.getElementsByName('chat')[0].value) || 0;
-        let cr = (chat > 0) ? ((chat / leads) * 100).toFixed(2) : 0;
-        document.getElementsByName('cr_leads_chat')[0].value = cr;
-    }
+            const calculateRoas = () => {
+                const spent = parseFloat(unformatRupiah(form.querySelector('[name="spent"]')?.value || '0')) || 0;
+                const revenue = parseFloat(unformatRupiah(form.querySelector('[name="revenue"]')?.value || '0')) || 0;
+                const roas = spent > 0 ? (revenue / spent).toFixed(2) : 0;
+                setVal('roas', roas);
+            }
 
-    function calculateCRChatRespond() {
-        let respond = parseInt(document.getElementsByName('respond')[0].value) || 0;
-        let chat = parseInt(document.getElementsByName('chat')[0].value) || 0;
-        let cr = (chat > 0) ? ((respond / chat) * 100).toFixed(2) : 0;
-        document.getElementsByName('cr_chat_respond')[0].value = cr;
-    }
+            const calculateRespond = () => {
+                const respond = getVal('greeting') + getVal('pricelist') + getVal('discuss');
+                setVal('respond', respond);
+                calculateCRChatRespond();
+                calculateCRRespondClosing();
+                calculateCRRespondSiteVisit();
+            }
 
-    function calculateCRRespondClosing() {
-        let closing = parseInt(document.getElementsByName('closing')[0].value) || 0;
-        let respond = parseInt(document.getElementsByName('respond')[0].value) || 0;
-        let cr = (respond > 0) ? ((closing / respond) * 100).toFixed(2) : 0;
-        document.getElementsByName('cr_respond_closing')[0].value = cr;
-    }
+            const calculateCRLeadsChat = () => {
+                const leads = getVal('leads');
+                const chat = getVal('chat');
+                const cr = (leads > 0) ? ((chat / leads) * 100).toFixed(2) : 0;
+                setVal('cr_leads_chat', cr);
+            }
 
-    function calculateCRRespondSiteVisit() {
-        let siteVisit = parseInt(document.getElementsByName('site_visits')[0].value) || 0;
-        let respond = parseInt(document.getElementsByName('respond')[0].value) || 0;
-        let cr = (respond > 0) ? ((siteVisit / respond) * 100).toFixed(2) : 0;
-        document.getElementsByName('cr_respond_site_visit')[0].value = cr;
-    }
+            const calculateCRChatRespond = () => {
+                const chat = getVal('chat');
+                const respond = getVal('respond');
+                const cr = (chat > 0) ? ((respond / chat) * 100).toFixed(2) : 0;
+                setVal('cr_chat_respond', cr);
+            }
 
-    // Event listeners
-    document.getElementById('spent').addEventListener('input', calculateRoas);
-    document.getElementById('revenue').addEventListener('input', calculateRoas);
+            const calculateCRRespondClosing = () => {
+                const closing = getVal('closing');
+                const respond = getVal('respond');
+                const cr = (respond > 0) ? ((closing / respond) * 100).toFixed(2) : 0;
+                setVal('cr_respond_closing', cr);
+            }
 
-    document.getElementsByName('greeting')[0].addEventListener('input', calculateRespond);
-    document.getElementsByName('pricelist')[0].addEventListener('input', calculateRespond);
-    document.getElementsByName('discuss')[0].addEventListener('input', calculateRespond);
+            const calculateCRRespondSiteVisit = () => {
+                const siteVisit = getVal('site_visit');
+                const respond = getVal('respond');
+                const cr = (respond > 0) ? ((siteVisit / respond) * 100).toFixed(2) : 0;
+                setVal('cr_respond_site_visit', cr);
+            }
 
-    document.getElementsByName('leads')[0].addEventListener('input', calculateCRLeadsChat);
-    document.getElementsByName('chat')[0].addEventListener('input', () => {
-        calculateCRLeadsChat();
-        calculateCRChatRespond();
-    });
+            // Format semua input rupiah
+            form.querySelectorAll('[name="spent"], [name="revenue"]').forEach(formatInputRupiah);
 
-    document.getElementsByName('closing')[0].addEventListener('input', calculateCRRespondClosing);
-    document.getElementsByName('site_visits')[0].addEventListener('input', calculateCRRespondSiteVisit);
+            // Listener input lainnya
+            const listen = (name, fn) => {
+                const el = form.querySelector(`[name="${name}"]`);
+                if (el) el.addEventListener('input', fn);
+            }
+
+            listen('greeting', calculateRespond);
+            listen('pricelist', calculateRespond);
+            listen('discuss', calculateRespond);
+            listen('leads', calculateCRLeadsChat);
+            listen('chat', () => {
+                calculateCRLeadsChat();
+                calculateCRChatRespond();
+            });
+            listen('closing', calculateCRRespondClosing);
+            listen('site_visit', calculateCRRespondSiteVisit);
+
+            // Hitung awal
+            calculateRoas();
+            calculateRespond();
+            calculateCRLeadsChat();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.lead-form').forEach(setupLeadFormEvents);
+        });
     </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-    const leadId = "{{ $lead->id }}";
-
-    const spent = document.getElementById(`spent-edit-${leadId}`);
-    const revenue = document.getElementById(`revenue-edit-${leadId}`);
-    const greeting = document.getElementById(`greeting-edit-${leadId}`);
-    const pricelist = document.getElementById(`pricelist-edit-${leadId}`);
-    const discuss = document.getElementById(`discuss-edit-${leadId}`);
-    const respond = document.getElementById(`respond-edit-${leadId}`);
-    const leads = document.getElementById(`leads-edit-${leadId}`);
-    const chat = document.getElementById(`chat-edit-${leadId}`);
-    const closing = document.getElementById(`closing-edit-${leadId}`);
-    const siteVisits = document.getElementById(`site_visits-edit-${leadId}`);
-
-    const roas = document.getElementById(`roas-edit-${leadId}`);
-    const crLeadsChat = document.getElementById(`cr_leads_chat-edit-${leadId}`);
-    const crChatRespond = document.getElementById(`cr_chat_respond-edit-${leadId}`);
-    const crRespondClosing = document.getElementById(`cr_respond_closing-edit-${leadId}`);
-    const crRespondSiteVisit = document.getElementById(`cr_respond_site_visit-edit-${leadId}`);
-
-    function editCalculateRoas() {
-        let s = parseFloat(spent.value) || 0;
-        let r = parseFloat(revenue.value) || 0;
-        roas.value = s > 0 ? (r / s).toFixed(2) : 0;
-    }
-
-    function editCalculateRespond() {
-        let g = parseInt(greeting.value) || 0;
-        let p = parseInt(pricelist.value) || 0;
-        let d = parseInt(discuss.value) || 0;
-        respond.value = g + p + d;
-
-        editCalculateCRChatRespond();
-        editCalculateCRRespondClosing();
-        editCalculateCRRespondSiteVisit();
-    }
-
-    function editCalculateCRLeadsChat() {
-        let l = parseInt(leads.value) || 0;
-        let c = parseInt(chat.value) || 0;
-        crLeadsChat.value = l > 0 ? ((c / l) * 100).toFixed(2) : 0;
-    }
-
-    function editCalculateCRChatRespond() {
-        let c = parseInt(chat.value) || 0;
-        let r = parseInt(respond.value) || 0;
-        crChatRespond.value = c > 0 ? ((r / c) * 100).toFixed(2) : 0;
-    }
-
-    function editCalculateCRRespondClosing() {
-        let r = parseInt(respond.value) || 0;
-        let cl = parseInt(closing.value) || 0;
-        crRespondClosing.value = r > 0 ? ((cl / r) * 100).toFixed(2) : 0;
-    }
-
-    function editCalculateCRRespondSiteVisit() {
-        let r = parseInt(respond.value) || 0;
-        let s = parseInt(siteVisits.value) || 0;
-        crRespondSiteVisit.value = r > 0 ? ((s / r) * 100).toFixed(2) : 0;
-    }
-
-    spent.addEventListener('input', editCalculateRoas);
-    revenue.addEventListener('input', editCalculateRoas);
-
-    greeting.addEventListener('input', editCalculateRespond);
-    pricelist.addEventListener('input', editCalculateRespond);
-    discuss.addEventListener('input', editCalculateRespond);
-
-    leads.addEventListener('input', editCalculateCRLeadsChat);
-    chat.addEventListener('input', () => {
-        editCalculateCRLeadsChat();
-        editCalculateCRChatRespond();
-    });
-
-    closing.addEventListener('input', editCalculateCRRespondClosing);
-    siteVisits.addEventListener('input', editCalculateCRRespondSiteVisit);
-});
-    </script>
-
-
     </x-app-layout>

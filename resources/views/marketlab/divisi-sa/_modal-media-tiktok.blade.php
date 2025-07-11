@@ -71,19 +71,35 @@
                             @endphp
 
                             @if ($firstMedia && $firstMedia->post_tiktok)
-                                <div class="form-group">
-                                    <label>Status:</label>
-                                    @if ($firstMedia->post_tiktok->status == 0)
-                                        <span class="badge badge-secondary">Menunggu Persetujuan</span>
-                                    @elseif ($firstMedia->post_tiktok->status == 1)
-                                        <span class="badge badge-success ">Disetujui</span>
-                                    @elseif ($firstMedia->post_tiktok->status == 2)
-                                        <span class="badge badge-danger">Perlu Revisi</span>
-                                    @else
-                                        <span class="badge badge-secondary">Status Tidak
-                                            Diketahui</span>
-                                    @endif
-                                </div>
+                                @php
+                                    $status = $firstMedia->post_tiktok->status;
+                                    $ribbonText = 'Status Tidak Diketahui';
+                                    $ribbonClass = 'unknown';
+
+                                    switch ($status) {
+                                        case 0:
+                                            $ribbonText = 'Pending';
+                                            $ribbonClass = 'pending';
+                                            break;
+                                        case 1:
+                                            $ribbonText = 'Approved';
+                                            $ribbonClass = 'approved';
+                                            break;
+                                        case 2:
+                                            $ribbonText = 'Needs Revision';
+                                            $ribbonClass = 'revision';
+                                            break;
+                                        case 3:
+                                            $ribbonText = 'Completed';
+                                            $ribbonClass = 'completed';
+                                            break;
+                                        default:
+                                            $ribbonText = 'Unknown';
+                                            $ribbonClass = 'unknown';
+                                    }
+                                @endphp
+
+                                <div class="ribbon {{ $ribbonClass }}">{{ $ribbonText }}</div>
                             @endif
 
                             <div class="modal-footer">

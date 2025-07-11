@@ -66,21 +66,34 @@
                             @endphp
 
                             @if ($firstMedia && $firstMedia->postingan)
-                                <div class="form-group">
-                                    <label>Status:</label>
-                                    @if ($firstMedia->postingan->status == 0)
-                                        <span class="badge badge-secondary">Pending Approval</span>
-                                    @elseif ($firstMedia->postingan->status == 1)
-                                        <span class="badge badge-success ">Approval</span>
-                                    @elseif ($firstMedia->postingan->status == 2)
-                                        <span class="badge badge-danger">Revisi</span>
-                                    @elseif ($firstMedia->postingan->status == 3)
-                                        <span class="badge badge-danger">Done</span>
-                                    @else
-                                        <span class="badge badge-secondary">Status Tidak
-                                            Diketahui</span>
-                                    @endif
-                                </div>
+                                @php
+                                    $status = $firstMedia->postingan->status;
+                                    $ribbonText = 'Unknown';
+                                    $ribbonClass = '';
+
+                                    switch ($status) {
+                                        case 0:
+                                            $ribbonText = 'Pending';
+                                            $ribbonClass = 'pending';
+                                            break;
+                                        case 1:
+                                            $ribbonText = 'Approved';
+                                            $ribbonClass = 'approved';
+                                            break;
+                                        case 2:
+                                            $ribbonText = 'Needs Revision';
+                                            $ribbonClass = 'revision';
+                                            break;
+                                        case 3:
+                                            $ribbonText = 'Completed';
+                                            $ribbonClass = 'completed';
+                                            break;
+                                        default:
+                                            $ribbonText = 'Unknown';
+                                            $ribbonClass = 'unknown';
+                                    }
+                                @endphp
+                                <div class="ribbon {{ $ribbonClass }}">{{ $ribbonText }}</div>
                             @endif
 
                             <div class="modal-footer">

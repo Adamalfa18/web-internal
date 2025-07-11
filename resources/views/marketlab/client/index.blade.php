@@ -43,7 +43,7 @@
                                     <form class="form-marketing" action="{{ route('clients.store') }}" method="POST"
                                         onsubmit="return validateCheckboxes()" enctype="multipart/form-data">
                                         @csrf
-                                        <div class="row mt-4 mb-2">
+                                        <div class="row mt-2 mb-2">
                                             <div class="col-md-6" style="display: none;">
                                                 <div class="mb-3">
                                                     <div>
@@ -72,6 +72,15 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
+                                            <div class="col-md-3">
+                                                <div class="mb-3">
+                                                    <div class="mb-3">
+                                                        <label for="date_in" class="form-label">Date In</label>
+                                                        <input type="date" class="form-control" name="date_in"
+                                                            id="date_in" required>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-md-9">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -90,15 +99,6 @@
                                                             <input type="text" class="form-control" name="nama_brand"
                                                                 id="nama_brand" placeholder="Marketlab......" required>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="mb-3">
-                                                    <div class="mb-3">
-                                                        <label for="date_in" class="form-label">Date In</label>
-                                                        <input type="date" class="form-control" name="date_in"
-                                                            id="date_in" required>
                                                     </div>
                                                 </div>
                                             </div>

@@ -9,7 +9,7 @@ use App\Models\Lead;
 
 class LaporanHarianLeadController extends Controller
 {
-    public function index(Request $request)
+  public function index(Request $request)
     {
         $performance_bulanan_id = $request->performance_bulanan_id;
         $report = PerformanceBulanan::findOrFail($performance_bulanan_id);
@@ -52,13 +52,26 @@ class LaporanHarianLeadController extends Controller
             'Closing'   => $leads->sum('closing'),
         ];
 
+        $totalImpresi = $totall['Impresi'] ?: 1; // hindari division by zero
+        $persentase = [
+            'Impresi' => 100,
+            'Click'   => round(($totall['Click'] / $totalImpresi) * 100, 2),
+            'Chat'    => round(($totall['Chat'] / $totall['Click']) * 100, 2),
+            'Respond' => round(($totall['Respond'] / ($totall['Chat'] ?: 1)) * 100, 2),
+            'Closing' => round(($totall['Closing'] / ($totall['Respond'] ?: 1)) * 100, 2),
+        ];
+
         $totals_scaled = [];
         $keys = array_keys($totall);
         foreach ($keys as $i => $key) {
             $totals_scaled[$key] = $scale[$i] ?? 10; // fallback kecil
         }
+        $funnelLabels = [];
+        foreach ($totall as $key => $value) {
+            $funnelLabels[] = "{$key}: {$value} (" . ($persentase[$key] ?? 0) . "%)";
+        }
 
-        return view('marketlab.performa-harian.index-lead', compact('report', 'leads', 'fields', 'totals', 'totall', 'totals_scaled'));
+        return view('marketlab.performa-harian.index-lead', compact('funnelLabels', 'report', 'leads', 'fields', 'totals', 'totall', 'totals_scaled'));
     }
 
 

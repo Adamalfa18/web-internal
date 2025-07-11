@@ -192,34 +192,60 @@
                                 <table class="table align-items-center mb-0" id="clientTableMB">
                                     <thead class="bg-gray-100">
                                         <tr class="tabel-style">
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Hari</th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Spent</th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Revenue
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Hari
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">ROAS</th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Leads</th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Chat</th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Respond
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                                Platform
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Greeting
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Spent
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Pricelist
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                                Revenue
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Discuss
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">ROAS
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Closing
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                                Impresi
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Site Visit
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Click
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CPL</th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CPC</th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR Leads
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Leads
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Chat
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                                Respond
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                                Greeting
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                                Pricelist
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                                Discuss
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                                Closing
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Site
+                                                Visit
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CPL
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CPC
+                                            </th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR
+                                                Leads
                                                 to Chat</th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR Chat to
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR
+                                                Chat to
                                                 Respond</th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR Respond
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR
+                                                Respond
                                                 to Closing</th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR Respond
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR
+                                                Respond
                                                 to Site Visit</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
@@ -230,24 +256,31 @@
                                     <tbody>
                                         @foreach ($leads as $lead)
                                         <tr class="client-row-mb">
-                                            <td>{{ $lead->hari }}</td>
-                                            <td>{{ $lead->spent }}</td>
-                                            <td>{{ $lead->revenue }}</td>
-                                            <td>{{ $lead->roas }}</td>
-                                            <td>{{ $lead->leads }}</td>
-                                            <td>{{ $lead->chat }}</td>
-                                            <td>{{ $lead->respond }}</td>
-                                            <td>{{ $lead->greeting }}</td>
-                                            <td>{{ $lead->pricelist }}</td>
-                                            <td>{{ $lead->discuss }}</td>
-                                            <td>{{ $lead->closing }}</td>
-                                            <td>{{ $lead->site_visit }}</td>
-                                            <td>{{ $lead->cpl }}</td>
-                                            <td>{{ $lead->cpc }}</td>
-                                            <td>{{ $lead->cr_leads_to_chat }}</td>
-                                            <td>{{ $lead->cr_chat_to_respond }}</td>
-                                            <td>{{ $lead->cr_respond_to_closing }}</td>
-                                            <td>{{ $lead->cr_respond_to_site_visit }}</td>
+                                            <td class="text-center">{{ $lead->hari }}</td>
+                                            <td class="text-center">{{ $lead->platform }}</td>
+                                            <td class="text-center">
+                                                Rp {{ number_format($lead->spent, 0, ',', '.') }}
+                                            </td>
+                                            <td class="text-center">
+                                                Rp {{ number_format($lead->revenue, 0, ',', '.') }}
+                                            </td>
+                                            <td class="text-center">{{ $lead->roas }}</td>
+                                            <td class="text-center">{{ $lead->impresi }}</td>
+                                            <td class="text-center">{{ $lead->click }}</td>
+                                            <td class="text-center">{{ $lead->leads }}</td>
+                                            <td class="text-center">{{ $lead->chat }}</td>
+                                            <td class="text-center">{{ $lead->respond }}</td>
+                                            <td class="text-center">{{ $lead->greeting }}</td>
+                                            <td class="text-center">{{ $lead->pricelist }}</td>
+                                            <td class="text-center">{{ $lead->discuss }}</td>
+                                            <td class="text-center">{{ $lead->closing }}</td>
+                                            <td class="text-center">{{ $lead->site_visit }}</td>
+                                            <td class="text-center">{{ $lead->cpl }}</td>
+                                            <td class="text-center">{{ $lead->cpc }}</td>
+                                            <td class="text-center">{{ $lead->cr_leads_to_chat }}%</td>
+                                            <td class="text-center">{{ $lead->cr_chat_to_respond }}%</td>
+                                            <td class="text-center">{{ $lead->cr_respond_to_closing }}%</td>
+                                            <td class="text-center">{{ $lead->cr_respond_to_site_visit }}%</td>
 
                                             <!-- Kolom aksi -->
                                             <td class="align-middle text-center">

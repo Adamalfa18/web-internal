@@ -5,18 +5,18 @@
 
         <div class="container-fluid py-4 px-5">
             @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
             @endif
             @if (session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
             @endif
 
             {{-- Button Instagram Tiktok Dan Mode --}}
@@ -46,7 +46,7 @@
             {{-- End Button Instagram Tiktok Dan Mode --}}
 
             <div id="profileWrapper" class="">
-                {{-- Instagram Page --}}
+                <!-- Instagram Page -->
                 <div class="instagram-page" id="instagramSection" style="display: block;">
                     <div id="instagramProfileWrapper" class="desktop-view">
                         <div class="profile-container">
@@ -55,38 +55,73 @@
                                     <div class="row top-info ig-style">
                                         <div class="col-md-3 style-ig">
                                             <img src="{{ asset('storage/' . $client->gambar_client) }}"
-                                                class="profile-pic">
+                                                class="profile-pic" id="profileStoryTrigger" style="cursor:pointer"
+                                                data-toggle="modal" data-target="#storyModal">
                                         </div>
                                         <div class="col-md-9 ig-style">
                                             <div class="style-clien-header">
-
                                                 <div class="nama-brand">
-                                                    <h2>{{ $profile->username ?? $client->nama_brand }}</h2>
+                                                    <h2>{{ $profileIG->username ?? $client->nama_brand }}</h2>
                                                 </div>
-
-                                            </div>
-                                            @if ($profile)
-                                                <div class="stats">
-                                                    <span>{{ $posts->where('category', 'post')->count() }}
-                                                        <strong>Post</strong>
+                                                <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
+                                                    data-toggle="modal" data-target="#addPostModal">
+                                                    <span class="btn-inner--icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-plus-square-fill"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
+                                                        </svg>
                                                     </span>
-                                                    <span>{{ $profile->followers }}<strong> Followers</strong> </span>
-                                                    <span>{{ $profile->following }}<strong> Following</strong> </span>
+                                                </a>
+                                                <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
+                                                    data-toggle="modal" data-target="#editProfileModal">
+                                                    <span class="btn-inner--icon">
+                                                    </span>
+                                                    <span class="btn-inner--text">Edit Profile</span>
+                                                </a>
+                                                <div class="style-button-ig">
+
                                                 </div>
-                                                <div class="name_ig">
-                                                    <span><strong>{{ $profile->name }}</strong></span>
-                                                </div>
-                                                <div class="bio">
-                                                    <span>{{ $profile->bio }}</span>
-                                                </div>
-                                                <div class="link">
-                                                    @foreach ($profile->links as $link)
-                                                        <a href="{{ $link->url }}"
-                                                            target="_blank">{{ $link->name }}</a>
-                                                    @endforeach
-                                                </div>
+                                            </div>
+                                            @if ($profileIG)
+                                            <div class="stats">
+
+                                                <span class="ig-style-post">{{ $posts->where('category',
+                                                    'post')->count() }}<strong>
+                                                        Post</strong></span>
+                                                <span>{{ $profileIG->followers }}<strong> Followers</strong> </span>
+                                                <span>{{ $profileIG->following }}<strong> Following</strong> </span>
+                                            </div>
+                                            <div class="name_ig">
+                                                <span><strong>{{ $profileIG->name }}</strong></span>
+                                            </div>
+                                            <div class="bio">
+                                                <span>{{ $profileIG->bio }}</span>
+                                            </div>
+                                            <div class="link">
+                                                @foreach ($profileIG->links as $link)
+                                                <a href="{{ $link->url }}" target="_blank">{{ $link->name }}</a>
+                                                @endforeach
+                                            </div>
                                             @else
+                                            <div class="style-clien-header mt-3">
+                                                <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
+                                                    data-toggle="modal" data-target="#addProfileIGModal">
+                                                    <span class="btn-inner--icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-pencil-square"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                            <path fill-rule="evenodd"
+                                                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                                        </svg>
+                                                    </span>
+                                                </a>
+
                                                 <div class="text-danger">Profile belum diisi.</div>
+                                            </div>
                                             @endif
                                         </div>
                                     </div>
@@ -106,79 +141,140 @@
                                 <div id="instagram-post" class="tab-pane active">
                                     <div class="gallery">
                                         @foreach ($posts->where('category', 'post') as $post)
+                                        @php
+                                        $firstMedia = $post_medias->firstWhere('post_id', $post->id);
+                                        @endphp
+                                        <div class="gallery-item image-wrapper">
+
+                                            @if ($firstMedia && $firstMedia->postingan)
                                             @php
-                                                $firstMedia = $post_medias->firstWhere('post_id', $post->id);
+                                            $status = $firstMedia->postingan->status;
+                                            $ribbonText = 'Unknown';
+                                            $ribbonClass = '';
+
+                                            switch ($status) {
+                                            case 0:
+                                            $ribbonText = 'Pending';
+                                            $ribbonClass = 'pending';
+                                            break;
+                                            case 1:
+                                            $ribbonText = 'Approved';
+                                            $ribbonClass = 'approved';
+                                            break;
+                                            case 2:
+                                            $ribbonText = 'Needs Revision';
+                                            $ribbonClass = 'revision';
+                                            break;
+                                            case 3:
+                                            $ribbonText = 'Completed';
+                                            $ribbonClass = 'completed';
+                                            break;
+                                            default:
+                                            $ribbonText = 'Unknown';
+                                            $ribbonClass = 'unknown';
+                                            }
                                             @endphp
-                                            <div class="gallery-item">
-                                                <a href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#mediaModal{{ $post->id }}">
-                                                    @if ($post->cover)
-                                                        @if (Str::endsWith($post->cover, '.webp'))
-                                                            <img src="{{ asset('storage/cover/' . $post->cover) }}"
-                                                                alt="Cover Image" class="img-fluid">
-                                                        @elseif (Str::endsWith($post->cover, '.webm'))
-                                                            <video width="100%" controls>
-                                                                <source
-                                                                    src="{{ asset('storage/cover/' . $post->cover) }}"
-                                                                    type="video/webm">
-                                                                Your browser does not support the video tag.
-                                                            </video>
-                                                        @endif
-                                                    @elseif ($firstMedia)
-                                                        @if (Str::endsWith($firstMedia->post, '.webp'))
-                                                            <img src="{{ asset('storage/media/' . $firstMedia->post) }}"
-                                                                alt="Social Media" class="img-fluid">
-                                                        @elseif (Str::endsWith($firstMedia->post, '.webm'))
-                                                            <video width="100%" controls>
-                                                                <source
-                                                                    src="{{ asset('storage/media/' . $firstMedia->post) }}"
-                                                                    type="video/webm">
-                                                                Your browser does not support the video tag.
-                                                            </video>
-                                                        @endif
-                                                    @endif
-                                                </a>
-                                            </div>
+
+                                            <div class="ribbon {{ $ribbonClass }}">{{ $ribbonText }}</div>
+                                            @endif
+
+                                            <a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#mediaModal{{ $post->id }}">
+                                                @if ($post->cover)
+                                                @if (Str::endsWith($post->cover, '.webp'))
+                                                <img src="{{ asset('storage/cover/' . $post->cover) }}"
+                                                    alt="Cover Image" class="img-fluid">
+                                                @elseif (Str::endsWith($post->cover, '.webm'))
+                                                <video width="100%" controls>
+                                                    <source src="{{ asset('storage/cover/' . $post->cover) }}"
+                                                        type="video/webm">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                                @endif
+                                                @elseif ($firstMedia)
+                                                @if (Str::endsWith($firstMedia->post, '.webp'))
+                                                <img src="{{ asset('storage/media/' . $firstMedia->post) }}"
+                                                    alt="Social Media" class="img-fluid">
+                                                @elseif (Str::endsWith($firstMedia->post, '.webm'))
+                                                <video width="100%" controls>
+                                                    <source src="{{ asset('storage/media/' . $firstMedia->post) }}"
+                                                        type="video/webm">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                                @endif
+                                                @endif
+                                            </a>
+                                        </div>
                                         @endforeach
                                     </div>
                                 </div>
 
                                 <div id="instagram-reel" class="tab-pane">
                                     <div class="gallery">
+
                                         @foreach ($posts->where('category', 'reel') as $post)
+                                        @php
+                                        $firstMedia = $post_medias->firstWhere('post_id', $post->id);
+                                        @endphp
+                                        <div class="gallery-item image-wrapper">
+                                            @if ($firstMedia && $firstMedia->postingan)
                                             @php
-                                                $firstMedia = $post_medias->firstWhere('post_id', $post->id);
+                                            $status = $firstMedia->postingan->status;
+                                            $ribbonText = 'Unknown';
+                                            $ribbonClass = '';
+
+                                            switch ($status) {
+                                            case 0:
+                                            $ribbonText = 'Pending';
+                                            $ribbonClass = 'pending';
+                                            break;
+                                            case 1:
+                                            $ribbonText = 'Approved';
+                                            $ribbonClass = 'approved';
+                                            break;
+                                            case 2:
+                                            $ribbonText = 'Needs Revision';
+                                            $ribbonClass = 'revision';
+                                            break;
+                                            case 3:
+                                            $ribbonText = 'Completed';
+                                            $ribbonClass = 'completed';
+                                            break;
+                                            default:
+                                            $ribbonText = 'Unknown';
+                                            $ribbonClass = 'unknown';
+                                            }
                                             @endphp
-                                            <div class="gallery-item">
-                                                <a href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#mediaModal{{ $post->id }}">
-                                                    @if ($post->cover)
-                                                        @if (Str::endsWith($post->cover, '.webp'))
-                                                            <img src="{{ asset('storage/cover/' . $post->cover) }}"
-                                                                alt="Cover Image" class="img-fluid">
-                                                        @elseif (Str::endsWith($post->cover, '.webm'))
-                                                            <video width="100%" controls>
-                                                                <source
-                                                                    src="{{ asset('storage/cover/' . $post->cover) }}"
-                                                                    type="video/webm">
-                                                                Your browser does not support the video tag.
-                                                            </video>
-                                                        @endif
-                                                    @elseif ($firstMedia)
-                                                        @if (Str::endsWith($firstMedia->post, '.webp'))
-                                                            <img src="{{ asset('storage/media/' . $firstMedia->post) }}"
-                                                                alt="Social Media" class="img-fluid">
-                                                        @elseif (Str::endsWith($firstMedia->post, '.webm'))
-                                                            <video width="100%" controls>
-                                                                <source
-                                                                    src="{{ asset('storage/media/' . $firstMedia->post) }}"
-                                                                    type="video/webm">
-                                                                Your browser does not support the video tag.
-                                                            </video>
-                                                        @endif
-                                                    @endif
-                                                </a>
-                                            </div>
+
+                                            <div class="ribbon {{ $ribbonClass }}">{{ $ribbonText }}</div>
+                                            @endif
+                                            <a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#mediaModal{{ $post->id }}">
+                                                @if ($post->cover)
+                                                @if (Str::endsWith($post->cover, '.webp'))
+                                                <img src="{{ asset('storage/cover/' . $post->cover) }}"
+                                                    alt="Cover Image" class="img-fluid">
+                                                @elseif (Str::endsWith($post->cover, '.webm'))
+                                                <video width="100%" controls>
+                                                    <source src="{{ asset('storage/cover/' . $post->cover) }}"
+                                                        type="video/webm">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                                @endif
+                                                @elseif ($firstMedia)
+                                                @if (Str::endsWith($firstMedia->post, '.webp'))
+                                                <img src="{{ asset('storage/media/' . $firstMedia->post) }}"
+                                                    alt="Social Media" class="img-fluid">
+                                                @elseif (Str::endsWith($firstMedia->post, '.webm'))
+                                                <video width="100%" controls>
+                                                    <source src="{{ asset('storage/media/' . $firstMedia->post) }}"
+                                                        type="video/webm">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                                @endif
+                                                @endif
+                                            </a>
+                                        </div>
                                         @endforeach
                                     </div>
                                 </div>
@@ -186,39 +282,68 @@
                                 <div id="instagram-story" class="tab-pane">
                                     <div class="gallery">
                                         @foreach ($posts->where('category', 'story') as $post)
+                                        @php
+                                        $firstMedia = $post_medias->firstWhere('post_id', $post->id);
+                                        @endphp
+                                        <div class="gallery-item image-wrapper">
+                                            @if ($firstMedia && $firstMedia->postingan)
                                             @php
-                                                $firstMedia = $post_medias->firstWhere('post_id', $post->id);
+                                            $status = $firstMedia->postingan->status;
+                                            $ribbonText = 'Unknown';
+                                            $ribbonClass = '';
+
+                                            switch ($status) {
+                                            case 0:
+                                            $ribbonText = 'Pending';
+                                            $ribbonClass = 'pending';
+                                            break;
+                                            case 1:
+                                            $ribbonText = 'Approved';
+                                            $ribbonClass = 'approved';
+                                            break;
+                                            case 2:
+                                            $ribbonText = 'Needs Revision';
+                                            $ribbonClass = 'revision';
+                                            break;
+                                            case 3:
+                                            $ribbonText = 'Completed';
+                                            $ribbonClass = 'completed';
+                                            break;
+                                            default:
+                                            $ribbonText = 'Unknown';
+                                            $ribbonClass = 'unknown';
+                                            }
                                             @endphp
-                                            <div class="gallery-item">
-                                                <a href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#mediaModal{{ $post->id }}">
-                                                    @if ($post->cover)
-                                                        @if (Str::endsWith($post->cover, '.webp'))
-                                                            <img src="{{ asset('storage/cover/' . $post->cover) }}"
-                                                                alt="Cover Image" class="img-fluid">
-                                                        @elseif (Str::endsWith($post->cover, '.webm'))
-                                                            <video width="100%" controls>
-                                                                <source
-                                                                    src="{{ asset('storage/cover/' . $post->cover) }}"
-                                                                    type="video/webm">
-                                                                Your browser does not support the video tag.
-                                                            </video>
-                                                        @endif
-                                                    @elseif ($firstMedia)
-                                                        @if (Str::endsWith($firstMedia->post, '.webp'))
-                                                            <img src="{{ asset('storage/media/' . $firstMedia->post) }}"
-                                                                alt="Social Media" class="img-fluid">
-                                                        @elseif (Str::endsWith($firstMedia->post, '.webm'))
-                                                            <video width="100%" controls>
-                                                                <source
-                                                                    src="{{ asset('storage/media/' . $firstMedia->post) }}"
-                                                                    type="video/webm">
-                                                                Your browser does not support the video tag.
-                                                            </video>
-                                                        @endif
-                                                    @endif
-                                                </a>
-                                            </div>
+
+                                            <div class="ribbon {{ $ribbonClass }}">{{ $ribbonText }}</div>
+                                            @endif
+                                            <a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#mediaModal{{ $post->id }}">
+                                                @if ($post->cover)
+                                                @if (Str::endsWith($post->cover, '.webp'))
+                                                <img src="{{ asset('storage/cover/' . $post->cover) }}"
+                                                    alt="Cover Image" class="img-fluid">
+                                                @elseif (Str::endsWith($post->cover, '.webm'))
+                                                <video width="100%" controls>
+                                                    <source src="{{ asset('storage/cover/' . $post->cover) }}"
+                                                        type="video/webm">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                                @endif
+                                                @elseif ($firstMedia)
+                                                @if (Str::endsWith($firstMedia->post, '.webp'))
+                                                <img src="{{ asset('storage/media/' . $firstMedia->post) }}"
+                                                    alt="Social Media" class="img-fluid">
+                                                @elseif (Str::endsWith($firstMedia->post, '.webm'))
+                                                <video width="100%" controls>
+                                                    <source src="{{ asset('storage/media/' . $firstMedia->post) }}"
+                                                        type="video/webm">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                                @endif
+                                                @endif
+                                            </a>
+                                        </div>
                                         @endforeach
                                     </div>
                                 </div>
@@ -231,200 +356,185 @@
                 <div class="tiktok-page" style="display: none;" id="tiktokSection">
                     <div id="tiktokProfileWrapper" class="desktop-view">
                         <div class="profile-container">
-                            <div class="profile-container">
-                                <div class="profile-header">
-                                    <div class="profile-info">
-                                        <div class="row top-info">
-                                            <div class="col-md-3 style-tiktok-title">
-                                                <div class="style-clien-header">
-                                                    <div class="nama-brand">
-                                                        <h6>{{ $profileTiktok->username ?? $client->nama_brand }}</h6>
-                                                    </div>
+                            <div class="profile-header">
+                                <div class="profile-info">
+                                    <div class="row top-info">
+                                        <div class="col-md-3 style-tiktok-title">
+                                            <div class="style-clien-header">
+                                                <div class="nama-brand">
+                                                    <h6>{{ $profileTiktok->username ?? $client->nama_brand }}</h6>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3 style-ig">
-                                                <img src="{{ asset('storage/' . $client->gambar_client) }}"
-                                                    class="profile-pic" id="profileStoryTrigger"
-                                                    style="cursor:pointer" data-toggle="modal"
-                                                    data-target="#storyModal">
-                                            </div>
-                                            <div class="col-md-9 tiktok-style">
-                                                <div class="style-clien-header">
-                                                    <div class="nama-brand style-tiktok-title">
-                                                        <h2>{{ $profileTiktok->username ?? $client->nama_brand }}</h2>
-                                                    </div>
-
-                                                </div>
-
-                                                @if ($profileTiktok)
-                                                    <div class="stats">
-                                                        <span
-                                                            class="ig-style-post"><strong>{{ $profileTiktok->following }}</strong>
-                                                            Following</span>
-                                                        <span
-                                                            class="ig-style-post"><strong>{{ $profileTiktok->followers }}</strong>
-                                                            Followers</span>
-                                                        <span
-                                                            class="ig-style-post"><strong>{{ $profileTiktok->likes }}</strong>
-                                                            Likes</span>
-                                                    </div>
-                                                    <div class="name_ig">
-                                                        <span><strong>{{ $profileTiktok->name }}</strong></span>
-                                                    </div>
-                                                    <div class="bio">
-                                                        <span>{{ $profileTiktok->bio }}</span>
-                                                    </div>
-                                                    <div class="link">
-                                                        @foreach ($profileTiktok->links as $link)
-                                                            <a href="{{ $link->url }}"
-                                                                target="_blank">{{ $link->name }}</a>
-                                                        @endforeach
-                                                    </div>
-                                                @else
-                                                    <div class="style-clien-header mt-3">
-                                                        <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
-                                                            data-toggle="modal" data-target="#addPofileTiktokModal">
-                                                            <span class="btn-inner--icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                    height="16" fill="currentColor"
-                                                                    class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                                    <path
-                                                                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                                                    <path fill-rule="evenodd"
-                                                                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-                                                                </svg>
-                                                            </span>
-                                                        </a>
-                                                        <div class="text-danger">Profile belum diisi.</div>
-                                                    </div>
-                                                @endif
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-
-
-                                <!-- Tabs Navigation -->
-                                <div class="tabs">
-                                    <button class="tab-item active"
-                                        onclick="switchTab(event, 'tiktok-videos')">Videos</button>
-                                </div>
-
-                                <!-- Tab Content -->
-                                <div class="tab-content">
-                                    <div id="tiktok-videos" class="tab-pane active">
-                                        <div class="gallery">
-                                            @foreach ($tiktok as $tkpost)
-                                                @php
-                                                    $firstMedia = $tkpost->tiktok_media->first();
-                                                @endphp
-                                                <div class="gallery-item">
-                                                    <a href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#tiktokmediaModal{{ $tkpost->id }}">
-                                                        @if ($tkpost->cover)
-                                                            @if (Str::endsWith($tkpost->cover, '.webp'))
-                                                                <img src="{{ asset('storage/cover_tiktok/' . $tkpost->cover) }}"
-                                                                    alt="Cover Image" class="img-fluid">
-                                                            @elseif (Str::endsWith($tkpost->cover, '.webm'))
-                                                                <video width="100%" controls>
-                                                                    <source
-                                                                        src="{{ asset('storage/cover/' . $tkpost->cover) }}"
-                                                                        type="video/webm">
-                                                                    Your browser does not support the video tag.
-                                                                </video>
-                                                            @endif
-                                                        @elseif ($firstMedia)
-                                                            @php
-                                                                $ext = strtolower(
-                                                                    pathinfo($firstMedia->media, PATHINFO_EXTENSION),
-                                                                );
-                                                            @endphp
-                                                            @if (in_array($ext, ['mp4', 'mov', 'webm']))
-                                                                <video class="w-100" controls>
-                                                                    <source
-                                                                        src="{{ asset('storage/tiktok_media/' . $firstMedia->media) }}"
-                                                                        type="video/{{ $ext }}">
-                                                                    Browser tidak mendukung video.
-                                                                </video>
-                                                            @else
-                                                                <img src="{{ asset('storage/tiktok_media/' . $firstMedia->media) }}"
-                                                                    class="img-fluid rounded" alt="TikTok Media">
-                                                            @endif
-                                                        @endif
-                                                    </a>
-                                                </div>
-                                            @endforeach
+                                        <div class="col-md-3 style-ig">
+                                            <img src="{{ asset('storage/' . $client->gambar_client) }}"
+                                                class="profile-pic" id="profileStoryTrigger" style="cursor:pointer"
+                                                data-toggle="modal" data-target="#storyModal">
                                         </div>
-                                    </div>
-
-                                    <div id="tiktok-liked" class="tab-pane">
-                                        <div class="gallery">
-                                            @for ($i = 1; $i <= 6; $i++)
-                                                <div class="gallery-item">
-                                                    <video width="100%" controls>
-                                                        <source
-                                                            src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4"
-                                                            type="video/mp4">
-                                                        Your browser does not support the video tag.
-                                                    </video>
+                                        <div class="col-md-9 tiktok-style">
+                                            <div class="style-clien-header">
+                                                <div class="nama-brand style-tiktok-title">
+                                                    <h2>{{ $profileTiktok->username ?? $client->nama_brand }}</h2>
                                                 </div>
-                                            @endfor
+                                                <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
+                                                    data-bs-toggle="modal" data-bs-target="#addTiktokModal">
+                                                    <span class="btn-inner--icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-plus-square-fill"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
+                                                        </svg>
+                                                    </span>
+                                                </a>
+                                                <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
+                                                    data-toggle="modal" data-target="#editProfileModalTiktok">
+                                                    <span class="btn-inner--icon"></span>
+                                                    <span class="btn-inner--text">Edit Profile</span>
+                                                </a>
+                                            </div>
+
+                                            @if ($profileTiktok)
+                                            <div class="stats">
+                                                <span class="ig-style-post"><strong>{{ $profileTiktok->following
+                                                        }}</strong>
+                                                    Following</span>
+                                                <strong class="ig-style-post"><strong>{{ $profileTiktok->followers
+                                                        }}</strong>
+                                                    Followers</span>
+                                                    <span class="ig-style-post"><strong>{{ $profileTiktok->likes
+                                                            }}</strong>
+                                                        Likes</span>
+                                            </div>
+                                            <div class="name_ig">
+                                                <span><strong>{{ $profileTiktok->name }}</strong></span>
+                                            </div>
+                                            <div class="bio">
+                                                <span>{{ $profileTiktok->bio }}</span>
+                                            </div>
+                                            <div class="link">
+                                                @foreach ($profileTiktok->links as $link)
+                                                <a href="{{ $link->url }}" target="_blank">{{ $link->name }}</a>
+                                                @endforeach
+                                            </div>
+                                            @else
+                                            <div class="style-clien-header mt-3">
+                                                <a class="btn btn-sm btn-primary btn-icon d-flex align-items-center me-2"
+                                                    data-toggle="modal" data-target="#addPofileTiktokModal">
+                                                    <span class="btn-inner--icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-pencil-square"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                            <path fill-rule="evenodd"
+                                                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                                        </svg>
+                                                    </span>
+                                                </a>
+                                                <div class="text-danger">Profile belum diisi.</div>
+                                            </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        {{--
-                    <!-- Tabs Navigation -->
-                    <div class="tabs">
-                        <button class="tab-item active" onclick="switchTab(event, 'tiktok-videos')">Videos</button>
-                    </div> --}}
 
-                        <!-- Tab Content -->
-                        <div class="tab-content">
-                            <div id="tiktok-videos" class="tab-pane active">
-                                <div class="gallery">
-                                    @foreach ($tiktok as $tkpost)
+                            <!-- Tabs Navigation -->
+                            <div class="tabs">
+                                <button class="tab-item active"
+                                    onclick="switchTab(event, 'tiktok-videos')">Videos</button>
+                            </div>
+
+                            <!-- Tab Content -->
+                            <div class="tab-content">
+                                <div id="tiktok-videos" class="tab-pane active">
+                                    <div class="gallery tiktok-gallery">
+                                        @foreach ($tiktok as $tkpost)
                                         @php
-                                            $firstMedia = $tkpost->tiktok_media->first();
+                                        $firstMedia = $tkpost->tiktok_media->first();
                                         @endphp
-                                        <div class="gallery-item">
+                                        <div class="gallery-item image-wrapper">
+                                            @if ($firstMedia && $firstMedia->post_tiktok)
+                                            @php
+                                            $status = $firstMedia->post_tiktok->status;
+                                            $ribbonText = 'Status Tidak Diketahui';
+                                            $ribbonClass = 'unknown';
+
+                                            switch ($status) {
+                                            case 0:
+                                            $ribbonText = 'Pending';
+                                            $ribbonClass = 'pending';
+                                            break;
+                                            case 1:
+                                            $ribbonText = 'Approved';
+                                            $ribbonClass = 'approved';
+                                            break;
+                                            case 2:
+                                            $ribbonText = 'Needs Revision';
+                                            $ribbonClass = 'revision';
+                                            break;
+                                            case 3:
+                                            $ribbonText = 'Completed';
+                                            $ribbonClass = 'completed';
+                                            break;
+                                            default:
+                                            $ribbonText = 'Unknown';
+                                            $ribbonClass = 'unknown';
+                                            }
+                                            @endphp
+
+                                            <div class="ribbon {{ $ribbonClass }}">{{ $ribbonText }}</div>
+                                            @endif
                                             <a href="#" data-bs-toggle="modal"
                                                 data-bs-target="#tiktokmediaModal{{ $tkpost->id }}">
                                                 @if ($tkpost->cover)
-                                                    @if (Str::endsWith($tkpost->cover, '.webp'))
-                                                        <img src="{{ asset('storage/cover_tiktok/' . $tkpost->cover) }}"
-                                                            alt="Cover Image" class="img-fluid">
-                                                    @elseif (Str::endsWith($tkpost->cover, '.webm'))
-                                                        <video width="100%" controls>
-                                                            <source
-                                                                src="{{ asset('storage/cover/' . $tkpost->cover) }}"
-                                                                type="video/webm">
-                                                            Your browser does not support the video tag.
-                                                        </video>
-                                                    @endif
+                                                @if (Str::endsWith($tkpost->cover, '.webp'))
+                                                <img src="{{ asset('storage/cover_tiktok/' . $tkpost->cover) }}"
+                                                    alt="Cover Image" class="img-fluid">
+                                                @elseif (Str::endsWith($tkpost->cover, '.webm'))
+                                                <video width="100%" controls>
+                                                    <source src="{{ asset('storage/cover/' . $tkpost->cover) }}"
+                                                        type="video/webm">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                                @endif
                                                 @elseif ($firstMedia)
-                                                    @php
-                                                        $ext = strtolower(
-                                                            pathinfo($firstMedia->media, PATHINFO_EXTENSION),
-                                                        );
-                                                    @endphp
-                                                    @if (in_array($ext, ['mp4', 'mov', 'webm']))
-                                                        <video class="w-100" controls>
-                                                            <source
-                                                                src="{{ asset('storage/tiktok_media/' . $firstMedia->media) }}"
-                                                                type="video/{{ $ext }}">
-                                                            Browser tidak mendukung video.
-                                                        </video>
-                                                    @else
-                                                        <img src="{{ asset('storage/tiktok_media/' . $firstMedia->media) }}"
-                                                            class="img-fluid rounded" alt="TikTok Media">
-                                                    @endif
+                                                @php
+                                                $ext = strtolower(
+                                                pathinfo($firstMedia->media, PATHINFO_EXTENSION),
+                                                );
+                                                @endphp
+                                                @if (in_array($ext, ['mp4', 'mov', 'webm']))
+                                                <video class="w-100 carousel-media-3by4" controls>
+                                                    <source
+                                                        src="{{ asset('storage/tiktok_media/' . $firstMedia->media) }}"
+                                                        type="video/{{ $ext }}">
+                                                    Browser not support video.
+                                                </video>
+                                                @else
+                                                <img src="{{ asset('storage/tiktok_media/' . $firstMedia->media) }}"
+                                                    class="img-fluid rounded" alt="TikTok Media">
+                                                @endif
                                                 @endif
                                             </a>
                                         </div>
-                                    @endforeach
+                                        @endforeach
+                                    </div>
+                                </div>
+
+                                <div id="tiktok-liked" class="tab-pane">
+                                    <div class="gallery">
+                                        @for ($i = 1; $i <= 6; $i++) <div class="gallery-item">
+                                            <video width="100%" controls>
+                                                <source
+                                                    src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4"
+                                                    type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                    </div>
+                                    @endfor
                                 </div>
                             </div>
                         </div>
@@ -432,232 +542,227 @@
                 </div>
             </div>
         </div>
+        </div>
+        </div>
 
         {{-- Instagram --}}
         @foreach ($posts as $post)
-            <div class="modal fade" id="mediaModal{{ $post->id }}" tabindex="-1" role="dialog"
-                aria-labelledby="mediaModalLabel{{ $post->id }}" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document"> {{-- modal-lg biar gede --}}
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            {{-- <div class="modal-header">
-                                <h5 class="modal-title" id="mediaModalLabel{{ $post->id }}">Detail Post</h5>
-                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div> --}}
+        <div class="modal fade" id="mediaModal{{ $post->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="mediaModalLabel{{ $post->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document"> {{-- modal-lg biar gede --}}
+                <div class="modal-content">
+                    <div class="modal-body">
+                        {{-- <div class="modal-header">
+                            <h5 class="modal-title" id="mediaModalLabel{{ $post->id }}">Detail Post</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div> --}}
 
-                            <div class="row form-marketing" enctype="multipart/form-data">
-                                <div class="col-lg-6">
-                                    {{-- Carousel Dinamis --}}
-                                    @if ($post->media->count())
-                                        <div id="carouselIndicators{{ $post->id }}" class="carousel slide"
-                                            data-bs-ride="carousel">
-                                            <div class="carousel-inner">
-                                                @foreach ($post->media as $key => $media)
-                                                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                                        @if (in_array(pathinfo($media->post, PATHINFO_EXTENSION), ['mp4', 'mov', 'webm']))
-                                                            <video class="d-block w-100" controls>
-                                                                <source
-                                                                    src="{{ asset('storage/media/' . $media->post) }}"
-                                                                    type="video/mp4">
-                                                            </video>
-                                                        @else
-                                                            <img src="{{ asset('storage/media/' . $media->post) }}"
-                                                                class="d-block w-100" alt="Post Media">
-                                                        @endif
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                            @if ($post->media->count() > 1)
-                                                <button class="carousel-control-prev" type="button"
-                                                    data-bs-target="#carouselIndicators{{ $post->id }}"
-                                                    data-bs-slide="prev">
-                                                    <span class="carousel-control-prev-icon"
-                                                        aria-hidden="true"></span>
-                                                    <span class="visually-hidden">Previous</span>
-                                                </button>
-                                                <button class="carousel-control-next" type="button"
-                                                    data-bs-target="#carouselIndicators{{ $post->id }}"
-                                                    data-bs-slide="next">
-                                                    <span class="carousel-control-next-icon"
-                                                        aria-hidden="true"></span>
-                                                    <span class="visually-hidden">Next</span>
-                                                </button>
+                        <div class="row form-marketing" enctype="multipart/form-data">
+                            <div class="col-lg-6">
+                                {{-- Carousel Dinamis --}}
+                                @if ($post->media->count())
+                                <div id="carouselIndicators{{ $post->id }}" class="carousel slide"
+                                    data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                        @foreach ($post->media as $key => $media)
+                                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                            @if (in_array(pathinfo($media->post, PATHINFO_EXTENSION), ['mp4', 'mov',
+                                            'webm']))
+                                            <video class="d-block w-100" controls>
+                                                <source src="{{ asset('storage/media/' . $media->post) }}"
+                                                    type="video/mp4">
+                                            </video>
+                                            @else
+                                            <img src="{{ asset('storage/media/' . $media->post) }}"
+                                                class="d-block w-100" alt="Post Media">
                                             @endif
                                         </div>
+                                        @endforeach
+                                    </div>
+                                    @if ($post->media->count() > 1)
+                                    <button class="carousel-control-prev" type="button"
+                                        data-bs-target="#carouselIndicators{{ $post->id }}" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button"
+                                        data-bs-target="#carouselIndicators{{ $post->id }}" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
                                     @endif
                                 </div>
+                                @endif
+                            </div>
 
-                                <div class="col-lg-6">
-                                    <form>
-                                        <div class="form-group">
-                                            <label>Tanggal Upload</label>
-                                            <textarea class="form-control" rows="3" disabled>{{ $post->created_at->format('d-m-Y') }}</textarea>
-                                        </div>
+                            <div class="col-lg-6">
+                                <form>
+                                    <div class="form-group">
+                                        <label>Tanggal Upload</label>
+                                        <textarea class="form-control" rows="3"
+                                            disabled>{{ $post->created_at->format('d-m-Y') }}</textarea>
+                                    </div>
 
-                                        {{-- Captin --}}
-                                        <div class="form-group">
-                                            <label>Caption</label>
-                                            <textarea class="form-control" rows="3" disabled>{{ $post->caption }}</textarea>
-                                        </div>
+                                    {{-- Captin --}}
+                                    <div class="form-group">
+                                        <label>Caption</label>
+                                        <textarea class="form-control" rows="3" disabled>{{ $post->caption }}</textarea>
+                                    </div>
 
-                                        {{-- Note --}}
-                                        <div class="form-group">
-                                            <label>Note</label>
-                                            <textarea class="form-control" rows="3" disabled>{{ $post->note }}</textarea>
-                                        </div>
+                                    {{-- Note --}}
+                                    <div class="form-group">
+                                        <label>Note</label>
+                                        <textarea class="form-control" rows="3" disabled>{{ $post->note }}</textarea>
+                                    </div>
 
-                                        {{-- Status --}}
-                                        @php
-                                            // ambil media pertama dari post ini (kalau kamu dalam @foreach $posts)
-                                            $firstMedia = $post_medias->firstWhere('post_id', $post->id);
-                                        @endphp
+                                    {{-- Status --}}
+                                    @php
+                                    // ambil media pertama dari post ini (kalau kamu dalam @foreach $posts)
+                                    $firstMedia = $post_medias->firstWhere('post_id', $post->id);
+                                    @endphp
 
-                                        @if ($firstMedia && $firstMedia->postingan)
-                                            <div class="form-group">
-                                                <label>Status:</label>
-                                                @if ($firstMedia->postingan->status == 0)
-                                                    <span class="badge badge-secondary">Menunggu Persetujuan</span>
-                                                @elseif ($firstMedia->postingan->status == 1)
-                                                    <span class="badge badge-success ">Disetujui</span>
-                                                @elseif ($firstMedia->postingan->status == 2)
-                                                    <span class="badge badge-danger">Perlu Revisi</span>
-                                                @else
-                                                    <span class="badge badge-secondary">Status Tidak
-                                                        Diketahui</span>
-                                                @endif
-                                            </div>
+                                    @if ($firstMedia && $firstMedia->postingan)
+                                    <div class="form-group">
+                                        <label>Status:</label>
+                                        @if ($firstMedia->postingan->status == 0)
+                                        <span class="badge badge-secondary">Menunggu Persetujuan</span>
+                                        @elseif ($firstMedia->postingan->status == 1)
+                                        <span class="badge badge-success ">Disetujui</span>
+                                        @elseif ($firstMedia->postingan->status == 2)
+                                        <span class="badge badge-danger">Perlu Revisi</span>
+                                        @else
+                                        <span class="badge badge-secondary">Status Unknown</span>
                                         @endif
+                                    </div>
+                                    @endif
 
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#editSAModal{{ $post->id }}">
-                                                Edit Post
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#editSAModal{{ $post->id }}">
+                                            Edit Post
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Modal Edit SA -->
-            <div class="modal fade" id="editSAModal{{ $post->id }}" tabindex="-1" role="dialog"
-                aria-labelledby="editSAModalLabel{{ $post->id }}" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <form class="form-marketing-edit-sa"
-                                action="{{ route('data-client.update-sa', ['client_id' => $client->id, 'post_id' => $post->id]) }}"
-                                method="POST" id="editForm{{ $post->id }}">
-                                @csrf
-                                @method('PUT')
+        </div>
+        <!-- Modal Edit SA -->
+        <div class="modal fade" id="editSAModal{{ $post->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="editSAModalLabel{{ $post->id }}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form class="form-marketing-edit-sa"
+                            action="{{ route('data-client.update-sa', ['client_id' => $client->id, 'post_id' => $post->id]) }}"
+                            method="POST" id="editForm{{ $post->id }}">
+                            @csrf
+                            @method('PUT')
 
-                                <div class="modal-header mb-3">
-                                    <h5 class="modal-title" id="editSAModalLabel{{ $post->id }}">Edit Post
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        {{-- Carousel Dinamis --}}
-                                        @if ($post->media->count())
-                                            <div id="carouselIndicators{{ $post->id }}" class="carousel slide"
-                                                data-bs-ride="carousel">
-                                                <div class="carousel-inner">
-                                                    @foreach ($post->media as $key => $media)
-                                                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                                            @if (in_array(pathinfo($media->post, PATHINFO_EXTENSION), ['mp4', 'mov', 'webm']))
-                                                                <video class="d-block w-100" controls>
-                                                                    <source
-                                                                        src="{{ asset('storage/media/' . $media->post) }}"
-                                                                        type="video/mp4">
-                                                                </video>
-                                                            @else
-                                                                <img src="{{ asset('storage/media/' . $media->post) }}"
-                                                                    class="d-block w-100" alt="Post Media">
-                                                            @endif
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                                @if ($post->media->count() > 1)
-                                                    <button class="carousel-control-prev" type="button"
-                                                        data-bs-target="#carouselIndicators{{ $post->id }}"
-                                                        data-bs-slide="prev">
-                                                        <span class="carousel-control-prev-icon"
-                                                            aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Previous</span>
-                                                    </button>
-                                                    <button class="carousel-control-next" type="button"
-                                                        data-bs-target="#carouselIndicators{{ $post->id }}"
-                                                        data-bs-slide="next">
-                                                        <span class="carousel-control-next-icon"
-                                                            aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Next</span>
-                                                    </button>
+                            <div class="modal-header mb-3">
+                                <h5 class="modal-title" id="editSAModalLabel{{ $post->id }}">Edit Post
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    {{-- Carousel Dinamis --}}
+                                    @if ($post->media->count())
+                                    <div id="carouselIndicators{{ $post->id }}" class="carousel slide"
+                                        data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            @foreach ($post->media as $key => $media)
+                                            <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                                @if (in_array(pathinfo($media->post, PATHINFO_EXTENSION), ['mp4', 'mov',
+                                                'webm']))
+                                                <video class="d-block w-100" controls>
+                                                    <source src="{{ asset('storage/media/' . $media->post) }}"
+                                                        type="video/mp4">
+                                                </video>
+                                                @else
+                                                <img src="{{ asset('storage/media/' . $media->post) }}"
+                                                    class="d-block w-100" alt="Post Media">
                                                 @endif
                                             </div>
+                                            @endforeach
+                                        </div>
+                                        @if ($post->media->count() > 1)
+                                        <button class="carousel-control-prev" type="button"
+                                            data-bs-target="#carouselIndicators{{ $post->id }}" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button"
+                                            data-bs-target="#carouselIndicators{{ $post->id }}" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
                                         @endif
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="modal-body">
-                                            <div class="mb-3">
-                                                <label for="caption" class="form-label">Caption</label>
-                                                <textarea class="form-control" name="caption" id="caption" readonly>{{ $post->caption }}</textarea>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="created_at" class="form-label">Tanggal Upload</label>
-                                                <input type="date" class="form-control" name="created_at"
-                                                    id="created_at" value="{{ $post->created_at->format('Y-m-d') }}"
-                                                    disabled>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="note">Note</label>
-                                                <textarea class="form-control" name="note" id="note" rows="3">{{ $post->note }}</textarea>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="status">Status</label>
-                                                <select class="form-select" name="status" id="status" required>
-                                                    <option value="">Pilih Status</option>
-                                                    <option value="1"
-                                                        {{ $firstMedia && $firstMedia->postingan && $firstMedia->postingan->status == 1 ? 'selected' : '' }}>
-                                                        Acc</option>
-                                                    <option value="2"
-                                                        {{ $firstMedia && $firstMedia->postingan && $firstMedia->postingan->status == 2 ? 'selected' : '' }}>
-                                                        Revisi</option>
-                                                </select>
-                                            </div>
+                                    @endif
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="caption" class="form-label">Caption</label>
+                                            <textarea class="form-control" name="caption" id="caption"
+                                                readonly>{{ $post->caption }}</textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="created_at" class="form-label">Tanggal Upload</label>
+                                            <input type="date" class="form-control" name="created_at" id="created_at"
+                                                value="{{ $post->created_at->format('Y-m-d') }}" disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="note">Note</label>
+                                            <textarea class="form-control" name="note" id="note"
+                                                rows="3">{{ $post->note }}</textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="status">Status</label>
+                                            <select class="form-select" name="status" id="status" required>
+                                                <option value="">Pilih Status</option>
+                                                <option value="1" {{ $firstMedia && $firstMedia->postingan &&
+                                                    $firstMedia->postingan->status == 1 ? 'selected' : '' }}>
+                                                    Acc</option>
+                                                <option value="2" {{ $firstMedia && $firstMedia->postingan &&
+                                                    $firstMedia->postingan->status == 2 ? 'selected' : '' }}>
+                                                    Revisi</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary"
-                                            id="saveButton{{ $post->id }}">Save</button>
-                                    </div>
                                 </div>
-                            </form>
-                        </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary"
+                                        id="saveButton{{ $post->id }}">Save</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            {{-- End Modal Edit SA --}}
+        </div>
+        {{-- End Modal Edit SA --}}
         @endforeach
         {{-- End Instagram --}}
 
         {{-- Modal per Post *Tiktok --}}
         @foreach ($tiktok as $tiktok)
-            <div class="modal fade" id="tiktokmediaModal{{ $tiktok->id }}" tabindex="-1" role="dialog"
-                aria-labelledby="tiktokmediaModalLabel{{ $tiktok->id }}" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document"> {{-- modal-lg biar gede --}}
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            {{-- <div class="modal-header">
+        <div class="modal fade" id="tiktokmediaModal{{ $tiktok->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="tiktokmediaModalLabel{{ $tiktok->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document"> {{-- modal-lg biar gede --}}
+                <div class="modal-content">
+                    <div class="modal-body">
+                        {{-- <div class="modal-header">
                             <h5 class="modal-title" id="tiktokmediaModalLabel{{ $tiktok->id }}">Detail Post
                             </h5>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -665,164 +770,161 @@
                             </button>
                         </div> --}}
 
-                            <div class="row form-marketing" enctype="multipart/form-data">
-                                <div class="col-lg-6">
-                                    {{-- Carousel Dinamis --}}
-                                    @if ($tiktok->tiktok_media->count())
-                                        <div id="carouselIndicators{{ $tiktok->id }}" class="carousel slide"
-                                            data-bs-ride="carousel">
-                                            <div class="carousel-inner">
-                                                @foreach ($tiktok->tiktok_media as $key => $tiktok_media)
-                                                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                                                        @if (in_array(pathinfo($tiktok_media->media, PATHINFO_EXTENSION), ['mp4', 'mov', 'webm']))
-                                                            <video class="d-block w-100" controls>
-                                                                <source
-                                                                    src="{{ asset('storage/tiktok_media/' . $tiktok_media->media) }}"
-                                                                    type="video/mp4">
-                                                            </video>
-                                                        @else
-                                                            <img src="{{ asset('storage/tiktok_media/' . $tiktok_media->media) }}"
-                                                                class="d-block w-100" alt="Post Tiktok Media">
-                                                        @endif
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                            @if ($tiktok->tiktok_media->count() > 1)
-                                                <button class="carousel-control-prev" type="button"
-                                                    data-bs-target="#carouselIndicators{{ $tiktok->id }}"
-                                                    data-bs-slide="prev">
-                                                    <span class="carousel-control-prev-icon"
-                                                        aria-hidden="true"></span>
-                                                    <span class="visually-hidden">Previous</span>
-                                                </button>
-                                                <button class="carousel-control-next" type="button"
-                                                    data-bs-target="#carouselIndicators{{ $tiktok->id }}"
-                                                    data-bs-slide="next">
-                                                    <span class="carousel-control-next-icon"
-                                                        aria-hidden="true"></span>
-                                                    <span class="visually-hidden">Next</span>
-                                                </button>
+                        <div class="row form-marketing" enctype="multipart/form-data">
+                            <div class="col-lg-6">
+                                {{-- Carousel Dinamis --}}
+                                @if ($tiktok->tiktok_media->count())
+                                <div id="carouselIndicators{{ $tiktok->id }}" class="carousel slide"
+                                    data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                        @foreach ($tiktok->tiktok_media as $key => $tiktok_media)
+                                        <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                            @if (in_array(pathinfo($tiktok_media->media, PATHINFO_EXTENSION), ['mp4',
+                                            'mov', 'webm']))
+                                            <video class="d-block w-100" controls>
+                                                <source
+                                                    src="{{ asset('storage/tiktok_media/' . $tiktok_media->media) }}"
+                                                    type="video/mp4">
+                                            </video>
+                                            @else
+                                            <img src="{{ asset('storage/tiktok_media/' . $tiktok_media->media) }}"
+                                                class="d-block w-100" alt="Post Tiktok Media">
                                             @endif
                                         </div>
+                                        @endforeach
+                                    </div>
+                                    @if ($tiktok->tiktok_media->count() > 1)
+                                    <button class="carousel-control-prev" type="button"
+                                        data-bs-target="#carouselIndicators{{ $tiktok->id }}" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button"
+                                        data-bs-target="#carouselIndicators{{ $tiktok->id }}" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
                                     @endif
                                 </div>
+                                @endif
+                            </div>
 
-                                <div class="col-lg-6">
-                                    <form>
-                                        <div class="form-group">
-                                            <label>Tanggal Upload</label>
-                                            <textarea class="form-control" rows="3" disabled>{{ $tiktok->created_at->format('d-m-Y') }}</textarea>
-                                        </div>
+                            <div class="col-lg-6">
+                                <form>
+                                    <div class="form-group">
+                                        <label>Tanggal Upload</label>
+                                        <textarea class="form-control" rows="3"
+                                            disabled>{{ $tiktok->created_at->format('d-m-Y') }}</textarea>
+                                    </div>
 
-                                        {{-- Captin --}}
-                                        <div class="form-group">
-                                            <label>Caption</label>
-                                            <textarea class="form-control" rows="3" disabled>{{ $tiktok->caption }}</textarea>
-                                        </div>
+                                    {{-- Captin --}}
+                                    <div class="form-group">
+                                        <label>Caption</label>
+                                        <textarea class="form-control" rows="3"
+                                            disabled>{{ $tiktok->caption }}</textarea>
+                                    </div>
 
-                                        {{-- Note --}}
-                                        <div class="form-group">
-                                            <label>Note</label>
-                                            <textarea class="form-control" rows="3" disabled>{{ $tiktok->note }}</textarea>
-                                        </div>
+                                    {{-- Note --}}
+                                    <div class="form-group">
+                                        <label>Note</label>
+                                        <textarea class="form-control" rows="3" disabled>{{ $tiktok->note }}</textarea>
+                                    </div>
 
-                                        {{-- Status --}}
-                                        @php
-                                            // ambil media pertama dari tiktok ini (kalau kamu dalam @foreach $posts)
-                                            $firstMedia = $tiktok_medias->firstWhere('post_id', $tiktok->id);
-                                        @endphp
+                                    {{-- Status --}}
+                                    @php
+                                    // ambil media pertama dari tiktok ini (kalau kamu dalam @foreach $posts)
+                                    $firstMedia = $tiktok_medias->firstWhere('post_id', $tiktok->id);
+                                    @endphp
 
-                                        @if ($firstMedia && $firstMedia->post_tiktok)
-                                            <div class="form-group">
-                                                <label>Status:</label>
-                                                @if ($firstMedia->post_tiktok->status == 0)
-                                                    <span class="badge badge-secondary">Menunggu Persetujuan</span>
-                                                @elseif ($firstMedia->post_tiktok->status == 1)
-                                                    <span class="badge badge-success ">Disetujui</span>
-                                                @elseif ($firstMedia->post_tiktok->status == 2)
-                                                    <span class="badge badge-danger">Perlu Revisi</span>
-                                                @else
-                                                    <span class="badge badge-secondary">Status Tidak
-                                                        Diketahui</span>
-                                                @endif
-                                            </div>
+                                    @if ($firstMedia && $firstMedia->post_tiktok)
+                                    <div class="form-group">
+                                        <label>Status:</label>
+                                        @if ($firstMedia->post_tiktok->status == 0)
+                                        <span class="badge badge-secondary">Menunggu Persetujuan</span>
+                                        @elseif ($firstMedia->post_tiktok->status == 1)
+                                        <span class="badge badge-success ">Disetujui</span>
+                                        @elseif ($firstMedia->post_tiktok->status == 2)
+                                        <span class="badge badge-danger">Perlu Revisi</span>
+                                        @else
+                                        <span class="badge badge-secondary">Status Unknown</span>
                                         @endif
+                                    </div>
+                                    @endif
 
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#editTiktokmediaModal{{ $tiktok->id }}">
-                                                Edit Post
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#editTiktokmediaModal{{ $tiktok->id }}">
+                                            Edit Post
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Modal Edit tiktok -->
-            <div class="modal fade" id="editTiktokmediaModal{{ $tiktok->id }}" tabindex="-1" role="dialog"
-                aria-labelledby="editTiktokmediaModalLabel{{ $tiktok->id }}" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <form class="form-marketing form-marketing-edit-tiktok"
-                                action="{{ route('data-client.update-tiktok', ['client_id' => $client->id, 'post_id' => $tiktok->id]) }}"
-                                method="POST" id="editFormTiktok{{ $tiktok->id }}">
-                                @csrf
-                                @method('PUT')
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editTiktokmediaModalLabel{{ $tiktok->id }}">Edit
-                                        Post
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+        </div>
+        <!-- Modal Edit tiktok -->
+        <div class="modal fade" id="editTiktokmediaModal{{ $tiktok->id }}" tabindex="-1" role="dialog"
+            aria-labelledby="editTiktokmediaModalLabel{{ $tiktok->id }}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form class="form-marketing form-marketing-edit-tiktok"
+                            action="{{ route('data-client.update-tiktok', ['client_id' => $client->id, 'post_id' => $tiktok->id]) }}"
+                            method="POST" id="editFormTiktok{{ $tiktok->id }}">
+                            @csrf
+                            @method('PUT')
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editTiktokmediaModalLabel{{ $tiktok->id }}">Edit
+                                    Post
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="caption-tiktok-{{ $tiktok->id }}" class="form-label">Caption</label>
+                                    <textarea class="form-control" name="caption" id="caption-tiktok-{{ $tiktok->id }}"
+                                        required readonly>{{ $tiktok->caption }}</textarea>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="caption-tiktok-{{ $tiktok->id }}"
-                                            class="form-label">Caption</label>
-                                        <textarea class="form-control" name="caption" id="caption-tiktok-{{ $tiktok->id }}" required readonly>{{ $tiktok->caption }}</textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="created_at-tiktok-{{ $tiktok->id }}" class="form-label">Tanggal
-                                            Upload</label>
-                                        <input type="date" class="form-control" name="created_at"
-                                            id="created_at-tiktok-{{ $tiktok->id }}"
-                                            value="{{ $tiktok->created_at->format('Y-m-d') }}" required readonly>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="note-tiktok-{{ $tiktok->id }}" class="form-label">Note</label>
-                                        <textarea class="form-control" name="note" id="note-tiktok-{{ $tiktok->id }}">{{ $tiktok->note }}</textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="status-tiktok-{{ $tiktok->id }}"
-                                            class="form-label">Status</label>
-                                        <select class="form-select" name="status"
-                                            id="status-tiktok-{{ $tiktok->id }}" required>
-                                            <option value="">Pilih Status</option>
-                                            <option value="1" {{ $tiktok->status == 1 ? 'selected' : '' }}>Acc
-                                            </option>
-                                            <option value="2" {{ $tiktok->status == 2 ? 'selected' : '' }}>
-                                                Revisi
-                                            </option>
-                                        </select>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="created_at-tiktok-{{ $tiktok->id }}" class="form-label">Tanggal
+                                        Upload</label>
+                                    <input type="date" class="form-control" name="created_at"
+                                        id="created_at-tiktok-{{ $tiktok->id }}"
+                                        value="{{ $tiktok->created_at->format('Y-m-d') }}" required readonly>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save</button>
+                                <div class="mb-3">
+                                    <label for="note-tiktok-{{ $tiktok->id }}" class="form-label">Note</label>
+                                    <textarea class="form-control" name="note"
+                                        id="note-tiktok-{{ $tiktok->id }}">{{ $tiktok->note }}</textarea>
                                 </div>
-                            </form>
-                        </div>
+                                <div class="mb-3">
+                                    <label for="status-tiktok-{{ $tiktok->id }}" class="form-label">Status</label>
+                                    <select class="form-select" name="status" id="status-tiktok-{{ $tiktok->id }}"
+                                        required>
+                                        <option value="">Pilih Status</option>
+                                        <option value="1" {{ $tiktok->status == 1 ? 'selected' : '' }}>Acc
+                                        </option>
+                                        <option value="2" {{ $tiktok->status == 2 ? 'selected' : '' }}>
+                                            Revisi
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            {{-- End Modal Edit SA --}}
+        </div>
+        {{-- End Modal Edit SA --}}
         @endforeach
         {{-- End modal Media Instagram --}}
         </div>

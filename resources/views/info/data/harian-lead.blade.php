@@ -8,7 +8,7 @@
                     <div class="col-12">
                         <div class="card border shadow-xs mb-4 border-client">
                             <div class="card-header border-bottom pb-0 border-client-bottom">
-                                <h5 class="font-weight-semibold text-lg mb-0">Informasi Laporan Bulanan</h5>
+                                <h5 class="font-weight-semibold text-lg mb-0">Monthly Report Information</h5>
                                 <div class="row mt-2">
                                     <div class="col-xl-3 col-md-3 mb-xl-0">
                                         <div class="card border shadow-xs mb-4">
@@ -56,12 +56,13 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="w-100">
-                                                            <p class="text-sm text-secondary mb-1 text-center">Tanggal
-                                                                Laporan</p>
+                                                            <p class="text-sm text-secondary mb-1 text-center">Bulan
+                                                            </p>
                                                             <h6 class="mb-2 font-weight-bold text-center">
                                                                 {{
                                                                 \Carbon\Carbon::parse($report->report_date)->translatedFormat('F
-                                                                Y') ?? '-' }}
+                                                                Y') ??
+                                                                '-' }}
                                                             </h6>
                                                             <div class="d-flex align-items-center">
                                                             </div>
@@ -134,20 +135,20 @@
                     <div class="col-12">
                         <div class="card border shadow-xs mb-4 border-client">
                             <div class="card-header border-bottom pb-0 border-client-bottom">
-                                <h5 class="font-weight-semibold text-lg mb-4">Informasi Grafik Layanan
-                                    {{ $report->jenis_layanan_mb ?? '-' }} dengan Target
-                                    Lead: {{ $report->jenis_leads ?? '-' }} pada Bulan
+                                <h5 class="font-weight-semibold text-lg mb-4">Graph Information for Service
+                                    {{ $report->jenis_layanan_mb ?? '-' }} with Lead Target: {{ $report->jenis_leads ??
+                                    '-' }} in
                                     {{ \Carbon\Carbon::parse($report->report_date)->translatedFormat('F Y') ?? '-' }}
                                 </h5>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent</h5>
+                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Spent Chart</h5>
                                         <canvas id="chartSpent" height="200"></canvas>
                                         <div id="customLegendSpent" class="mt-3 mb-3 text-center"></div>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian</h5>
+                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Daily Chart</h5>
                                         <canvas id="chartOther" height="200"></canvas>
                                         <div id="customLegendOther" class="mt-3 mb-3 text-center"></div>
                                     </div>
@@ -162,6 +163,7 @@
                                         <div id="funnelChart"></div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -186,9 +188,39 @@
                             <div class="table-responsive p-0">
                                 @if ($leads->isEmpty())
                                 <div class="alert alert-warning">
-                                    Belum ada data laporan harian untuk bulan ini.
+                                    There is no daily report data for this month.
                                 </div>
                                 @else
+                                <div class="mb-3 column-toggle-container">
+                                    <label><input type="checkbox" class="column-toggle" data-column="3"> Revenue</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="4"> ROAS</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="5"> Impresi</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="6"> Click</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="7"> Leads</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="8"> Chat</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="9"> Respond</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="10">
+                                        Greeting</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="11">
+                                        Pricelist</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="12">
+                                        Discuss</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="13">
+                                        Closing</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="14"> Site
+                                        Visit</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="15"> CPL</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="16"> CPC</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="17"> CR Leads to
+                                        Chat</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="18"> CR Chat to
+                                        Respond</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="19"> CR Respond to
+                                        Closing</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="20"> CR Respond to
+                                        Site Visit</label>
+
+                                </div>
                                 <table class="table align-items-center mb-0" id="clientTableMB">
                                     <thead class="bg-gray-100">
                                         <tr class="tabel-style">
@@ -199,57 +231,75 @@
                                             </th>
                                             <th class="text-secondary text-xs font-weight-semibold opacity-7">Spent
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">
                                                 Revenue
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">ROAS
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">ROAS
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">
                                                 Impresi
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Click
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">Click
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Leads
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">Leads
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Chat
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">Chat
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">
                                                 Respond
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">
                                                 Greeting
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">
                                                 Pricelist
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">
                                                 Discuss
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">
                                                 Closing
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Site
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">Site
                                                 Visit
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CPL
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">CPL
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CPC
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">CPC
                                             </th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">CR
                                                 Leads
                                                 to Chat</th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">CR
                                                 Chat to
                                                 Respond</th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">CR
                                                 Respond
                                                 to Closing</th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">CR
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7"
+                                                style="display: none;">CR
                                                 Respond
                                                 to Site Visit</th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Topup Details</th>
+                                                Detail</th>
                                             <th class="text-secondary opacity-7"></th>
                                         </tr>
                                     </thead>
@@ -261,27 +311,46 @@
                                             <td class="text-center">
                                                 Rp {{ number_format($lead->spent, 0, ',', '.') }}
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center" style="display: none;">
                                                 Rp {{ number_format($lead->revenue, 0, ',', '.') }}
                                             </td>
-                                            <td class="text-center">{{ $lead->roas }}</td>
-                                            <td class="text-center">{{ $lead->impresi }}</td>
-                                            <td class="text-center">{{ $lead->click }}</td>
-                                            <td class="text-center">{{ $lead->leads }}</td>
-                                            <td class="text-center">{{ $lead->chat }}</td>
-                                            <td class="text-center">{{ $lead->respond }}</td>
-                                            <td class="text-center">{{ $lead->greeting }}</td>
-                                            <td class="text-center">{{ $lead->pricelist }}</td>
-                                            <td class="text-center">{{ $lead->discuss }}</td>
-                                            <td class="text-center">{{ $lead->closing }}</td>
-                                            <td class="text-center">{{ $lead->site_visit }}</td>
-                                            <td class="text-center">{{ $lead->cpl }}</td>
-                                            <td class="text-center">{{ $lead->cpc }}</td>
-                                            <td class="text-center">{{ $lead->cr_leads_to_chat }}%</td>
-                                            <td class="text-center">{{ $lead->cr_chat_to_respond }}%</td>
-                                            <td class="text-center">{{ $lead->cr_respond_to_closing }}%</td>
-                                            <td class="text-center">{{ $lead->cr_respond_to_site_visit }}%</td>
-
+                                            <td class="text-center" style="display: none;">
+                                                {{ $lead->roas }}</td>
+                                            <td class="text-center" style="display: none;">
+                                                {{ $lead->impresi }}</td>
+                                            <td class="text-center" style="display: none;">
+                                                {{ $lead->click }}</td>
+                                            <td class="text-center" style="display: none;">
+                                                {{ $lead->leads }}</td>
+                                            <td class="text-center" style="display: none;">
+                                                {{ $lead->chat }}</td>
+                                            <td class="text-center" style="display: none;">
+                                                {{ $lead->respond }}</td>
+                                            <td class="text-center" style="display: none;">
+                                                {{ $lead->greeting }}</td>
+                                            <td class="text-center" style="display: none;">
+                                                {{ $lead->pricelist }}</td>
+                                            <td class="text-center" style="display: none;">
+                                                {{ $lead->discuss }}</td>
+                                            <td class="text-center" style="display: none;">
+                                                {{ $lead->closing }}</td>
+                                            <td class="text-center" style="display: none;">
+                                                {{ $lead->site_visit }}</td>
+                                            <td class="text-center" style="display: none;">
+                                                Rp {{ number_format($lead->cpl, 0, ',', '.') }}
+                                            </td>
+                                            <td class="text-center" style="display: none;">
+                                                Rp {{ number_format($lead->cpc, 0, ',', '.') }}
+                                            </td>
+                                            <td class="text-center" style="display: none;">
+                                                {{ $lead->cr_leads_to_chat }}%</td>
+                                            <td class="text-center" style="display: none;">
+                                                {{ $lead->cr_chat_to_respond }}%</td>
+                                            <td class="text-center" style="display: none;">
+                                                {{ $lead->cr_respond_to_closing }}%</td>
+                                            <td class="text-center" style="display: none;">
+                                                {{ $lead->cr_respond_to_site_visit }}%
+                                            </td>
                                             <!-- Kolom aksi -->
                                             <td class="align-middle text-center">
                                                 <button type="button"
@@ -298,64 +367,129 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header mx-3 mt-3">
                                                                 <h5 class="modal-title">
-                                                                    Detail Harian - {{
+                                                                    Detail Lead Hari -
+                                                                    {{
                                                                     \Carbon\Carbon::parse($lead->hari)->translatedFormat('l,
                                                                     d F Y') }}
                                                                 </h5>
                                                                 <button type="button" class="btn-close"
                                                                     data-bs-dismiss="modal" aria-label="Tutup"></button>
                                                             </div>
-                                                            <div class="modal-body">
+                                                            <div class="modal-body detail-lead-harian">
+                                                                <h6 class="mb-3">
+                                                                    Leads Target : {{ $lead->platform }}
+                                                                </h6>
                                                                 <div class="row">
-                                                                    <div class="col-md-4 mb-2"><strong>Spent:</strong>
-                                                                        {{ $lead->spent }}</div>
-                                                                    <div class="col-md-4 mb-2"><strong>Revenue:</strong>
-                                                                        {{ $lead->revenue }}</div>
-                                                                    <div class="col-md-4 mb-2"><strong>ROAS:</strong> {{
-                                                                        $lead->roas }}</div>
-                                                                    <div class="col-md-4 mb-2"><strong>Leads:</strong>
-                                                                        {{ $lead->leads }}</div>
-                                                                    <div class="col-md-4 mb-2"><strong>Chat:</strong> {{
-                                                                        $lead->chat }}</div>
-                                                                    <div class="col-md-4 mb-2"><strong>Respond:</strong>
-                                                                        {{ $lead->respond }}</div>
                                                                     <div class="col-md-4 mb-2">
-                                                                        <strong>Greeting:</strong> {{ $lead->greeting }}
+                                                                        <label class="detail-lead-harian">Spent:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->spent }}" readonly>
                                                                     </div>
                                                                     <div class="col-md-4 mb-2">
-                                                                        <strong>Pricelist:</strong> {{ $lead->pricelist
-                                                                        }}
-                                                                    </div>
-                                                                    <div class="col-md-4 mb-2"><strong>Discuss:</strong>
-                                                                        {{ $lead->discuss }}</div>
-                                                                    <div class="col-md-4 mb-2"><strong>Closing:</strong>
-                                                                        {{ $lead->closing }}</div>
-                                                                    <div class="col-md-4 mb-2"><strong>Site
-                                                                            Visit:</strong> {{ $lead->site_visit }}
-                                                                    </div>
-                                                                    <div class="col-md-4 mb-2"><strong>CPL:</strong> {{
-                                                                        $lead->cpl }}</div>
-                                                                    <div class="col-md-4 mb-2"><strong>CPC:</strong> {{
-                                                                        $lead->cpc }}</div>
-                                                                    <div class="col-md-4 mb-2">
-                                                                        <strong>CR Leads to Chat:</strong> {{
-                                                                        $lead->cr_leads_to_chat }}%
+                                                                        <label
+                                                                            class="detail-lead-harian">Revenue:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->revenue }}" readonly>
                                                                     </div>
                                                                     <div class="col-md-4 mb-2">
-                                                                        <strong>CR Chat to Respond:</strong> {{
-                                                                        $lead->cr_chat_to_respond }}%
+                                                                        <label class="detail-lead-harian">ROAS:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->roas }}" readonly>
                                                                     </div>
                                                                     <div class="col-md-4 mb-2">
-                                                                        <strong>CR Respond to Closing:</strong> {{
-                                                                        $lead->cr_respond_to_closing }}%
+                                                                        <label class="detail-lead-harian">Leads:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->leads }}" readonly>
                                                                     </div>
                                                                     <div class="col-md-4 mb-2">
-                                                                        <strong>CR Respond to Site Visit:</strong> {{
-                                                                        $lead->cr_respond_to_site_visit }}%
+                                                                        <label class="detail-lead-harian">Chat:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->chat }}" readonly>
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <label
+                                                                            class="detail-lead-harian">Respond:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->respond }}" readonly>
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <label
+                                                                            class="detail-lead-harian">Greeting:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->greeting }}" readonly>
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <label
+                                                                            class="detail-lead-harian">Pricelist:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->pricelist }}" readonly>
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <label
+                                                                            class="detail-lead-harian">Discuss:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->discuss }}" readonly>
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <label
+                                                                            class="detail-lead-harian">Closing:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->closing }}" readonly>
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <label class="detail-lead-harian">Site
+                                                                            Visit:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->site_visit }}" readonly>
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <label class="detail-lead-harian">CPL:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->cpl }}" readonly>
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <label class="detail-lead-harian">CPC:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->cpc }}" readonly>
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <label class="detail-lead-harian">CR
+                                                                            Leads to Chat:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->cr_leads_to_chat }}%"
+                                                                            readonly>
+
+                                                                        <strong></strong>
+
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <label class="detail-lead-harian">CR
+                                                                            Chat to Respond:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->cr_chat_to_respond }}%"
+                                                                            readonly>
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <label class="detail-lead-harian">CR
+                                                                            Respond to Closing:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->cr_respond_to_closing }}%"
+                                                                            readonly>
+                                                                    </div>
+                                                                    <div class="col-md-4 mb-2">
+                                                                        <label class="detail-lead-harian">CR
+                                                                            Respond to Site
+                                                                            Visit:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->cr_respond_to_site_visit }}%"
+                                                                            readonly>
                                                                     </div>
 
                                                                     <div class="col-md-12 mt-3">
-                                                                        <strong>Note:</strong><br>{{ $lead->note }}
+                                                                        <label class="detail-lead-harian">Note:</label>
+                                                                        <input class="form-control"
+                                                                            value="{{ $lead->note }}" readonly>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -368,12 +502,12 @@
                                                 </div>
                                             </td>
 
-                                            <!-- Kolom aksi edit -->
+                                            <!-- Kolom aksi edit & hapus -->
                                             <td class="align-middle">
                                                 <a href="#" data-bs-toggle="modal"
                                                     data-bs-target="#editLeadModal{{ $lead->id }}" type="button"
                                                     class="btn btn-primary text-secondary font-weight-bold text-xs active-client"
-                                                    data-bs-toggle="tooltip" data-bs-title="Input data">
+                                                    data-bs-toggle="tooltip" data-bs-title="Edit user">
                                                     <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"
                                                         fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                                         stroke="currentColor">
@@ -381,12 +515,12 @@
                                                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                                     </svg>
                                                 </a>
+
                                             </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-
                                 @endif
                             </div>
                         </div>
@@ -469,10 +603,10 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label class="form-label">
-                                            <span style="font-size: 18px">Input Client</span>
-                                            <p style="font-size: 12px">Formulir yang diisi langsung oleh klien
-                                                untuk
-                                                memberikan data yang dibutuhkan.</p>
+                                            <span style="font-size: 18px"> Client Input</span>
+                                            <p style="font-size: 12px">The form is filled in directly by the client
+                                                For
+                                                provide the required data.</p>
                                         </label>
                                     </div>
                                     <div class="col-md-3 mb-2">
@@ -515,9 +649,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label class="form-label">
-                                            <span style="font-size: 18px">Form Hasil</span>
-                                            <p style="font-size: 12px">Terisi otomatis dari data yang telah diinput
-                                                sebelumnya.</p>
+                                            <span style="font-size: 18px">Results Form</span>
+                                            <p style="font-size: 12px">Filled automatically from data that has been
+                                                previously input.</p>
                                         </label>
                                     </div>
                                     <div class="col-md-4 mb-2">
@@ -577,59 +711,55 @@
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-    var funnelData = [
-        @foreach ($totals_scaled as $label => $value)
-            {{ $value }},
-        @endforeach
-    ];
+        document.addEventListener('DOMContentLoaded', function() {
+            var funnelData = [
+                @foreach ($totals_scaled as $label => $value)
+                    {{ $value }},
+                @endforeach
+            ];
 
-    var funnelLabels = [
-        @foreach ($totals_scaled as $label => $value)
-            "{{ $label }}: {{ $totall[$label] }}",
-        @endforeach
-    ];
+            var funnelLabels = {!! json_encode($funnelLabels) !!};
 
-    var options = {
-        series: [{
-            name: "Jumlah",
-            data: funnelData
-        }],
-        chart: {
-            type: 'bar',
-            height: 400,
-        },
-        plotOptions: {
-            bar: {
-                horizontal: true,
-                isFunnel: true,
-                barHeight: '80%',
-            },
-        },
-        dataLabels: {
-            enabled: true,
-            formatter: function (val, opt) {
-                return funnelLabels[opt.dataPointIndex];
-            },
-            style: {
-                fontSize: '14px'
-            }
-        },
-        xaxis: {
-            categories: funnelLabels,
-            max: 100
-        },
-        tooltip: {
-            enabled: false
-        },
-        legend: {
-            show: false,
-        },
-    };
+            var options = {
+                series: [{
+                    name: "Jumlah",
+                    data: funnelData
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 400,
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: true,
+                        isFunnel: true,
+                        barHeight: '80%',
+                    },
+                },
+                dataLabels: {
+                    enabled: true,
+                    formatter: function(val, opt) {
+                        return funnelLabels[opt.dataPointIndex];
+                    },
+                    style: {
+                        fontSize: '14px'
+                    }
+                },
+                xaxis: {
+                    categories: funnelLabels,
+                    max: 100
+                },
+                tooltip: {
+                    enabled: false
+                },
+                legend: {
+                    show: false,
+                },
+            };
 
-    var funnelChart = new ApexCharts(document.querySelector("#funnelChart"), options);
-    funnelChart.render();
-});
+            var funnelChart = new ApexCharts(document.querySelector("#funnelChart"), options);
+            funnelChart.render();
+        });
     </script>
 
     <script>
@@ -678,199 +808,50 @@
 
         const labels = {!! json_encode($leads->pluck('hari')) !!};
 
-        @php $jenis = $report->jenis_leads; @endphp
-
-        @if ($jenis == 'F to F')
-            const datasetsSpent = [{
+        const datasetsSpent = [{
                 label: 'Spent',
                 data: {!! json_encode($leads->pluck('spent')) !!},
                 borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(255, 99, 132, 0.1)',
                 fill: false,
                 tension: 0.1,
-            }];
-
-            const datasetsOther = [{
-                    label: 'Leads',
-                    data: {!! json_encode($leads->pluck('leads')) !!},
-                    borderColor: 'rgb(255, 205, 86)',
-                    backgroundColor: 'rgba(255, 205, 86, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                },
-                {
-                    label: 'Chat',
-                    data: {!! json_encode($leads->pluck('chat')) !!},
-                    borderColor: 'rgb(255, 159, 64)',
-                    backgroundColor: 'rgba(255, 159, 64, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                },
-                {
-                    label: 'Greeting',
-                    data: {!! json_encode($leads->pluck('greeting')) !!},
-                    borderColor: 'rgb(75, 192, 192)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                },
-                {
-                    label: 'Pricelist',
-                    data: {!! json_encode($leads->pluck('pricelist')) !!},
-                    borderColor: 'rgb(153, 102, 255)',
-                    backgroundColor: 'rgba(153, 102, 255, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                },
-                {
-                    label: 'Discuss',
-                    data: {!! json_encode($leads->pluck('discuss')) !!},
-                    borderColor: 'rgb(54, 162, 235)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                },
-                {
-                    label: 'Note',
-                    data: {!! json_encode($leads->pluck('note')) !!},
-                    borderColor: 'rgb(201, 203, 207)',
-                    backgroundColor: 'rgba(201, 203, 207, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                }
-            ];
-        @elseif ($jenis == 'Roas Revenue')
-            const datasetsSpent = [{
-                label: 'Spent',
-                data: {!! json_encode($leads->pluck('spent')) !!},
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgba(255, 99, 132, 0.1)',
+            },
+            {
+                label: 'Revenue',
+                data: {!! json_encode($leads->pluck('revenue')) !!},
+                borderColor: 'rgb(54, 162, 235)',
+                backgroundColor: 'rgba(54, 162, 235, 0.1)',
                 fill: false,
                 tension: 0.1,
-            }];
+            },
+        ];
 
-            const datasetsOther = [{
-                    label: 'Revenue',
-                    data: {!! json_encode($leads->pluck('revenue')) !!},
-                    borderColor: 'rgb(255, 205, 86)',
-                    backgroundColor: 'rgba(255, 205, 86, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                },
-                {
-                    label: 'ROAS',
-                    data: {!! json_encode($leads->pluck('roas')) !!},
-                    borderColor: 'rgb(75, 192, 192)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                },
-                {
-                    label: 'Chat',
-                    data: {!! json_encode($leads->pluck('chat')) !!},
-                    borderColor: 'rgb(255, 159, 64)',
-                    backgroundColor: 'rgba(255, 159, 64, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                },
-                {
-                    label: 'Respond',
-                    data: {!! json_encode($leads->pluck('respond')) !!},
-                    borderColor: 'rgb(153, 102, 255)',
-                    backgroundColor: 'rgba(153, 102, 255, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                },
-                {
-                    label: 'Closing',
-                    data: {!! json_encode($leads->pluck('closing')) !!},
-                    borderColor: 'rgb(54, 162, 235)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                }
-            ];
-        @elseif ($jenis == 'Total Closing')
-            const datasetsSpent = [{
-                label: 'Spent',
-                data: {!! json_encode($leads->pluck('spent')) !!},
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgba(255, 99, 132, 0.1)',
+        const datasetsOther = [{
+                label: 'Chat',
+                data: {!! json_encode($leads->pluck('chat')) !!},
+                borderColor: 'rgb(255, 159, 64)',
+                backgroundColor: 'rgba(255, 159, 64, 0.1)',
                 fill: false,
                 tension: 0.1,
-            }];
-
-            const datasetsOther = [{
-                    label: 'Leads',
-                    data: {!! json_encode($leads->pluck('leads')) !!},
-                    borderColor: 'rgb(255, 205, 86)',
-                    backgroundColor: 'rgba(255, 205, 86, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                },
-                {
-                    label: 'Chat',
-                    data: {!! json_encode($leads->pluck('chat')) !!},
-                    borderColor: 'rgb(255, 159, 64)',
-                    backgroundColor: 'rgba(255, 159, 64, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                },
-                {
-                    label: 'Respond',
-                    data: {!! json_encode($leads->pluck('respond')) !!},
-                    borderColor: 'rgb(153, 102, 255)',
-                    backgroundColor: 'rgba(153, 102, 255, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                },
-                {
-                    label: 'Closing',
-                    data: {!! json_encode($leads->pluck('closing')) !!},
-                    borderColor: 'rgb(54, 162, 235)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                }
-            ];
-        @elseif ($jenis == 'Site Visits')
-            const datasetsSpent = [{
-                label: 'Spent',
-                data: {!! json_encode($leads->pluck('spent')) !!},
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgba(255, 99, 132, 0.1)',
+            },
+            {
+                label: 'Respond',
+                data: {!! json_encode($leads->pluck('respond')) !!},
+                borderColor: 'rgb(153, 102, 255)',
+                backgroundColor: 'rgba(153, 102, 255, 0.1)',
                 fill: false,
                 tension: 0.1,
-            }];
+            },
+            {
+                label: 'Closing',
+                data: {!! json_encode($leads->pluck('closing')) !!},
+                borderColor: 'rgb(54, 162, 235)',
+                backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                fill: false,
+                tension: 0.1,
+            }
+        ];
 
-            const datasetsOther = [{
-                    label: 'Leads',
-                    data: {!! json_encode($leads->pluck('leads')) !!},
-                    borderColor: 'rgb(255, 205, 86)',
-                    backgroundColor: 'rgba(255, 205, 86, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                },
-                {
-                    label: 'Respond',
-                    data: {!! json_encode($leads->pluck('respond')) !!},
-                    borderColor: 'rgb(153, 102, 255)',
-                    backgroundColor: 'rgba(153, 102, 255, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                },
-                {
-                    label: 'Closing',
-                    data: {!! json_encode($leads->pluck('closing')) !!},
-                    borderColor: 'rgb(54, 162, 235)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
-                    fill: false,
-                    tension: 0.1,
-                }
-            ];
-        @endif
-
-        // Fungsi chart & legend tetap sama
         function createChart(ctxId, dataSets, legendContainerId) {
             const ctx = document.getElementById(ctxId).getContext('2d');
             const chart = new Chart(ctx, {
@@ -1041,6 +1022,22 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.lead-form').forEach(setupLeadFormEvents);
+        });
+    </script>
+    <script>
+        document.querySelectorAll('.column-toggle').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                const colIndex = parseInt(this.dataset.column);
+                const table = document.querySelector('.table');
+                const rows = table.querySelectorAll('thead tr, tbody tr');
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('th, td');
+                    if (cells[colIndex]) {
+                        cells[colIndex].style.display = this.checked ? '' : 'none';
+                    }
+                });
+            });
         });
     </script>
     </x-app-layout>

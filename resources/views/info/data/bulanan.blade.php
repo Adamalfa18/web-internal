@@ -28,7 +28,7 @@
                                     @switch($client->status_client)
                                     @case(1)
                                     <span
-                                        class="badge badge-sm border border-success text-success bg-success status-client-style">Aktif</span>
+                                        class="badge badge-sm border border-success text-success bg-success status-client-style">Active</span>
                                     @break
 
                                     @case(2)
@@ -211,11 +211,11 @@
                                             </th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Nama Campaign
+                                                Campaign Name
                                             </th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Jenis Layanan MB
+                                                MB Service Type
                                             </th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
@@ -336,32 +336,27 @@
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
 
+                                                        @if ($report->jenis_layanan_mb === 'Leads')
                                                         <h6 class="mb-3">
-                                                            Layanan:
-                                                            <span>
+                                                            Service:
+                                                            <span class="badge bg-success text-white"
+                                                                style="background-color: #198754 !important;">
                                                                 {{ $report->jenis_layanan_mb }}
                                                             </span>
                                                         </h6>
-
-                                                        @if ($report->jenis_layanan_mb === 'Leads')
                                                         <h6 class="mb-3">
-                                                            Target Leads:
-                                                            <span>
+                                                            Leads Target :
+                                                            <span class="badge bg-success text-white"
+                                                                style="background-color: #198754 !important;">
                                                                 {{ $report->jenis_leads }}
                                                             </span>
                                                         </h6>
 
                                                         <div class="row">
                                                             <div class="col-md-6 mb-3">
-                                                                <label>Nama Campaign</label>
+                                                                <label>Campaign Name</label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->nama_campaign }}" readonly>
-                                                            </div>
-                                                            <div class="col-md-6 mb-3">
-                                                                <label>Report Date</label>
-                                                                <input class="form-control"
-                                                                    value="{{ \Carbon\Carbon::parse($report->report_date)->format('F Y') }}"
-                                                                    readonly>
                                                             </div>
 
                                                             <div class="col-md-6 mb-3">
@@ -369,18 +364,21 @@
                                                                 <input class="form-control"
                                                                     value="{{ $report->target_spent }}" readonly>
                                                             </div>
+
                                                             <div class="col-md-6 mb-3">
                                                                 <label>Target Revenue</label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->target_revenue }}" readonly>
                                                             </div>
+
                                                             <div class="col-md-6 mb-3">
                                                                 <label>Target ROAS</label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->target_roas }}" readonly>
                                                             </div>
+
                                                             <div class="col-md-6 mb-3">
-                                                                <label>Target Leads</label>
+                                                                <label>Leads Target </label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->target_leads }}" readonly>
                                                             </div>
@@ -390,31 +388,37 @@
                                                                 <input class="form-control" value="{{ $report->chat }}"
                                                                     readonly>
                                                             </div>
-                                                            <div class="col-md-6 mb-3">
-                                                                <label>Greeting</label>
-                                                                <input class="form-control"
-                                                                    value="{{ $report->greeting }}" readonly>
-                                                            </div>
-                                                            <div class="col-md-6 mb-3">
-                                                                <label>Pricelist</label>
-                                                                <input class="form-control"
-                                                                    value="{{ $report->pricelist }}" readonly>
-                                                            </div>
-                                                            <div class="col-md-6 mb-3">
-                                                                <label>Discuss</label>
-                                                                <input class="form-control"
-                                                                    value="{{ $report->discuss }}" readonly>
-                                                            </div>
+
                                                             <div class="col-md-6 mb-3">
                                                                 <label>Respond</label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->respond }}" readonly>
                                                             </div>
+
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Greeting</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->greeting }}" readonly>
+                                                            </div>
+
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Pricelist</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->pricelist }}" readonly>
+                                                            </div>
+
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Discuss</label>
+                                                                <input class="form-control"
+                                                                    value="{{ $report->discuss }}" readonly>
+                                                            </div>
+
                                                             <div class="col-md-6 mb-3">
                                                                 <label>Closing</label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->closing }}" readonly>
                                                             </div>
+
                                                             <div class="col-md-6 mb-3">
                                                                 <label>Site Visit</label>
                                                                 <input class="form-control"
@@ -426,72 +430,84 @@
                                                                 <input class="form-control" value="{{ $report->cpl }}"
                                                                     readonly>
                                                             </div>
+
                                                             <div class="col-md-6 mb-3">
                                                                 <label>CPC</label>
                                                                 <input class="form-control" value="{{ $report->cpc }}"
                                                                     readonly>
                                                             </div>
+
                                                             <div class="col-md-6 mb-3">
-                                                                <label>CR Leads > Chat</label>
+                                                                <label>CR Leads to Chat</label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->cr_leads_to_chat }}" readonly>
                                                             </div>
+
                                                             <div class="col-md-6 mb-3">
-                                                                <label>CR Chat > Respond</label>
+                                                                <label>CR Chat to Respond</label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->cr_chat_to_respond }}" readonly>
                                                             </div>
+
                                                             <div class="col-md-6 mb-3">
-                                                                <label>CR Respond > Closing</label>
+                                                                <label>CR Respond to Closing</label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->cr_respond_to_closing }}"
                                                                     readonly>
                                                             </div>
+
                                                             <div class="col-md-6 mb-3">
-                                                                <label>CR Respond > Site Visit</label>
+                                                                <label>CR Respond to Site Visit</label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->cr_respond_to_site_visit }}"
                                                                     readonly>
                                                             </div>
 
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Report Date</label>
+                                                                <input class="form-control"
+                                                                    value="{{ \Carbon\Carbon::parse($report->report_date)->translatedFormat('d F Y') }}"
+                                                                    readonly>
+                                                            </div>
                                                             <div class="col-md-12 mb-3">
                                                                 <label>Note</label>
                                                                 <textarea class="form-control" rows="3"
                                                                     readonly>{{ $report->note }}</textarea>
                                                             </div>
                                                         </div>
-                                                        @elseif ($report->jenis_layanan_mb === 'Marketplace')
-                                                        <div class="row">
-                                                            <div class="col-md-6 mb-3">
-                                                                <label>Nama Campaign</label>
-                                                                <input class="form-control"
-                                                                    value="{{ $report->nama_campaign }}" readonly>
-                                                            </div>
-                                                            <div class="col-md-6 mb-3">
-                                                                <label>Report Date</label>
-                                                                <input class="form-control"
-                                                                    value="{{ \Carbon\Carbon::parse($report->report_date)->format('F Y') }}"
-                                                                    readonly>
-                                                            </div>
 
-                                                            <div class="col-md-6 mb-3">
+                                                        @else
+                                                        <h6 class="mb-3">
+                                                            Service:
+                                                            <span class="badge bg-success text-white"
+                                                                style="background-color: #198754 !important;">
+                                                                {{ $report->jenis_layanan_mb }}
+                                                            </span>
+                                                        </h6>
+                                                        <div class="row">
+                                                            <div class="col-md-4 mb-3">
                                                                 <label>Target Spent</label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->target_spent }}" readonly>
                                                             </div>
-                                                            <div class="col-md-6 mb-3">
+                                                            <div class="col-md-4 mb-3">
                                                                 <label>Target Revenue</label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->target_revenue }}" readonly>
                                                             </div>
-                                                            <div class="col-md-6 mb-3">
+                                                            <div class="col-md-4 mb-3">
                                                                 <label>Target ROAS</label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->target_roas }}" readonly>
                                                             </div>
-
+                                                            <div class="col-md-6 mb-3">
+                                                                <label>Report Date</label>
+                                                                <input class="form-control"
+                                                                    value="{{ \Carbon\Carbon::parse($report->report_date)->format('d F Y') }}"
+                                                                    readonly>
+                                                            </div>
                                                             <div class="col-md-12 mb-3">
-                                                                <label>Note</label>
+                                                                <label>Notes</label>
                                                                 <textarea class="form-control" rows="3"
                                                                     readonly>{{ $report->note }}</textarea>
                                                             </div>
@@ -502,6 +518,7 @@
                                                             <button type="button" class="btn btn-secondary"
                                                                 data-bs-dismiss="modal">Close</button>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             </div>

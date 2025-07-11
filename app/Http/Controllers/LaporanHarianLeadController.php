@@ -9,7 +9,7 @@ use App\Models\Lead;
 
 class LaporanHarianLeadController extends Controller
 {
-  public function index(Request $request)
+    public function index(Request $request)
     {
         $performance_bulanan_id = $request->performance_bulanan_id;
         $report = PerformanceBulanan::findOrFail($performance_bulanan_id);
@@ -35,7 +35,6 @@ class LaporanHarianLeadController extends Controller
         $leads = Lead::where('performance_bulanan_id', $performance_bulanan_id)->get();
 
         $scale = [60, 50, 40, 30, 20, 10];
-        // Total untuk chart funnel (khusus jenis_leads F to F)
         $totals = [
             'Leads'     => $leads->sum('leads'),
             'Chat'      => $leads->sum('chat'),
@@ -45,35 +44,63 @@ class LaporanHarianLeadController extends Controller
         ];
 
         $totall = [
-            'Impresi'     => $leads->sum('impresi'),
-            'Click'  => $leads->sum('click'),
-            'Chat'      => $leads->sum('chat'),
+            'Impresi' => $leads->sum('impresi'),
+            'Click'   => $leads->sum('click'),
+            'Chat'    => $leads->sum('chat'),
             'Respond' => $leads->sum('respond'),
-            'Closing'   => $leads->sum('closing'),
+            'Closing' => $leads->sum('closing'),
         ];
 
-        $totalImpresi = $totall['Impresi'] ?: 1; // hindari division by zero
-        $persentase = [
-            'Impresi' => 100,
-            'Click'   => round(($totall['Click'] / $totalImpresi) * 100, 2),
-            'Chat'    => round(($totall['Chat'] / $totall['Click']) * 100, 2),
-            'Respond' => round(($totall['Respond'] / ($totall['Chat'] ?: 1)) * 100, 2),
-            'Closing' => round(($totall['Closing'] / ($totall['Respond'] ?: 1)) * 100, 2),
-        ];
+        // Hitung persentase funnel dengan aman pakai if else
+        $persentase = [];
+        $persentase['Impresi'] = 100;
 
+        if ($totall['Impresi'] > 0) {
+            $persentase['Click'] = round(($totall['Click'] / $totall['Impresi']) * 100, 2);
+        } else {
+            $persentase['Click'] = 0;
+        }
+
+        if ($totall['Click'] > 0) {
+            $persentase['Chat'] = round(($totall['Chat'] / $totall['Click']) * 100, 2);
+        } else {
+            $persentase['Chat'] = 0;
+        }
+
+        if ($totall['Chat'] > 0) {
+            $persentase['Respond'] = round(($totall['Respond'] / $totall['Chat']) * 100, 2);
+        } else {
+            $persentase['Respond'] = 0;
+        }
+
+        if ($totall['Respond'] > 0) {
+            $persentase['Closing'] = round(($totall['Closing'] / $totall['Respond']) * 100, 2);
+        } else {
+            $persentase['Closing'] = 0;
+        }
+
+        // Buat funnel label
         $totals_scaled = [];
         $keys = array_keys($totall);
         foreach ($keys as $i => $key) {
-            $totals_scaled[$key] = $scale[$i] ?? 10; // fallback kecil
+            $totals_scaled[$key] = $scale[$i] ?? 10;
         }
+
         $funnelLabels = [];
         foreach ($totall as $key => $value) {
-            $funnelLabels[] = "{$key}: {$value} (" . ($persentase[$key] ?? 0) . "%)";
+            $funnelLabels[] = "{$key}: {$value} ({$persentase[$key]}%)";
         }
 
-        return view('marketlab.performa-harian.index-lead', compact('funnelLabels', 'report', 'leads', 'fields', 'totals', 'totall', 'totals_scaled'));
+        return view('marketlab.performa-harian.index-lead', compact(
+            'funnelLabels',
+            'report',
+            'leads',
+            'fields',
+            'totals',
+            'totall',
+            'totals_scaled'
+        ));
     }
-
 
     public function store(Request $request)
     {
@@ -197,5 +224,18 @@ class LaporanHarianLeadController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Data berhasil diupdate.');
+    }
+
+
+    public function destroy($id)
+    {
+        // cari data
+        $lead = Lead::findOrFail($id);
+
+        // hapus data
+        $lead->delete();
+
+        // redirect kembali dengan pesan sukses
+        return redirect()->back()->with('success', 'Data laporan harian lead berhasil dihapus.');
     }
 }

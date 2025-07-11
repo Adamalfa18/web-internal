@@ -21,7 +21,8 @@ class SaController extends Controller
     public function indexList(Request $request)
     {
         $query = Client::whereHas('client_layanan', function ($q) {
-            $q->where('layanan_id', 2); // hanya layanan_id = 2
+            $q->where('layanan_id', 2)
+                ->where('status', 1);
         });
 
         // Filter berdasarkan tanggal
@@ -29,7 +30,7 @@ class SaController extends Controller
             $query->whereDate('date_in', $request->tanggal);
         }
 
-        // Filter berdasarkan nama brand
+        // Filter berdasarkan Brand Name
         if ($request->filled('brand')) {
             $query->where('nama_brand', 'like', '%' . $request->brand . '%');
         }

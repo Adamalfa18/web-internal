@@ -11,7 +11,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="style-fount w-100">
-                                        <p class="text-sm text-secondary mb-1">Client MB Aktif</p>
+                                        <p class="text-sm text-secondary mb-1">Active MB Client</p>
                                         <h1 class="mb-2 font-weight-bold">{{ $mb_aktip }}</h1>
                                     </div>
                                 </div>
@@ -41,7 +41,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="style-fount w-100">
-                                        <p class="text-sm text-secondary mb-1">Client MB Tidak Aktif</p>
+                                        <p class="text-sm text-secondary mb-1">Inactive MB Client</p>
                                         <h1 class="mb-2 font-weight-bold">{{ $mb_nonaktip }}</h1>
                                     </div>
                                 </div>
@@ -77,9 +77,9 @@
                     @csrf
                     <!-- Select Client -->
                     <div class="col-12 col-md-auto">
-                        <label for="clientSelect" class="form-label">Pilih Client MB:</label>
+                        <label for="clientSelect" class="form-label">Select Client MB:</label>
                         <select name="client_id" id="clientSelect" class="form-select" required>
-                            <option value="">-- Pilih Client --</option>
+                            <option value="">-- Select Client --</option>
                             @foreach($clientMbAktif as $client)
                             <option value="{{ $client->id }}">{{ $client->nama_brand }}</option>
                             @endforeach
@@ -87,7 +87,7 @@
                     </div>
                     <!-- Select Month -->
                     <div class="col-12 col-md-auto">
-                        <label for="grafikDashboardBulan" class="form-label">Pilih Bulan:</label>
+                        <label for="grafikDashboardBulan" class="form-label">Select Month:</label>
                         <input type="month" id="grafikDashboardBulan" name="grafikDashboardBulan" class="form-control"
                             required>
                     </div>
@@ -139,7 +139,7 @@
         const mbData = {
             labels: @json($mbClientsPerMonth->pluck('month')),
             datasets: [{
-                    label: 'Client MB Aktif',
+                    label: 'Active MB Client',
                     data: @json($mbClientsPerMonth->pluck('active')),
                     backgroundColor: 'rgba(10, 185, 10, 0.8)',
                     borderColor: 'rgb(10, 185, 10)',
@@ -153,7 +153,7 @@
                     borderWidth: 1
                 },
                 {
-                    label: 'Client MB Tidak Aktif',
+                    label: 'Inactive MB Client',
                     data: @json($mbClientsPerMonth->pluck('inactive')),
                     backgroundColor: 'rgba(255, 0, 0, 0.8)',
                     borderColor: 'rgb(255, 0, 0)',

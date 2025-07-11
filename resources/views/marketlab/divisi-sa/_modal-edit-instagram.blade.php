@@ -23,7 +23,8 @@
                     {{-- Caption --}}
                     <div class="mb-3">
                         <label for="caption{{ $post->id }}" class="form-label">Caption</label>
-                        <textarea class="form-control" name="caption" id="caption{{ $post->id }}" required>{{ $post->caption }}</textarea>
+                        <textarea class="form-control" name="caption" id="caption{{ $post->id }}"
+                            required>{{ $post->caption }}</textarea>
                     </div>
                     {{-- Tanggal Upload --}}
                     <div class="mb-3">
@@ -37,32 +38,30 @@
                         <label for="edit_content_media{{ $post->id }}" class="form-label">Media</label>
                         <div class="row mt-3" id="edit-preview-container-{{ $post->id }}">
                             @foreach ($post->media as $key => $media)
-                                <div class="col-md-4 mb-2 position-relative preview-item">
-                                    <input type="hidden" name="existing_media_ids[]" value="{{ $media->id }}">
-                                    <button type="button"
-                                        class="btn btn-danger btn-sm position-absolute top-0 end-0 remove-existing-media"
-                                        data-media-id="{{ $media->id }}">
-                                        &times;
-                                    </button>
-                                    @if (in_array(pathinfo($media->post, PATHINFO_EXTENSION), ['mp4', 'mov', 'webm']))
-                                        <video class="w-100" controls>
-                                            <source src="{{ asset('storage/media/' . $media->post) }}"
-                                                type="video/mp4">
-                                            Browser tidak mendukung video.
-                                        </video>
-                                    @else
-                                        <img src="{{ asset('storage/media/' . $media->post) }}"
-                                            class="img-fluid rounded" alt="Media Post">
-                                    @endif
-                                </div>
+                            <div class="col-md-4 mb-2 position-relative preview-item">
+                                <input type="hidden" name="existing_media_ids[]" value="{{ $media->id }}">
+                                <button type="button"
+                                    class="btn btn-danger btn-sm position-absolute top-0 end-0 remove-existing-media"
+                                    data-media-id="{{ $media->id }}">
+                                    &times;
+                                </button>
+                                @if (in_array(pathinfo($media->post, PATHINFO_EXTENSION), ['mp4', 'mov', 'webm']))
+                                <video class="w-100" controls>
+                                    <source src="{{ asset('storage/media/' . $media->post) }}" type="video/mp4">
+                                    Browser not support video.
+                                </video>
+                                @else
+                                <img src="{{ asset('storage/media/' . $media->post) }}" class="img-fluid rounded"
+                                    alt="Media Post">
+                                @endif
+                            </div>
                             @endforeach
                         </div>
                         <div class="mt-2">
                             <input type="file" class="form-control d-none edit-file-input"
-                                id="edit_content_media{{ $post->id }}" data-id="{{ $post->id }}"
-                                name="content_media[]" accept=".webp, .webm" multiple>
-                            <button type="button" class="btn btn-primary edit-add-file-btn"
-                                data-id="{{ $post->id }}">
+                                id="edit_content_media{{ $post->id }}" data-id="{{ $post->id }}" name="content_media[]"
+                                accept=".webp, .webm" multiple>
+                            <button type="button" class="btn btn-primary edit-add-file-btn" data-id="{{ $post->id }}">
                                 Add Media
                             </button>
                         </div>

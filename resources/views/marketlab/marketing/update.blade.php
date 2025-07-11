@@ -9,8 +9,8 @@
                         <div class="card-header border-bottom pb-0">
                             <div class="d-sm-flex align-items-center">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0">Update Data Layanan Client</h6>
-                                    <p class="text-sm">Perbarui informasi layanan untuk client ini</p>
+                                    <h6 class="font-weight-semibold text-lg mb-0">Update Client Service Data</h6>
+                                    <p class="text-sm">Update the service information for this client</p>
                                 </div>
                             </div>
                         </div>
@@ -20,45 +20,43 @@
                                 @csrf
                                 @method('PUT')
 
-                                <!-- Nama Client -->
+                                <!-- Client Name -->
                                 <div class="mb-4">
-                                    <label class="form-label">Nama Client:</label>
-                                    <input type="text" class="form-control" value="{{ $client->nama_client }}"
-                                        readonly>
+                                    <label class="form-label">Client Name:</label>
+                                    <input type="text" class="form-control" value="{{ $client->nama_client }}" readonly>
                                 </div>
 
-                                <!-- Nama Brand -->
+                                <!-- Brand Name -->
                                 <div class="mb-4">
-                                    <label class="form-label">Nama Brand:</label>
-                                    <input type="text" class="form-control" value="{{ $client->nama_brand }}"
-                                        readonly>
+                                    <label class="form-label">Brand Name:</label>
+                                    <input type="text" class="form-control" value="{{ $client->nama_brand }}" readonly>
                                 </div>
 
                                 <!-- Pilih Layanan -->
                                 <div class="mb-4">
-                                    <label class="form-label fw-bold">Layanan:</label>
+                                    <label class="form-label fw-bold">Service:</label>
                                     <input type="text" class="form-control"
                                         value="{{ $client_layanan->layanan->nama_layanan ?? '-' }}" readonly>
                                     <input type="hidden" name="layanan_id" value="{{ $client_layanan->layanan->id }}">
                                 </div>
 
-                                {{-- Penaggung Jawab --}}
+                                {{-- PIC --}}
                                 <div class="mb-4">
-                                    <label for="pegawai_id" class="form-label">Pengagung
-                                        Jawab</label>
+                                    <label for="pegawai_id" class="form-label">
+                                        PIC</label>
                                     <select data-live-search="true"
                                         class="form-select ukuran-select  @error('pegawai_id') is-invalid @enderror"
                                         name="pegawai_id">
                                         @foreach ($pegawai as $peg)
-                                            @if (old('pegawai_id', $client->pegawai_id) == $peg->id)
-                                                <option value="{{ $peg->id }}" selected>
-                                                    {{ $peg->nama }}
-                                                </option>
-                                            @else
-                                                <option value="{{ $peg->id }}">
-                                                    {{ $peg->nama }}
-                                                </option>
-                                            @endif
+                                        @if (old('pegawai_id', $client->pegawai_id) == $peg->id)
+                                        <option value="{{ $peg->id }}" selected>
+                                            {{ $peg->nama }}
+                                        </option>
+                                        @else
+                                        <option value="{{ $peg->id }}">
+                                            {{ $peg->nama }}
+                                        </option>
+                                        @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -67,33 +65,33 @@
                                 <div class="mb-4">
                                     <label class="form-label fw-bold">Status:</label>
                                     <select class="form-select @error('status') is-invalid @enderror" name="status">
-                                        <option value="1"
-                                            {{ old('status', $client_layanan->status ?? 1) == 1 ? 'selected' : '' }}>
-                                            Aktif
+                                        <option value="1" {{ old('status', $client_layanan->status ?? 1) == 1 ?
+                                            'selected' : '' }}>
+                                            Active
                                         </option>
-                                        <option value="2"
-                                            {{ old('status', $client_layanan->status ?? 2) == 2 ? 'selected' : '' }}>
+                                        <option value="2" {{ old('status', $client_layanan->status ?? 2) == 2 ?
+                                            'selected' : '' }}>
                                             Pending
                                         </option>
-                                        <option value="3"
-                                            {{ old('status', $client_layanan->status ?? 3) == 3 ? 'selected' : '' }}>
-                                            Tidak Aktif
+                                        <option value="3" {{ old('status', $client_layanan->status ?? 3) == 3 ?
+                                            'selected' : '' }}>
+                                            Non-active
                                         </option>
                                     </select>
                                     @error('status')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <!-- Tanggal Landing -->
                                 <div class="mb-4">
-                                    <label class="form-label fw-bold">Tanggal Landing:</label>
+                                    <label class="form-label fw-bold">Landing Date:</label>
                                     <input type="text" class="form-control"
                                         value="{{ $client_layanan->created_at ? $client_layanan->created_at->format('d M Y') : '-' }}"
                                         readonly>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Update Data Layanan</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
                             </form>
                         </div> <!-- end card-body -->
 

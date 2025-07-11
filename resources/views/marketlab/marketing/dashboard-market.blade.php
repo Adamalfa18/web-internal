@@ -12,7 +12,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="style-fount w-100">
-                                        <p class="text-sm text-secondary mb-1">Client Aktif</p>
+                                        <p class="text-sm text-secondary mb-1">Active Client</p>
                                         <h1 class="mb-2 font-weight-bold">{{ $aktip }}</h1>
                                     </div>
                                 </div>
@@ -42,7 +42,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="style-fount w-100">
-                                        <p class="text-sm text-secondary mb-1">Client Tidak Aktif</p>
+                                        <p class="text-sm text-secondary mb-1">Inactive Client</p>
                                         <h1 class="mb-2 font-weight-bold">{{ $nonaktip }}</h1>
 
                                     </div>
@@ -88,7 +88,7 @@
         const clientsData = {
             labels: @json($clientsPerMonth->pluck('month')), // Menggunakan nama bulan dan tahun yang sudah diproses
             datasets: [{
-                    label: 'Client Aktif',
+                    label: 'Active Client',
                     data: @json($clientsPerMonth->pluck('active')),
                     backgroundColor: 'rgb(10, 185, 10, 0.8)',
                     borderColor: 'rgb(10, 185, 10)',
@@ -102,7 +102,7 @@
                     borderWidth: 1
                 },
                 {
-                    label: 'Client Tidak Aktif',
+                    label: 'Inactive Client',
                     data: @json($clientsPerMonth->pluck('inactive')),
                     backgroundColor: 'rgb(255, 0, 0,0.8)',
                     borderColor: 'rgb(255, 0, 0)',

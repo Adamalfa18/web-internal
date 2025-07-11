@@ -11,7 +11,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="style-fount w-100">
-                                        <p class="text-sm text-secondary mb-1">Client SA Aktif</p>
+                                        <p class="text-sm text-secondary mb-1">Active SA Client</p>
                                         <h1 class="mb-2 font-weight-bold">{{ $sa_aktip }}</h1>
                                     </div>
                                 </div>
@@ -41,7 +41,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="style-fount w-100">
-                                        <p class="text-sm text-secondary mb-1">Client SA Tidak Aktif</p>
+                                        <p class="text-sm text-secondary mb-1">Inactive SA Client</p>
                                         <h1 class="mb-2 font-weight-bold">{{ $sa_nonaktip }}</h1>
 
                                     </div>
@@ -81,7 +81,7 @@
         const saData = {
             labels: @json($saClientsPerMonth->pluck('month')),
             datasets: [{
-                    label: 'Client SA Aktif',
+                    label: 'Active SA Client',
                     data: @json($saClientsPerMonth->pluck('active')),
                     backgroundColor: 'rgba(10, 185, 10, 0.8)',
                     borderColor: 'rgb(10, 185, 10)',
@@ -95,7 +95,7 @@
                     borderWidth: 1
                 },
                 {
-                    label: 'Client SA Tidak Aktif',
+                    label: 'Inactive SA Client',
                     data: @json($saClientsPerMonth->pluck('inactive')),
                     backgroundColor: 'rgba(255, 0, 0, 0.8)',
                     borderColor: 'rgb(255, 0, 0)',

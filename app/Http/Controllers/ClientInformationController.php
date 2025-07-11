@@ -126,7 +126,7 @@ class ClientInformationController extends Controller
                 $tiktok_medias->push($tmedia);
             }
         }
-        return view('info.data.client-sa', compact('posts', 'tiktok', 'post_medias', 'tiktok_medias', 'clients', 'client', 'client_id', 'profile', 'profileTiktok'));
+        return view('info.data.client-sa', compact('posts', 'tiktok', 'post_medias', 'tiktok_medias', 'clients', 'client', 'client_id', 'profile', 'profileIG', 'profileTiktok'));
     }
 
     public function prosesLayananC($client_id)
@@ -259,13 +259,55 @@ class ClientInformationController extends Controller
             'Closing'   => $leads->sum('closing'),
         ];
 
+        // Hitung persentase funnel dengan aman pakai if else
+        $persentase = [];
+        $persentase['Impresi'] = 100;
+
+        if ($totall['Impresi'] > 0) {
+            $persentase['Click'] = round(($totall['Click'] / $totall['Impresi']) * 100, 2);
+        } else {
+            $persentase['Click'] = 0;
+        }
+
+        if ($totall['Click'] > 0) {
+            $persentase['Chat'] = round(($totall['Chat'] / $totall['Click']) * 100, 2);
+        } else {
+            $persentase['Chat'] = 0;
+        }
+
+        if ($totall['Chat'] > 0) {
+            $persentase['Respond'] = round(($totall['Respond'] / $totall['Chat']) * 100, 2);
+        } else {
+            $persentase['Respond'] = 0;
+        }
+
+        if ($totall['Respond'] > 0) {
+            $persentase['Closing'] = round(($totall['Closing'] / $totall['Respond']) * 100, 2);
+        } else {
+            $persentase['Closing'] = 0;
+        }
+
+        // Buat funnel label
         $totals_scaled = [];
         $keys = array_keys($totall);
         foreach ($keys as $i => $key) {
-            $totals_scaled[$key] = $scale[$i] ?? 10; // fallback kecil
+            $totals_scaled[$key] = $scale[$i] ?? 10;
         }
 
-        return view('info.data.harian-lead', compact('report', 'leads', 'fields', 'totals', 'totall', 'totals_scaled'));
+        $funnelLabels = [];
+        foreach ($totall as $key => $value) {
+            $funnelLabels[] = "{$key}: {$value} ({$persentase[$key]}%)";
+        }
+
+        return view('info.data.harian-lead', compact(
+            'funnelLabels',
+            'report',
+            'leads',
+            'fields',
+            'totals',
+            'totall',
+            'totals_scaled'
+        ));
     }
 
     public function updateHarianLead(Request $request, $id)

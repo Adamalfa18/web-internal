@@ -446,7 +446,7 @@
                                                                             </td>
                                                                             <td class="align-middle">
                                                                                 <div class="real-spent real-style"
-                                                                                    style="background: {{ $spent_harian > $item->total ? 'green' : 'red' }};">
+                                                                                    style="background: {{ $spent_harian >= $item->total ? 'green' : 'red' }};">
                                                                                     <span
                                                                                         class="text-sm font-weight-normal">
                                                                                         Rp
@@ -473,7 +473,7 @@
                                                                             </td>
                                                                             <td class="align-middle">
                                                                                 <div class="real-omzet real-style"
-                                                                                    style="background: {{ $revenue_harian < $item->omzet ? 'green' : 'red' }};">
+                                                                                    style="background: {{ $revenue_harian <= $item->omzet ? 'green' : 'red' }};">
                                                                                     <span
                                                                                         class="text-sm font-weight-normal">
                                                                                         Rp
@@ -505,10 +505,11 @@
                                                                             </td>
                                                                             <td class="align-middle">
                                                                                 <div class="real-roas real-style"
-                                                                                    style="background: {{ $totalRoas < $item->roas ? 'green' : 'red' }};">
+                                                                                    style="background: {{ $item->roas >= $laporanBulanan->target_roas ? 'green' : 'red' }};">
                                                                                     <span
-                                                                                        class="text-sm font-weight-normal">{{
-                                                                                        $item->roas }}</span>
+                                                                                        class="text-sm font-weight-normal">
+                                                                                        {{ $item->roas }}
+                                                                                    </span>
                                                                                 </div>
                                                                             </td>
                                                                         </tr>

@@ -117,14 +117,14 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="mb-3">
-                                                <label for="nama_client" class="form-label">Nama Client</label>
+                                                <label for="nama_client" class="form-label">Client Name</label>
                                                 <input type="text" class="form-control" name="nama_client"
                                                     id="nama_client" placeholder="Marketlab....." required>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="mb-3">
-                                                <label for="nama_brand" class="form-label">Nama Brand</label>
+                                                <label for="nama_brand" class="form-label">Brand Name</label>
                                                 <input type="text" class="form-control" name="nama_brand"
                                                     id="nama_brand" placeholder="Marketlab......" required>
                                             </div>
@@ -246,7 +246,7 @@
                                                         Brand
                                                     </th>
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
-                                                        Nama Client</th>
+                                                        Client Name</th>
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
                                                         Penanggung Jawab</th>
                                                     <th
@@ -680,7 +680,7 @@
                                                         Brand
                                                     </th>
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
-                                                        Nama Client</th>
+                                                        Client Name</th>
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
                                                         Penanggung Jawab</th>
                                                     <th
@@ -820,7 +820,7 @@
                                                         Brand
                                                     </th>
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
-                                                        Nama Client</th>
+                                                        Client Name</th>
                                                     <th class="text-secondary text-xs font-weight-semibold opacity-7">
                                                         Penanggung Jawab</th>
                                                     <th

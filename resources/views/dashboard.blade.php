@@ -12,7 +12,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="style-fount w-100">
-                                                <p class="text-sm text-secondary mb-1">Client Aktif</p>
+                                                <p class="text-sm text-secondary mb-1">Active Client</p>
                                                 <h1 class="mb-2 font-weight-bold">{{ $aktip }}</h1>
                                             </div>
                                         </div>
@@ -27,7 +27,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="style-fount w-100">
-                                                <p class="text-sm text-secondary mb-1">Tidak Aktif</p>
+                                                <p class="text-sm text-secondary mb-1">Inactive Client</p>
                                                 <h1 class="mb-2 font-weight-bold">{{ $nonaktip }}</h1>
 
                                             </div>
@@ -46,7 +46,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="style-fount w-100">
-                                                <p class="text-sm text-secondary mb-1">Client MB Aktif</p>
+                                                <p class="text-sm text-secondary mb-1">Active MB Client</p>
                                                 <h1 class="mb-2 font-weight-bold">{{ $mb_aktip }}</h1>
                                             </div>
                                         </div>
@@ -61,7 +61,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="style-fount w-100">
-                                                <p class="text-sm text-secondary mb-1">Client MB Tidak Aktif</p>
+                                                <p class="text-sm text-secondary mb-1">Inactive MB Client</p>
                                                 <h1 class="mb-2 font-weight-bold">{{ $mb_nonaktip }}</h1>
                                             </div>
                                         </div>
@@ -80,7 +80,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="style-fount w-100">
-                                                <p class="text-sm text-secondary mb-1">Client SA Aktif</p>
+                                                <p class="text-sm text-secondary mb-1">Active SA Client</p>
                                                 <h1 class="mb-2 font-weight-bold">{{ $sa_aktip }}</h1>
                                             </div>
                                         </div>
@@ -95,7 +95,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="style-fount w-100">
-                                                <p class="text-sm text-secondary mb-1">Client SA Tidak Aktif</p>
+                                                <p class="text-sm text-secondary mb-1">Inactive SA Client</p>
                                                 <h1 class="mb-2 font-weight-bold">{{ $sa_nonaktip }}</h1>
 
                                             </div>
@@ -135,42 +135,42 @@
         const combinedData = {
             labels: @json($clientsPerMonth->pluck('month')),
             datasets: [{
-                    label: 'Client Aktif',
+                    label: 'Active Client',
                     data: @json($clientsPerMonth->pluck('active')),
                     backgroundColor: 'rgba(10, 185, 10, 0.8)',
                     borderColor: 'rgb(10, 185, 10)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Client Tidak Aktif',
+                    label: 'Inactive Client',
                     data: @json($clientsPerMonth->pluck('inactive')),
                     backgroundColor: 'rgba(255, 0, 0, 0.8)',
                     borderColor: 'rgb(255, 0, 0)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Client MB Aktif',
+                    label: 'Active MB Client',
                     data: @json($mbClientsPerMonth->pluck('active')),
                     backgroundColor: 'rgba(10, 185, 150, 0.8)',
                     borderColor: 'rgb(10, 185, 150)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Client MB Tidak Aktif',
+                    label: 'Inactive MB Client',
                     data: @json($mbClientsPerMonth->pluck('inactive')),
                     backgroundColor: 'rgba(200, 0, 0, 0.8)',
                     borderColor: 'rgb(200, 0, 0)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Client SA Aktif',
+                    label: 'Active SA Client',
                     data: @json($saClientsPerMonth->pluck('active')),
                     backgroundColor: 'rgba(0, 185, 255, 0.8)',
                     borderColor: 'rgb(0, 185, 255)',
                     borderWidth: 1
                 },
                 {
-                    label: 'Client SA Tidak Aktif',
+                    label: 'Inactive SA Client',
                     data: @json($saClientsPerMonth->pluck('inactive')),
                     backgroundColor: 'rgba(0, 0, 150, 0.8)',
                     borderColor: 'rgb(0, 0, 150)',

@@ -11,13 +11,13 @@
                     <div class="card border shadow-xs mb-4">
                         <div class="row">
                             @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
                             @endif
                             <div class="col-md-12">
                                 <div class="card-header border-bottom pb-0">
@@ -34,7 +34,7 @@
                                         <div class="row">
                                             <div class="row">
                                                 <div class="mb-3">
-                                                    <label class="form-label d-block">Jenis Layanan MB</label>
+                                                    <label class="form-label d-block">MB Service Type</label>
 
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" name="layanan_mb"
@@ -55,18 +55,17 @@
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label for="client_id" class="form-label">Id Client</label>
-                                                        <input type="hidden" name="client_id"
-                                                            value="{{ $client->id }}">
-                                                        <input type="text" class="form-control"
-                                                            id="client_id_display" placeholder="Target Spant"
-                                                            value="{{ $client->id }}" readonly>
+                                                        <input type="hidden" name="client_id" value="{{ $client->id }}">
+                                                        <input type="text" class="form-control" id="client_id_display"
+                                                            placeholder="Target Spent" value="{{ $client->id }}"
+                                                            readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Nama Campaign</label>
+                                                        <label class="form-label">Campaign Name</label>
                                                         <input type="text" class="form-control" name="nama_campaign"
-                                                            placeholder="nama Campaign">
+                                                            placeholder="Campaign Name">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -84,16 +83,16 @@
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label for="target_spent" class="form-label">Target
-                                                            Spant</label>
-                                                        <input type="number" class="form-control" name="target_spent"
-                                                            id="targetSpentnBulananMB" placeholder="Target Spant">
+                                                            Spent</label>
+                                                        <input type="text" class="form-control" name="target_spent"
+                                                            id="targetSpentnBulananMB" placeholder="Target Spent">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label for="targetRevenueBulananMB" class="form-label">Target
                                                             Revenue</label>
-                                                        <input type="number" class="form-control" name="target_revenue"
+                                                        <input type="text" class="form-control" name="target_revenue"
                                                             id="targetRevenueBulananMB" placeholder="Target Revenue">
                                                     </div>
                                                 </div>
@@ -110,7 +109,7 @@
                                         <div class="row leads-only mb-3">
                                             <div class="row">
                                                 <div class="col-md-12 mb-3">
-                                                    <label class="form-label d-block">Jenis Leads</label>
+                                                    <label class="form-label d-block">Leads Target </label>
                                                     <div class="style-garp">
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
@@ -130,8 +129,8 @@
                                                             <input class="form-check-input" type="radio"
                                                                 name="jenis_leads" id="leads_site_visit"
                                                                 value="Site Visits">
-                                                            <label class="form-check-label"
-                                                                for="leads_site_visit">Site Visits</label>
+                                                            <label class="form-check-label" for="leads_site_visit">Site
+                                                                Visits</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -139,8 +138,8 @@
                                                 <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label class="form-label">Spent</label>
-                                                        <input type="text" class="form-control" name="spent"
-                                                            id="spent" placeholder="Target Spent">
+                                                        <input type="text" class="form-control" name="spent" id="spent"
+                                                            placeholder="Target Spent">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
@@ -154,26 +153,19 @@
                                                     <div class="mb-3">
                                                         <label class="form-label">CPL</label>
                                                         <input type="number" class="form-control" name="cpl"
-                                                            placeholder="Coust Per Lead">
+                                                            placeholder="Cost Per Leads">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label class="form-label">CPC</label>
                                                         <input type="number" class="form-control" name="cpc"
-                                                            placeholder="Coust Per Closing">
+                                                            placeholder="Cost Per Click">
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-12">
-                                                    <label class="form-label">
-                                                        <span style="font-size: 18px">Input Client</span>
-                                                        <p style="font-size: 12px">Formulir yang diisi langsung oleh
-                                                            klien untuk memberikan data yang dibutuhkan.</p>
-                                                    </label>
-                                                </div>
                                                 <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label class="form-label">Chat</label>
@@ -227,19 +219,12 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-12">
-                                                    <label class="form-label">
-                                                        <span style="font-size: 18px">Form Hasil</span>
-                                                        <p style="font-size: 12px">Terisi otomatis dari data yang telah
-                                                            diinput sebelumnya.</p>
-                                                    </label>
-                                                </div>
                                                 <!-- ROAS -->
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">ROAS</label>
-                                                        <input type="number" class="form-control" name="roas"
-                                                            id="roas" placeholder="ROAS">
+                                                        <input type="number" class="form-control" name="roas" id="roas"
+                                                            placeholder="ROAS">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -252,15 +237,15 @@
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">CR Leads > Chat*</label>
-                                                        <input type="number" class="form-control"
-                                                            name="cr_leads_chat" placeholder="CR Leads > Chat">
+                                                        <input type="number" class="form-control" name="cr_leads_chat"
+                                                            placeholder="CR Leads > Chat">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">CR Chat > Respond*</label>
-                                                        <input type="number" class="form-control"
-                                                            name="cr_chat_respond" placeholder="CR Chat > Respond">
+                                                        <input type="number" class="form-control" name="cr_chat_respond"
+                                                            placeholder="CR Chat > Respond">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -286,7 +271,8 @@
                                             <div class="col-md-12">
                                                 <div class="mb-3">
                                                     <label for="note" class="form-label">Note</label>
-                                                    <textarea class="form-control" name="note" id="note" placeholder="Note....." rows="3" required></textarea>
+                                                    <textarea class="form-control" name="note" id="note"
+                                                        placeholder="Note....." rows="3" required></textarea>
                                                 </div>
                                             </div>
                                         </div>

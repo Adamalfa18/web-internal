@@ -11,13 +11,13 @@
                     <div class="card border shadow-xs mb-4">
                         <div class="row">
                             @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
                             @endif
 
                             <div class="col-md-12">
@@ -36,17 +36,17 @@
                                         <div class="row">
                                             <div class="row">
                                                 <div class="mb-3">
-                                                    <label class="form-label d-block">Jenis Layanan MB</label>
+                                                    <label class="form-label d-block">MB Service Type</label>
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" name="layanan_mb"
-                                                            value="Leads"
-                                                            {{ $reports->jenis_layanan_mb === 'Leads' ? 'checked' : '' }}>
+                                                            value="Leads" {{ $reports->jenis_layanan_mb === 'Leads' ?
+                                                        'checked' : '' }}>
                                                         <label class="form-check-label">Leads</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" name="layanan_mb"
-                                                            value="Marketplace"
-                                                            {{ $reports->jenis_layanan_mb === 'Marketplace' ? 'checked' : '' }}>
+                                                            value="Marketplace" {{ $reports->jenis_layanan_mb ===
+                                                        'Marketplace' ? 'checked' : '' }}>
                                                         <label class="form-check-label">Marketplace</label>
                                                     </div>
                                                 </div>
@@ -57,17 +57,16 @@
                                                         <label for="client_id" class="form-label">Id Client</label>
                                                         <input type="hidden" name="client_id"
                                                             value="{{ $reports->client_id }}">
-                                                        <input type="text" class="form-control"
-                                                            id="client_id_display" value="{{ $reports->client_id }}"
-                                                            readonly>
+                                                        <input type="text" class="form-control" id="client_id_display"
+                                                            value="{{ $reports->client_id }}" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Nama Campaign</label>
+                                                        <label class="form-label">Campaign Name</label>
                                                         <input type="text" class="form-control" name="nama_campaign"
                                                             value="{{ $reports->nama_campaign }}"
-                                                            placeholder="Nama Campaign">
+                                                            placeholder="Campaign Name">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -84,10 +83,10 @@
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Target Spant</label>
+                                                        <label class="form-label">Target Spent</label>
                                                         <input type="number" class="form-control" name="target_spent"
                                                             value="{{ $reports->target_spent }}"
-                                                            placeholder="Target Spant">
+                                                            placeholder="Target Spent">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -112,24 +111,27 @@
                                         <div class="row leads-only mb-3">
                                             <div class="row">
                                                 <div class="col-md-12 mb-3">
-                                                    <label class="form-label d-block">Jenis Leads</label>
+                                                    <label class="form-label d-block">Leads Target</label>
                                                     <div class="style-garp">
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
-                                                                name="jenis_leads" value="Roas Revenue"
-                                                                {{ $reports->jenis_leads === 'Roas Revenue' ? 'checked' : '' }}>
+                                                                name="jenis_leads" value="Roas Revenue" {{
+                                                                $reports->jenis_leads === 'Roas Revenue' ? 'checked' :
+                                                            '' }}>
                                                             <label class="form-check-label">Roas Revenue</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
-                                                                name="jenis_leads" value="Total Closing"
-                                                                {{ $reports->jenis_leads === 'Total Closing' ? 'checked' : '' }}>
+                                                                name="jenis_leads" value="Total Closing" {{
+                                                                $reports->jenis_leads === 'Total Closing' ? 'checked' :
+                                                            '' }}>
                                                             <label class="form-check-label">Total Closing</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
-                                                                name="jenis_leads" value="Site Visits"
-                                                                {{ $reports->jenis_leads === 'Site Visits' ? 'checked' : '' }}>
+                                                                name="jenis_leads" value="Site Visits" {{
+                                                                $reports->jenis_leads === 'Site Visits' ? 'checked' : ''
+                                                            }}>
                                                             <label class="form-check-label">Site Visits</label>
                                                         </div>
                                                     </div>
@@ -150,7 +152,7 @@
                                                         <label class="form-label">Leads</label>
                                                         <input type="number" class="form-control" name="leads"
                                                             value="{{ $reports->target_leads }}"
-                                                            placeholder="Target Leads">
+                                                            placeholder="Leads Target ">
                                                     </div>
                                                 </div>
 
@@ -174,9 +176,11 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <label class="form-label">
-                                                        <span style="font-size: 18px">Input Client</span>
-                                                        <p style="font-size: 12px">Formulir yang diisi langsung oleh
-                                                            klien untuk memberikan data yang dibutuhkan.</p>
+                                                        <span style="font-size: 18px">Client Input</span>
+                                                        <p style="font-size: 12px">The form is filled in directly by the
+                                                            client
+                                                            For
+                                                            provide the required data.</p>
                                                     </label>
                                                 </div>
 
@@ -242,9 +246,9 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <label class="form-label">
-                                                        <span style="font-size: 18px">Form Hasil</span>
-                                                        <p style="font-size: 12px">Terisi otomatis dari data yang telah
-                                                            diinput sebelumnya.</p>
+                                                        <span style="font-size: 18px">Results Form</span>
+                                                        <p style="font-size: 12px">Filled automatically from data that
+                                                            has been previously input.</p>
                                                     </label>
                                                 </div>
 
@@ -267,8 +271,7 @@
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">CR Leads > Chat*</label>
-                                                        <input type="number" class="form-control"
-                                                            name="cr_leads_chat"
+                                                        <input type="number" class="form-control" name="cr_leads_chat"
                                                             value="{{ $reports->cr_leads_to_chat }}">
                                                     </div>
                                                 </div>
@@ -276,8 +279,7 @@
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">CR Chat > Respond*</label>
-                                                        <input type="number" class="form-control"
-                                                            name="cr_chat_respond"
+                                                        <input type="number" class="form-control" name="cr_chat_respond"
                                                             value="{{ $reports->cr_chat_to_respond }}">
                                                     </div>
                                                 </div>
@@ -306,7 +308,9 @@
                                             <div class="col-md-12">
                                                 <div class="mb-3">
                                                     <label for="note" class="form-label">Note</label>
-                                                    <textarea class="form-control" name="note" id="note" placeholder="Note....." rows="3" required>{{ $reports->note }}</textarea>
+                                                    <textarea class="form-control" name="note" id="note"
+                                                        placeholder="Note....." rows="3"
+                                                        required>{{ $reports->note }}</textarea>
                                                 </div>
                                             </div>
                                         </div>

@@ -140,71 +140,29 @@
                                     Lead: {{ $report->jenis_leads ?? '-' }} pada Bulan
                                     {{ \Carbon\Carbon::parse($report->report_date)->translatedFormat('F Y') ?? '-' }}
                                 </h5>
-                                @if ($report->jenis_leads == 'F to F')
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
-                                        </h5>
-                                        <canvas id="chartSpent" height="200"></canvas>
-                                        <div id="customLegendSpent" class="mt-3 mb-4 text-center"></div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
-                                        </h5>
-                                        <div id="chartContainer" class="mt-4 mb-4" style="height: 270px;"></div>
-                                    </div>
-                                </div>
-                                @elseif ($report->jenis_leads == 'Roas Revenue')
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
-                                        </h5>
-                                        <canvas id="chartSpent" height="200"></canvas>
-                                        <div id="customLegendSpent" class="customSpent mt-4 mb-4"></div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
-                                        </h5>
-                                        <canvas id="chartOther" height="200"></canvas>
-                                        <div id="customLegendOther" class="customOther mt-4 mb-4"></div>
-                                    </div>
-                                </div>
-                                @elseif ($report->jenis_leads == 'Total Closing')
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
-                                        </h5>
+                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent</h5>
                                         <canvas id="chartSpent" height="200"></canvas>
                                         <div id="customLegendSpent" class="mt-3 mb-3 text-center"></div>
                                     </div>
 
                                     <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
-                                        </h5>
+                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian</h5>
                                         <canvas id="chartOther" height="200"></canvas>
                                         <div id="customLegendOther" class="mt-3 mb-3 text-center"></div>
                                     </div>
                                 </div>
-                                @elseif ($report->jenis_leads == 'Site Visits')
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Spent
-                                        </h5>
-                                        <canvas id="chartSpent" height="200"></canvas>
-                                        <div id="customLegendSpent" class="mt-3 mb-3 text-center"></div>
-                                    </div>
 
-                                    <div class="col-md-6">
-                                        <h5 class="font-weight-semibold text-lg mb-2 text-center">Grafik Harian
-                                        </h5>
-                                        <canvas id="chartOther" height="200"></canvas>
-                                        <div id="customLegendOther" class="mt-3 mb-3 text-center"></div>
+                                {{-- Tambah grafik funnel --}}
+                                <div class="card mt-4">
+                                    <div class="card-header">
+                                        <h5 class="font-weight-semibold text-lg mb-4 text-center">Grafik Funnel</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="funnelChart"></div>
                                     </div>
                                 </div>
-                                @else
-                                <p>Tidak ada grafik untuk jenis leads ini.</p>
-                                @endif
                             </div>
                         </div>
                     </div>
@@ -863,6 +821,63 @@
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    var funnelData = [
+        @foreach ($totals_scaled as $label => $value)
+            {{ $value }},
+        @endforeach
+    ];
+
+    var funnelLabels = [
+        @foreach ($totals_scaled as $label => $value)
+            "{{ $label }}: {{ $totall[$label] }}",
+        @endforeach
+    ];
+
+    var options = {
+        series: [{
+            name: "Jumlah",
+            data: funnelData
+        }],
+        chart: {
+            type: 'bar',
+            height: 400,
+        },
+        plotOptions: {
+            bar: {
+                horizontal: true,
+                isFunnel: true,
+                barHeight: '80%',
+            },
+        },
+        dataLabels: {
+            enabled: true,
+            formatter: function (val, opt) {
+                return funnelLabels[opt.dataPointIndex];
+            },
+            style: {
+                fontSize: '14px'
+            }
+        },
+        xaxis: {
+            categories: funnelLabels,
+            max: 100
+        },
+        tooltip: {
+            enabled: false
+        },
+        legend: {
+            show: false,
+        },
+    };
+
+    var funnelChart = new ApexCharts(document.querySelector("#funnelChart"), options);
+    funnelChart.render();
+});
+    </script>
+
     <script>
         window.onload = function() {
             var chart = new CanvasJS.Chart("chartContainer", {

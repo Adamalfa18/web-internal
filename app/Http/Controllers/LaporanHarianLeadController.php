@@ -34,6 +34,7 @@ class LaporanHarianLeadController extends Controller
         // Ambil semua leads
         $leads = Lead::where('performance_bulanan_id', $performance_bulanan_id)->get();
 
+        $scale = [60, 50, 40, 30, 20, 10];
         // Total untuk chart funnel (khusus jenis_leads F to F)
         $totals = [
             'Leads'     => $leads->sum('leads'),
@@ -43,7 +44,21 @@ class LaporanHarianLeadController extends Controller
             'Discuss'   => $leads->sum('discuss'),
         ];
 
-        return view('marketlab.performa-harian.index-lead', compact('report', 'leads', 'fields', 'totals'));
+        $totall = [
+            'Impresi'     => $leads->sum('impresi'),
+            'Click'  => $leads->sum('click'),
+            'Chat'      => $leads->sum('chat'),
+            'Respond' => $leads->sum('respond'),
+            'Closing'   => $leads->sum('closing'),
+        ];
+
+        $totals_scaled = [];
+        $keys = array_keys($totall);
+        foreach ($keys as $i => $key) {
+            $totals_scaled[$key] = $scale[$i] ?? 10; // fallback kecil
+        }
+
+        return view('marketlab.performa-harian.index-lead', compact('report', 'leads', 'fields', 'totals', 'totall', 'totals_scaled'));
     }
 
 

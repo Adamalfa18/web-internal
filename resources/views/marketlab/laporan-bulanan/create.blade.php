@@ -239,30 +239,28 @@
                                                     <div class="mb-3">
                                                         <label class="form-label">ROAS</label>
                                                         <input type="number" class="form-control" name="roas"
-                                                            id="roas" placeholder="ROAS" readonly>
+                                                            id="roas" placeholder="ROAS">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">Respond</label>
                                                         <input type="number" class="form-control" name="respond"
-                                                            placeholder="Respond" readonly>
+                                                            placeholder="Respond">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">CR Leads > Chat*</label>
                                                         <input type="number" class="form-control"
-                                                            name="cr_leads_chat" placeholder="CR Leads > Chat"
-                                                            readonly>
+                                                            name="cr_leads_chat" placeholder="CR Leads > Chat">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">CR Chat > Respond*</label>
                                                         <input type="number" class="form-control"
-                                                            name="cr_chat_respond" placeholder="CR Chat > Respond"
-                                                            readonly>
+                                                            name="cr_chat_respond" placeholder="CR Chat > Respond">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -270,7 +268,7 @@
                                                         <label class="form-label">CR Respond > Closing*</label>
                                                         <input type="number" class="form-control"
                                                             name="cr_respond_closing"
-                                                            placeholder="CR Respond > Closing" readonly>
+                                                            placeholder="CR Respond > Closing">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -278,7 +276,7 @@
                                                         <label class="form-label">CR Respond > Site Visit*</label>
                                                         <input type="number" class="form-control"
                                                             name="cr_respond_site_visit"
-                                                            placeholder="CR Respond > Site Visit" readonly>
+                                                            placeholder="CR Respond > Site Visit">
                                                     </div>
                                                 </div>
                                             </div>
@@ -373,6 +371,45 @@
                 toggleFields();
             });
         </script>
+        <script>
+            function formatRupiah(angka) {
+                let number_string = angka.replace(/[^,\d]/g, '').toString(),
+                    split = number_string.split(','),
+                    sisa = split[0].length % 3,
+                    rupiah = split[0].substr(0, sisa),
+                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+                if (ribuan) {
+                    let separator = sisa ? '.' : '';
+                    rupiah += separator + ribuan.join('.');
+                }
+
+                rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                return rupiah;
+            }
+
+            // Format hanya field nama: spent, revenue, target_spent, target_revenue
+            const rupiahNames = ['spent', 'revenue', 'target_spent', 'target_revenue'];
+
+            rupiahNames.forEach(function(fieldName) {
+                const inputs = document.querySelectorAll(`input[name="${fieldName}"]`);
+                inputs.forEach(function(input) {
+                    input.addEventListener('input', function(e) {
+                        let value = e.target.value.replace(/[^0-9]/g, '');
+                        e.target.value = formatRupiah(value);
+                    });
+
+                    // Optional: bersihkan format saat submit
+                    input.form?.addEventListener('submit', function() {
+                        inputs.forEach(function(el) {
+                            el.value = el.value.replace(/\./g, '').replace(/[^0-9]/g, '');
+                        });
+                    });
+                });
+            });
+        </script>
+
+
         {{-- <script>
             function calculateRoas() {
                 let spent = parseFloat(document.getElementById('spent').value) || 0;
@@ -440,7 +477,7 @@
             document.getElementsByName('site_visits')[0].addEventListener('input', calculateCRRespondSiteVisit);
         </script> --}}
 
-        <script>
+        {{-- <script>
             // Format Rupiah
             function formatRupiah(angka) {
                 const number_string = angka.replace(/[^,\d]/g, '').toString();
@@ -547,7 +584,7 @@
 
             // Jalankan listener tambahan setelah load
             window.addEventListener('DOMContentLoaded', setupListeners);
-        </script>
+        </script> --}}
 
 
 </x-app-layout>

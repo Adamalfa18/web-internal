@@ -138,7 +138,8 @@
                                                 <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label class="form-label">Spent</label>
-                                                        <input type="text" class="form-control" name="spent"
+                                                        <input type="text" class="rupiah-input form-control"
+                                                            name="target_spent"
                                                             value="{{ $reports->target_spent ? 'Rp ' . number_format($reports->target_spent, 0, ',', '.') : '' }}"
                                                             placeholder="Target Spent">
                                                     </div>
@@ -230,7 +231,8 @@
                                                 <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label class="form-label">Revenue</label>
-                                                        <input type="text" class="form-control" name="revenue"
+                                                        <input type="text" class="rupiah-input form-control"
+                                                            name="target_revenue"
                                                             value="{{ $reports->target_revenue ? 'Rp ' . number_format($reports->target_revenue, 0, ',', '.') : '' }}"
                                                             placeholder="Target Revenue">
                                                     </div>
@@ -323,171 +325,93 @@
                 </div>
             </div>
         </div>
+    </main>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Fungsi untuk mengatur visibilitas berdasarkan jenis layanan
-                function toggleJenisLayanan() {
-                    let layananMB = document.querySelector('input[name="layanan_mb"]:checked')?.value;
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fungsi untuk mengatur visibilitas berdasarkan jenis layanan
+            function toggleJenisLayanan() {
+                let layananMB = document.querySelector('input[name="layanan_mb"]:checked')?.value;
 
-                    const marketplaceSection = document.querySelector('.marketplace-only');
-                    const leadsSection = document.querySelector('.leads-only');
+                const marketplaceSection = document.querySelector('.marketplace-only');
+                const leadsSection = document.querySelector('.leads-only');
 
-                    if (layananMB === 'Marketplace') {
-                        marketplaceSection?.classList.remove('d-none');
-                        leadsSection?.classList.add('d-none');
-                    } else if (layananMB === 'Leads') {
-                        leadsSection?.classList.remove('d-none');
-                        marketplaceSection?.classList.add('d-none');
-                    } else {
-                        // Default: sembunyikan semua
-                        marketplaceSection?.classList.add('d-none');
-                        leadsSection?.classList.add('d-none');
-                    }
+                if (layananMB === 'Marketplace') {
+                    marketplaceSection?.classList.remove('d-none');
+                    leadsSection?.classList.add('d-none');
+                } else if (layananMB === 'Leads') {
+                    leadsSection?.classList.remove('d-none');
+                    marketplaceSection?.classList.add('d-none');
+                } else {
+                    // Default: sembunyikan semua
+                    marketplaceSection?.classList.add('d-none');
+                    leadsSection?.classList.add('d-none');
                 }
+            }
 
-                // Jalankan saat halaman pertama kali dimuat
-                toggleJenisLayanan();
+            // Jalankan saat halaman pertama kali dimuat
+            toggleJenisLayanan();
 
-                // Pasang event listener ke radio input
-                const radioButtons = document.querySelectorAll('input[name="layanan_mb"]');
-                radioButtons.forEach(radio => {
-                    radio.addEventListener('change', toggleJenisLayanan);
-                });
+            // Pasang event listener ke radio input
+            const radioButtons = document.querySelectorAll('input[name="layanan_mb"]');
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', toggleJenisLayanan);
             });
-        </script>
-        <script>
-            // Format Rupiah
-            function formatRupiah(angka) {
-                const number_string = angka.replace(/[^,\d]/g, '').toString();
-                const split = number_string.split(',');
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const formatRupiah = (number) => {
+                let numberString = number.replace(/[^,\d]/g, "").toString();
+                let split = numberString.split(",");
                 let sisa = split[0].length % 3;
                 let rupiah = split[0].substr(0, sisa);
-                const ribuan = split[0].substr(sisa).match(/\d{3}/g);
+                let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
                 if (ribuan) {
-                    rupiah += (sisa ? '.' : '') + ribuan.join('.');
-                }
-                return split[1] !== undefined ? 'Rp ' + rupiah + ',' + split[1] : 'Rp ' + rupiah;
-            }
-
-            // Hilangkan format
-            function unformatRupiah(rupiah) {
-                return rupiah.replace(/[^0-9]/g, '');
-            }
-
-            // Hitung ROAS
-            function calculateRoas() {
-                let spentRaw = unformatRupiah(document.getElementsByName('spent')[0].value);
-                let revenueRaw = unformatRupiah(document.getElementsByName('revenue')[0].value);
-
-                let spent = parseFloat(spentRaw) || 0;
-                let revenue = parseFloat(revenueRaw) || 0;
-
-                let roas = spent > 0 ? (revenue / spent).toFixed(2) : 0;
-                document.getElementsByName('roas')[0].value = roas;
-            }
-
-            // Hitung Respond
-            function calculateRespond() {
-                let greeting = parseInt(document.getElementsByName('greeting')[0].value) || 0;
-                let pricelist = parseInt(document.getElementsByName('pricelist')[0].value) || 0;
-                let discuss = parseInt(document.getElementsByName('discuss')[0].value) || 0;
-
-                let respond = greeting + pricelist + discuss;
-                document.getElementsByName('respond')[0].value = respond;
-
-                calculateCRChatRespond();
-                calculateCRRespondClosing();
-                calculateCRRespondSiteVisit();
-            }
-
-            function calculateCRLeadsChat() {
-                let leads = parseInt(document.getElementsByName('leads')[0].value) || 0;
-                let chat = parseInt(document.getElementsByName('chat')[0].value) || 0;
-                let cr = (leads > 0) ? ((chat / leads) * 100).toFixed(2) : 0;
-                document.getElementsByName('cr_leads_chat')[0].value = cr;
-            }
-
-            function calculateCRChatRespond() {
-                let respond = parseInt(document.getElementsByName('respond')[0].value) || 0;
-                let chat = parseInt(document.getElementsByName('chat')[0].value) || 0;
-                let cr = (chat > 0) ? ((respond / chat) * 100).toFixed(2) : 0;
-                document.getElementsByName('cr_chat_respond')[0].value = cr;
-            }
-
-            function calculateCRRespondClosing() {
-                let closing = parseInt(document.getElementsByName('closing')[0].value) || 0;
-                let respond = parseInt(document.getElementsByName('respond')[0].value) || 0;
-                let cr = (respond > 0) ? ((closing / respond) * 100).toFixed(2) : 0;
-                document.getElementsByName('cr_respond_closing')[0].value = cr;
-            }
-
-            function calculateCRRespondSiteVisit() {
-                let siteVisit = parseInt(document.getElementsByName('site_visits')[0].value) || 0;
-                let respond = parseInt(document.getElementsByName('respond')[0].value) || 0;
-                let cr = (respond > 0) ? ((siteVisit / respond) * 100).toFixed(2) : 0;
-                document.getElementsByName('cr_respond_site_visit')[0].value = cr;
-            }
-
-            // Event listeners format rupiah dan ROAS
-            document.addEventListener('DOMContentLoaded', function() {
-                const spentEl = document.getElementsByName('spent')[0];
-                const revenueEl = document.getElementsByName('revenue')[0];
-
-                if (spentEl) {
-                    spentEl.value = formatRupiah(unformatRupiah(spentEl.value));
-                    spentEl.addEventListener('input', function() {
-                        const unformatted = unformatRupiah(this.value);
-                        this.value = formatRupiah(unformatted);
-                        calculateRoas();
-                        calculateCPL(); // jika butuh menghitung CPL juga
-                    });
+                    let separator = sisa ? "." : "";
+                    rupiah += separator + ribuan.join(".");
                 }
 
-                if (revenueEl) {
-                    revenueEl.value = formatRupiah(unformatRupiah(revenueEl.value));
-                    revenueEl.addEventListener('input', function() {
-                        const unformatted = unformatRupiah(this.value);
-                        this.value = formatRupiah(unformatted);
-                        calculateRoas();
+                rupiah = split[1] !== undefined ? rupiah + "," + split[1] : rupiah;
+                return rupiah ? "Rp " + rupiah : "";
+            };
+
+            const parseRupiah = (value) => {
+                return value.replace(/[^0-9]/g, "");
+            };
+
+            const rupiahInputs = document.querySelectorAll('.rupiah-input');
+
+            rupiahInputs.forEach(input => {
+                if (!input) return;
+
+                // Format awal saat halaman dibuka
+                input.value = formatRupiah(parseRupiah(input.value));
+
+                input.addEventListener('input', function() {
+                    let cursorPos = input.selectionStart;
+                    let oldLength = input.value.length;
+
+                    // Format ulang isi input
+                    this.value = formatRupiah(this.value);
+
+                    let newLength = this.value.length;
+                    input.setSelectionRange(cursorPos + (newLength - oldLength), cursorPos + (
+                        newLength - oldLength));
+                });
+
+                // Saat form disubmit, ubah ke angka mentah
+                if (input.form) {
+                    input.form.addEventListener('submit', function() {
+                        input.value = parseRupiah(input.value);
                     });
                 }
             });
+        });
+    </script>
 
-            // Hitung CPL (jika dibutuhkan)
-            function calculateCPL() {
-                let spentRaw = unformatRupiah(document.getElementsByName('spent')[0].value);
-                let leads = parseFloat(document.getElementsByName('leads')[0].value) || 0;
-                let spent = parseFloat(spentRaw) || 0;
 
-                let cpl = (leads > 0) ? (spent / leads).toFixed(2) : 0;
-                document.getElementsByName('cpl')[0].value = cpl;
-            }
-
-            // Listener tambahan
-            function setupListeners() {
-                const input = (name, callback) => {
-                    const el = document.getElementsByName(name)[0];
-                    if (el) el.addEventListener('input', callback);
-                };
-
-                input('greeting', calculateRespond);
-                input('pricelist', calculateRespond);
-                input('discuss', calculateRespond);
-                input('leads', () => {
-                    calculateCRLeadsChat();
-                    calculateCPL();
-                });
-                input('chat', () => {
-                    calculateCRLeadsChat();
-                    calculateCRChatRespond();
-                });
-                input('closing', calculateCRRespondClosing);
-                input('site_visits', calculateCRRespondSiteVisit);
-            }
-
-            window.addEventListener('DOMContentLoaded', setupListeners);
-        </script>
 
 
 

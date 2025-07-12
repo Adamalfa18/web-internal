@@ -69,7 +69,7 @@
                                     </span>
                                 </a>
 
-                                <div class="text-danger">Profile belum diisi.</div>
+                                <div class="text-danger">Profile Not added yet. Please fill in.</div>
                             </div>
                             @endif
                         </div>

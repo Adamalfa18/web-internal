@@ -109,7 +109,7 @@ class UserController extends Controller
             );
         }
 
-        return redirect()->route('acount.index')->with('success', 'Akun berhasil ditambahkan.');
+        return redirect()->route('acount.index')->with('success', 'Account added successfully.');
     }
 
     public function edit($id)

@@ -242,7 +242,6 @@ class ClientInformationController extends Controller
         $leads = Lead::where('performance_bulanan_id', $performance_bulanan_id)->get();
 
         $scale = [60, 50, 40, 30, 20, 10];
-        // Total untuk chart funnel (khusus jenis_leads F to F)
         $totals = [
             'Leads'     => $leads->sum('leads'),
             'Chat'      => $leads->sum('chat'),
@@ -252,11 +251,11 @@ class ClientInformationController extends Controller
         ];
 
         $totall = [
-            'Impresi'     => $leads->sum('impresi'),
-            'Click'  => $leads->sum('click'),
-            'Chat'      => $leads->sum('chat'),
+            'Impresi' => $leads->sum('impresi'),
+            'Click'   => $leads->sum('click'),
+            'Chat'    => $leads->sum('chat'),
             'Respond' => $leads->sum('respond'),
-            'Closing'   => $leads->sum('closing'),
+            'Closing' => $leads->sum('closing'),
         ];
 
         // Hitung persentase funnel dengan aman pakai if else
@@ -366,7 +365,7 @@ class ClientInformationController extends Controller
             'note' => $request->note,
         ]);
 
-        return redirect()->back()->with('success', 'Data berhasil diupdate.');
+        return redirect()->back()->with('success', 'Data updated successfully.');
     }
 
 

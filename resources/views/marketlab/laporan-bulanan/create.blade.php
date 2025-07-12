@@ -57,7 +57,7 @@
                                                         <label for="client_id" class="form-label">Id Client</label>
                                                         <input type="hidden" name="client_id" value="{{ $client->id }}">
                                                         <input type="text" class="form-control" id="client_id_display"
-                                                            placeholder="Target Spent" value="{{ $client->id }}"
+                                                            placeholder="Spent Target" value="{{ $client->id }}"
                                                             readonly>
                                                     </div>
                                                 </div>
@@ -85,7 +85,7 @@
                                                         <label for="target_spent" class="form-label">Target
                                                             Spent</label>
                                                         <input type="text" class="form-control" name="target_spent"
-                                                            id="targetSpentnBulananMB" placeholder="Target Spent">
+                                                            id="targetSpentnBulananMB" placeholder="Spent Target">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -93,14 +93,14 @@
                                                         <label for="targetRevenueBulananMB" class="form-label">Target
                                                             Revenue</label>
                                                         <input type="text" class="form-control" name="target_revenue"
-                                                            id="targetRevenueBulananMB" placeholder="Target Revenue">
+                                                            id="targetRevenueBulananMB" placeholder="Revenue Target ">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label for="target_roas" class="form-label">Target Roas</label>
+                                                        <label for="target_roas" class="form-label">ROAS Target </label>
                                                         <input type="text" class="form-control" name="target_roas"
-                                                            id="targetRoasBulananMB" placeholder="Target Roas">
+                                                            id="targetRoasBulananMB" placeholder="ROAS Target ">
                                                     </div>
                                                 </div>
                                             </div>
@@ -139,7 +139,7 @@
                                                     <div class="mb-3">
                                                         <label class="form-label">Spent</label>
                                                         <input type="text" class="form-control" name="spent" id="spent"
-                                                            placeholder="Target Spent">
+                                                            placeholder="Spent Target">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
@@ -213,7 +213,7 @@
                                                     <div class="mb-3">
                                                         <label class="form-label">Revenue</label>
                                                         <input type="text" class="form-control" name="revenue"
-                                                            id="revenue" placeholder="Target Revenue">
+                                                            id="revenue" placeholder="Revenue Target ">
                                                     </div>
                                                 </div>
                                             </div>

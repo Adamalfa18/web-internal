@@ -83,26 +83,26 @@
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Target Spent</label>
+                                                        <label class="form-label">Spent Target</label>
                                                         <input type="number" class="form-control" name="target_spent"
                                                             value="{{ $reports->target_spent }}"
-                                                            placeholder="Target Spent">
+                                                            placeholder="Spent Target">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Target Revenue</label>
+                                                        <label class="form-label">Revenue Target </label>
                                                         <input type="number" class="form-control" name="target_revenue"
                                                             value="{{ $reports->target_revenue }}"
-                                                            placeholder="Target Revenue">
+                                                            placeholder="Revenue Target ">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
-                                                        <label class="form-label">Target Roas</label>
+                                                        <label class="form-label">ROAS Target </label>
                                                         <input type="text" class="form-control" name="target_roas"
                                                             value="{{ $reports->target_roas }}"
-                                                            placeholder="Target Roas">
+                                                            placeholder="ROAS Target ">
                                                     </div>
                                                 </div>
                                             </div>
@@ -143,7 +143,7 @@
                                                         <input type="text" class="rupiah-input form-control"
                                                             name="target_spent"
                                                             value="{{ $reports->target_spent ? 'Rp ' . number_format($reports->target_spent, 0, ',', '.') : '' }}"
-                                                            placeholder="Target Spent">
+                                                            placeholder="Spent Target">
                                                     </div>
                                                 </div>
 
@@ -238,7 +238,7 @@
                                                         <input type="text" class="rupiah-input form-control"
                                                             name="target_revenue"
                                                             value="{{ $reports->target_revenue ? 'Rp ' . number_format($reports->target_revenue, 0, ',', '.') : '' }}"
-                                                            placeholder="Target Revenue">
+                                                            placeholder="Revenue Target ">
                                                     </div>
                                                 </div>
                                             </div>

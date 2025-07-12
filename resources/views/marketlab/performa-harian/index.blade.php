@@ -43,7 +43,7 @@
                                                         <td class="align-middle">
                                                             <div class="title-target-style">
                                                                 <span class="text-sm font-weight-normal">
-                                                                    Target Spent
+                                                                    Spent Target
                                                                 </span>
                                                             </div>
                                                         </td>
@@ -61,7 +61,7 @@
                                                         <td class="align-middle">
                                                             <div class="title-target-style">
                                                                 <span class="text-sm font-weight-normal">
-                                                                    Target Revenue
+                                                                    Revenue Target
                                                                 </span>
                                                             </div>
                                                         </td>
@@ -79,7 +79,7 @@
                                                         <td class="align-middle">
                                                             <div class="title-target-style">
                                                                 <span class="text-sm font-weight-normal">
-                                                                    Target Roas
+                                                                    ROAS Target
                                                                 </span>
                                                             </div>
                                                         </td>
@@ -401,7 +401,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header m-3">
                                                     <h5 class="modal-title" id="reportDetailModalLabel{{ $item->id }}">
-                                                        Daily Topup & Target Harian Details
+                                                        Daily Topup & Daily Target Details
                                                     </h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Tutup"></button>
@@ -412,7 +412,7 @@
                                                             <div class="col-12">
                                                                 <h6
                                                                     class="font-weight-semibold text-lg mb-3 text-center">
-                                                                    Target Harian</h6>
+                                                                    Daily Target</h6>
                                                             </div>
                                                             {{-- Data Target --}}
                                                             <div class="col-md-6">

@@ -197,7 +197,7 @@
                                             </th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                Target Spent
+                                                Spent Target
                                             </th>
                                             <th
                                                 class="text-center text-secondary text-xs font-weight-semibold opacity-7">
@@ -360,19 +360,19 @@
                                                             </div>
 
                                                             <div class="col-md-6 mb-3">
-                                                                <label>Target Spent</label>
+                                                                <label>Spent Target</label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->target_spent }}" readonly>
                                                             </div>
 
                                                             <div class="col-md-6 mb-3">
-                                                                <label>Target Revenue</label>
+                                                                <label>Revenue Target </label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->target_revenue }}" readonly>
                                                             </div>
 
                                                             <div class="col-md-6 mb-3">
-                                                                <label>Target ROAS</label>
+                                                                <label>ROAS Target </label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->target_roas }}" readonly>
                                                             </div>
@@ -486,17 +486,17 @@
                                                         </h6>
                                                         <div class="row">
                                                             <div class="col-md-4 mb-3">
-                                                                <label>Target Spent</label>
+                                                                <label>Spent Target</label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->target_spent }}" readonly>
                                                             </div>
                                                             <div class="col-md-4 mb-3">
-                                                                <label>Target Revenue</label>
+                                                                <label>Revenue Target </label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->target_revenue }}" readonly>
                                                             </div>
                                                             <div class="col-md-4 mb-3">
-                                                                <label>Target ROAS</label>
+                                                                <label>ROAS Target </label>
                                                                 <input class="form-control"
                                                                     value="{{ $report->target_roas }}" readonly>
                                                             </div>

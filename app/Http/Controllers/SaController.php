@@ -562,7 +562,7 @@ class SaController extends Controller
 
             return redirect()->back()->with('success', 'Profile successfully created..');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error occured: ' . $e->getMessage());
         }
     }
 

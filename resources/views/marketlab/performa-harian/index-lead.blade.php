@@ -568,7 +568,7 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header mx-3 mt-3">
                                                                 <h5 class="modal-title">
-                                                                    Detail Lead Hari -
+                                                                    Detail -
                                                                     {{
                                                                     \Carbon\Carbon::parse($lead->hari)->translatedFormat('l,
                                                                     d F Y') }}
@@ -858,7 +858,7 @@
                                     <div class="col-md-3 mb-2">
                                         <label class="form-label">Revenue</label>
                                         <input type="text" class="form-control" name="revenue"
-                                            value="{{ $lead->revenue }}" placeholder="Target Revenue">
+                                            value="{{ $lead->revenue }}" placeholder="Revenue Target ">
                                     </div>
                                 </div>
 
@@ -927,55 +927,55 @@
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var funnelData = [
-                @foreach ($totals_scaled as $label => $value)
-                    {{ $value }},
-                @endforeach
-            ];
+        document.addEventListener('DOMContentLoaded', function () {
+    var funnelData = [
+        @foreach ($totals_scaled as $label => $value)
+            {{ $value }},
+        @endforeach
+    ];
 
-            var funnelLabels = {!! json_encode($funnelLabels) !!};
+    var funnelLabels = {!! json_encode($funnelLabels) !!};
 
-            var options = {
-                series: [{
-                    name: "Jumlah",
-                    data: funnelData
-                }],
-                chart: {
-                    type: 'bar',
-                    height: 400,
-                },
-                plotOptions: {
-                    bar: {
-                        horizontal: true,
-                        isFunnel: true,
-                        barHeight: '80%',
-                    },
-                },
-                dataLabels: {
-                    enabled: true,
-                    formatter: function(val, opt) {
-                        return funnelLabels[opt.dataPointIndex];
-                    },
-                    style: {
-                        fontSize: '14px'
-                    }
-                },
-                xaxis: {
-                    categories: funnelLabels,
-                    max: 100
-                },
-                tooltip: {
-                    enabled: false
-                },
-                legend: {
-                    show: false,
-                },
-            };
+    var options = {
+        series: [{
+            name: "Jumlah",
+            data: funnelData
+        }],
+        chart: {
+            type: 'bar',
+            height: 400,
+        },
+        plotOptions: {
+            bar: {
+                horizontal: true,
+                isFunnel: true,
+                barHeight: '80%',
+            },
+        },
+        dataLabels: {
+            enabled: true,
+            formatter: function (val, opt) {
+                return funnelLabels[opt.dataPointIndex];
+            },
+            style: {
+                fontSize: '14px'
+            }
+        },
+        xaxis: {
+            categories: funnelLabels,
+            max: 100
+        },
+        tooltip: {
+            enabled: false
+        },
+        legend: {
+            show: false,
+        },
+    };
 
-            var funnelChart = new ApexCharts(document.querySelector("#funnelChart"), options);
-            funnelChart.render();
-        });
+    var funnelChart = new ApexCharts(document.querySelector("#funnelChart"), options);
+    funnelChart.render();
+});
     </script>
 
     <script>

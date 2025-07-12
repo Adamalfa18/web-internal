@@ -26,8 +26,8 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="w-100">
-                                                            <p class="text-sm text-secondary mb-1 text-center">Nama
-                                                                Brand</p>
+                                                            <p class="text-sm text-secondary mb-1 text-center">
+                                                                Brand Name</p>
                                                             <h6 class="mb-2 font-weight-bold text-center">
                                                                 {{ $report->client->nama_brand ?? '-' }}
                                                             </h6>
@@ -56,7 +56,7 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="w-100">
-                                                            <p class="text-sm text-secondary mb-1 text-center">Bulan
+                                                            <p class="text-sm text-secondary mb-1 text-center">Month
                                                             </p>
                                                             <h6 class="mb-2 font-weight-bold text-center">
                                                                 {{
@@ -86,8 +86,8 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="w-100">
-                                                            <p class="text-sm text-secondary mb-1 text-center">Jenis
-                                                                Layanan</p>
+                                                            <p class="text-sm text-secondary mb-1 text-center">
+                                                                Service Type</p>
                                                             <h6 class="mb-2 font-weight-bold text-center">
                                                                 {{ $report->jenis_layanan_mb ?? '-' }}
                                                             </h6>
@@ -113,8 +113,8 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="w-100">
-                                                            <p class="text-sm text-secondary mb-1 text-center">Target
-                                                                Leads</p>
+                                                            <p class="text-sm text-secondary mb-1 text-center">
+                                                                Leads Target</p>
                                                             <h6 class="mb-2 font-weight-bold text-center">
                                                                 {{ $report->jenis_leads ?? '-' }}
                                                             </h6>
@@ -157,7 +157,7 @@
                                 {{-- Tambah grafik funnel --}}
                                 <div class="card mt-4">
                                     <div class="card-header">
-                                        <h5 class="font-weight-semibold text-lg mb-4 text-center">Grafik Funnel</h5>
+                                        <h5 class="font-weight-semibold text-lg mb-4 text-center"> Funnel Chart</h5>
                                     </div>
                                     <div class="card-body">
                                         <div id="funnelChart"></div>
@@ -194,7 +194,8 @@
                                 <div class="mb-3 column-toggle-container">
                                     <label><input type="checkbox" class="column-toggle" data-column="3"> Revenue</label>
                                     <label><input type="checkbox" class="column-toggle" data-column="4"> ROAS</label>
-                                    <label><input type="checkbox" class="column-toggle" data-column="5"> Impresi</label>
+                                    <label><input type="checkbox" class="column-toggle" data-column="5">
+                                        Impression</label>
                                     <label><input type="checkbox" class="column-toggle" data-column="6"> Click</label>
                                     <label><input type="checkbox" class="column-toggle" data-column="7"> Leads</label>
                                     <label><input type="checkbox" class="column-toggle" data-column="8"> Chat</label>
@@ -224,7 +225,7 @@
                                 <table class="table align-items-center mb-0" id="clientTableMB">
                                     <thead class="bg-gray-100">
                                         <tr class="tabel-style">
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Hari
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7">Date
                                             </th>
                                             <th class="text-secondary text-xs font-weight-semibold opacity-7">
                                                 Platform
@@ -240,7 +241,7 @@
                                             </th>
                                             <th class="text-secondary text-xs font-weight-semibold opacity-7"
                                                 style="display: none;">
-                                                Impresi
+                                                Impression
                                             </th>
                                             <th class="text-secondary text-xs font-weight-semibold opacity-7"
                                                 style="display: none;">Click
@@ -356,7 +357,7 @@
                                                 <button type="button"
                                                     class="btn-style btn btn-info text-secondary font-weight-bold text-xs"
                                                     data-bs-toggle="modal" data-bs-target="#detailModal{{ $lead->id }}">
-                                                    Lihat Detail Harian
+                                                    View Detail
                                                 </button>
 
                                                 <!-- Modal Detail -->
@@ -367,7 +368,7 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header mx-3 mt-3">
                                                                 <h5 class="modal-title">
-                                                                    Detail Lead Hari -
+                                                                    Detail -
                                                                     {{
                                                                     \Carbon\Carbon::parse($lead->hari)->translatedFormat('l,
                                                                     d F Y') }}
@@ -571,12 +572,12 @@
                                     <div class="col-md-3">
                                         <label class="form-label">Spent</label>
                                         <input type="text" class="form-control" name="spent" value="{{ $lead->spent }}"
-                                            placeholder="Target Spent" readonly>
+                                            placeholder="Spent Target" readonly>
                                     </div>
                                     <div class="col-md-3">
-                                        <label class="form-label">Impresi</label>
+                                        <label class="form-label">Impression</label>
                                         <input type="text" class="form-control" name="impresi"
-                                            value="{{ $lead->impresi }}" placeholder="Jumlah Impresi" readonly>
+                                            value="{{ $lead->impresi }}" placeholder=" Impression" readonly>
                                     </div>
                                     <div class="col-md-3">
                                         <label class="form-label">Click</label>
@@ -642,7 +643,7 @@
                                     <div class="col-md-3 mb-2">
                                         <label class="form-label">Revenue</label>
                                         <input type="text" class="form-control" name="revenue"
-                                            value="{{ $lead->revenue }}" placeholder="Target Revenue">
+                                            value="{{ $lead->revenue }}" placeholder="Revenue Target ">
                                     </div>
                                 </div>
 

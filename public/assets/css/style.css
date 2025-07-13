@@ -1390,3 +1390,47 @@ span.select2-results {
 .detail-lead-harian {
     text-align: start;
 }
+
+#profile {
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+#profile img[alt="Background"] {
+    filter: blur(1px);
+}
+
+.avatar-style {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #fff;
+    padding: 2px;
+}
+
+.name-client-style {
+    font-weight: 600;
+    color: #2e7d32;
+}
+
+.status-client-style {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.bg-marketlab {
+    background-color: #05386b !important;
+    color: #fff !important;
+}
+imhg.img-profile {
+    width: 100px;
+    height: 100px;
+}
+a.btn.btn-outline-primary.btn-sm.btn-back {
+    display: inline-flex;
+    align-items: center;
+}

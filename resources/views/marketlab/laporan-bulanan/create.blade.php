@@ -5,19 +5,28 @@
     <main class="main-content position-relative max-height-vh-100 h-100 bor
     er-radius-lg ">
         <x-app.marketlab.navbar />
-        <div class="container-fluid py-4 px-5">
+        <div class="container-fluid px-5">
+            <div class="mb-3">
+                <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-sm btn-back">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                        <path
+                            d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
+                    </svg> back
+                </a>
+            </div>
             <div class="row">
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4">
                         <div class="row">
                             @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             @endif
                             <div class="col-md-12">
                                 <div class="card-header border-bottom pb-0">
@@ -55,10 +64,11 @@
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label for="client_id" class="form-label">Id Client</label>
-                                                        <input type="hidden" name="client_id" value="{{ $client->id }}">
-                                                        <input type="text" class="form-control" id="client_id_display"
-                                                            placeholder="Spent Target" value="{{ $client->id }}"
-                                                            readonly>
+                                                        <input type="hidden" name="client_id"
+                                                            value="{{ $client->id }}">
+                                                        <input type="text" class="form-control"
+                                                            id="client_id_display" placeholder="Spent Target"
+                                                            value="{{ $client->id }}" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -129,7 +139,8 @@
                                                             <input class="form-check-input" type="radio"
                                                                 name="jenis_leads" id="leads_site_visit"
                                                                 value="Site Visits">
-                                                            <label class="form-check-label" for="leads_site_visit">Site
+                                                            <label class="form-check-label"
+                                                                for="leads_site_visit">Site
                                                                 Visits</label>
                                                         </div>
                                                     </div>
@@ -138,8 +149,8 @@
                                                 <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label class="form-label">Spent</label>
-                                                        <input type="text" class="form-control" name="spent" id="spent"
-                                                            placeholder="Spent Target">
+                                                        <input type="text" class="form-control" name="spent"
+                                                            id="spent" placeholder="Spent Target">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
@@ -223,8 +234,8 @@
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">ROAS</label>
-                                                        <input type="number" class="form-control" name="roas" id="roas"
-                                                            placeholder="ROAS">
+                                                        <input type="number" class="form-control" name="roas"
+                                                            id="roas" placeholder="ROAS">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -237,15 +248,15 @@
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">CR Leads > Chat*</label>
-                                                        <input type="number" class="form-control" name="cr_leads_chat"
-                                                            placeholder="CR Leads > Chat">
+                                                        <input type="number" class="form-control"
+                                                            name="cr_leads_chat" placeholder="CR Leads > Chat">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">CR Chat > Respond*</label>
-                                                        <input type="number" class="form-control" name="cr_chat_respond"
-                                                            placeholder="CR Chat > Respond">
+                                                        <input type="number" class="form-control"
+                                                            name="cr_chat_respond" placeholder="CR Chat > Respond">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -271,8 +282,7 @@
                                             <div class="col-md-12">
                                                 <div class="mb-3">
                                                     <label for="note" class="form-label">Note</label>
-                                                    <textarea class="form-control" name="note" id="note"
-                                                        placeholder="Note....." rows="3" required></textarea>
+                                                    <textarea class="form-control" name="note" id="note" placeholder="Note....." rows="3" required></textarea>
                                                 </div>
                                             </div>
                                         </div>

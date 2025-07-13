@@ -9,6 +9,70 @@ use App\Models\Lead;
 
 class LaporanHarianLeadController extends Controller
 {
+    // public function index(Request $request)
+    // {
+    //     $performance_bulanan_id = $request->performance_bulanan_id;
+    //     $report = PerformanceBulanan::findOrFail($performance_bulanan_id);
+
+    //     // Ambil jenis_leads langsung dari database
+    //     $jenis_lead = match ($report->jenis_leads) {
+    //         'F to F' => '1',
+    //         'Roas Revenue' => '2',
+    //         'Total Closing' => '3',
+    //         'Site Visits' => '4',
+    //         default => '0',
+    //     };
+
+    //     $fields = match ($jenis_lead) {
+    //         '1' => ['hari', 'spent', 'leads', 'chat', 'greeting', 'pricelist', 'discuss', 'note'],
+    //         '2' => ['hari', 'spent', 'revenue', 'roas', 'chat', 'respond', 'closing', 'note'],
+    //         '3' => ['hari', 'spent', 'leads', 'chat', 'respond', 'closing'],
+    //         '4' => ['hari', 'spent', 'leads', 'respond', 'closing', 'note'],
+    //         default => ['hari', 'spent', 'leads', 'chat', 'respond', 'note'],
+    //     };
+
+    //     // Ambil semua leads
+    //     $leads = Lead::where('performance_bulanan_id', $performance_bulanan_id)->get();
+
+    //     $scale = [60, 50, 40, 30, 20, 10];
+    //     // Total untuk chart funnel (khusus jenis_leads F to F)
+    //     $totals = [
+    //         'Leads'     => $leads->sum('leads'),
+    //         'Chat'      => $leads->sum('chat'),
+    //         'Greeting'  => $leads->sum('greeting'),
+    //         'Pricelist' => $leads->sum('pricelist'),
+    //         'Discuss'   => $leads->sum('discuss'),
+    //     ];
+
+    //     $totall = [
+    //         'Impresi'     => $leads->sum('impresi'),
+    //         'Click'  => $leads->sum('click'),
+    //         'Chat'      => $leads->sum('chat'),
+    //         'Respond' => $leads->sum('respond'),
+    //         'Closing'   => $leads->sum('closing'),
+    //     ];
+
+    //     $totalImpresi = $totall['Impresi'] ?: 1; // hindari division by zero
+    //     $persentase = [
+    //         'Impresi' => 100,
+    //         'Click'   => round(($totall['Click'] / $totalImpresi) * 100, 2),
+    //         'Chat'    => round(($totall['Chat'] / $totall['Click']) * 100, 2),
+    //         'Respond' => round(($totall['Respond'] / ($totall['Chat'] ?: 1)) * 100, 2),
+    //         'Closing' => round(($totall['Closing'] / ($totall['Respond'] ?: 1)) * 100, 2),
+    //     ];
+
+    //     $totals_scaled = [];
+    //     $keys = array_keys($totall);
+    //     foreach ($keys as $i => $key) {
+    //         $totals_scaled[$key] = $scale[$i] ?? 10; // fallback kecil
+    //     }
+    //     $funnelLabels = [];
+    //     foreach ($totall as $key => $value) {
+    //         $funnelLabels[] = "{$key}: {$value} (" . ($persentase[$key] ?? 0) . "%)";
+    //     }
+
+    //     return view('marketlab.performa-harian.index-lead', compact('funnelLabels', 'report', 'leads', 'fields', 'totals', 'totall', 'totals_scaled'));
+    // }
     public function index(Request $request)
     {
         $performance_bulanan_id = $request->performance_bulanan_id;
@@ -34,8 +98,23 @@ class LaporanHarianLeadController extends Controller
         // Ambil semua leads
         $leads = Lead::where('performance_bulanan_id', $performance_bulanan_id)->get();
 
+        // Jika data leads kosong, return view kosong agar aman
+        if ($leads->isEmpty()) {
+            return view('marketlab.performa-harian.index-lead', [
+                'funnelLabels' => [],
+                'report' => $report,
+                'leads' => $leads,
+                'fields' => $fields,
+                'totals' => [],
+                'totall' => [],
+                'totals_scaled' => [],
+            ]);
+        }
+
+        // Skala untuk chart funnel
         $scale = [60, 50, 40, 30, 20, 10];
-        // Total untuk chart funnel (khusus jenis_leads F to F)
+
+        // Total untuk chart F to F
         $totals = [
             'Leads'     => $leads->sum('leads'),
             'Chat'      => $leads->sum('chat'),
@@ -44,35 +123,53 @@ class LaporanHarianLeadController extends Controller
             'Discuss'   => $leads->sum('discuss'),
         ];
 
+        // Total untuk chart umum
         $totall = [
-            'Impresi'     => $leads->sum('impresi'),
-            'Click'  => $leads->sum('click'),
+            'Impresi'   => $leads->sum('impresi'),
+            'Click'     => $leads->sum('click'),
             'Chat'      => $leads->sum('chat'),
-            'Respond' => $leads->sum('respond'),
+            'Respond'   => $leads->sum('respond'),
             'Closing'   => $leads->sum('closing'),
         ];
 
-        $totalImpresi = $totall['Impresi'] ?: 1; // hindari division by zero
+        // Hitung persentase funnel (hindari division by zero)
+        $totalImpresi = $totall['Impresi'] ?: 1;
+        $totalClick = $totall['Click'] ?: 1;
+        $totalChat = $totall['Chat'] ?: 1;
+        $totalRespond = $totall['Respond'] ?: 1;
+
         $persentase = [
             'Impresi' => 100,
             'Click'   => round(($totall['Click'] / $totalImpresi) * 100, 2),
-            'Chat'    => round(($totall['Chat'] / $totall['Click']) * 100, 2),
-            'Respond' => round(($totall['Respond'] / ($totall['Chat'] ?: 1)) * 100, 2),
-            'Closing' => round(($totall['Closing'] / ($totall['Respond'] ?: 1)) * 100, 2),
+            'Chat'    => round(($totall['Chat'] / $totalClick) * 100, 2),
+            'Respond' => round(($totall['Respond'] / $totalChat) * 100, 2),
+            'Closing' => round(($totall['Closing'] / $totalRespond) * 100, 2),
         ];
 
+        // Hitung skala tampilan funnel
         $totals_scaled = [];
         $keys = array_keys($totall);
         foreach ($keys as $i => $key) {
-            $totals_scaled[$key] = $scale[$i] ?? 10; // fallback kecil
+            $totals_scaled[$key] = $scale[$i] ?? 10;
         }
+
+        // Label funnel: Impresi: 1000 (100%), Click: 400 (40%), dst.
         $funnelLabels = [];
         foreach ($totall as $key => $value) {
             $funnelLabels[] = "{$key}: {$value} (" . ($persentase[$key] ?? 0) . "%)";
         }
 
-        return view('marketlab.performa-harian.index-lead', compact('funnelLabels', 'report', 'leads', 'fields', 'totals', 'totall', 'totals_scaled'));
+        return view('marketlab.performa-harian.index-lead', compact(
+            'funnelLabels',
+            'report',
+            'leads',
+            'fields',
+            'totals',
+            'totall',
+            'totals_scaled'
+        ));
     }
+
 
     public function store(Request $request)
     {

@@ -5,19 +5,28 @@
     <main class="main-content position-relative max-height-vh-100 h-100 bor
     er-radius-lg ">
         <x-app.marketlab.navbar />
-        <div class="container-fluid py-4 px-5">
+        <div class="container-fluid px-5">
+            <div class="mb-3">
+                <a href="{{ url()->previous() }}" class="btn btn-outline-primary btn-sm btn-back">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                        <path
+                            d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
+                    </svg> back
+                </a>
+            </div>
             <div class="row">
                 <div class="col-12">
                     <div class="card border shadow-xs mb-4">
                         <div class="row">
                             @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             @endif
 
                             <div class="col-md-12">
@@ -39,14 +48,14 @@
                                                     <label class="form-label d-block">MB Service Type</label>
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" name="layanan_mb"
-                                                            value="Leads" {{ $reports->jenis_layanan_mb === 'Leads' ?
-                                                        'checked' : '' }}>
+                                                            value="Leads"
+                                                            {{ $reports->jenis_layanan_mb === 'Leads' ? 'checked' : '' }}>
                                                         <label class="form-check-label">Leads</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
                                                         <input class="form-check-input" type="radio" name="layanan_mb"
-                                                            value="Marketplace" {{ $reports->jenis_layanan_mb ===
-                                                        'Marketplace' ? 'checked' : '' }}>
+                                                            value="Marketplace"
+                                                            {{ $reports->jenis_layanan_mb === 'Marketplace' ? 'checked' : '' }}>
                                                         <label class="form-check-label">Marketplace</label>
                                                     </div>
                                                 </div>
@@ -57,8 +66,9 @@
                                                         <label for="client_id" class="form-label">Id Client</label>
                                                         <input type="hidden" name="client_id"
                                                             value="{{ $reports->client_id }}">
-                                                        <input type="text" class="form-control" id="client_id_display"
-                                                            value="{{ $reports->client_id }}" readonly>
+                                                        <input type="text" class="form-control"
+                                                            id="client_id_display" value="{{ $reports->client_id }}"
+                                                            readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -115,23 +125,20 @@
                                                     <div class="style-garp">
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
-                                                                name="jenis_leads" value="Roas Revenue" {{
-                                                                $reports->jenis_leads === 'Roas Revenue' ? 'checked' :
-                                                            '' }}>
+                                                                name="jenis_leads" value="Roas Revenue"
+                                                                {{ $reports->jenis_leads === 'Roas Revenue' ? 'checked' : '' }}>
                                                             <label class="form-check-label">Roas Revenue</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
-                                                                name="jenis_leads" value="Total Closing" {{
-                                                                $reports->jenis_leads === 'Total Closing' ? 'checked' :
-                                                            '' }}>
+                                                                name="jenis_leads" value="Total Closing"
+                                                                {{ $reports->jenis_leads === 'Total Closing' ? 'checked' : '' }}>
                                                             <label class="form-check-label">Total Closing</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
-                                                                name="jenis_leads" value="Site Visits" {{
-                                                                $reports->jenis_leads === 'Site Visits' ? 'checked' : ''
-                                                            }}>
+                                                                name="jenis_leads" value="Site Visits"
+                                                                {{ $reports->jenis_leads === 'Site Visits' ? 'checked' : '' }}>
                                                             <label class="form-check-label">Site Visits</label>
                                                         </div>
                                                     </div>
@@ -177,7 +184,8 @@
                                                 <div class="col-md-12">
                                                     <label class="form-label">
                                                         <span style="font-size: 18px">Client Input</span>
-                                                        <p style="font-size: 12px">The form is filled in directly by the
+                                                        <p style="font-size: 12px">The form is filled in directly by
+                                                            the
                                                             client
                                                             For
                                                             provide the required data.</p>
@@ -271,7 +279,8 @@
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">CR Leads > Chat*</label>
-                                                        <input type="number" class="form-control" name="cr_leads_chat"
+                                                        <input type="number" class="form-control"
+                                                            name="cr_leads_chat"
                                                             value="{{ $reports->cr_leads_to_chat }}">
                                                     </div>
                                                 </div>
@@ -279,7 +288,8 @@
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label class="form-label">CR Chat > Respond*</label>
-                                                        <input type="number" class="form-control" name="cr_chat_respond"
+                                                        <input type="number" class="form-control"
+                                                            name="cr_chat_respond"
                                                             value="{{ $reports->cr_chat_to_respond }}">
                                                     </div>
                                                 </div>
@@ -308,9 +318,7 @@
                                             <div class="col-md-12">
                                                 <div class="mb-3">
                                                     <label for="note" class="form-label">Note</label>
-                                                    <textarea class="form-control" name="note" id="note"
-                                                        placeholder="Note....." rows="3"
-                                                        required>{{ $reports->note }}</textarea>
+                                                    <textarea class="form-control" name="note" id="note" placeholder="Note....." rows="3" required>{{ $reports->note }}</textarea>
                                                 </div>
                                             </div>
                                         </div>

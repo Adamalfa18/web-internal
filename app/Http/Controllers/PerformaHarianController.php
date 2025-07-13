@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\PerformaHarian;
 use App\Models\PerformanceBulanan;
 use Illuminate\Support\Facades\DB;
+use App\Models\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePerformaHarianRequest;
 use App\Http\Requests\UpdatePerformaHarianRequest;
@@ -23,6 +24,100 @@ class PerformaHarianController extends Controller
      * Display a listing of the resource.
      */
 
+    // public function index(Request $request)
+    // {
+    //     $request->validate([
+    //         'performance_bulanan_id' => 'required|exists:performance_bulanans,id',
+    //     ]);
+
+    //     // Get the selected client
+    //     $client = Client::find($request->client_id);
+
+    //     $performanceBulananId = $request->performance_bulanan_id;
+    //     $perPage = $request->input('perPage', 10);
+
+    //     $data = DB::table('performa_harians as p')
+    //         ->leftJoin('meta_ads as m', 'p.id', '=', 'm.performa_harian_id')
+    //         ->leftJoin('google_ads as g', 'p.id', '=', 'g.performa_harian_id')
+    //         ->leftJoin('shopee_ads as s', 'p.id', '=', 's.performa_harian_id')
+    //         ->leftJoin('tiktok_ads as tk', 'p.id', '=', 'tk.performa_harian_id')
+    //         ->select(
+    //             'p.*',
+
+    //             // Meta Ads
+    //             'm.regular as meta_regular',
+    //             'm.regular_revenue as meta_regular_revenue',
+    //             'm.cpas as meta_cpas',
+    //             'm.cpas_revenue as meta_cpas_revenue',
+
+    //             // Google Ads
+    //             'g.search as google_search',
+    //             'g.search_revenue as google_search_revenue',
+    //             'g.performance_max as google_performance_max',
+    //             'g.performance_max_revenue as google_performance_max_revenue',
+
+    //             // Shopee Ads
+    //             's.produk as shopee_produk',
+    //             's.produk_revenue as shopee_produk_revenue',
+    //             's.toko as shopee_toko',
+    //             's.toko_revenue as shopee_toko_revenue',
+    //             's.live as shopee_live',
+    //             's.live_revenue as shopee_live_revenue',
+
+    //             // TikTok Ads
+    //             'tk.gmv_max as tiktok_gmv_max',
+    //             'tk.gmv_max_revenue as tiktok_gmv_max_revenue',
+    //             'tk.live_shopping as tiktok_live_shopping',
+    //             'tk.live_shopping_revenue as tiktok_live_shopping_revenue',
+    //             'tk.product_shopping as tiktok_product_shopping',
+    //             'tk.product_shopping_revenue as tiktok_product_shopping_revenue',
+    //             'tk.video_shopping as tiktok_video_shopping',
+    //             'tk.video_shopping_revenue as tiktok_video_shopping_revenue'
+    //         )
+    //         ->where('p.performance_bulanan_id', $performanceBulananId)
+    //         ->orderBy('p.hari', 'asc')
+    //         ->paginate($perPage);
+
+    //     $laporanBulanan = PerformanceBulanan::find($performanceBulananId);
+    //     $spent_harian = $laporanBulanan->target_spent / 30;
+    //     $revenue_harian = $laporanBulanan->target_revenue / 30;
+
+    //     $totalSum = DB::table('performa_harians')
+    //         ->where('performance_bulanan_id', $performanceBulananId)
+    //         ->sum('total');
+
+    //     $totalOmzet = DB::table('performa_harians')
+    //         ->where('performance_bulanan_id', $performanceBulananId)
+    //         ->sum('omzet');
+
+    //     $totalRoas = round($totalOmzet / ($totalSum ?: 1), 2);
+
+    //     // Data compare (optional)
+    //     $data1 = PerformaHarian::whereBetween('hari', [$request->fromDate, $request->toDate])->get();
+    //     $data2 = PerformaHarian::whereBetween('hari', [$request->fromDate2, $request->toDate2])->get();
+
+    //     // Leads
+    //     $leads = DB::table('leads')
+    //         ->where('performance_bulanan_id', $performanceBulananId)
+    //         ->get();
+
+    //     session(['activeTab' => 'roas', 'activeTabLead' => 'roas']);
+    //     return view('marketlab.performa-harian.index', compact(
+    //         'revenue_harian',
+    //         'spent_harian',
+    //         'data',
+    //         'data1',
+    //         'data2',
+    //         'laporanBulanan',
+    //         'totalSum',
+    //         'totalOmzet',
+    //         'totalRoas',
+    //         'performanceBulananId',
+    //         'leads',
+    //         'client'
+    //     ));
+    // }
+
     public function index(Request $request)
     {
         $request->validate([
@@ -31,6 +126,10 @@ class PerformaHarianController extends Controller
 
         $performanceBulananId = $request->performance_bulanan_id;
         $perPage = $request->input('perPage', 10);
+
+        // Ambil data laporan bulanan dan client terkait
+        $laporanBulanan = PerformanceBulanan::with('client')->findOrFail($performanceBulananId);
+        $client = $laporanBulanan->client;
 
         $data = DB::table('performa_harians as p')
             ->leftJoin('meta_ads as m', 'p.id', '=', 'm.performa_harian_id')
@@ -74,7 +173,6 @@ class PerformaHarianController extends Controller
             ->orderBy('p.hari', 'asc')
             ->paginate($perPage);
 
-        $laporanBulanan = PerformanceBulanan::find($performanceBulananId);
         $spent_harian = $laporanBulanan->target_spent / 30;
         $revenue_harian = $laporanBulanan->target_revenue / 30;
 
@@ -98,6 +196,7 @@ class PerformaHarianController extends Controller
             ->get();
 
         session(['activeTab' => 'roas', 'activeTabLead' => 'roas']);
+
         return view('marketlab.performa-harian.index', compact(
             'revenue_harian',
             'spent_harian',
@@ -109,9 +208,11 @@ class PerformaHarianController extends Controller
             'totalOmzet',
             'totalRoas',
             'performanceBulananId',
-            'leads'
+            'leads',
+            'client'
         ));
     }
+
 
 
     /**

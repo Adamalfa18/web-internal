@@ -2,27 +2,26 @@
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.clientnavbar />
-        <div class="container-fluid py-4 px-5">
+        <div class="container-fluid px-5">
             <div class="row">
                 <div class="col-md-12">
                     @if (session('success'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('success') }}
-                    </div>
+                        <div class="alert alert-success" role="alert">
+                            {{ session('success') }}
+                        </div>
                     @elseif (session('error'))
-                    <div class="alert alert-danger" role="alert">
-                        {{ session('error') }}
-                    </div>
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('error') }}
+                        </div>
                     @endif
                 </div>
             </div>
 
             @php
-            $activeTabLead = session('activeTabLead', 'roas'); // Default ke 'roas' jika tidak ada
+                $activeTabLead = session('activeTabLead', 'roas'); // Default ke 'roas' jika tidak ada
             @endphp
-            <div class="collapse multi-collapse {{ $activeTabLead === 'roas' ? 'show' : '' }}"
-                id="multiCollapseExample1">
-                <div class="card card-body">
+            <div class="collapse multi-collapse {{ $activeTabLead === 'roas' ? 'show' : '' }}" id="multiCollapseExample1">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-12">
                             <div class="card border shadow-xs mb-4">
@@ -51,8 +50,7 @@
                                                             <div class="target-style">
                                                                 <span class="text-sm font-weight-normal">
                                                                     Rp
-                                                                    {{ number_format($laporanBulanan->target_spent, 0,
-                                                                    ',', '.') }}
+                                                                    {{ number_format($laporanBulanan->target_spent, 0, ',', '.') }}
                                                                 </span>
                                                             </div>
                                                         </td>
@@ -69,8 +67,7 @@
                                                             <div class="target-style">
                                                                 <span class="text-sm font-weight-normal">
                                                                     Rp
-                                                                    {{ number_format($laporanBulanan->target_revenue, 0,
-                                                                    ',', '.') }}
+                                                                    {{ number_format($laporanBulanan->target_revenue, 0, ',', '.') }}
                                                                 </span>
                                                             </div>
                                                         </td>
@@ -230,29 +227,35 @@
                                 </div>
                                 <div class="card-body px-0 py-0">
                                     <div class="border-bottom py-3 px-3 d-sm-flex align-items-center">
-                                        <form id="perPageForm" action="{{ route('laporan-harian.index') }}" method="GET"
-                                            class="me-3">
+                                        <form id="perPageForm" action="{{ route('laporan-harian.index') }}"
+                                            method="GET" class="me-3">
                                             <input type="hidden" name="performance_bulanan_id"
                                                 value="{{ $performanceBulananId }}">
                                             <select name="perPage"
                                                 onchange="document.getElementById('perPageForm').submit();"
                                                 class="form-select form-lots lost-style">
-                                                <option value="10" {{ request('perPage')==10 ? 'selected' : '' }}>
+                                                <option value="10"
+                                                    {{ request('perPage') == 10 ? 'selected' : '' }}>
                                                     10
                                                 </option>
-                                                <option value="20" {{ request('perPage')==20 ? 'selected' : '' }}>
+                                                <option value="20"
+                                                    {{ request('perPage') == 20 ? 'selected' : '' }}>
                                                     20
                                                 </option>
-                                                <option value="40" {{ request('perPage')==40 ? 'selected' : '' }}>
+                                                <option value="40"
+                                                    {{ request('perPage') == 40 ? 'selected' : '' }}>
                                                     40
                                                 </option>
-                                                <option value="60" {{ request('perPage')==60 ? 'selected' : '' }}>
+                                                <option value="60"
+                                                    {{ request('perPage') == 60 ? 'selected' : '' }}>
                                                     60
                                                 </option>
-                                                <option value="80" {{ request('perPage')==80 ? 'selected' : '' }}>
+                                                <option value="80"
+                                                    {{ request('perPage') == 80 ? 'selected' : '' }}>
                                                     80
                                                 </option>
-                                                <option value="100" {{ request('perPage')==100 ? 'selected' : '' }}>100
+                                                <option value="100"
+                                                    {{ request('perPage') == 100 ? 'selected' : '' }}>100
                                                 </option>
                                             </select>
                                         </form>
@@ -260,72 +263,71 @@
 
                                     <div class="table-responsive p-0">
                                         @if ($data->isEmpty())
-                                        <p class="ntp">No data available.</p>
+                                            <p class="ntp">No data available.</p>
                                         @else
-                                        <table class="table align-items-center mb-0">
-                                            <thead class="bg-gray-100">
-                                                <tr>
-                                                    <th class="text-center text-xs font-weight-semibold opacity-7">
-                                                        No
-                                                    </th>
-                                                    <th class="text-xs font-weight-semibold opacity-7">Total Spent
-                                                    </th>
-                                                    <th class="text-xs font-weight-semibold opacity-7">Total
-                                                        Revenue
-                                                    </th>
-                                                    <th class="text-center text-xs font-weight-semibold opacity-7">
-                                                        Roas
-                                                    </th>
-                                                    <th class="text-center text-xs font-weight-semibold opacity-7">
-                                                        Date
-                                                    </th>
-                                                    <th class="text-center text-xs font-weight-semibold opacity-7">
-                                                        Topup
-                                                        Details</th>
-                                                    <th class="text-xs opacity-7"></th>
-                                                </tr>
-                                            </thead>
+                                            <table class="table align-items-center mb-0">
+                                                <thead class="bg-gray-100">
+                                                    <tr>
+                                                        <th class="text-center text-xs font-weight-semibold opacity-7">
+                                                            No
+                                                        </th>
+                                                        <th class="text-xs font-weight-semibold opacity-7">Total Spent
+                                                        </th>
+                                                        <th class="text-xs font-weight-semibold opacity-7">Total
+                                                            Revenue
+                                                        </th>
+                                                        <th class="text-center text-xs font-weight-semibold opacity-7">
+                                                            Roas
+                                                        </th>
+                                                        <th class="text-center text-xs font-weight-semibold opacity-7">
+                                                            Date
+                                                        </th>
+                                                        <th class="text-center text-xs font-weight-semibold opacity-7">
+                                                            Topup
+                                                            Details</th>
+                                                        <th class="text-xs opacity-7"></th>
+                                                    </tr>
+                                                </thead>
 
-                                            <tbody>
-                                                @foreach ($data as $item)
-                                                <tr>
-                                                    <td class="text-center">
-                                                        <span class="day-style text-sm font-weight-normal">
-                                                            {{ ($data->currentPage() - 1) * $data->perPage() +
-                                                            $loop->iteration }}
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="day-style text-sm font-weight-normal">
-                                                            Rp {{ number_format($item->total, 0, ',', '.') }}
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="day-style text-sm font-weight-normal">
-                                                            Rp {{ number_format($item->omzet, 0, ',', '.') }}
-                                                        </span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <span class="day-style text-sm font-weight-normal">{{
-                                                            $item->roas }}</span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <span class="day-style text-sm font-weight-normal">{{
-                                                            $item->hari }}</span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <button type="button"
-                                                            class="btn-style btn btn-info text-secondary font-weight-bold text-xs"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#reportDetailModal{{ $item->id }}">
-                                                            View Detail
-                                                        </button>
-                                                    </td>
+                                                <tbody>
+                                                    @foreach ($data as $item)
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                <span class="day-style text-sm font-weight-normal">
+                                                                    {{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span class="day-style text-sm font-weight-normal">
+                                                                    Rp {{ number_format($item->total, 0, ',', '.') }}
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <span class="day-style text-sm font-weight-normal">
+                                                                    Rp {{ number_format($item->omzet, 0, ',', '.') }}
+                                                                </span>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <span
+                                                                    class="day-style text-sm font-weight-normal">{{ $item->roas }}</span>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <span
+                                                                    class="day-style text-sm font-weight-normal">{{ $item->hari }}</span>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <button type="button"
+                                                                    class="btn-style btn btn-info text-secondary font-weight-bold text-xs"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#reportDetailModal{{ $item->id }}">
+                                                                    View Detail
+                                                                </button>
+                                                            </td>
 
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
                                         @endif
                                     </div>
                                     <div class="border-top py-3 px-3 d-flex align-items-center">
@@ -334,206 +336,216 @@
                                         </p>
                                         <div class="ms-auto">
                                             @if ($data->onFirstPage())
-                                            <button class="btn btn-sm btn-white mb-0" disabled>Previous</button>
+                                                <button class="btn btn-sm btn-white mb-0" disabled>Previous</button>
                                             @else
-                                            <a href="{{ $data->previousPageUrl() . '&performance_bulanan_id=' . $performanceBulananId }}"
-                                                class="btn btn-sm btn-white mb-0">Previous</a>
+                                                <a href="{{ $data->previousPageUrl() . '&performance_bulanan_id=' . $performanceBulananId }}"
+                                                    class="btn btn-sm btn-white mb-0">Previous</a>
                                             @endif
 
                                             @if ($data->hasMorePages())
-                                            <a href="{{ $data->nextPageUrl() . '&performance_bulanan_id=' . $performanceBulananId }}"
-                                                class="btn btn-sm btn-white mb-0">Next</a>
+                                                <a href="{{ $data->nextPageUrl() . '&performance_bulanan_id=' . $performanceBulananId }}"
+                                                    class="btn btn-sm btn-white mb-0">Next</a>
                                             @else
-                                            <button class="btn btn-sm btn-white mb-0" disabled>Next</button>
+                                                <button class="btn btn-sm btn-white mb-0" disabled>Next</button>
                                             @endif
                                         </div>
                                     </div>
 
                                     {{-- MODALS --}}
                                     @foreach ($data as $item)
-                                    <div class="modal fade" id="reportDetailModal{{ $item->id }}" tabindex="-1"
-                                        aria-labelledby="reportDetailModalLabel{{ $item->id }}" aria-hidden="true">
-                                        <div class="modal-dialog modal-xl">
-                                            <div class="modal-content">
-                                                <div class="modal-header m-3">
-                                                    <h5 class="modal-title" id="reportDetailModalLabel{{ $item->id }}">
-                                                        Daily Topup & Daily Target Details
-                                                    </h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Tutup"></button>
-                                                </div>
-                                                <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
-                                                    <div class="container">
-                                                        <div class="row">
-                                                            <div class="col-12">
-                                                                <h6
-                                                                    class="font-weight-semibold text-lg mb-3 text-center">
-                                                                    Daily Target</h6>
-                                                            </div>
-                                                            {{-- Data Target --}}
-                                                            <div class="col-md-6">
-                                                                <h6
-                                                                    class="font-weight-semibold text-lg mb-3 text-center">
-                                                                    Data Target</h6>
-                                                                <table class="table align-items-center mb-0">
-                                                                    <tbody>
-                                                                        <tr class="border-target">
-                                                                            <td class="align-middle">
-                                                                                <div class="title-target-style">
-                                                                                    <span
-                                                                                        class="text-sm font-weight-normal">Target
-                                                                                        Spent</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td class="align-middle">
-                                                                                <div class="target-style"><span
-                                                                                        class="text-sm font-weight-normal">Rp
-                                                                                        {{ number_format($spent_harian,
-                                                                                        0, ',', '.') }}</span>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-target">
-                                                                            <td class="align-middle">
-                                                                                <div class="title-target-style">
-                                                                                    <span
-                                                                                        class="text-sm font-weight-normal">Target
-                                                                                        Revenue</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td class="align-middle">
-                                                                                <div class="target-style"><span
-                                                                                        class="text-sm font-weight-normal">Rp
-                                                                                        {{
-                                                                                        number_format($revenue_harian,
-                                                                                        0, ',', '.') }}</span>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-target">
-                                                                            <td class="align-middle">
-                                                                                <div class="title-target-style">
-                                                                                    <span
-                                                                                        class="text-sm font-weight-normal">Target
-                                                                                        Roas</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td class="align-middle">
-                                                                                <div class="target-style"><span
-                                                                                        class="text-sm font-weight-normal">{{
-                                                                                        $laporanBulanan->target_roas
-                                                                                        }}</span>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                            {{-- Data Real --}}
-                                                            <div class="col-md-6">
-                                                                <h6
-                                                                    class="font-weight-semibold text-lg mb-3 text-center">
-                                                                    Data Real</h6>
-                                                                <table class="table align-items-center mb-0">
-                                                                    <tbody>
-                                                                        <tr class="border-target">
-                                                                            <td class="align-middle">
-                                                                                <div class="title-target-style">
+                                        <div class="modal fade" id="reportDetailModal{{ $item->id }}"
+                                            tabindex="-1"
+                                            aria-labelledby="reportDetailModalLabel{{ $item->id }}"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <div class="modal-content">
+                                                    <div class="modal-header m-3">
+                                                        <h5 class="modal-title"
+                                                            id="reportDetailModalLabel{{ $item->id }}">
+                                                            Daily Topup & Daily Target Details
+                                                        </h5>
+                                                        <button type="button" class="btn-close"
+                                                            data-bs-dismiss="modal" aria-label="Tutup"></button>
+                                                    </div>
+                                                    <div class="modal-body"
+                                                        style="max-height: 80vh; overflow-y: auto;">
+                                                        <div class="container">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <h6
+                                                                        class="font-weight-semibold text-lg mb-3 text-center">
+                                                                        Daily Target</h6>
+                                                                </div>
+                                                                {{-- Data Target --}}
+                                                                <div class="col-md-6">
+                                                                    <h6
+                                                                        class="font-weight-semibold text-lg mb-3 text-center">
+                                                                        Data Target</h6>
+                                                                    <table class="table align-items-center mb-0">
+                                                                        <tbody>
+                                                                            <tr class="border-target">
+                                                                                <td class="align-middle">
+                                                                                    <div class="title-target-style">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">Target
+                                                                                            Spent</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="align-middle">
+                                                                                    <div class="target-style"><span
+                                                                                            class="text-sm font-weight-normal">Rp
+                                                                                            {{ number_format($spent_harian, 0, ',', '.') }}</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="border-target">
+                                                                                <td class="align-middle">
+                                                                                    <div class="title-target-style">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">Target
+                                                                                            Revenue</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="align-middle">
+                                                                                    <div class="target-style"><span
+                                                                                            class="text-sm font-weight-normal">Rp
+                                                                                            {{ number_format($revenue_harian, 0, ',', '.') }}</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="border-target">
+                                                                                <td class="align-middle">
+                                                                                    <div class="title-target-style">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">Target
+                                                                                            Roas</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="align-middle">
+                                                                                    <div class="target-style"><span
+                                                                                            class="text-sm font-weight-normal">{{ $laporanBulanan->target_roas }}</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                {{-- Data Real --}}
+                                                                <div class="col-md-6">
+                                                                    <h6
+                                                                        class="font-weight-semibold text-lg mb-3 text-center">
+                                                                        Data Real</h6>
+                                                                    <table class="table align-items-center mb-0">
+                                                                        <tbody>
+                                                                            <tr class="border-target">
+                                                                                <td class="align-middle">
+                                                                                    <div class="title-target-style">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">
+                                                                                            Spent Achieved</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="align-middle">
+                                                                                    <div class="real-spent real-style"
+                                                                                        style="background: {{ $spent_harian >= $item->total ? 'green' : 'red' }};">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">
+                                                                                            Rp
+                                                                                            {{ number_format($item->total, 0, ',', '.') }}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="align-middle">
                                                                                     <span
                                                                                         class="text-sm font-weight-normal">
-                                                                                        Spent Achieved</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td class="align-middle">
-                                                                                <div class="real-spent real-style"
-                                                                                    style="background: {{ $spent_harian >= $item->total ? 'green' : 'red' }};">
-                                                                                    <span
-                                                                                        class="text-sm font-weight-normal">
-                                                                                        Rp
-                                                                                        {{ number_format($item->total,
-                                                                                        0, ',', '.') }}
+                                                                                        {{ round(($item->total / $spent_harian) * 100, 2) }}%
                                                                                     </span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td class="align-middle">
-                                                                                <span
-                                                                                    class="text-sm font-weight-normal">
-                                                                                    {{ round(($item->total /
-                                                                                    $spent_harian) * 100, 2) }}%
-                                                                                </span>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-target">
-                                                                            <td class="align-middle">
-                                                                                <div class="title-target-style">
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="border-target">
+                                                                                <td class="align-middle">
+                                                                                    <div class="title-target-style">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">
+                                                                                            Revenue Achieved</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="align-middle">
+                                                                                    <div class="real-omzet real-style"
+                                                                                        style="background: {{ $revenue_harian <= $item->omzet ? 'green' : 'red' }};">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">
+                                                                                            Rp
+                                                                                            {{ number_format($item->omzet, 0, ',', '.') }}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </td>
+                                                                                @php
+                                                                                    $percent =
+                                                                                        $revenue_harian > 0
+                                                                                            ? round(
+                                                                                                ($item->omzet /
+                                                                                                    $revenue_harian) *
+                                                                                                    100,
+                                                                                                2,
+                                                                                            )
+                                                                                            : 0;
+                                                                                @endphp
+                                                                                <td class="align-middle">
                                                                                     <span
                                                                                         class="text-sm font-weight-normal">
-                                                                                        Revenue Achieved</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td class="align-middle">
-                                                                                <div class="real-omzet real-style"
-                                                                                    style="background: {{ $revenue_harian <= $item->omzet ? 'green' : 'red' }};">
-                                                                                    <span
-                                                                                        class="text-sm font-weight-normal">
-                                                                                        Rp
-                                                                                        {{ number_format($item->omzet,
-                                                                                        0, ',', '.') }}
-                                                                                    </span>
-                                                                                </div>
-                                                                            </td>
-                                                                            @php
-                                                                            $percent = $revenue_harian > 0 ?
-                                                                            round(($item->omzet / $revenue_harian) *
-                                                                            100, 2) : 0;
-
-                                                                            @endphp
-                                                                            <td class="align-middle">
-                                                                                <span
-                                                                                    class="text-sm font-weight-normal">
-                                                                                    {{ $percent }}%
-                                                                                </span><br>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr class="border-target">
-                                                                            <td class="align-middle">
-                                                                                <div class="title-target-style">
-                                                                                    <span
-                                                                                        class="text-sm font-weight-normal">
-                                                                                        Roas Achieved</span>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td class="align-middle">
-                                                                                <div class="real-roas real-style"
-                                                                                    style="background: {{ $item->roas >= $laporanBulanan->target_roas ? 'green' : 'red' }};">
-                                                                                    <span
-                                                                                        class="text-sm font-weight-normal">
-                                                                                        {{ $item->roas }}
-                                                                                    </span>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                            {{-- Status Revenue --}}
-                                                            @php
-                                                            $percent = $revenue_harian > 0 ? round(($item->omzet /
-                                                            $revenue_harian) * 100, 2) : 0;
-                                                            if ($percent < 50) { $status='Underperform' ;
-                                                                $bgColor='#dc3545' ; } elseif ($percent==100) {
-                                                                $status='Achieve' ; $bgColor='#198754' ; } elseif
-                                                                ($percent> 100) {
-                                                                $status = 'Excellent';
-                                                                $bgColor = '#198754';
-                                                                } else {
-                                                                $status = 'In Progress';
-                                                                $bgColor = '#6c757d';
-                                                                }
+                                                                                        {{ $percent }}%
+                                                                                    </span><br>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr class="border-target">
+                                                                                <td class="align-middle">
+                                                                                    <div class="title-target-style">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">
+                                                                                            Roas Achieved</span>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <td class="align-middle">
+                                                                                    <div class="real-roas real-style"
+                                                                                        style="background: {{ $item->roas >= $laporanBulanan->target_roas ? 'green' : 'red' }};">
+                                                                                        <span
+                                                                                            class="text-sm font-weight-normal">
+                                                                                            {{ $item->roas }}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                {{-- Status Revenue --}}
+                                                                @php
+                                                                    $percent =
+                                                                        $revenue_harian > 0
+                                                                            ? round(
+                                                                                ($item->omzet / $revenue_harian) * 100,
+                                                                                2,
+                                                                            )
+                                                                            : 0;
+                                                                    if ($percent < 50) {
+                                                                        $status = 'Underperform';
+                                                                        $bgColor = '#dc3545';
+                                                                    } elseif ($percent == 100) {
+                                                                        $status = 'Achieve';
+                                                                        $bgColor = '#198754';
+                                                                    } elseif ($percent > 100) {
+                                                                        $status = 'Excellent';
+                                                                        $bgColor = '#198754';
+                                                                    } else {
+                                                                        $status = 'In Progress';
+                                                                        $bgColor = '#6c757d';
+                                                                    }
                                                                 @endphp
 
                                                                 <div class="col-12 mt-4 text-center">
-                                                                    <h6 class="font-weight-semibold text-lg mb-2">Status
+                                                                    <h6 class="font-weight-semibold text-lg mb-2">
+                                                                        Status
                                                                         Revenue:</h6>
                                                                     <span class="badge text-white"
                                                                         style="background-color: {{ $bgColor }} !important; padding: 8px 16px; border-radius: 50px;">
@@ -548,440 +560,340 @@
                                                                     <p class="text-sm note-style">
                                                                         {{ $laporanBulanan->note }}</p>
                                                                 </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="container">
+                                                        <div class="container">
 
-                                                        <div class="row">
-                                                            <form>
-                                                                {{-- SECTION: META --}}
-                                                                @if ($item->meta_regular > 0 || $item->meta_cpas > 0)
-                                                                <div class="row topup-style mt-4">
-                                                                    <div class="title-harian">
-                                                                        <h5>Topup Meta</h5>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Meta Regular</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{ number_format($item->meta_regular, 0,
-                                                                                ',', '.') }}
+                                                            <div class="row">
+                                                                <form>
+                                                                    {{-- SECTION: META --}}
+                                                                    @if ($item->meta_regular > 0 || $item->meta_cpas > 0)
+                                                                        <div class="row topup-style mt-4">
+                                                                            <div class="title-harian">
+                                                                                <h5>Topup Meta</h5>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Meta Regular</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->meta_regular, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Meta Regular Revenue</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->meta_regular_revenue, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Meta Regular Roas</label>
+                                                                                    <div class="readonly-input">
+                                                                                        {{ $item->meta_regular > 0 ? number_format($item->meta_regular_revenue / $item->meta_regular, 2, '.', '') : '0' }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Meta CPAS</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->meta_cpas, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Meta CPAS Revenue</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->meta_cpas_revenue, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Meta CPAS Roas</label>
+                                                                                    <div class="readonly-input">
+                                                                                        {{ $item->meta_cpas > 0 ? number_format($item->meta_cpas_revenue / $item->meta_cpas, 2, '.', '') : '0' }}
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Meta Regular Revenue</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{
-                                                                                number_format($item->meta_regular_revenue,
-                                                                                0, ',', '.') }}
+                                                                    @endif
+                                                                    {{-- GOOGLE --}}
+                                                                    @if ($item->google_search > 0 || $item->google_performance_max > 0)
+                                                                        <div class="row topup-style mt-4">
+                                                                            <div class="title-harian">
+                                                                                <h5>Topup Google</h5>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Google Search</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->google_search, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Search Revenue</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->google_search_revenue, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Search Roas</label>
+                                                                                    <div class="readonly-input">
+                                                                                        {{ $item->google_search > 0
+                                                                                            ? number_format($item->google_search_revenue / $item->google_search, 2, '.', '')
+                                                                                            : '0' }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Performance Max</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->google_performance_max, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Performance Max
+                                                                                        Revenue</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->google_performance_max_revenue, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Performance Max Roas</label>
+                                                                                    <div class="readonly-input">
+                                                                                        {{ $item->google_performance_max > 0
+                                                                                            ? number_format($item->google_performance_max_revenue / $item->google_performance_max, 2, '.', '')
+                                                                                            : '0' }}
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Meta Regular Roas</label>
-                                                                            <div class="readonly-input">
-                                                                                {{
-                                                                                $item->meta_regular > 0
-                                                                                ?
-                                                                                number_format($item->meta_regular_revenue
-                                                                                / $item->meta_regular, 2, '.', '')
-                                                                                : '0'
-                                                                                }}
+                                                                    @endif
+                                                                    {{-- SHOPEE --}}
+                                                                    @if ($item->shopee_produk > 0 || $item->shopee_toko > 0 || $item->shopee_live > 0)
+                                                                        <div class="row topup-style mt-4">
+                                                                            <div class="title-harian">
+                                                                                <h5>Topup Shopee</h5>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Produk</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->shopee_produk, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Produk Revenue</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->shopee_produk_revenue, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Produk Roas</label>
+                                                                                    <div class="readonly-input">
+                                                                                        {{ $item->shopee_produk > 0
+                                                                                            ? number_format($item->shopee_produk_revenue / $item->shopee_produk, 2, '.', '')
+                                                                                            : '0' }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Toko</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->shopee_toko, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Toko Revenue</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->shopee_toko_revenue, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Toko Roas</label>
+                                                                                    <div class="readonly-input">
+                                                                                        {{ $item->shopee_toko > 0 ? number_format($item->shopee_toko_revenue / $item->shopee_toko, 2, '.', '') : '0' }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Live</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->shopee_live, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Live Revenue</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->shopee_live_revenue, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Toko Roas</label>
+                                                                                    <div class="readonly-input">
+                                                                                        {{ $item->shopee_live > 0 ? number_format($item->shopee_live_revenue / $item->shopee_live, 2, '.', '') : '0' }}
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Meta CPAS</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{ number_format($item->meta_cpas, 0,
-                                                                                ',', '.') }}
+                                                                    @endif
+                                                                    {{-- TIKTOK --}}
+                                                                    @if (
+                                                                        $item->tiktok_live_shopping > 0 ||
+                                                                            $item->tiktok_product_shopping > 0 ||
+                                                                            $item->tiktok_video_shopping > 0 ||
+                                                                            $item->tiktok_gmv_max > 0)
+                                                                        <div class="row topup-style mt-4">
+                                                                            <div class="title-harian">
+                                                                                <h5>Topup TikTok</h5>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Live Shopping</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->tiktok_live_shopping, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Live Shopping Revenue</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->tiktok_live_shopping_revenue, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Live Shopping Roas</label>
+                                                                                    <div class="readonly-input">
+                                                                                        {{ $item->tiktok_live_shopping > 0
+                                                                                            ? number_format($item->tiktok_live_shopping_revenue / $item->tiktok_live_shopping, 2, '.', '')
+                                                                                            : '0' }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Product Shopping</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->tiktok_product_shopping, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Product Shopping
+                                                                                        Revenue</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->tiktok_product_shopping_revenue, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Product Shopping Roas</label>
+                                                                                    <div class="readonly-input">
+                                                                                        {{ $item->tiktok_product_shopping > 0
+                                                                                            ? number_format($item->tiktok_product_shopping_revenue / $item->tiktok_product_shopping, 2, '.', '')
+                                                                                            : '0' }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Video Shopping</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->tiktok_video_shopping, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Video Shopping
+                                                                                        Revenue</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->tiktok_video_shopping_revenue, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>Video Shopping Roas</label>
+                                                                                    <div class="readonly-input">
+                                                                                        {{ $item->tiktok_video_shopping > 0
+                                                                                            ? number_format($item->tiktok_video_shopping_revenue / $item->tiktok_video_shopping, 2, '.', '')
+                                                                                            : '0' }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>GMV Max</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->tiktok_gmv_max, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>GMV Max Revenue</label>
+                                                                                    <div class="readonly-input">Rp
+                                                                                        {{ number_format($item->tiktok_gmv_max_revenue, 0, ',', '.') }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label>GMV Max Roas</label>
+                                                                                    <div class="readonly-input">
+                                                                                        {{ $item->tiktok_gmv_max > 0
+                                                                                            ? number_format($item->tiktok_gmv_max_revenue / $item->tiktok_gmv_max, 2, '.', '')
+                                                                                            : '0' }}
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Meta CPAS Revenue</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{
-                                                                                number_format($item->meta_cpas_revenue,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Meta CPAS Roas</label>
-                                                                            <div class="readonly-input">
-                                                                                {{
-                                                                                $item->meta_cpas > 0
-                                                                                ?
-                                                                                number_format($item->meta_cpas_revenue
-                                                                                / $item->meta_cpas, 2, '.', '')
-                                                                                : '0'
-                                                                                }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                @endif
-                                                                {{-- GOOGLE --}}
-                                                                @if ($item->google_search > 0 ||
-                                                                $item->google_performance_max > 0)
-                                                                <div class="row topup-style mt-4">
-                                                                    <div class="title-harian">
-                                                                        <h5>Topup Google</h5>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Google Search</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{ number_format($item->google_search,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Search Revenue</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{
-                                                                                number_format($item->google_search_revenue,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Search Roas</label>
-                                                                            <div class="readonly-input">
-                                                                                {{
-                                                                                $item->google_search > 0
-                                                                                ?
-                                                                                number_format($item->google_search_revenue
-                                                                                / $item->google_search, 2, '.', '')
-                                                                                : '0'
-                                                                                }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Performance Max</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{
-                                                                                number_format($item->google_performance_max,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Performance Max
-                                                                                Revenue</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{
-                                                                                number_format($item->google_performance_max_revenue,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Performance Max Roas</label>
-                                                                            <div class="readonly-input">
-                                                                                {{
-                                                                                $item->google_performance_max > 0
-                                                                                ?
-                                                                                number_format($item->google_performance_max_revenue
-                                                                                / $item->google_performance_max, 2, '.',
-                                                                                '')
-                                                                                : '0'
-                                                                                }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                @endif
-                                                                {{-- SHOPEE --}}
-                                                                @if ($item->shopee_produk > 0 || $item->shopee_toko > 0
-                                                                || $item->shopee_live > 0)
-                                                                <div class="row topup-style mt-4">
-                                                                    <div class="title-harian">
-                                                                        <h5>Topup Shopee</h5>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Produk</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{ number_format($item->shopee_produk,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Produk Revenue</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{
-                                                                                number_format($item->shopee_produk_revenue,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Produk Roas</label>
-                                                                            <div class="readonly-input">
-                                                                                {{
-                                                                                $item->shopee_produk > 0
-                                                                                ?
-                                                                                number_format($item->shopee_produk_revenue
-                                                                                / $item->shopee_produk, 2, '.',
-                                                                                '')
-                                                                                : '0'
-                                                                                }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Toko</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{ number_format($item->shopee_toko, 0,
-                                                                                ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Toko Revenue</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{
-                                                                                number_format($item->shopee_toko_revenue,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Toko Roas</label>
-                                                                            <div class="readonly-input">
-                                                                                {{
-                                                                                $item->shopee_toko > 0
-                                                                                ?
-                                                                                number_format($item->shopee_toko_revenue
-                                                                                / $item->shopee_toko, 2, '.',
-                                                                                '')
-                                                                                : '0'
-                                                                                }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Live</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{ number_format($item->shopee_live, 0,
-                                                                                ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Live Revenue</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{
-                                                                                number_format($item->shopee_live_revenue,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Toko Roas</label>
-                                                                            <div class="readonly-input">
-                                                                                {{
-                                                                                $item->shopee_live > 0
-                                                                                ?
-                                                                                number_format($item->shopee_live_revenue
-                                                                                / $item->shopee_live, 2, '.',
-                                                                                '')
-                                                                                : '0'
-                                                                                }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                @endif
-                                                                {{-- TIKTOK --}}
-                                                                @if (
-                                                                $item->tiktok_live_shopping > 0 ||
-                                                                $item->tiktok_product_shopping > 0 ||
-                                                                $item->tiktok_video_shopping > 0 ||
-                                                                $item->tiktok_gmv_max > 0)
-                                                                <div class="row topup-style mt-4">
-                                                                    <div class="title-harian">
-                                                                        <h5>Topup TikTok</h5>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Live Shopping</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{
-                                                                                number_format($item->tiktok_live_shopping,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Live Shopping Revenue</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{
-                                                                                number_format($item->tiktok_live_shopping_revenue,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Live Shopping Roas</label>
-                                                                            <div class="readonly-input">
-                                                                                {{
-                                                                                $item->tiktok_live_shopping > 0
-                                                                                ?
-                                                                                number_format($item->tiktok_live_shopping_revenue
-                                                                                / $item->tiktok_live_shopping, 2, '.',
-                                                                                '')
-                                                                                : '0'
-                                                                                }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Product Shopping</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{
-                                                                                number_format($item->tiktok_product_shopping,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Product Shopping
-                                                                                Revenue</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{
-                                                                                number_format($item->tiktok_product_shopping_revenue,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Product Shopping Roas</label>
-                                                                            <div class="readonly-input">
-                                                                                {{
-                                                                                $item->tiktok_product_shopping > 0
-                                                                                ?
-                                                                                number_format($item->tiktok_product_shopping_revenue
-                                                                                / $item->tiktok_product_shopping, 2,
-                                                                                '.',
-                                                                                '')
-                                                                                : '0'
-                                                                                }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Video Shopping</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{
-                                                                                number_format($item->tiktok_video_shopping,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Video Shopping
-                                                                                Revenue</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{
-                                                                                number_format($item->tiktok_video_shopping_revenue,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>Video Shopping Roas</label>
-                                                                            <div class="readonly-input">
-                                                                                {{
-                                                                                $item->tiktok_video_shopping > 0
-                                                                                ?
-                                                                                number_format($item->tiktok_video_shopping_revenue
-                                                                                / $item->tiktok_video_shopping, 2, '.',
-                                                                                '')
-                                                                                : '0'
-                                                                                }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>GMV Max</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{ number_format($item->tiktok_gmv_max,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>GMV Max Revenue</label>
-                                                                            <div class="readonly-input">Rp
-                                                                                {{
-                                                                                number_format($item->tiktok_gmv_max_revenue,
-                                                                                0, ',', '.') }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <div class="form-group">
-                                                                            <label>GMV Max Roas</label>
-                                                                            <div class="readonly-input">
-                                                                                {{
-                                                                                $item->tiktok_gmv_max > 0
-                                                                                ?
-                                                                                number_format($item->tiktok_gmv_max_revenue
-                                                                                / $item->tiktok_gmv_max, 2, '.',
-                                                                                '')
-                                                                                : '0'
-                                                                                }}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                @endif
-                                                            </form>
+                                                                    @endif
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Tutup</button>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Tutup</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                 </div>
                                 @endforeach
                             </div>
@@ -991,8 +903,9 @@
             </div>
         </div>
 
-        <div class="collapse multi-collapse {{ $activeTabLead === 'lead' ? 'show' : '' }}" id="multiCollapseExample2">
-            <div class="card card-body">
+        <div class="collapse multi-collapse {{ $activeTabLead === 'lead' ? 'show' : '' }}"
+            id="multiCollapseExample2">
+            <div class="card-body">
                 <div class="row">
                     <div class="col-12">
                         <div class="card border shadow-xs mb-4 border-client">
@@ -1004,8 +917,9 @@
                                         <p class="text-sm">Marketlab daily report lead list</p>
                                     </div>
                                     <div class="ms-auto d-flex">
-                                        <a class="btn btn-sm btn-clien btn-icon d-flex align-items-center me-2" href="#"
-                                            data-bs-toggle="modal" data-bs-target="#addLaporanModal" role="button">
+                                        <a class="btn btn-sm btn-clien btn-icon d-flex align-items-center me-2"
+                                            href="#" data-bs-toggle="modal" data-bs-target="#addLaporanModal"
+                                            role="button">
                                             <span class="btn-inner--icon">
                                                 <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 24 24" fill="currentColor" class="d-block me-2">
@@ -1027,8 +941,8 @@
                                                         <h5 class="modal-title" id="addLaporanModalLabel">Tambah
                                                             Data
                                                             Lead</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
+                                                        <button type="button" class="btn-close"
+                                                            data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
 
                                                     <form action="{{ route('laporan-harian.store-lead') }}"
@@ -1050,16 +964,20 @@
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                                 <div class="mb-3">
-                                                                    <label for="leads" class="form-label">Leads</label>
-                                                                    <input type="text" value="0" class="form-control"
-                                                                        id="leads" name="leads" required>
+                                                                    <label for="leads"
+                                                                        class="form-label">Leads</label>
+                                                                    <input type="text" value="0"
+                                                                        class="form-control" id="leads"
+                                                                        name="leads" required>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="mb-3">
-                                                                    <label for="chat" class="form-label">Chat</label>
-                                                                    <input type="text" value="0" class="form-control"
-                                                                        id="chat" name="chat" required readonly>
+                                                                    <label for="chat"
+                                                                        class="form-label">Chat</label>
+                                                                    <input type="text" value="0"
+                                                                        class="form-control" id="chat"
+                                                                        name="chat" required readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1068,19 +986,20 @@
                                                                 <div class="mb-3">
                                                                     <label for="chat_respon" class="form-label">Chat
                                                                         Respon</label>
-                                                                    <input type="text" value="0" class="form-control"
-                                                                        id="chat_respon" name="chat_respon" required
-                                                                        readonly>
+                                                                    <input type="text" value="0"
+                                                                        class="form-control" id="chat_respon"
+                                                                        name="chat_respon" required readonly>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="mb-3">
-                                                                    <label for="chat_no_respon" class="form-label">Chat
+                                                                    <label for="chat_no_respon"
+                                                                        class="form-label">Chat
                                                                         No
                                                                         Respon</label>
-                                                                    <input type="text" value="0" class="form-control"
-                                                                        id="chat_no_respon" name="chat_no_respon"
-                                                                        required readonly>
+                                                                    <input type="text" value="0"
+                                                                        class="form-control" id="chat_no_respon"
+                                                                        name="chat_no_respon" required readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1089,16 +1008,18 @@
                                                                 <div class="mb-3">
                                                                     <label for="closing"
                                                                         class="form-label">Closing</label>
-                                                                    <input type="text" value="0" class="form-control"
-                                                                        id="closing" name="closing" required readonly>
+                                                                    <input type="text" value="0"
+                                                                        class="form-control" id="closing"
+                                                                        name="closing" required readonly>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="mb-3">
                                                                     <label for="revenue"
                                                                         class="form-label">Revenue</label>
-                                                                    <input type="text" value="0" class="form-control"
-                                                                        id="revenue" name="revenue" required readonly>
+                                                                    <input type="text" value="0"
+                                                                        class="form-control" id="revenue"
+                                                                        name="revenue" required readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1114,232 +1035,242 @@
                             <div class="card-body px-0 py-0">
                                 <div class="table-responsive p-0">
                                     @if ($leads->isEmpty())
-                                    <p class="ntp">No data available.</p>
+                                        <p class="ntp">No data available.</p>
                                     @else
-                                    <table class="table align-items-center mb-0">
-                                        <thead class="bg-gray-100">
-                                            <tr>
-                                                <th
-                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                    No</th>
-                                                <th class="text-secondary text-xs font-weight-semibold opacity-7">
-                                                    Tanggal</th>
-                                                <th class="text-secondary text-xs font-weight-semibold opacity-7">
-                                                    Revenue</th>
-                                                <th
-                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                    Leads</th>
-                                                <th
-                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                    Chat</th>
-                                                <th
-                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                    Chat Respon</th>
-                                                <th
-                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                    Chat No Respon</th>
-                                                <th
-                                                    class="text-center text-secondary text-xs font-weight-semibold opacity-7">
-                                                    Closing</th>
-                                                <th class="text-secondary opacity-7"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($leads as $lead)
-                                            <tr>
-                                                <td class="align-middle text-center">
-                                                    <span class="day-style text-sm font-weight-normal">
-                                                        {{ ($data->currentPage() - 1) * $data->perPage() +
-                                                        $loop->iteration }}
-                                                    </span>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <span class="day-style text-sm font-weight-normal">
-                                                        {{ $lead->hari }}
-                                                    </span>
-                                                </td>
-                                                <td class="align-middle">
-                                                    <span class="day-style text-sm font-weight-normal">
-                                                        {{ number_format($lead->revenue, 0, ',', '.') }}
-                                                    </span>
-                                                </td>
-                                                <td class="align-middle">
-                                                    <span class="day-style text-sm font-weight-normal">
-                                                        {{ $lead->leads }}
-                                                    </span>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <span class="day-style text-sm font-weight-normal">
-                                                        {{ $lead->chat }}
-                                                    </span>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <span class="day-style text-sm font-weight-normal">
-                                                        {{ $lead->chat_respon }}
-                                                    </span>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <span class="day-style text-sm font-weight-normal">
-                                                        {{ $lead->chat_no_respon }}
-                                                    </span>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <span class="day-style text-sm font-weight-normal">
-                                                        {{ $lead->closing }}
-                                                    </span>
-                                                </td>
+                                        <table class="table align-items-center mb-0">
+                                            <thead class="bg-gray-100">
+                                                <tr>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                        No</th>
+                                                    <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                                        Tanggal</th>
+                                                    <th class="text-secondary text-xs font-weight-semibold opacity-7">
+                                                        Revenue</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                        Leads</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                        Chat</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                        Chat Respon</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                        Chat No Respon</th>
+                                                    <th
+                                                        class="text-center text-secondary text-xs font-weight-semibold opacity-7">
+                                                        Closing</th>
+                                                    <th class="text-secondary opacity-7"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($leads as $lead)
+                                                    <tr>
+                                                        <td class="align-middle text-center">
+                                                            <span class="day-style text-sm font-weight-normal">
+                                                                {{ ($data->currentPage() - 1) * $data->perPage() + $loop->iteration }}
+                                                            </span>
+                                                        </td>
+                                                        <td class="align-middle text-center">
+                                                            <span class="day-style text-sm font-weight-normal">
+                                                                {{ $lead->hari }}
+                                                            </span>
+                                                        </td>
+                                                        <td class="align-middle">
+                                                            <span class="day-style text-sm font-weight-normal">
+                                                                {{ number_format($lead->revenue, 0, ',', '.') }}
+                                                            </span>
+                                                        </td>
+                                                        <td class="align-middle">
+                                                            <span class="day-style text-sm font-weight-normal">
+                                                                {{ $lead->leads }}
+                                                            </span>
+                                                        </td>
+                                                        <td class="align-middle text-center">
+                                                            <span class="day-style text-sm font-weight-normal">
+                                                                {{ $lead->chat }}
+                                                            </span>
+                                                        </td>
+                                                        <td class="align-middle text-center">
+                                                            <span class="day-style text-sm font-weight-normal">
+                                                                {{ $lead->chat_respon }}
+                                                            </span>
+                                                        </td>
+                                                        <td class="align-middle text-center">
+                                                            <span class="day-style text-sm font-weight-normal">
+                                                                {{ $lead->chat_no_respon }}
+                                                            </span>
+                                                        </td>
+                                                        <td class="align-middle text-center">
+                                                            <span class="day-style text-sm font-weight-normal">
+                                                                {{ $lead->closing }}
+                                                            </span>
+                                                        </td>
 
-                                                <td class="align-middle">
-                                                    <a href="#" type="button"
-                                                        class="btn btn-primary text-secondary font-weight-bold text-xs active-client"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#editLeadModal{{ $lead->id }}"
-                                                        data-bs-title="Edit user">
-                                                        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                                                            stroke="currentColor" className="size-6">
-                                                            <path strokeLinecap="round" strokeLinejoin="round"
-                                                                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                                        </svg>
-                                                    </a>
+                                                        <td class="align-middle">
+                                                            <a href="#" type="button"
+                                                                class="btn btn-primary text-secondary font-weight-bold text-xs active-client"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#editLeadModal{{ $lead->id }}"
+                                                                data-bs-title="Edit user">
+                                                                <svg width="20" height="20"
+                                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" strokeWidth={1.5}
+                                                                    stroke="currentColor" className="size-6">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                                </svg>
+                                                            </a>
 
-                                                    <!-- Modal untuk mengedit data lead -->
-                                                    <div class="modal fade" id="editLeadModal{{ $lead->id }}"
-                                                        tabindex="-1"
-                                                        aria-labelledby="editLeadModalLabel{{ $lead->id }}"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title"
-                                                                        id="editLeadModalLabel{{ $lead->id }}">
-                                                                        Edit Data Lead</h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form
-                                                                        action="{{ route('laporan-harian.update_lead', $lead->id) }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        @method('PUT')
-                                                                        <input type="hidden" name="activeTabLead"
-                                                                            value="lead">
-                                                                        <div class="mb-3">
-                                                                            <label for="hari"
-                                                                                class="form-label">Hari</label>
-                                                                            <input type="date" class="form-control"
-                                                                                id="hari" name="hari"
-                                                                                value="{{ $lead->hari }}" required>
+                                                            <!-- Modal untuk mengedit data lead -->
+                                                            <div class="modal fade"
+                                                                id="editLeadModal{{ $lead->id }}" tabindex="-1"
+                                                                aria-labelledby="editLeadModalLabel{{ $lead->id }}"
+                                                                aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title"
+                                                                                id="editLeadModalLabel{{ $lead->id }}">
+                                                                                Edit Data Lead</h5>
+                                                                            <button type="button" class="btn-close"
+                                                                                data-bs-dismiss="modal"
+                                                                                aria-label="Close"></button>
                                                                         </div>
-                                                                        <div class="row">
-                                                                            <div class="col-md-6">
+                                                                        <div class="modal-body">
+                                                                            <form
+                                                                                action="{{ route('laporan-harian.update_lead', $lead->id) }}"
+                                                                                method="POST">
+                                                                                @csrf
+                                                                                @method('PUT')
+                                                                                <input type="hidden"
+                                                                                    name="activeTabLead"
+                                                                                    value="lead">
                                                                                 <div class="mb-3">
-                                                                                    <label for="leads"
-                                                                                        class="form-label">Leads</label>
-                                                                                    <input type="number"
-                                                                                        class="form-control" id="leads"
-                                                                                        name="leads"
-                                                                                        value="{{ $lead->leads }}"
+                                                                                    <label for="hari"
+                                                                                        class="form-label">Hari</label>
+                                                                                    <input type="date"
+                                                                                        class="form-control"
+                                                                                        id="hari" name="hari"
+                                                                                        value="{{ $lead->hari }}"
                                                                                         required>
                                                                                 </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="mb-3">
-                                                                                    <label for="chat"
-                                                                                        class="form-label">Chat</label>
-                                                                                    <input type="number"
-                                                                                        class="form-control" id="chat"
-                                                                                        name="chat"
-                                                                                        value="{{ $lead->chat }}"
-                                                                                        required readonly>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="mb-3">
+                                                                                            <label for="leads"
+                                                                                                class="form-label">Leads</label>
+                                                                                            <input type="number"
+                                                                                                class="form-control"
+                                                                                                id="leads"
+                                                                                                name="leads"
+                                                                                                value="{{ $lead->leads }}"
+                                                                                                required>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="mb-3">
+                                                                                            <label for="chat"
+                                                                                                class="form-label">Chat</label>
+                                                                                            <input type="number"
+                                                                                                class="form-control"
+                                                                                                id="chat"
+                                                                                                name="chat"
+                                                                                                value="{{ $lead->chat }}"
+                                                                                                required readonly>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="mb-3">
+                                                                                            <label for="chat_respon"
+                                                                                                class="form-label">Chat
+                                                                                                Respon</label>
+                                                                                            <input type="number"
+                                                                                                class="form-control"
+                                                                                                id="chat_respon"
+                                                                                                name="chat_respon"
+                                                                                                value="{{ $lead->chat_respon }}"
+                                                                                                required readonly>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="mb-3">
+                                                                                            <label for="chat_no_respon"
+                                                                                                class="form-label">Chat
+                                                                                                No
+                                                                                                Respon</label>
+                                                                                            <input type="number"
+                                                                                                class="form-control"
+                                                                                                id="chat_no_respon"
+                                                                                                name="chat_no_respon"
+                                                                                                value="{{ $lead->chat_no_respon }}"
+                                                                                                required readonly>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="mb-3">
+                                                                                            <label for="closing"
+                                                                                                class="form-label">Closing</label>
+                                                                                            <input type="number"
+                                                                                                class="form-control"
+                                                                                                id="closing"
+                                                                                                name="closing"
+                                                                                                value="{{ $lead->closing }}"
+                                                                                                required readonly>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="mb-3">
+                                                                                            <label for="revenue"
+                                                                                                class="form-label">Revenue</label>
+                                                                                            <input type="number"
+                                                                                                class="form-control"
+                                                                                                id="revenue"
+                                                                                                name="revenue"
+                                                                                                value="{{ $lead->revenue }}"
+                                                                                                required readonly>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <button type="submit"
+                                                                                    class="btn btn-primary">Save</button>
+                                                                            </form>
                                                                         </div>
-                                                                        <div class="row">
-                                                                            <div class="col-md-6">
-                                                                                <div class="mb-3">
-                                                                                    <label for="chat_respon"
-                                                                                        class="form-label">Chat
-                                                                                        Respon</label>
-                                                                                    <input type="number"
-                                                                                        class="form-control"
-                                                                                        id="chat_respon"
-                                                                                        name="chat_respon"
-                                                                                        value="{{ $lead->chat_respon }}"
-                                                                                        required readonly>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="mb-3">
-                                                                                    <label for="chat_no_respon"
-                                                                                        class="form-label">Chat
-                                                                                        No
-                                                                                        Respon</label>
-                                                                                    <input type="number"
-                                                                                        class="form-control"
-                                                                                        id="chat_no_respon"
-                                                                                        name="chat_no_respon"
-                                                                                        value="{{ $lead->chat_no_respon }}"
-                                                                                        required readonly>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-md-6">
-                                                                                <div class="mb-3">
-                                                                                    <label for="closing"
-                                                                                        class="form-label">Closing</label>
-                                                                                    <input type="number"
-                                                                                        class="form-control"
-                                                                                        id="closing" name="closing"
-                                                                                        value="{{ $lead->closing }}"
-                                                                                        required readonly>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="mb-3">
-                                                                                    <label for="revenue"
-                                                                                        class="form-label">Revenue</label>
-                                                                                    <input type="number"
-                                                                                        class="form-control"
-                                                                                        id="revenue" name="revenue"
-                                                                                        value="{{ $lead->revenue }}"
-                                                                                        required readonly>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary">Save</button>
-                                                                    </form>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
 
-                                                    <form action="{{ route('laporan-harian.destroy_lead', $lead->id) }}"
-                                                        method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn-style btn btn-danger text-secondary font-weight-bold text-xs"
-                                                            data-bs-toggle="tooltip" data-bs-title="Hapus"
-                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus?')">
-                                                            <svg width="20" height="20"
-                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" strokeWidth={1.5}
-                                                                stroke="currentColor" class="size-6">
-                                                                <path strokeLinecap="round" strokeLinejoin="round"
-                                                                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                            </svg>
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                                            <form
+                                                                action="{{ route('laporan-harian.destroy_lead', $lead->id) }}"
+                                                                method="POST" style="display:inline;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="btn-style btn btn-danger text-secondary font-weight-bold text-xs"
+                                                                    data-bs-toggle="tooltip" data-bs-title="Hapus"
+                                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus?')">
+                                                                    <svg width="20" height="20"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        fill="none" viewBox="0 0 24 24"
+                                                                        strokeWidth={1.5} stroke="currentColor"
+                                                                        class="size-6">
+                                                                        <path strokeLinecap="round"
+                                                                            strokeLinejoin="round"
+                                                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                                    </svg>
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                     @endif
                                 </div>
                             </div>
@@ -1376,14 +1307,14 @@
         });
     </script>
     @php
-    $shortLabels = [];
-    $fullLabels = [];
-    if (isset($data)) {
-    foreach ($data as $item) {
-    $shortLabels[] = \Carbon\Carbon::parse($item->hari)->format('j'); // hanya tanggal
-    $fullLabels[] = \Carbon\Carbon::parse($item->hari)->format('j M'); // untuk tooltip
-    }
-    }
+        $shortLabels = [];
+        $fullLabels = [];
+        if (isset($data)) {
+            foreach ($data as $item) {
+                $shortLabels[] = \Carbon\Carbon::parse($item->hari)->format('j'); // hanya tanggal
+                $fullLabels[] = \Carbon\Carbon::parse($item->hari)->format('j M'); // untuk tooltip
+            }
+        }
     @endphp
     <script>
         let chartSpent, chartRevenue, chartRoas;
@@ -1469,28 +1400,28 @@
         }
 
         document.getElementById('compareForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const bulan = document.getElementById('bulanCompare').value;
+            e.preventDefault();
+            const bulan = document.getElementById('bulanCompare').value;
 
-    fetch(`/data-client/performa-harian/compare?bulan=${bulan}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (!data || !data.labels || data.labels.length === 0) {
-                alert('Data compare tidak ditemukan untuk bulan ini');
-                return;
-            }
-            compareLabels = data.labels; // update labels
-            updateCharts(data);
-        })
-        .catch(error => {
-            console.error('Gagal ambil data compare:', error);
+            fetch(`/data-client/performa-harian/compare?bulan=${bulan}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (!data || !data.labels || data.labels.length === 0) {
+                        alert('Data compare tidak ditemukan untuk bulan ini');
+                        return;
+                    }
+                    compareLabels = data.labels; // update labels
+                    updateCharts(data);
+                })
+                .catch(error => {
+                    console.error('Gagal ambil data compare:', error);
+                });
         });
-});
 
         document.addEventListener('DOMContentLoaded', function() {
             // Inisialisasi chart awal dengan data bulan ini
